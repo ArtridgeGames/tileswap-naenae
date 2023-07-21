@@ -6,9 +6,9 @@ import ModeButton from '../components/ModeButton.vue';
   <h1>Tile<span>Swap</span></h1>
 
   <main>
-    <ModeButton name="Freeplay" image="src/assets/images/freeplay.png" path="/freeplaySelection" />
-    <ModeButton name="Puzzles" image="src/assets/images/puzzles.png" path="/puzzleSelection" />
-    <ModeButton name="Challenges" image="src/assets/images/challenges.png" path="/challengeSelection" />
+    <ModeButton name="Freeplay" image="/images/freeplay.png" path="/freeplaySelection" />
+    <ModeButton name="Puzzles" image="/images/puzzles.png" path="/puzzleSelection" />
+    <ModeButton name="Challenges" image="/images/challenges.png" path="/challengeSelection" />
   </main>
 </template>
 

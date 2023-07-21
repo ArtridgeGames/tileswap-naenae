@@ -8,7 +8,7 @@ import Slider from "../../components/Slider.vue";
 <template>
 
   <div class="top-menu">
-    <Button text="randomize" @click="this.matrix = randomize(difficulty)" />
+    <Button text="randomize" @click="setRandom" />
     <Slider v-model="difficulty" />
   </div>
   
@@ -30,6 +30,9 @@ import Slider from "../../components/Slider.vue";
 .top-menu{
   width: 240px;
   margin-left: 20px;
+}
+.row {
+  white-space: nowrap;
 }
 main{
   position: absolute;
@@ -65,7 +68,6 @@ export default {
       }
     },
     randomize(number) {
-      console.log(number);
       const matrix = this.buildMatrix(this.width, this.height);
 
       for (let i = 0; i < number; i++) {
@@ -83,12 +85,15 @@ export default {
 
       return matrix;
     },
+    setRandom() {
+      this.matrix = this.randomize(this.difficulty);
+    },
     buildMatrix(width, height) {
       return new Array(height).fill(1).map(() => new Array(width).fill(1));
     }
   },
   mounted() {
-    this.matrix = this.randomize(this.difficulty);
+    this.setRandom();
   }
 }
 </script>
