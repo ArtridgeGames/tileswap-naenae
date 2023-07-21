@@ -1,5 +1,5 @@
 <script setup>
-import { store } from "../store/store.js";
+import store from "../../store/store.js";
 </script>
 
 <template>
@@ -8,9 +8,9 @@ import { store } from "../store/store.js";
         <div v-for="tile in layout.width" :key="'t'+tile" class="tile"
             :style="{
                 visibility:  layout.exclude.includes((row-1)*layout.width+tile-1)?'hidden':'visible',
-                transform:`translate(${layout.tileSize*((tile-1)-layout.width/2)+50}px, ${layout.tileSize*((row-1)-layout.height/2)+50}px)`,
-                width:`${layout.tileSize-1}px`,
-                height:`${layout.tileSize-1}px`
+                transform:`translate(${tileSizePreview*((tile-1)-layout.width/2)+50}px, ${tileSizePreview*((row-1)-layout.height/2)+50}px)`,
+                width:`${tileSizePreview-1}px`,
+                height:`${tileSizePreview-1}px`
             }"
         ></div>
 
@@ -64,6 +64,11 @@ import { store } from "../store/store.js";
 <script>
 export default {
   props: ['layout', 'completion'],
+  data() {
+    return {
+      tileSizePreview:1/Math.sqrt(this.$props.layout.height*this.$props.layout.width)*50
+    }
+  },
   methods: {
     openGame() {
       store.setLayout(this.$props.layout);

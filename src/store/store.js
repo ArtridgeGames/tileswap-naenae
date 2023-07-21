@@ -1,9 +1,19 @@
-import { reactive } from 'vue'
+import { reactive, watch } from 'vue'
 
-export const store = reactive({
-  currentLayout: {},
+const savedStore = localStorage.getItem('tileswap-store');
+const parsed = savedStore ? JSON.parse(savedStore) : {
+  currentLayout: {}
+};
+
+const store = reactive({
+  ...parsed,
   setLayout(layout) {
-    console.log(layout);
     this.currentLayout = layout;
   }
 });
+
+watch(store, (state) => {
+  localStorage.setItem('tileswap-store', JSON.stringify(state));
+}, { deep: true });
+
+export default store;

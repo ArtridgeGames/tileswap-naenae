@@ -1,5 +1,5 @@
 <script setup>
-import FPLayoutSelectionButton from "../../components/FPLayoutSelectionButton.vue";
+import FPLayoutSelectionButton from "../../components/freeplay/LayoutSelectionButton.vue";
 </script>
 
 <template>
@@ -976,8 +976,7 @@ export default {
             width,
             height,
             exclude: e.exclude ?? [],
-            unlockCategory: e.unlockCategory,
-            tileSize: 1/Math.sqrt(height*width)*50
+            unlockCategory: e.unlockCategory
           };
         })
       }

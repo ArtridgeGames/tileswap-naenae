@@ -6,6 +6,7 @@
 * {
   font-family: TileSwap, sans-serif;
   user-select: none;
+  box-sizing: border-box;
 }
 
 html, body {
