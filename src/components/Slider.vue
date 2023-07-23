@@ -8,7 +8,7 @@ import store from "../store/store.js";
     <input type="range"
             min="2"
             :value="modelValue"
-            @input="$emit('update:modelValue', $event.target.value)"
+            @input="$emit('update:modelValue', parseInt($event.target.value))"
             :max="max">
   </div>
 </template>
@@ -28,6 +28,11 @@ export default {
       const diff = this.difficulties[Math.floor((this.modelValue - 1) / (this.max / this.difficulties.length))];
       return diff;
     }
+  },
+  mounted() {
+    if (this.modelValue > this.max) {
+      this.$emit('update:modelValue', this.max);
+    }
   }
 }
 
@@ -38,7 +43,6 @@ export default {
   margin:5px;
 }
 h2{
-    color: white;
     margin: 10px 0 20px;
     font-size: 25px;
     text-align: center;

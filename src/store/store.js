@@ -1,9 +1,12 @@
 import { reactive, watch } from 'vue'
 
-const savedStore = localStorage.getItem('tileswap-store');
-const parsed = savedStore ? JSON.parse(savedStore) : {
-  currentLayout: {}
+const initial = {
+  currentLayout: {},
+  difficulty: 2,
 };
+
+const savedStore = localStorage.getItem('tileswap-store');
+const parsed = Object.assign(initial, JSON.parse(savedStore));
 
 const store = reactive({
   ...parsed,

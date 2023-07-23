@@ -14,8 +14,38 @@ html, body {
   margin: 0;
   height: 100%;
   overflow: hidden;
+  color: white;
 }
+
 img {
   touch-action: manipulation;
   -webkit-user-drag: none;
 }
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.zoom-enter-active,
+.zoom-leave-active {
+  transition: scale 0.2s ease;
+}
+
+.zoom-enter-from,
+.zoom-leave-to {
+  scale: 0;
+}
+
+.top, .left, .right, .bottom {
+  position: absolute;
+}
+.top { top: 0; }
+.left { left: 0; }
+.right { right: 0; }
+.bottom { bottom: 0; }

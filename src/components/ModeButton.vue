@@ -19,7 +19,6 @@
     height: 270px;
   }
   span {
-    color: white;
     font-size: 50px;
   }
 </style>

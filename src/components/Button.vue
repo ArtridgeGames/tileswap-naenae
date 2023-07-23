@@ -10,13 +10,12 @@ button {
   padding: 15px;
   border: none;
   border-radius: 7px;
-  background-color: white;
-  color: black;
+  background-color: v-bind(backgroundColor);
+  color: v-bind(color);
   font-size: 25px;
   cursor: pointer;
   margin: 10px;
   display: inline-block;
-  position: relative;
 }
 button:focus {
   outline: none;
@@ -25,6 +24,14 @@ button:focus {
 
 <script>
 export default {
-  props: ['text']
+  props: ['text', 'black'],
+  computed: {
+    backgroundColor() {
+      return this.black !== undefined ? 'black' : 'white';
+    },
+    color() {
+      return this.black !== undefined ? 'white' : 'black';
+    }
+  }
 }
 </script>

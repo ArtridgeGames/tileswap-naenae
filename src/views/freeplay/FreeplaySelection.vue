@@ -1,26 +1,40 @@
 <script setup>
-import FPLayoutSelectionButton from "../../components/freeplay/LayoutSelectionButton.vue";
+import LayoutSelectionButton from "../../components/freeplay/LayoutSelectionButton.vue";
+import LinkButton from "../../components/LinkButton.vue";
 </script>
 
 <template>
   <main>
-    <FPLayoutSelectionButton
-      v-for="(layout, index) in layouts"
-      :layout="layout"
-      :completion="1"
-      :key="index"
-    ></FPLayoutSelectionButton>
+    <h1>Select a layout</h1>
+    <LinkButton class="top right" text="back" to="/" />
+    
+    <div class="layouts">
+      <LayoutSelectionButton
+        v-for="(layout, index) in layouts"
+        :layout="layout"
+        :completion="1"
+        :key="index"
+      ></LayoutSelectionButton>
+    </div>
+
   </main>
 </template>
 
 <style scoped>
 main {
+  height: 100vh;
+  overflow-y: scroll;
+  position: relative;
+}
+.layouts {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  overflow-y: scroll;
-  height: 100vh;
+}
+h1 {
+  font-size: 55px;
+  text-align: center;
 }
 </style>
 
@@ -980,6 +994,11 @@ export default {
           };
         })
       }
+  },
+  methods: {
+    goHome() {
+      this.$router.push("/");
+    }
   }
 };
 </script>

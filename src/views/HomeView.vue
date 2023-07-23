@@ -1,15 +1,20 @@
 <script setup>
 import ModeButton from '../components/ModeButton.vue';
+import Button from '../components/Button.vue';
+import Modal from '../components/Modal.vue';
 </script>
 
 <template>
-  <h1>Tile<span>Swap</span></h1>
+  <div>
+    <h1>Tile<span>Swap</span></h1>
+  
+    <main>
+      <ModeButton name="Freeplay" image="/images/freeplay.png" path="/freeplaySelection" />
+      <ModeButton name="Puzzles" image="/images/puzzles.png" path="/puzzleSelection" />
+      <ModeButton name="Challenges" image="/images/challenges.png" path="/challengeSelection" />
+    </main>
 
-  <main>
-    <ModeButton name="Freeplay" image="/images/freeplay.png" path="/freeplaySelection" />
-    <ModeButton name="Puzzles" image="/images/puzzles.png" path="/puzzleSelection" />
-    <ModeButton name="Challenges" image="/images/challenges.png" path="/challengeSelection" />
-  </main>
+  </div>
 </template>
 
 <style scoped>
@@ -21,9 +26,18 @@ import ModeButton from '../components/ModeButton.vue';
   h1 {
     text-align: center;
     font-size: 120px;
-    color:white;
   }
   h1 > span {
     color:black;
   }
 </style>
+
+<script>
+export default {
+  data() {
+    return {
+      show: false
+    }
+  },
+}
+</script>
