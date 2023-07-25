@@ -3,16 +3,12 @@ import store from "../store/store.js";
 </script>
 
 <template>
-    <div class="tile" :class="{
-      'flipped-tile': color === 'black',
-    }">
+  <div class="tile" :class="{'flipped-tile': color === 'black'}">
     <div class="inner-tile">
-        <div class="front">
-        </div>
-        <div class="back">
-        </div>
+      <div class="front"></div>
+      <div class="back"></div>
     </div>
-    </div>
+  </div>
 </template>
 
 <script>

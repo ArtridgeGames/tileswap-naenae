@@ -1,6 +1,7 @@
 <script setup>
 import LayoutSelectionButton from "../../components/freeplay/LayoutSelectionButton.vue";
 import LinkButton from "../../components/LinkButton.vue";
+import Layout from "../../assets/js/Layout.js";
 </script>
 
 <template>
@@ -947,7 +948,7 @@ export default {
             0, 2, 5, 8, 9, 11, 12, 13, 15, 19, 23, 24, 25, 28, 32, 34, 36, 38,
             42, 46, 53, 54, 59, 60, 63, 67, 69, 70, 72, 76, 78, 80, 81, 83, 84,
             87, 91, 92, 95, 97, 101, 105, 107, 109, 110, 113, 114, 116, 118,
-            120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 131,
+            // 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 131,
           ],
           unlockCategory: 37,
         },
@@ -986,6 +987,14 @@ export default {
         layouts: layouts.map(e => {
           const width = parseInt(e.dimensions.split("x")[0]);
           const height = parseInt(e.dimensions.split("x")[1]);
+          const { unlockCategory } = e;
+
+          return new Layout({
+            width, height, 
+            unlockCategory,
+            exclude: e.exclude ?? [],
+          });
+
           return {
             width,
             height,

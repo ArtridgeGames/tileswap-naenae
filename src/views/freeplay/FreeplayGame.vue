@@ -18,7 +18,7 @@ import LinkButton from "../../components/LinkButton.vue";
     
     <main>
   
-      <div class="row" v-for="(row, rowIndex) in matrix" :key="'row'+rowIndex">
+      <div class="row" v-for="(row, rowIndex) in layout.matrix" :key="'row'+rowIndex">
         <Tile class="tile" 
           v-for="(tile, tileIndex) in row"
           :color="tile === 1 ? 'white' : 'black'"
@@ -54,11 +54,9 @@ main{
 <script>
 export default {
   data() {
-    const { width, height, exclude } = store.currentLayout;
-    const matrix = this.buildMatrix(width, height, exclude);
+    const layout = store.currentLayout;
     return {
-      matrix,
-      width, height, exclude,
+      layout,
       difficulty: store.difficulty ?? 2,
       showModal: false,
       moves: 0
@@ -76,58 +74,16 @@ export default {
   },
   methods: {
     onTileClick(row, tile) {
-      this.swapTiles(row, tile, this.matrix);
+      this.layout.swapTiles(row, tile);
       this.moves++;
-      this.checkWin();
-    },
-    swapTiles(row, tile, matrix) {
-      const dirx = [-1, -1, -1, 0, 0, 0, 1, 1, 1];
-      const diry = [-1, 0, 1, -1, 0, 1, -1, 0, 1];
       
-      for (const x of dirx) {
-        for (const y of diry) {
-          if (row + y >= 0 && row + y < matrix.length && tile + x >= 0 && tile + x < matrix[0].length
-            && matrix[row+y][tile+x] !== -1)
-            matrix[row+y][tile+x] = matrix[row+y][tile+x] ? 0 : 1;
-        }
-      }
-    },
-    generatePattern(iterations) {
-      const matrix = this.buildMatrix(this.width, this.height, this.exclude);
-
-      for (let i = 0; i < iterations; i++) {
-        
-        let row;
-        let tile;
-
-        do {
-          row = Math.floor(Math.random() * this.height);
-          tile = Math.floor(Math.random() * this.width);
-        } while(store.currentLayout.exclude.includes(row*this.width+tile));
-        
-        this.swapTiles(row, tile, matrix);
-      }
-
-      // Regenerate if the matrix is already solved
-      return matrix.every(row => row.every(tile => tile === 1 || tile === -1)) 
-        ? this.generatePattern(iterations) 
-        : matrix;
-    },
-    randomize() {
-      this.moves = 0;
-      this.matrix = this.generatePattern(this.difficulty);
-    },
-    checkWin() {
-      if (this.matrix.every(row => row.every(tile => tile === 1 || tile === -1))) {
+      if (this.layout.isSolved()) {
         this.showModal = true;
       }
     },
-    buildMatrix(width, height, exclude) {
-      const mat = new Array(height).fill(1).map(() => new Array(width).fill(1));
-      for (const e of exclude) {
-        mat[Math.floor(e / width)][e % width] = -1;
-      }
-      return mat;
+    randomize() {
+      this.moves = 0;
+      this.layout = this.layout.generatePosition(this.difficulty);
     }
   },
   mounted() {
