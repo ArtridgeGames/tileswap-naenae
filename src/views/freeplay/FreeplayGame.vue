@@ -1,5 +1,6 @@
 <script setup>
-import store from "../../store/store.js";
+import Layout from "@/assets/js/Layout.js";
+import { useStore } from '@/store/store.js'
 import Tile from "../../components/Tile.vue";
 import Button from "../../components/Button.vue";
 import Slider from "../../components/Slider.vue";
@@ -54,8 +55,13 @@ main{
 <script>
 export default {
   data() {
+    const store = useStore();
     const layout = store.currentLayout;
+    if (!layout instanceof Layout) {
+      console.error("layout is not an instance of Layout");
+    }
     return {
+      store,
       layout,
       difficulty: store.difficulty ?? 2,
       showModal: false,
@@ -64,7 +70,7 @@ export default {
   },
   watch: {
     difficulty() {
-      store.difficulty = this.difficulty;
+      this.store.difficulty = this.difficulty;
     },
     showModal() {
       if (!this.showModal) {

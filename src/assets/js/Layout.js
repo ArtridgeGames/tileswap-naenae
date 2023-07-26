@@ -65,6 +65,16 @@ export default class Layout {
   }
 
   /**
+   * Checks if the tile at the specified position is a tile
+   * @param {Number} row the row of the tile
+   * @param {Number} column the column of the tile 
+   * @returns {Boolean} true if the tile is a tile, false otherwise
+   */
+  isTile(row, column) {
+    return this.matrix[row][column] !== -1;
+  }
+
+  /**
    * Creates a copy of the layout
    * @returns {Layout} a copy of the layout
    */
@@ -92,7 +102,7 @@ export default class Layout {
       do {
         row = Math.floor(Math.random() * copy.height);
         tile = Math.floor(Math.random() * copy.width);
-      } while(copy.exclude.includes(row * copy.width + tile));
+      } while(!copy.isTile(row, tile));
       
       copy.swapTiles(row, tile);
     }
@@ -101,5 +111,28 @@ export default class Layout {
     return copy.matrix.every(row => row.every(tile => tile === 1 || tile === -1)) 
       ? this.generatePosition(iterations) 
       : copy;
+  }
+
+  /**
+   * Parses a string or object into a Layout object
+   * @param {String|Object} state the string or object to parse
+   * @returns {Layout} the parsed Layout object
+   */
+  static hydrate(state) {
+    const { width, height, exclude, unlockCategory } = 
+      typeof state === "string" ? JSON.parse(string) : state;
+    const layout = new Layout({
+      width, height, exclude, unlockCategory
+    });
+    return layout;
+  }
+
+  /**
+   * Serializes a layout into a string
+   * @param {Layout} layout the layout to serialize
+   * @returns {String} the serialized layout
+   */
+  static serialize(layout) {
+    return JSON.stringify(layout);
   }
 }

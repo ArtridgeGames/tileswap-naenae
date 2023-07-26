@@ -1,32 +1,21 @@
-import { reactive, watch } from 'vue'
-import Layout from '../assets/js/Layout.js';
+import { defineStore } from 'pinia';
 
-const initial = {
-  currentLayout: {},
-  difficulty: 2,
-};
-
-const savedStore = localStorage.getItem('tileswap-store');
-const parsed = Object.assign(initial, JSON.parse(savedStore));
-
-if (Object.keys(parsed.currentLayout).length !== 0) {
-  const { width, height, exclude, unlockCategory } = parsed.currentLayout;
-
-  parsed.currentLayout = new Layout({
-    width, height, exclude, unlockCategory
-  });
-  parsed.currentLayout.setMatrix(parsed.currentLayout.matrix);
-}
-
-const store = reactive({
-  ...parsed,
-  setLayout(layout) {
-    this.currentLayout = layout;
-  }
+export const useStore = defineStore('store', {
+  state: () => ({
+    currentLayout: {},
+    difficulty: 2,
+  }),
+  actions: {
+    setLayout(layout) {
+      this.currentLayout = layout;
+    }
+  },
+  // persist: {
+  //   debug: true,
+  //   afterRestore(ctx) {
+  //     if (Object.keys(ctx.store.$state.currentLayout).length > 0) {
+  //       ctx.store.$state.currentLayout = Layout.hydrate(ctx.store.$state.currentLayout);
+  //     }
+  //   }
+  // }
 });
-
-watch(store, (state) => {
-  localStorage.setItem('tileswap-store', JSON.stringify(state));
-}, { deep: true });
-
-export default store;

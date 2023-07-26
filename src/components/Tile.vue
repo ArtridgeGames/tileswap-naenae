@@ -1,5 +1,5 @@
 <script setup>
-import store from "../store/store.js";
+import { useStore } from '@/store/store.js'
 </script>
 
 <template>
@@ -20,6 +20,8 @@ import store from "../store/store.js";
       }   
     },
     mounted() {
+      const store = useStore();
+      
       const resize = () => {
         this.tileSize = 1/Math.max(store.currentLayout.width,6)*450*Math.max(window.innerWidth/1500,1) + 'px';
       };

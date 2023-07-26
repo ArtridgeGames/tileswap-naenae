@@ -1,7 +1,9 @@
 <script setup>
 import ModeButton from '../components/ModeButton.vue';
-import Button from '../components/Button.vue';
-import Modal from '../components/Modal.vue';
+
+import freeplayUrl from '/images/freeplay.png';
+import puzzlesUrl from '/images/puzzles.png';
+import challengesUrl from '/images/challenges.png';
 </script>
 
 <template>
@@ -9,9 +11,9 @@ import Modal from '../components/Modal.vue';
     <h1>Tile<span>Swap</span></h1>
   
     <main>
-      <ModeButton name="Freeplay" image="/images/freeplay.png" path="/freeplaySelection" />
-      <ModeButton name="Puzzles" image="/images/puzzles.png" path="/puzzleSelection" />
-      <ModeButton name="Challenges" image="/images/challenges.png" path="/challengeSelection" />
+      <ModeButton name="Freeplay" :image="freeplayUrl" path="/freeplaySelection" />
+      <ModeButton name="Puzzles" :image="puzzlesUrl" path="/puzzleSelection" />
+      <ModeButton name="Challenges" :image="challengesUrl" path="/challengeSelection" />
     </main>
 
   </div>

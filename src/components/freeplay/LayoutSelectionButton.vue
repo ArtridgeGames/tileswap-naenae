@@ -1,5 +1,6 @@
 <script setup>
-import store from "../../store/store.js";
+import { useStore } from '@/store/store.js';
+
 </script>
 
 <template>
@@ -10,11 +11,9 @@ import store from "../../store/store.js";
         :key="'t' + tile"
         class="tile"
         :style="{
-          visibility: layout.exclude.includes(
-            (row - 1) * layout.width + tile - 1
-          )
-            ? 'hidden'
-            : 'visible',
+          visibility: layout.isTile(row - 1, tile - 1)
+            ? 'visible'
+            : 'hidden',
           transform: `translate(${
             tileSizePreview * (tile - 1 - layout.width / 2) + 50
           }px, ${tileSizePreview * (row - 1 - layout.height / 2) + 50}px)`,
@@ -73,6 +72,7 @@ export default {
   props: ["layout", "completion"],
   data() {
     return {
+      store: useStore(),
       tileSizePreview:
         (1 / Math.sqrt(this.$props.layout.height * this.$props.layout.width)) *
         50,
@@ -80,9 +80,10 @@ export default {
   },
   methods: {
     openGame() {
-      store.setLayout(this.$props.layout);
+      console.log(this.$props.layout);
+      this.store.setLayout(this.$props.layout);
       this.$router.push("/freeplayGame");
     },
-  },
+  }
 };
 </script>

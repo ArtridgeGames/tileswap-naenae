@@ -1,5 +1,5 @@
 <script setup>
-import store from "../store/store.js";
+import { useStore } from '@/store/store.js'
 </script>
 
 <template>
@@ -18,6 +18,7 @@ export default {
   props: ['modelValue'],
   emits: ['update:modelValue'],
   data() {
+    const store = useStore();
     return {
       difficulties: ['very easy', 'easy', 'normal', 'hard', 'very hard'],
       max: store.currentLayout.width * store.currentLayout.height - store.currentLayout.exclude.length
@@ -52,6 +53,7 @@ input[type=range] {
   margin: -1px 0;
   background-color: transparent;
   -webkit-appearance: none;
+  appearance: none;
   width: 100%;
 }
 input[type=range]:focus {
