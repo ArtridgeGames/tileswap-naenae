@@ -23,7 +23,7 @@ import Layout from "../../assets/js/Layout.js";
 
 <style scoped>
 main {
-  height: 100vh;
+  height: 100%;
   overflow-y: scroll;
   position: relative;
 }
@@ -36,6 +36,12 @@ main {
 h1 {
   font-size: 55px;
   text-align: center;
+}
+@media screen and (max-width: 600px) {
+  h1 {
+    font-size: 40px;
+    padding-top: 60px;
+  }
 }
 </style>
 
@@ -994,13 +1000,6 @@ export default {
             unlockCategory,
             exclude: e.exclude ?? [],
           });
-
-          return {
-            width,
-            height,
-            exclude: e.exclude ?? [],
-            unlockCategory: e.unlockCategory
-          };
         })
       }
   },

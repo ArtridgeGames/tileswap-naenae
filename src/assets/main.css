@@ -7,9 +7,10 @@
   font-family: TileSwap, sans-serif;
   user-select: none;
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent !important;
 }
 
-html, body {
+html, body, #app {
   background-color: #adad85;
   margin: 0;
   height: 100%;

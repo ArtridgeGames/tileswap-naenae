@@ -51,6 +51,19 @@ main{
   left: 50%;
   transform: translate(-50%,-50%);
 }
+
+@media screen and (max-width: 600px) {
+  .top-menu{
+    position: absolute;
+    bottom: 0;
+    width: 80%;
+    text-align: center;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    margin-bottom: 10px;
+  }
+}
 </style>
 <script>
 export default {

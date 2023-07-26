@@ -80,7 +80,6 @@ export default {
   },
   methods: {
     openGame() {
-      console.log(this.$props.layout);
       this.store.setLayout(this.$props.layout);
       this.$router.push("/freeplayGame");
     },

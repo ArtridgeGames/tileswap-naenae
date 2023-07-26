@@ -64,13 +64,13 @@ input[type=range]::-webkit-slider-runnable-track {
   border: 0;
   border-radius: 25px;
   width: 100%;
-  height: 35px;
+  height: 15px;
   cursor: pointer;
 }
 input[type=range]::-webkit-slider-thumb {
   margin-top: -9px;
-  width: 55px;
-  height: 55px;
+  width: 33px;
+  height: 33px;
   background: black;
   border: 2.7px solid rgba(0, 30, 0, 0);
   border-radius: 50px;

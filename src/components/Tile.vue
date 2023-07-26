@@ -23,7 +23,11 @@ import { useStore } from '@/store/store.js'
       const store = useStore();
       
       const resize = () => {
-        this.tileSize = 1/Math.max(store.currentLayout.width,6)*450*Math.max(window.innerWidth/1500,1) + 'px';
+        this.tileSize = ( 1 / (store.currentLayout.width
+          * (window.innerWidth > 600 ? 0.5 : 1)
+        )
+            * 225 *
+          Math.max(window.innerWidth / 1300, 1) ) + 'px';
       };
       
       resize();
@@ -80,5 +84,11 @@ import { useStore } from '@/store/store.js'
 }
 .back{
     background-color: black
+}
+
+@media screen and (max-width: 600px) {
+  .tile {
+    margin: 3px;
+  }
 }
 </style>

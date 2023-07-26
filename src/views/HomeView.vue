@@ -24,13 +24,32 @@ import challengesUrl from '/images/challenges.png';
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    align-items: center;
   }
   h1 {
     text-align: center;
     font-size: 120px;
+    margin: 0;
+    margin-bottom: 50px;
+    padding-top: 50px;
   }
   h1 > span {
     color:black;
+  }
+  div {
+    height: 100%;
+  }
+
+  @media screen and (max-width: 600px) {
+    h1 {
+      font-size: 80px;
+    }
+    main {
+      flex-direction: column;
+    }
+    div {
+      overflow-y: scroll;
+    }
   }
 </style>
 
