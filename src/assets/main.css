@@ -8,6 +8,7 @@
   user-select: none;
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent !important;
+  touch-action: manipulation !important;
 }
 
 html, body, #app {
@@ -50,3 +51,11 @@ img {
 .left { left: 0; }
 .right { right: 0; }
 .bottom { bottom: 0; }
+.center {
+  left: 50%;
+  translate: -50%;
+}
+.middle {
+  top: 50%;
+  translate: 0 -50%;
+}

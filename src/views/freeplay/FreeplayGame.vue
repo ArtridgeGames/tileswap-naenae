@@ -1,11 +1,11 @@
 <script setup>
-import Layout from "@/assets/js/Layout.js";
 import { useStore } from '@/store/store.js'
 import Tile from "../../components/Tile.vue";
 import Button from "../../components/Button.vue";
 import Slider from "../../components/Slider.vue";
 import Modal from "../../components/Modal.vue";
 import LinkButton from "../../components/LinkButton.vue";
+import { useWindow } from "@/assets/js/window.js"
 </script>
 
 <template>
@@ -14,6 +14,11 @@ import LinkButton from "../../components/LinkButton.vue";
       <Button text="randomize" @click="randomize" />
       <Slider v-model="difficulty" />
     </div>
+
+    <p v-show="moves > 0" class="move-counter top" :class="{
+      left: windowWidth < 600,
+      center: windowWidth >= 600
+    }">{{ moves }} move{{ moves > 1 ? 's' : '' }}</p>
 
     <LinkButton class="top right" text="back" to="/freeplaySelection" />
     
@@ -51,6 +56,9 @@ main{
   left: 50%;
   transform: translate(-50%,-50%);
 }
+.move-counter {
+  font-size: 30px;
+}
 
 @media screen and (max-width: 600px) {
   .top-menu{
@@ -63,6 +71,9 @@ main{
     margin: 0;
     margin-bottom: 10px;
   }
+  .move-counter {
+    margin-left: 20px;
+  }
 }
 </style>
 <script>
@@ -70,10 +81,11 @@ export default {
   data() {
     const store = useStore();
     const layout = store.currentLayout;
-    if (!layout instanceof Layout) {
-      console.error("layout is not an instance of Layout");
-    }
+    
+    const { width: windowWidth } = useWindow();
+
     return {
+      windowWidth,
       store,
       layout,
       difficulty: store.difficulty ?? 2,

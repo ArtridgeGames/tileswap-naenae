@@ -54,7 +54,7 @@ export default class Layout {
    * @param {Number[][]} matrix the matrix to set the layout to
    */
   setMatrix(matrix) {
-    this.matrix = matrix;
+    this.matrix = matrix.map(row => row.slice());
   }
 
   /**
@@ -72,6 +72,16 @@ export default class Layout {
    */
   isTile(row, column) {
     return this.matrix[row][column] !== -1;
+  }
+
+  /**
+   * Checks if the tile at the specified position is white
+   * @param {Number} row the row of the tile 
+   * @param {Number} column the column of the tile
+   * @returns {Boolean} true if the tile is white, false otherwise
+   */
+  isWhite(row, column) {
+    return this.matrix[row][column] === 1;
   }
 
   /**

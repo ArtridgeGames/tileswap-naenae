@@ -13,21 +13,21 @@ import { useStore } from '@/store/store.js'
 
 <script>
   export default {
-    props: ['color', 'visibility'],
+    props: ['color', 'visibility', 'small'],
     data() {
       return {
         tileSize: ''
-      }   
+      }
     },
     mounted() {
       const store = useStore();
       
       const resize = () => {
-        this.tileSize = ( 1 / (store.currentLayout.width
-          * (window.innerWidth > 600 ? 0.5 : 1)
-        )
-            * 225 *
-          Math.max(window.innerWidth / 1300, 1) ) + 'px';
+        const { width, height } = store.currentLayout;
+        this.tileSize = ( 
+          (1 / (Math.sqrt(width**2 + height**2) * (window.innerWidth > 600 ? 0.5 : 0.8))) *
+          300 * (this.$props.small !== undefined ? 0.5 : 1)
+        ) + 'px';
       };
       
       resize();

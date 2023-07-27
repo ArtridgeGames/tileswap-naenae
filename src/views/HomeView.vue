@@ -1,13 +1,15 @@
 <script setup>
 import ModeButton from '../components/ModeButton.vue';
-
 import freeplayUrl from '/images/freeplay.png';
 import puzzlesUrl from '/images/puzzles.png';
 import challengesUrl from '/images/challenges.png';
+
+import { getCurrentUser, isSignedIn } from '../firebase/auth.js';
+
 </script>
 
 <template>
-  <div>
+  <div class="container">
     <h1>Tile<span>Swap</span></h1>
   
     <main>
@@ -15,6 +17,13 @@ import challengesUrl from '/images/challenges.png';
       <ModeButton name="Puzzles" :image="puzzlesUrl" path="/puzzleSelection" />
       <ModeButton name="Challenges" :image="challengesUrl" path="/challengeSelection" />
     </main>
+
+    <p class="bottom right" v-if="isSignedIn()">
+      You are logged in as {{ user.displayName }}
+    </p>
+    <p class="bottom right" v-else>
+      You are not logged in
+    </p>
 
   </div>
 </template>
@@ -33,10 +42,13 @@ import challengesUrl from '/images/challenges.png';
     margin-bottom: 50px;
     padding-top: 50px;
   }
+  p {
+    margin-right: 10px;
+  }
   h1 > span {
     color:black;
   }
-  div {
+  .container {
     height: 100%;
   }
 
@@ -47,7 +59,7 @@ import challengesUrl from '/images/challenges.png';
     main {
       flex-direction: column;
     }
-    div {
+    .container {
       overflow-y: scroll;
     }
   }
@@ -56,9 +68,10 @@ import challengesUrl from '/images/challenges.png';
 <script>
 export default {
   data() {
+    const user = getCurrentUser();
     return {
-      show: false
+      user,
     }
-  },
+  }
 }
 </script>
