@@ -1,6 +1,5 @@
 <script setup>
 import { useStore } from '@/store/store.js';
-
 </script>
 
 <template>
@@ -72,7 +71,6 @@ export default {
   props: ["layout", "completion"],
   data() {
     return {
-      store: useStore(),
       tileSizePreview:
         (1 / Math.sqrt(this.$props.layout.height * this.$props.layout.width)) *
         50,
@@ -80,7 +78,8 @@ export default {
   },
   methods: {
     openGame() {
-      this.store.setLayout(this.$props.layout);
+      const store = useStore();
+      store.setLayout(this.$props.layout);
       this.$router.push("/freeplayGame");
     },
   }

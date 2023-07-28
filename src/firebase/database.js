@@ -1,7 +1,19 @@
 import { app } from "./firebase.js";
+import { user, isSignedIn } from "./auth.js";
 import { getDatabase, ref, get, set } from "firebase/database";
+import { watch } from 'vue';
 
 const db = getDatabase(app);
+
+export const registeredObservables = [];
+
+function serializeForFirebase(obj) {
+  if (obj instanceof Set) {
+    return Array.from(obj);
+  } else {
+    return obj;
+  }
+}
 
 /**
  * Read data from a path in the database
@@ -21,4 +33,18 @@ export const read = async (path) => {
  */
 export const write = async (path, data) => {
   return await set(ref(db, path), data);
+}
+
+/**
+ * Register a reactive object to be written to the database when it changes
+ * @param {import('vue').Ref} observable the object to watch
+ * @param {String} path the path to write to
+ */
+export const register = async (observable, path) => {
+  watch(observable, val => {
+    if (isSignedIn.value) {
+      write(`users/${user.value.uid}/game-data/tileswap-naenae/${path}/`, serializeForFirebase(val));
+    }
+  }, { deep: true });
+  registeredObservables.push({ observable, path });
 }

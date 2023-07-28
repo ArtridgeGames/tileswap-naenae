@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, createMemoryHistory } from 'vue-router'
+import { createRouter, createMemoryHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import FreeplaySelection from '../views/freeplay/FreeplaySelection.vue'
 import PuzzleSelection from '../views/puzzles/PuzzleSelection.vue'

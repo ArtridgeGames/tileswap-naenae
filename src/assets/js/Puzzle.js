@@ -12,11 +12,12 @@ export default class Puzzle {
    * @param {Number} moves 
    * @param {Number[]} solution
    */
-  constructor ({ base, target, moves, solution }) {
+  constructor ({ base, target, moves, solution, id }) {
     this.base = base;
     this.target = target;
     this.moves = moves;
     this.solution = solution;
+    this.id = id;
   }
 
   /**

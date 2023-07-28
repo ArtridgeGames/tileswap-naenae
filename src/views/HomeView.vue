@@ -3,9 +3,6 @@ import ModeButton from '../components/ModeButton.vue';
 import freeplayUrl from '/images/freeplay.png';
 import puzzlesUrl from '/images/puzzles.png';
 import challengesUrl from '/images/challenges.png';
-
-import { getCurrentUser, isSignedIn } from '../firebase/auth.js';
-
 </script>
 
 <template>
@@ -18,10 +15,10 @@ import { getCurrentUser, isSignedIn } from '../firebase/auth.js';
       <ModeButton name="Challenges" :image="challengesUrl" path="/challengeSelection" />
     </main>
 
-    <p class="bottom right" v-if="isSignedIn()">
+    <p class="bottom right" v-if="isSignedIn" @click="signOut">
       You are logged in as {{ user.displayName }}
     </p>
-    <p class="bottom right" v-else>
+    <p class="bottom right" v-else @click="signInForm">
       You are not logged in
     </p>
 
@@ -44,6 +41,7 @@ import { getCurrentUser, isSignedIn } from '../firebase/auth.js';
   }
   p {
     margin-right: 10px;
+    cursor: pointer;
   }
   h1 > span {
     color:black;
@@ -66,12 +64,16 @@ import { getCurrentUser, isSignedIn } from '../firebase/auth.js';
 </style>
 
 <script>
+import { user, isSignedIn, signOut, signIn } from '../firebase/auth.js';
 export default {
   data() {
-    const user = getCurrentUser();
-    return {
-      user,
-    }
+    return { user, isSignedIn };
+  },
+  methods: {
+    signOut,
+    signInForm() {
+      signIn(prompt('Email'), prompt('Password'));
+    },
   }
 }
 </script>

@@ -30,7 +30,7 @@ import { useStore } from '@/store/store.js';
 .container {
   position: relative;
   display: inline-block;
-  background-color: white;
+  background-color: v-bind('solved ? "#DAC778" : "white"');
   border-radius: 10px;
   width: 100px;
   height: 100px;
@@ -56,7 +56,6 @@ export default {
   data() {
     const { width, height } = this.$props.puzzle.target;
     return {
-      store: useStore(),
       tileSizePreview:
         (1 / Math.sqrt(width * height)) *
         50,
@@ -66,11 +65,16 @@ export default {
     layout() {
       return this.$props.puzzle.target;
     },
+    solved() {
+      const store = useStore();
+      return store.solvedPuzzles.includes(this.$props.puzzle.id);
+    }
   },
   methods: {
     openGame() {
-      this.store.setPuzzle(this.$props.puzzle);
-      this.store.setLayout(this.$props.puzzle.target);
+      const store = useStore();
+      store.setPuzzle(this.$props.puzzle);
+      store.setLayout(this.$props.puzzle.target);
       this.$router.push("/puzzleGame");
     },
   }

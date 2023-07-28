@@ -135,6 +135,10 @@ export default {
         this.remainingMoves--;
         if (this.puzzle.isSolvedWith(this.layout)) {
           this.showWinModal = true;
+
+          const store = useStore();
+          store.solvePuzzle(this.puzzle.id);
+
         } else if (this.remainingMoves === 0) {
           this.showLostModal = true;
         }

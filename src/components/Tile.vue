@@ -16,7 +16,7 @@ import { useStore } from '@/store/store.js'
     props: ['color', 'visibility', 'small'],
     data() {
       return {
-        tileSize: ''
+        tileSize: '30px'
       }
     },
     mounted() {

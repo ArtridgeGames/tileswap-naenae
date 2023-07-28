@@ -88,7 +88,7 @@ export default {
       windowWidth,
       store,
       layout,
-      difficulty: store.difficulty ?? 2,
+      difficulty: store.difficulty,
       showModal: false,
       moves: 0
     };

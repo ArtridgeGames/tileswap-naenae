@@ -1030,7 +1030,7 @@ export default {
 
     ];
     return {
-      puzzles: puzzles.map(e => {
+      puzzles: puzzles.map((e,id) => {
         
         const { base: baseMatrix, target: targetMatrix, moves, solution } = e;
 
@@ -1062,7 +1062,7 @@ export default {
         target.setMatrix(targetMatrix);
 
         return new Puzzle({
-          base, target, moves, solution
+          base, target, moves, solution, id
         });
       })
     }
