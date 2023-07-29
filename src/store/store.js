@@ -7,6 +7,7 @@ export const useStore = defineStore('store', () => {
   const currentPuzzle = ref({});
   const difficulty = ref(2);
   const solvedPuzzles = ref([]);
+  
   function setLayout(layout) {
     currentLayout.value = layout;
   }

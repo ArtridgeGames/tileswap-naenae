@@ -2,7 +2,6 @@ import { app } from "./firebase.js";
 import { read, registeredObservables } from "./database.js"
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { ref, computed } from 'vue';
-import { useStore } from '../store/store.js';
 
 const auth = getAuth(app);
 
@@ -25,7 +24,6 @@ onAuthStateChanged(auth, async (user) => {
   } else {
     currentUser.value = {};
     currentUserData.value = {};
-    const store = useStore();
   }
 });
 
@@ -36,7 +34,7 @@ onAuthStateChanged(auth, async (user) => {
 export const user = computed(() => currentUser.value);
 
 /**
- * Returns the current user data or an empty object if no user is signed in.
+ * Returns the current user data from the database or an empty object if no user is signed in.
  * @returns {JSON} the user data
  */
 export const userData = computed(() => currentUserData.value);

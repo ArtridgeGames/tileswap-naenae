@@ -7,7 +7,8 @@ export default class Layout {
    * Creates a new Layout object
    * @param {Number} width the width of the layout
    * @param {Number} height the height of the layout 
-   * @param {Number[]} exclude the indices of the tiles to exclude from the layout 
+   * @param {Number[]} exclude the indices of the tiles to exclude from the layout
+   * @param {Number} unlockCategory the level at which this layout is unlocked
    */
   constructor ({ width, height, exclude, unlockCategory }) {
     this.width = width;
