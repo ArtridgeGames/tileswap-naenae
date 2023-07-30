@@ -32,6 +32,7 @@
   border-radius: 10px;
   z-index: 1000;
   color: black;
+  min-width: 50%;
 }
 </style>
 

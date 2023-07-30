@@ -1,6 +1,6 @@
 <script setup>
 import { useStore } from '@/store/store.js'
-import Tile from "../../components/Tile.vue";
+import Layout from '../../components/Layout.vue';
 import Button from "../../components/Button.vue";
 import Slider from "../../components/Slider.vue";
 import Modal from "../../components/Modal.vue";
@@ -23,14 +23,8 @@ import { useWindow } from "@/assets/js/window.js"
     <LinkButton class="top right" text="back" to="/freeplaySelection" />
     
     <main>
-  
-      <div class="row" v-for="(row, rowIndex) in layout.matrix" :key="'row'+rowIndex">
-        <Tile class="tile" 
-          v-for="(tile, tileIndex) in row"
-          :color="tile === 1 ? 'white' : 'black'"
-          :visibility="tile === -1 ? 'hidden' : 'visible'" :key="rowIndex + '' + tileIndex"
-          @click="onTileClick(rowIndex, tileIndex)" />
-      </div>
+
+      <Layout v-model="layout" @swap="handleClick" />
   
     </main>
 
@@ -46,9 +40,6 @@ import { useWindow } from "@/assets/js/window.js"
 .top-menu{
   width: 240px;
   margin-left: 20px;
-}
-.row {
-  white-space: nowrap;
 }
 main{
   position: absolute;
@@ -104,11 +95,10 @@ export default {
     }
   },
   methods: {
-    onTileClick(row, tile) {
-      this.layout.swapTiles(row, tile);
+    handleClick() {
       this.moves++;
-      
       if (this.layout.isSolved()) {
+        this.store.stats.layoutsSolved++;
         this.showModal = true;
       }
     },

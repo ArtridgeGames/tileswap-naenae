@@ -4,23 +4,18 @@ import { useStore } from '@/store/store.js';
 
 <template>
   <div :data-level="completion" class="container" @click="openGame">
-    <div v-for="row in layout.height" :key="'row' + row" class="row">
-      <div
-        v-for="tile in layout.width"
-        :key="'t' + tile"
-        class="tile"
-        :style="{
-          visibility: layout.isTile(row - 1, tile - 1)
-            ? 'visible'
-            : 'hidden',
-          transform: `translate(${
-            tileSizePreview * (tile - 1 - layout.width / 2) + 50
-          }px, ${tileSizePreview * (row - 1 - layout.height / 2) + 50}px)`,
-          width: `${tileSizePreview - 1}px`,
-          height: `${tileSizePreview - 1}px`,
-        }"
-      ></div>
-    </div>
+    <div
+      v-for="tile in includedTiles"
+      :key="'t' + tile"
+      class="tile"
+      :style="{
+        transform: `translate(${
+          tileSizePreview * ((tile % layout.width) - layout.width / 2) + 50
+        }px, ${tileSizePreview * (Math.floor(tile / layout.width) - layout.height / 2) + 50}px)`,
+        width: `${tileSizePreview - 1}px`,
+        height: `${tileSizePreview - 1}px`,
+      }"
+    ></div>
   </div>
 </template>
 
@@ -72,14 +67,22 @@ export default {
   data() {
     return {
       tileSizePreview:
-        (1 / Math.sqrt(this.$props.layout.height * this.$props.layout.width)) *
+        (1 / Math.sqrt(this.layout.height * this.layout.width)) *
         50,
     };
+  },
+  computed: {
+    includedTiles() {
+      return new Array(this.layout.width * this.layout.height)
+        .fill(0)
+        .map((_, i) => i)
+        .filter(i => !this.layout.exclude.includes(i))
+    }
   },
   methods: {
     openGame() {
       const store = useStore();
-      store.setLayout(this.$props.layout);
+      store.setLayout(this.layout);
       this.$router.push("/freeplayGame");
     },
   }

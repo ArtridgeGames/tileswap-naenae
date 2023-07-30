@@ -3,6 +3,7 @@ import { useStore } from '../../store/store';
 import LinkButton from "../../components/LinkButton.vue";
 import Button from "../../components/Button.vue";
 import Tile from "../../components/Tile.vue";
+import Layout from '../../components/Layout.vue';
 import Modal from "../../components/Modal.vue";
 import { useWindow } from "../../assets/js/window.js";
 </script>
@@ -20,14 +21,8 @@ import { useWindow } from "../../assets/js/window.js";
     </div>
 
     <main>
-  
-      <div class="row" v-for="(row, rowIndex) in layout.matrix" :key="'row'+rowIndex">
-        <Tile class="tile" 
-          v-for="(tile, tileIndex) in row"
-          :color="tile === 1 ? 'white' : 'black'"
-          :visibility="tile === -1 ? 'hidden' : 'visible'" :key="rowIndex + '' + tileIndex"
-          @click="onTileClick(rowIndex, tileIndex)" />
-      </div>
+
+      <Layout v-model="layout" @swap="handleClick" />
   
     </main>
 
@@ -37,14 +32,9 @@ import { useWindow } from "../../assets/js/window.js";
         top: windowWidth <= 600,
         center: windowWidth <= 600
       }">
-      <div class="row" v-for="(row, rowIndex) in puzzle.target.matrix" :key="'row'+rowIndex">
-        <Tile class="tile" 
-          v-for="(tile, tileIndex) in row"
-          small
-          :color="tile === 1 ? 'white' : 'black'"
-          :visibility="tile === -1 ? 'hidden' : 'visible'" :key="rowIndex + '' + tileIndex"
-         />
-      </div>
+
+      <Layout v-model="puzzle.target" disabled small />
+
     </div>
 
     <Modal v-model="showWinModal">
@@ -61,9 +51,6 @@ import { useWindow } from "../../assets/js/window.js";
 </template>
 
 <style scoped>
-.row {
-  white-space: nowrap;
-}
 main{
   position: absolute;
   top: 50%;
@@ -129,14 +116,14 @@ export default {
       this.remainingMoves = this.maxMoves;
       this.layout.setMatrix(this.puzzle.base.matrix);
     },
-    onTileClick(row, tile) {
+    handleClick() {
       if (this.remainingMoves > 0) {
-        this.layout.swapTiles(row, tile);
+        const store = useStore();
+        
         this.remainingMoves--;
         if (this.puzzle.isSolvedWith(this.layout)) {
           this.showWinModal = true;
 
-          const store = useStore();
           store.solvePuzzle(this.puzzle.id);
 
         } else if (this.remainingMoves === 0) {

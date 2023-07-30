@@ -1,0 +1,34 @@
+import { Puzzle } from './Puzzle';
+
+const str = (val) => `${val}`;
+
+export const STATS_DATA = {
+  timePlayed: {
+    name: "Time Played",
+    display: (val) => {
+      const days = Math.floor(val / 86400);
+      const hours = Math.floor(val / 3600) % 24;
+      const minutes = Math.floor(val / 60) % 60;
+      const seconds = val % 60;
+      return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+  },
+  layoutsSolved: {
+    name: "Layouts Solved",
+    display: str
+  },
+  tilesSwapped: {
+    name: "Tiles Swapped",
+    display: str
+  },
+  puzzlesCompleted: {
+    name: "Puzzles Completed",
+    display: (val) => {
+      return `${val} / ${Puzzle.PUZZLES.length}`
+    }
+  }
+}
+
+export const INITIAL_STATS = Object.fromEntries(
+  Object.keys(STATS_DATA).map(e => [e, STATS_DATA[e].initialValue ?? 0])
+);

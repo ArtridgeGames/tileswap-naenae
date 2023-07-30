@@ -1,5 +1,5 @@
 import { reactive, watch } from 'vue'
-import Layout from '../assets/js/Layout.js';
+import { Layout } from '../assets/js/Layout.js';
 
 const initial = {
   currentLayout: {},

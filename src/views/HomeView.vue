@@ -3,11 +3,14 @@ import ModeButton from '../components/ModeButton.vue';
 import freeplayUrl from '/images/freeplay.png';
 import puzzlesUrl from '/images/puzzles.png';
 import challengesUrl from '/images/challenges.png';
+import Button from '../components/Button.vue';
+import Modal from '../components/Modal.vue';
+import Stats from '../components/Stats.vue';
 </script>
 
 <template>
   <div class="container">
-    <h1>Tile<span>Swap</span></h1>
+    <h1 class="main-title">Tile<span>Swap</span></h1>
   
     <main>
       <ModeButton name="Freeplay" :image="freeplayUrl" path="/freeplaySelection" />
@@ -22,6 +25,16 @@ import challengesUrl from '/images/challenges.png';
       You are not logged in
     </p>
 
+    <Button class="bottom left" text="stats" @click="openStats" />
+
+    <Modal v-model="showStats">
+      <h1>Stats</h1>
+      
+      <Stats />
+
+      <Button black text="close" @click="showStats = false" />
+    </Modal>
+
   </div>
 </template>
 
@@ -32,7 +45,7 @@ import challengesUrl from '/images/challenges.png';
     justify-content: space-evenly;
     align-items: center;
   }
-  h1 {
+  h1.main-title {
     text-align: center;
     font-size: 120px;
     margin: 0;
@@ -48,10 +61,11 @@ import challengesUrl from '/images/challenges.png';
   }
   .container {
     height: 100%;
+    overflow-x: hidden;
   }
 
   @media screen and (max-width: 600px) {
-    h1 {
+    h1.main-title {
       font-size: 80px;
     }
     main {
@@ -65,15 +79,26 @@ import challengesUrl from '/images/challenges.png';
 
 <script>
 import { user, isSignedIn, signOut, signIn } from '../firebase/auth.js';
+import { useStore } from '../store/store';
+
 export default {
   data() {
-    return { user, isSignedIn };
+    const store = useStore();
+    const { stats } = store;
+    return {
+      user, isSignedIn,
+      showStats: false,
+      stats
+    };
   },
   methods: {
     signOut,
     signInForm() {
       signIn(prompt('Email'), prompt('Password'));
     },
+    openStats() {
+      this.showStats = true;
+    }
   }
 }
 </script>

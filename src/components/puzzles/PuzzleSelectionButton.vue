@@ -5,24 +5,19 @@ import { useStore } from '@/store/store.js';
 
 <template>
   <div class="container" @click="openGame">
-    <div v-for="row in layout.height" :key="'row' + row" class="row">
-      <div
-        v-for="tile in layout.width"
-        :key="'t' + tile"
-        class="tile"
-        :style="{
-          backgroundColor: layout.isWhite(row - 1, tile - 1) ? '#b5ab9e' : 'black',
-          visibility: layout.isTile(row - 1, tile - 1)
-            ? 'visible'
-            : 'hidden',
-          transform: `translate(${
-            tileSizePreview * (tile - 1 - layout.width / 2) + 50
-          }px, ${tileSizePreview * (row - 1 - layout.height / 2) + 50}px)`,
-          width: `${tileSizePreview - 1}px`,
-          height: `${tileSizePreview - 1}px`,
-        }"
-      ></div>
-    </div>
+    <div
+      v-for="tile in includedTiles"
+      :key="'t' + tile"
+      class="tile"
+      :style="{
+        backgroundColor: layout.isWhite(tile) ? '#b5ab9e' : 'black',
+        transform: `translate(${
+          tileSizePreview * ((tile % layout.width) - layout.width / 2) + 50
+        }px, ${tileSizePreview * (Math.floor(tile / layout.width) - layout.height / 2) + 50}px)`,
+        width: `${tileSizePreview - 1}px`,
+        height: `${tileSizePreview - 1}px`,
+      }"
+    ></div>
   </div>
 </template>
 
@@ -54,7 +49,7 @@ import { useStore } from '@/store/store.js';
 export default {
   props: ["puzzle"],
   data() {
-    const { width, height } = this.$props.puzzle.target;
+    const { width, height } = this.puzzle.target;
     return {
       tileSizePreview:
         (1 / Math.sqrt(width * height)) *
@@ -63,18 +58,24 @@ export default {
   },
   computed: {
     layout() {
-      return this.$props.puzzle.target;
+      return this.puzzle.target;
     },
     solved() {
       const store = useStore();
-      return store.solvedPuzzles.includes(this.$props.puzzle.id);
+      return store.solvedPuzzles.includes(this.puzzle.id);
+    },
+    includedTiles() {
+      return new Array(this.layout.width * this.layout.height)
+        .fill(0)
+        .map((_, i) => i)
+        .filter(i => !this.layout.exclude.includes(i))
     }
   },
   methods: {
     openGame() {
       const store = useStore();
-      store.setPuzzle(this.$props.puzzle);
-      store.setLayout(this.$props.puzzle.target);
+      store.setPuzzle(this.puzzle);
+      store.setLayout(this.layout);
       this.$router.push("/puzzleGame");
     },
   }
