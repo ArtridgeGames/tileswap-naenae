@@ -34,6 +34,11 @@
   color: black;
   min-width: 50%;
 }
+@media screen and (max-width: 600px) {
+  .modal {
+    min-width: 95%;
+  }
+}
 </style>
 
 <script>

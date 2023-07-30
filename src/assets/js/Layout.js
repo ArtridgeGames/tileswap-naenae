@@ -964,10 +964,10 @@ export class Layout {
   constructor ({ width, height, exclude, unlockCategory }) {
     this.width = width;
     this.height = height;
-    this.exclude = exclude;
-    this.unlockCategory = unlockCategory;
+    this.exclude = exclude ?? [];
+    this.unlockCategory = unlockCategory ?? 0;
     this.matrix = new Array(height).fill(0).map(() => new Array(width).fill(0));
-    for (const e of exclude) {
+    for (const e of this.exclude) {
       this.matrix[Math.floor(e / width)][e % width] = -1;
     }
   }
@@ -1014,6 +1014,7 @@ export class Layout {
    */
   setMatrix(matrix) {
     this.matrix = matrix.map(row => row.slice());
+    this.exclude = Layout.getExcludeFromMatrix(this.matrix);
   }
 
   /**
@@ -1082,6 +1083,17 @@ export class Layout {
     return copy.matrix.every(row => row.every(tile => tile === 1 || tile === -1)) 
       ? this.generatePosition(iterations) 
       : copy;
+  }
+
+  /**
+   * Calculate the array of exclusion indices from a layout matrix
+   * @param {Number[][]} matrix
+   * @returns {Number[]} the array of exclusion indices
+   */
+  static getExcludeFromMatrix(matrix) {
+    const width = matrix[0].length;
+    return matrix
+      .map((row, y) => row.map((cell, x) => cell === -1 ? y * width + x : null)).flat().filter(e => e || e === 0);
   }
 
   /**

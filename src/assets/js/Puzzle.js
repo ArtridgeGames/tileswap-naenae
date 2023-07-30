@@ -999,8 +999,7 @@ export class Puzzle {
 
     const width = baseMatrix[0].length;
     const height = baseMatrix.length;
-    const exclude = baseMatrix
-      .map((row, y) => row.map((cell, x) => cell === -1 ? y * width + x : null)).flat().filter(e => e || e === 0);
+    const exclude = Layout.getExcludeFromMatrix(baseMatrix);
 
     const base = new Layout({
       width, height,

@@ -6,6 +6,7 @@ import ChallengeSelection from '../views/challenges/ChallengeSelection.vue'
 import FreeplayGame from '../views/freeplay/FreeplayGame.vue'
 import PuzzleGame from '../views/puzzles/PuzzleGame.vue'
 import ChallengeGame from '../views/challenges/ChallengeGame.vue'
+import TutorialView from '../views/TutorialView.vue'
 
 const router = createRouter({
   history: createMemoryHistory(import.meta.env.BASE_URL),
@@ -14,6 +15,11 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView
+    },
+    {
+      path: '/tutorial',
+      name: 'tutorial',
+      component: TutorialView
     },
     {
       path: '/freeplaySelection',

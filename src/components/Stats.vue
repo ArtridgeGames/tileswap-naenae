@@ -6,6 +6,19 @@
   </ul>
 </template>
 
+<style scoped>
+li {
+  font-size: 30px;
+  text-align: left;
+}
+
+@media screen and (max-width: 600px) {
+  li {
+    font-size: 20px;
+  }
+}
+</style>
+
 <script>
 import { useStore } from '../store/store';
 import { STATS_DATA } from '../assets/js/Stats.js';

@@ -3,48 +3,50 @@ import { useStore } from '@/store/store.js'
 </script>
 
 <template>
-  <div class="tile" :class="{'flipped-tile': color === 'black'}">
-    <div class="inner-tile">
-      <div class="front"></div>
-      <div class="back"></div>
+    <div class="tile" :class="{'flipped-tile': color === 'black'}">
+      <div class="inner-tile">
+        <div class="front"></div>
+        <div class="back"></div>
+      </div>
     </div>
-  </div>
 </template>
 
 <script>
-  export default {
-    props: ['color', 'visibility', 'small'],
-    data() {
-      return {
-        tileSize: '30px'
-      }
-    },
-    mounted() {
-      const store = useStore();
-      
-      const resize = () => {
-        const { width, height } = store.currentLayout;
-        this.tileSize = ( 
-          (1 / (Math.sqrt(width**2 + height**2) * (window.innerWidth > 600 ? 0.5 : 0.8))) *
-          300 * (this.$props.small !== undefined ? 0.5 : 1)
-        ) + 'px';
-      };
-      
-      resize();
-      window.addEventListener('resize', resize);
+import { watch } from 'vue';
+export default {
+  props: ['color', 'visible', 'small'],
+  data() {
+    return {
+      tileSize: '30px'
     }
+  },
+  mounted() {
+    const store = useStore();
+
+    const resize = () => {
+      const { width, height } = store.currentLayout;
+      this.tileSize = ( 
+        (1 / (Math.sqrt(width**2 + height**2) * (window.innerWidth > 600 ? 0.5 : 0.8))) *
+        300 * (this.$props.small !== undefined ? 0.5 : 1)
+      ) + 'px';
+    };
+
+    watch(() => store.currentLayout, resize, { deep: true, immediate: false });
+    resize();
+    window.addEventListener('resize', resize);
   }
+}
 </script>
 
 <style scoped>
 .tile{
   width: v-bind(tileSize);
   height: v-bind(tileSize);
+  opacity: v-bind('visible ? 1 : 0');
   border-radius: 7px;
   margin: 7px;
   display: inline-block;
-  visibility: v-bind(visibility);
-  cursor: pointer;
+  cursor: v-bind('visible ? "pointer" : "default"');
 }
 
 .tile > .inner-tile {
