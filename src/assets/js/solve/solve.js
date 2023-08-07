@@ -8,7 +8,7 @@ if (globalThis.window) {
   Object.defineProperty(window, 'devMode', {
     get: () => active.value,
     set: (value) => {
-      if (value && process.env.NODE_ENV !== 'development') throw 'Cannot activate devMode in production';
+      if (typeof value !== 'boolean') throw new Error('devMode value must be a boolean');
       active.value = value
     }
   });
