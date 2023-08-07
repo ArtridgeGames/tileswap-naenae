@@ -15,6 +15,7 @@ if (globalThis.window) {
 }
 export const devMode = computed(() => active.value);
 
+// Map to cache the inverse matrices
 const map = new Map();
 
 export const solve = (state) => {
@@ -24,6 +25,7 @@ export const solve = (state) => {
   const width = state[0].length;
 
   // Make a unique key for the state, so we can cache the inverse matrix
+  // This greatly improves performance when solving patterns in real time
   const key = `${width}x${height},${Layout.getExcludeFromMatrix(state)}`;
 
   let I;
@@ -49,7 +51,7 @@ export const solve = (state) => {
     I = det === 0 ? 
           new Matrix(matrix(matrix(M.data.map(row => Array.from(row))).inv()).map(e => (e + 2) % 2))
           : inverse(M).add(2).mod(2);
-    // I is a 2D array of the same form as M
+    // I is a 2D array of the same form as M (see above)
 
     // Cache the inverse matrix
     map.set(key, I);
