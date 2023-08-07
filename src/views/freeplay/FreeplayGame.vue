@@ -24,7 +24,7 @@ import { useWindow } from "@/assets/js/window.js"
     
     <main>
 
-      <Layout v-model="layout" @swap="handleClick" />
+      <Layout v-model="layout" :solution="solution" @swap="handleClick" />
   
     </main>
 
@@ -68,6 +68,7 @@ main{
 }
 </style>
 <script>
+import { solve, devMode } from '../../assets/js/solve/solve';
 export default {
   data() {
     const store = useStore();
@@ -81,6 +82,7 @@ export default {
       layout,
       difficulty: store.difficulty,
       showModal: false,
+      solution: layout.matrix.map(row => row.slice()),
       moves: 0
     };
   },
@@ -97,6 +99,7 @@ export default {
   methods: {
     handleClick() {
       this.moves++;
+      if (devMode.value) this.solution = solve(this.layout.matrix);
       if (this.layout.isSolved()) {
         this.store.stats.layoutsSolved++;
         this.showModal = true;
@@ -105,6 +108,7 @@ export default {
     randomize() {
       this.moves = 0;
       this.layout = this.layout.generatePosition(this.difficulty);
+      if (devMode.value) this.solution = solve(this.layout.matrix);
     }
   },
   mounted() {

@@ -12,6 +12,7 @@
   "dependencies": {
     "firebase": "^10.1.0",
     "matrix-js": "^1.6.1",
+    "ml-matrix": "^6.10.4",
     "pinia": "^2.1.4",
     "pinia-plugin-persistedstate": "^3.2.0",
     "vue": "^3.3.4",
