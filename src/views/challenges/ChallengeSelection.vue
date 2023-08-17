@@ -1,9 +1,36 @@
 <script setup>
 import LinkButton from '../../components/LinkButton.vue';
+import CSB from '../../components/challenges/ChallengeSelectionButton.vue';
 </script>
 
 <template>
   <div>
     <LinkButton class="top right" text="back" to="/" />
+    <CSB v-for="(challenge,i) in challenges" :key="i" @click="selectChallenge(challenge)" :challenge="challenge"/>
   </div>
 </template>
+
+<script>
+import { useStore } from '../../store/store.js'
+import { setModulo } from '../../assets/js/Layout';
+
+export default {
+  data() {
+    const store = useStore();
+    return {
+      challenges: store.challenges
+    }
+  },
+  methods: {
+    selectChallenge(challenge) {
+      const store = useStore();
+      store.setChallenge(challenge);
+      store.setLayout(challenge.getCurrentLayout())
+
+      setModulo(challenge.modulo);
+
+      this.$router.push('/challengeGame');
+    }
+  }
+}
+</script>

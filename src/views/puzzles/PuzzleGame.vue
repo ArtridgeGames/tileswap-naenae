@@ -22,11 +22,11 @@ import { useWindow } from "../../assets/js/window.js";
 
     <main>
 
-      <Layout v-model="layout" @swap="handleClick" />
+      <Layout v-model="layout" :target="puzzle.target.matrix" @swap="handleClick" />
   
     </main>
 
-    <div class="target" :class="{
+    <!-- <div class="target" :class="{
         left: windowWidth > 600,
         middle: windowWidth > 600,
         top: windowWidth <= 600,
@@ -35,7 +35,7 @@ import { useWindow } from "../../assets/js/window.js";
 
       <Layout v-model="puzzle.target" disabled small />
 
-    </div>
+    </div> -->
 
     <Modal v-model="showWinModal">
       <h1>you won in {{ moves }} move{{ moves > 1 ? 's' : '' }}!</h1>

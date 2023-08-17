@@ -1,4 +1,4 @@
-import { Layout } from './Layout.js';
+import { Layout, modulo } from './Layout.js';
 
 /**
  * A class representing tile swap puzzles.
@@ -988,12 +988,14 @@ export class Puzzle {
 
   ].map((e, id) => {
 
-    const { base: baseMatrix, target: targetMatrix, moves, solution } = e;
+    const { base: baseMatrix, target: targetMatrix, moves, solution, modulo } = e;
 
     baseMatrix.forEach((row, y) => row.forEach((cell, x) => {
       if (cell === 2) {
         baseMatrix[y][x] = -1;
         targetMatrix[y][x] = -1;
+      } else if (cell === 1) {
+        baseMatrix[y][x] = (modulo ?? 2) - 1;
       }
     }));
 
@@ -1013,10 +1015,14 @@ export class Puzzle {
       exclude,
       unlockCategory: 0
     })
-    target.setMatrix(targetMatrix);
+    target.setMatrix(
+      targetMatrix.map(row => 
+        row.map(e => e === 1 ? (modulo ?? 2) - 1 : e)
+      )
+    );
 
     return new Puzzle({
-      base, target, moves, solution, id
+      base, target, moves, solution, id, modulo: modulo ?? 2
     });
   })
 
@@ -1027,12 +1033,13 @@ export class Puzzle {
    * @param {Number} moves 
    * @param {Number[]} solution
    */
-  constructor({ base, target, moves, solution, id }) {
+  constructor({ base, target, moves, solution, id, modulo }) {
     this.base = base;
     this.target = target;
     this.moves = moves;
     this.solution = solution;
     this.id = id;
+    this.modulo = modulo;
   }
 
   /**

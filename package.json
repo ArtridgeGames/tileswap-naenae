@@ -10,6 +10,7 @@
     "deploy": "vite build && gh-pages -d dist"
   },
   "dependencies": {
+    "@guildofweavers/galois": "^0.4.22",
     "firebase": "^10.1.0",
     "matrix-js": "^1.6.1",
     "ml-matrix": "^6.10.4",

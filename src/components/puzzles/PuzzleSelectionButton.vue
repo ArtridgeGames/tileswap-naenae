@@ -46,6 +46,7 @@ import { useStore } from '@/store/store.js';
 </style>
 
 <script>
+import { setModulo } from '../../assets/js/Layout';
 export default {
   props: ["puzzle"],
   data() {
@@ -76,6 +77,9 @@ export default {
       const store = useStore();
       store.setPuzzle(this.puzzle);
       store.setLayout(this.layout);
+
+      setModulo(this.puzzle.modulo);
+
       this.$router.push("/puzzleGame");
     },
   }

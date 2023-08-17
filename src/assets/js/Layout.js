@@ -1,3 +1,43 @@
+import { ref, computed } from 'vue';
+
+export const tilesToFlip = ref(
+  [
+    [-1, -1], [0, -1], [1, -1],
+    [-1, 0], [0, 0], [1, 0],
+    [-1, 1], [0, 1], [1, 1],
+  ]
+);
+if (globalThis.window && !window.hasOwnProperty('tilesToFlip')) {
+  Object.defineProperty(window, 'tilesToFlip', {
+    get: () => tilesToFlip.value,
+    set: (value) => {
+      tilesToFlip.value = value
+    }
+  });
+}
+
+export const modulo = ref(2);
+if (globalThis.window && !window.hasOwnProperty('modulo')) {
+  Object.defineProperty(window, 'modulo', {
+    get: () => modulo.value,
+    set: (value) => {
+      if (value < 2) throw new Error('Modulo must be greater than 1');
+      modulo.value = value
+    }
+  });
+}
+
+export const setModulo = (value) => {
+  if (value < 2) throw new Error('Modulo must be greater than 1');
+  modulo.value = value
+}
+
+export const gradient = computed(() => {
+  return new Array(modulo.value).fill().map((e, i) => {
+    return `rgb(${255*(i/(modulo.value-1))},${255*(i/(modulo.value-1))},${255*(i/(modulo.value-1))})`
+  });
+})
+
 /**
  * A class representing a layout of tiles
  * The tiles are represented by a matrix of 0s, 1s and -1s for excluded tiles
@@ -942,6 +982,7 @@ export class Layout {
     {
       dimensions: "6x6",
       exclude: [0, 1, 9, 10, 11, 15, 16, 17, 24, 25, 30, 31, 33, 34],
+      unlockCategory: 17
     },
   ].map(e => {
     const width = parseInt(e.dimensions.split("x")[0]);
@@ -953,7 +994,7 @@ export class Layout {
       unlockCategory,
       exclude: e.exclude ?? [],
     });
-  });
+  }).sort((a, b) => a.unlockCategory - b.unlockCategory);
   /**
    * Creates a new Layout object
    * @param {Number} width the width of the layout
@@ -978,20 +1019,18 @@ export class Layout {
    * @param {Number} column the column of the tile to swap
    * @returns {Number} the number of tiles swapped
    */
-  swapTiles(row, column) {
-    const dirx = [-1, 0, 1];
-    const diry = [-1, 0, 1];
-
+  swapTiles(row, column, direction = 1) {
     let count = 0;
-    for (const x of dirx) {
-      for (const y of diry) {
-        if (row + y >= 0 && row + y < this.matrix.length
-          && column + x >= 0 && column + x < this.matrix[0].length
-          && this.matrix[row+y][column+x] !== -1) {
-            this.matrix[row+y][column+x] = this.matrix[row+y][column+x] ? 0 : 1;
-            count++;
-          }
-      }
+    
+    for (const delta of tilesToFlip.value) {
+      const x = column + delta[0];
+      const y = row + delta[1];
+      if (x >= 0 && x < this.matrix[0].length
+        && y >= 0 && y < this.matrix.length
+        && this.matrix[y][x] !== -1) {
+          this.matrix[y][x] = Layout.modulo(this.matrix[y][x] + direction);
+          count++;
+        }
     }
     
     return count;
@@ -1021,7 +1060,7 @@ export class Layout {
    * Checks if the matrix is solved
    */
   isSolved() {
-    return this.matrix.every(row => row.every(tile => tile === 1 || tile === -1));
+    return this.matrix.every(row => row.every(tile => tile === modulo.value - 1 || tile === -1));
   }
 
   /**
@@ -1034,7 +1073,6 @@ export class Layout {
     if (column === undefined) return this.matrix[Math.floor(row / this.width)][row % this.width] !== -1;
     return this.matrix[row][column] !== -1;
   }
-
   /**
    * Checks if the tile at the specified position is white
    * @param {Number} row the row of the tile 
@@ -1042,8 +1080,12 @@ export class Layout {
    * @returns {Boolean} true if the tile is white, false otherwise
    */
   isWhite(row, column) {
-    if (column === undefined) return this.matrix[Math.floor(row / this.width)][row % this.width] === 1;
-    return this.matrix[row][column] === 1;
+    if (column === undefined) return this.matrix[Math.floor(row / this.width)][row % this.width] === modulo.value-1;
+    return this.matrix[row][column] === modulo.value-1;
+  }
+
+  nTiles() {
+    return this.width * this.height - this.exclude.length;
   }
 
   /**
@@ -1063,8 +1105,9 @@ export class Layout {
    * @returns {Layout} a Layout object with a random pattern
    */
   generatePosition(iterations) {
+
     const copy = this.copy();
-    copy.setAllTiles(1);
+    copy.setAllTiles(modulo.value - 1);
 
     for (let i = 0; i < iterations; i++) {
       
@@ -1076,7 +1119,7 @@ export class Layout {
         tile = Math.floor(Math.random() * copy.width);
       } while(!copy.isTile(row, tile));
       
-      copy.swapTiles(row, tile);
+      copy.swapTiles(row, tile, -1);
     }
 
     // Regenerate if the matrix is already solved
@@ -1117,5 +1160,9 @@ export class Layout {
    */
   static serialize(layout) {
     return JSON.stringify(layout);
+  }
+
+  static modulo(n) {
+    return ((n % modulo.value) + modulo.value) % modulo.value;
   }
 }

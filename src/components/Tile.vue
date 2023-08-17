@@ -3,7 +3,7 @@ import { useStore } from '@/store/store.js'
 </script>
 
 <template>
-    <div class="tile" :class="{'flipped-tile': color === 'black'}">
+    <div class="tile" :class="{ 'flipped-tile': flipped }">
       <div class="inner-tile">
         <div class="front"></div>
         <div class="back"></div>
@@ -13,11 +13,41 @@ import { useStore } from '@/store/store.js'
 
 <script>
 import { watch } from 'vue';
+import { modulo, gradient } from '../assets/js/Layout';
 export default {
-  props: ['color', 'visible', 'small'],
+  props: ['tile', 'visible', 'small'],
   data() {
     return {
-      tileSize: '30px'
+      tileSize: '30px',
+      flipped: false,
+      previousFront: 0,
+      previousBack: 0,
+      gradient
+    }
+  },
+  watch: {
+    tile() {
+      this.flipped = !this.flipped;
+    },
+  },
+  computed: {
+    frontColor() {
+      this.previousFront = this.gradient.indexOf(this.frontColor);
+      if (this.flipped)
+        return this.gradient[this.previousFront];
+      return this.gradient[this.tile];
+    },
+    backColor() {
+      this.previousBack = this.gradient.indexOf(this.backColor);
+      if (!this.flipped)
+        return this.gradient[this.previousBack];
+      return this.gradient[this.tile];
+
+    }
+  },
+  methods: {
+    modulo(n) {
+      return ((n % modulo.value) + modulo.value) % modulo.value;
     }
   },
   mounted() {
@@ -54,7 +84,7 @@ export default {
   position: relative;
   width: 100%;
   height: 100%;
-  transition: all 0.5s ease;
+  transition: all 0.3s ease;
   border-radius: 7px;
   transform-style: preserve-3d;
 }
@@ -82,10 +112,10 @@ export default {
 }
 
 .front{
-    background-color: white
+    background-color: v-bind('frontColor');
 }
 .back{
-    background-color: black
+    background-color: v-bind('backColor');
 }
 
 @media screen and (max-width: 600px) {

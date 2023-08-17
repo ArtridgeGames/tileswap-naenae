@@ -2,7 +2,8 @@
 import { useStore } from '@/store/store.js'
 import Layout from '../../components/Layout.vue';
 import Button from "../../components/Button.vue";
-import Slider from "../../components/Slider.vue";
+import DifficultySlider from "../../components/DifficultySlider.vue";
+import ModuloSlider from '../../components/ModuloSlider.vue';
 import Modal from "../../components/Modal.vue";
 import LinkButton from "../../components/LinkButton.vue";
 import { useWindow } from "@/assets/js/window.js"
@@ -12,7 +13,7 @@ import { useWindow } from "@/assets/js/window.js"
   <div>
     <div class="top-menu">
       <Button text="randomize" @click="randomize" />
-      <Slider v-model="difficulty" />
+      <DifficultySlider v-model="difficulty" />
     </div>
 
     <p v-show="moves > 0" class="move-counter top" :class="{
@@ -20,9 +21,14 @@ import { useWindow } from "@/assets/js/window.js"
       center: windowWidth >= 600
     }">{{ moves }} move{{ moves > 1 ? 's' : '' }}</p>
 
-    <LinkButton class="top right" text="back" to="/freeplaySelection" />
-    
-    <main>
+    <div class="top right">
+      <LinkButton text="back" to="/freeplaySelection" />
+      <ModuloSlider v-model="internalModulo"/>
+    </div>
+
+   <main>
+
+      <h2 v-if="devMode" class="devmode-info">{{ error }}</h2>
 
       <Layout v-model="layout" :solution="solution" @swap="handleClick" />
   
@@ -50,6 +56,10 @@ main{
 .move-counter {
   font-size: 30px;
 }
+.devmode-info {
+  color: red;
+  text-align: center;
+}
 
 @media screen and (max-width: 600px) {
   .top-menu{
@@ -69,6 +79,8 @@ main{
 </style>
 <script>
 import { solve, devMode } from '../../assets/js/solve/solve';
+import { modulo, setModulo } from '../../assets/js/Layout.js';
+import { watch } from 'vue';
 export default {
   data() {
     const store = useStore();
@@ -81,14 +93,20 @@ export default {
       store,
       layout,
       difficulty: store.difficulty,
+      internalModulo: modulo.value,
       showModal: false,
-      solution: layout.matrix.map(row => row.slice()),
-      moves: 0
+      solution: layout.matrix.map(row => row.map(tile => 0)),
+      moves: 0,
+      error: ''
     };
   },
   watch: {
     difficulty() {
       this.store.difficulty = this.difficulty;
+    },
+    internalModulo(newVal) {
+      setModulo(newVal);
+      this.randomize();
     },
     showModal() {
       if (!this.showModal) {
@@ -97,9 +115,14 @@ export default {
     }
   },
   methods: {
-    handleClick() {
+    handleClick(index, row, tile) {
       this.moves++;
-      if (devMode.value) this.solution = solve(this.layout.matrix);
+
+      if (!this.error && devMode.value) {
+        this.solution[row][tile] = (((this.solution[row][tile] - 1) % modulo.value) + modulo.value) % modulo.value;
+      }
+
+
       if (this.layout.isSolved()) {
         this.store.stats.layoutsSolved++;
         this.showModal = true;
@@ -108,11 +131,28 @@ export default {
     randomize() {
       this.moves = 0;
       this.layout = this.layout.generatePosition(this.difficulty);
-      if (devMode.value) this.solution = solve(this.layout.matrix);
+      this.$nextTick(() => {
+        try {
+          if (devMode.value) this.solution = solve(this.layout.matrix);
+          this.error = '';
+        } catch (e) {
+          console.error(e);
+          this.error = 'layout could not be solved';
+          this.solution = this.layout.matrix.map(row => row.map(tile => 0));
+        }
+      })
     }
   },
   mounted() {
     this.randomize();
+
+    watch(devMode, (newVal) => {
+      if (newVal) {
+        this.solution = solve(this.layout.matrix);
+      } else {
+        this.solution = this.layout.matrix.map(row => row.map(tile => 0));
+      }
+    })
   }
 }
 </script>
