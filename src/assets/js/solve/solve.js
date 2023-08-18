@@ -17,10 +17,66 @@ if (globalThis.window && !window.hasOwnProperty('devMode')) {
 }
 export const devMode = computed(() => active.value);
 
-const map = new Map();
+const inverses = new Map();
+const determinants = new Map();
 
+const rotateMatrix = (state) => {
+  const result = [];
+  for (let column = 0; column < state[0].length; column++) {
+    const row = [];
+    for (let r = state.length - 1; r >= 0; r--) {
+      row.push(state[r][column]);
+    }
+    result.push(row);
+  }
+  return result;
+}
+
+const rotateNTimes = (state, n) => {
+  for (let i = 0; i < n; i++) {
+    state = rotateMatrix(state);
+  }
+  return state;
+}
+
+class Solution {
+  constructor(matrix, determinant, moves) {
+    this.matrix = matrix;
+    this.determinant = determinant;
+    this.moves = moves;
+  }
+}
 
 export const solve = (state) => {
+
+  const states = [
+    state,
+    rotateMatrix(state),
+    rotateNTimes(state, 2),
+    rotateNTimes(state, 3),
+  ]
+  
+  const counts = [];
+  const solutions = [];
+  let i = 0;
+  for (const state of states) {
+    const { matrix, determinant } = solvePattern(state);
+    const count = matrix.flat().filter(e => e !== -1).reduce((acc, v) => acc + v, 0);
+    counts.push(count);
+    solutions.push(new Solution(rotateNTimes(matrix, 4 - i++), determinant, count));
+  }
+
+  const min = Math.min(...counts);
+  const n = counts.indexOf(min);
+  return {
+    solutions,
+    shortest: n,
+    determinant: solutions[0].determinant.value,
+  }
+}
+
+
+function solvePattern(state) {
 
   const field = FiniteField.fromOrder(modulo.value);
 
@@ -38,15 +94,22 @@ export const solve = (state) => {
   let result = [];
 
   const M = generateMoveMatrix(width, height, state);
-  const det = M.determinant();
-  console.log('Det:', det.toString());
+
+  let det;
+  if (determinants.has(key)) {
+    det = determinants.get(key);
+  } else {
+    det = M.determinant();
+    determinants.set(key, det);
+  }
+
   if (!det.equals(0)) {
     let I;
-    if (map.has(key)) {
-      I = map.get(key);
+    if (inverses.has(key)) {
+      I = inverses.get(key);
     } else {
       I = M.inverse();
-      map.set(key, I);
+      inverses.set(key, I);
     }
     result = I.multiply(P).matrix.map(e => e[0].value);
   } else {
@@ -88,7 +151,10 @@ export const solve = (state) => {
     }
   }
 
-  return result.map((_, i) => result.slice(i * width, (i + 1) * width)).filter(e => e.length);
+  return {
+    matrix: result.map((_, i) => result.slice(i * width, (i + 1) * width)).filter(e => e.length),
+    determinant: det
+  }
 }
 
 const swapMatrix = (row, column, M) => {

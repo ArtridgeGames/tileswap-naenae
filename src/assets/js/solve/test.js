@@ -7,7 +7,7 @@ import { FiniteField, FiniteFieldElement, FiniteFieldMatrix } from './FiniteFiel
 //   [0n,0n]
 //]);
 
-const field = FiniteField.fromOrder(2);
+const field = FiniteField.fromOrder(9);
 
 // const M = FiniteFieldMatrix.random(3, 3, field);
 // const M = field.matrix([
@@ -42,19 +42,11 @@ const field = FiniteField.fromOrder(2);
 
 const start = Date.now();
 
-console.log(
-  FiniteField.primeFactors(9)
-)
+for (let i = 0; i < field.order; i++) {
+  const e = field.el(i);
+  console.log(e);
+}
 
-// for (let i = 0; i < 1000; i++) {
-//   const M = FiniteFieldMatrix.random(7, 7, field);
-//   const P = M.pseudoInverse();
-
-//   if (!M.multiply(P).multiply(M).equals(M)) {
-//     console.log(M);
-//   }
-
-// }
 
 
 const end = Date.now();

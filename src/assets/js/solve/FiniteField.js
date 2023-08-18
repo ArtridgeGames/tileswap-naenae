@@ -15,9 +15,6 @@ export class FiniteField {
     if (order % 1 !== 0) {
       throw new Error('Order must be an integer');
     }
-    if (!FiniteField.isPrime(order)) {
-      console.warn('\x1b[33m%s\x1b[0m', `[Warn] Order ${order} is not prime`);
-    }
     const factors = FiniteField.primeFactors(order);
     
     if (!factors.every(e => e === factors[0])) {
@@ -31,24 +28,49 @@ export class FiniteField {
 
   /**
    * Create a new element in the field
-   * @param {Number} value value of the element
-   * @returns {FiniteFieldElement} The new element
+   * @param {Number|Number[]|FiniteFieldElement|FiniteFieldPolynomial} value value of the element
+   * @returns {FiniteFieldElement|FiniteFieldPolynomial} The new element
    */
   el(value) {
+    // If the value is already an element in the field and the field is prime, return the element
     if (value instanceof FiniteFieldElement) {
+      if (this.q !== 1) {
+        throw new Error('Cannot create element in non-prime field');
+      }
       if (value.field.order !== this.order) {
         throw new Error('Cannot create element in different field');
       }
       return value;
     }
 
-    if (typeof value !== 'number') {
-      throw new Error('Value must be a number');
+    if (value instanceof FiniteFieldPolynomial) {
+      if (this.q === 1) {
+        throw new Error('Cannot create polynomial in prime field');
+      }
+      if (value.field.order !== this.order) {
+        throw new Error('Cannot create polynomial in different field');
+      }
+      return value;
     }
-    return new FiniteFieldElement(
-      FiniteField.mod(value, this.order),
-      this
-    );
+
+    if (typeof value === 'number') {
+      if (this.q === 1) {
+        return new FiniteFieldElement(
+          FiniteField.mod(value, this.order),
+          this
+        );
+      }
+      return FiniteFieldPolynomial.fromInteger(value, this);
+    }
+
+    if (value instanceof Array) {
+      if (this.q === 1) {
+        throw new Error('Cannot create polynomial in prime field');
+      }
+      return new FiniteFieldPolynomial(value, this);
+    }
+    
+    throw new Error('Cannot create element from non-number');
   }
 
   /**
@@ -149,9 +171,7 @@ export class FiniteFieldElement {
       return this.field.el(operation(this, other));
     }
 
-    other = this.field.el(other);
-
-    return this.field.el(operation(this, other));
+    return this.#applyOperation(this.field.el(other), operation);
   }
 
   /**
@@ -219,6 +239,12 @@ export class FiniteFieldElement {
     throw new Error('Element has no square root');
   }
 
+  abs() {
+    return this.field.el(
+      this.value === 0 ? 0 : 1
+    )
+  }
+
   /**
    * Checks if the element is equal to another element
    * @param {FiniteFieldElement|Number} other The other element to compare to
@@ -248,16 +274,116 @@ export class FiniteFieldElement {
 }
 
 /**
+ * A polynomial in a finite field
+ * @property {FiniteField} field The field of the polynomial
+ * @property {FiniteField} primeField The prime field for the coefficients of the polynomial
+ * @property {FiniteFieldElement[]} coefficients The coefficients of the polynomial
+ */
+export class FiniteFieldPolynomial {
+
+  /**
+   * Create a new polynomial in a finite field
+   * @param {Number[]|FiniteFieldElement[]} coefficients 
+   * @param {FiniteField} field 
+   */
+  constructor(coefficients, field) {
+    this.field = field;
+    this.primeField = FiniteField.fromOrder(field.p);
+
+    const len = coefficients.length;
+    
+    if (len > field.q) {
+      throw new Error(`${coefficients.length} coefficients given, but field has order p ^ q where q = ${field.q}`);
+    }
+
+    if (len < field.q) {
+      for (let i = 0; i < field.q - len; i++) {
+        coefficients.splice(0, 0, this.primeField.el(0));
+      }
+    }
+
+    this.coefficients = coefficients.map(e => this.primeField.el(e));
+  }
+
+  add(other) {
+    if (other instanceof FiniteFieldPolynomial) {
+      if (other.field.order !== this.field.order) {
+        throw new Error('Cannot add polynomials in different fields');
+      }
+      const coefficients = [];
+      for (let i = 0; i < Math.max(this.coefficients.length, other.coefficients.length); i++) {
+        coefficients.push(this.coefficients[i].add(other.coefficients[i]));
+      }
+      return new FiniteFieldPolynomial(coefficients, this.field);
+    }
+
+    if (other instanceof Array) {
+      return this.add(new FiniteFieldPolynomial(other, this.field));
+    }
+
+    throw new Error('Cannot add polynomial to non-polynomial');
+  }
+
+  multiply(other) {
+    if (other instanceof FiniteFieldPolynomial) {
+      if (other.field.order !== this.field.order) {
+        throw new Error('Cannot multiply polynomials in different fields');
+      }
+      const coefficients = new Array(this.coefficients.length + other.coefficients.length - 1).fill().map(e => this.primeField.el(0));
+      for (let i = 0; i < this.coefficients.length; i++) {
+        for (let j = 0; j < other.coefficients.length; j++) {
+          coefficients[i + j] = coefficients[i + j].add(this.coefficients[i].multiply(other.coefficients[j]));
+        }
+      }
+      return new FiniteFieldPolynomial(coefficients, this.field);
+    }
+
+    if (other instanceof FiniteFieldElement) {
+      return this.multiply(new FiniteFieldPolynomial([other], other.field));
+    }
+
+    if (typeof other === 'number') {
+      return this.multiply(this.field.el(other));
+    }
+
+    throw new Error('Cannot multiply polynomial by non-polynomial');
+  }
+
+  static fromInteger(n, field) {
+    const str = n.toString(field.p);
+    const coefficients = str.split('').map(e => parseInt(e));
+    return new FiniteFieldPolynomial(coefficients, field);
+  }
+
+  toString() {
+    return (this.coefficients.map((e, i) => {
+      if (e.equals(0)) return '';
+      const deg = this.coefficients.length - i - 1;
+      if (deg === 0) return e.value.toString();
+      const val = e.value === 1 ? '' : e.value;
+      if (deg === 1) return `${val}x`;
+      return `${val}x^${deg}`;
+    }).filter(e => e)
+      .join(' + ') || '0') 
+      + ` (mod ${this.field.order})`;
+  }
+
+  [util.inspect?.custom]() {
+    return this.toString();
+  }
+}
+
+/**
  * A matrix over a finite field
  * @property {Number} width The width of the matrix
  * @property {Number} height The height of the matrix
  * @property {FiniteField} field The field of the matrix
- * @property {FiniteFieldElement[][]} matrix The matrix
+ * @property {FiniteFieldElement[][] | FiniteFieldPolynomial[][]} matrix The matrix
  */
 export class FiniteFieldMatrix {
   /**
    * Create a new matrix in a finite field
-   * @param {Number[][]} matrix 2D array of numbers
+   * @param {Number[][] | FiniteFieldElement[][] | FiniteFieldPolynomial[][]} matrix 2D array of numbers
    * @param {FiniteField} field field of the matrix
    */
   constructor(matrix, field) {
@@ -323,7 +449,7 @@ export class FiniteFieldMatrix {
 
   /**
    * Multiplies the matrix by a scalar or another matrix
-   * @param {Number|FiniteFieldElement|FiniteFieldMatrix} other The scalar or matrix to multiply by
+   * @param {Number | FiniteFieldElement | FiniteFieldMatrix} other The scalar or matrix to multiply by
    * @returns {FiniteFieldMatrix} The result of the multiplication
    */
   multiply(other) {
@@ -629,7 +755,7 @@ export class FiniteFieldMatrix {
       let imax = i;
 
       for (let k = i; k < N; k++) {
-        const absA = A[k][i];
+        const absA = A[k][i].abs();
         if (absA.value > maxA.value) {
           maxA = absA;
           imax = k;
