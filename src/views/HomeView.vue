@@ -1,8 +1,8 @@
 <script setup>
 import ModeButton from '../components/ModeButton.vue';
-import freeplayUrl from '/images/freeplay.png';
-import puzzlesUrl from '/images/puzzles.png';
-import challengesUrl from '/images/challenges.png';
+import freeplayUrl from '/images/freeplay-transparent.png';
+import puzzlesUrl from '/images/puzzles-transparent.png';
+import challengesUrl from '/images/challenges-transparent.png';
 import Button from '../components/Button.vue';
 import LinkButton from '../components/LinkButton.vue';
 import Modal from '../components/Modal.vue';
@@ -11,7 +11,7 @@ import Stats from '../components/Stats.vue';
 
 <template>
   <div class="container">
-    
+
     <h1 class="main-title">Tile<span>Swap</span></h1>
   
     <main>
@@ -55,6 +55,16 @@ import Stats from '../components/Stats.vue';
 </template>
 
 <style scoped>
+
+  video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+  }
+
   main {
     display: flex;
     flex-direction: row;
@@ -63,7 +73,7 @@ import Stats from '../components/Stats.vue';
   }
   h1.main-title {
     text-align: center;
-    font-size: 120px;
+    font-size: var(--title-font-size);
     margin: 0;
     margin-bottom: 50px;
     padding-top: 50px;
@@ -82,7 +92,7 @@ import Stats from '../components/Stats.vue';
 
   @media screen and (max-width: 600px) {
     h1.main-title {
-      font-size: 80px;
+      font-size: var(--font-size-lg);
     }
     main {
       flex-direction: column;

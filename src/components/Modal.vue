@@ -19,20 +19,20 @@
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background-color: rgba(0,0,0,0.5);
+  background-color: var(--popup-bg-trans);
   z-index: 999;
 }
 .modal {
   position: absolute;
   top: 50%; left: 50%;
   translate: -50% -50%;
-  background-color: white;
+  background-color: var(--hl-color);
   padding: 20px;
   text-align: center;
-  border-radius: 10px;
+  border-radius: var(--popup-border-radius);
   z-index: 1000;
-  color: black;
-  min-width: 50%;
+  color: var(--shadow-text-color);
+  min-width: var(--popup-width)
 }
 @media screen and (max-width: 600px) {
   .modal {

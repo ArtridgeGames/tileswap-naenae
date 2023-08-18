@@ -1,12 +1,17 @@
 <script setup>
 import { useStore } from '@/store/store.js'
+import TileSVG from './TileSVG.vue';
 </script>
 
 <template>
     <div class="tile" :class="{ 'flipped-tile': flipped }">
       <div class="inner-tile">
-        <div class="front"></div>
-        <div class="back"></div>
+        <div class="front">
+          <TileSVG outline="#242424" highlight="#333" />
+        </div>
+        <div class="back">
+          <TileSVG outline="#eee" highlight="#b3b3b3" />
+        </div>
       </div>
     </div>
 </template>
@@ -19,6 +24,7 @@ export default {
   data() {
     return {
       tileSize: '30px',
+      borderRadius: '15px',
       flipped: false,
       previousFront: 0,
       previousBack: 0,
@@ -55,10 +61,13 @@ export default {
 
     const resize = () => {
       const { width, height } = store.currentLayout;
-      this.tileSize = ( 
+
+      const size = ( 
         (1 / (Math.sqrt(width**2 + height**2) * (window.innerWidth > 600 ? 0.5 : 0.8))) *
         300 * (this.$props.small !== undefined ? 0.5 : 1)
-      ) + 'px';
+      );
+      this.borderRadius = 0.2*size + 'px';
+      this.tileSize = size + 'px';
     };
 
     watch(() => store.currentLayout, resize, { deep: true, immediate: false });
@@ -73,7 +82,7 @@ export default {
   width: v-bind(tileSize);
   height: v-bind(tileSize);
   opacity: v-bind('visible ? 1 : 0');
-  border-radius: 7px;
+  border-radius: v-bind(borderRadius);
   margin: 7px;
   display: inline-block;
   cursor: v-bind('visible ? "pointer" : "default"');
@@ -84,8 +93,8 @@ export default {
   position: relative;
   width: 100%;
   height: 100%;
-  transition: all 0.3s ease;
-  border-radius: 7px;
+  transition: all var(--tile-swap-time) ease;
+  border-radius: v-bind(borderRadius);
   transform-style: preserve-3d;
 }
 
@@ -98,7 +107,7 @@ export default {
   height: 100%;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  border-radius: 7px;
+  border-radius: v-bind(borderRadius);
 }
 .tile .back {
   transform:rotateX(180deg) translateY(100%);

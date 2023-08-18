@@ -1,4 +1,5 @@
 import './assets/css/main.css';
+import './assets/css/themes.css';
 import './assets/css/slider.css';
 
 import { createApp } from 'vue';

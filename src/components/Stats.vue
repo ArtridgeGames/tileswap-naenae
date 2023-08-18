@@ -8,15 +8,15 @@
 
 <style scoped>
 li {
-  font-size: 30px;
+  font-size: var(--font-size-sm);
   text-align: left;
 }
 
 @media screen and (max-width: 600px) {
   li {
-    font-size: 20px;
+    font-size: var(--font-size-md);
   }
-}
+} 
 </style>
 
 <script>

@@ -4,7 +4,7 @@
 
 <template>
   <div class="diff">
-    <h2>modulo - {{ moduloText }}</h2>
+    <h2>states - {{ moduloText }}</h2>
     <input type="range"
             min="2"
             :value="modelValue"

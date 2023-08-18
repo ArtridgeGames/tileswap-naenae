@@ -42,7 +42,7 @@ main {
   position:absolute;
   left: 50%;
   bottom: 5%;
-  font-size: 60px;
+  font-size: var(--font-size-lg);
 }
 </style>
 

@@ -83,16 +83,15 @@ main{
   font-size: 30px;
 }
 .devmode {
-  color: red;
+  color: var(--devmode-color);
   background-color: black;
   padding: 20px;
-  font-size: 20px;
-  border-radius: 10px;
+  font-size: var(--font-size-sm);
   margin-left: 10px;
   width: max-content;
 }
 .devmode hr {
-  background-color: red;
+  background-color: var(--devmode-color);
   height: 2px;
 }
 .devmode p, .devmode h1, .devmode span {
@@ -110,7 +109,7 @@ main{
   float: right;
 }
 .devmode p.selected {
-  outline: 2px solid red;
+  outline: 2px solid var(--devmode-color);
 }
 .cursor {
   cursor: pointer;

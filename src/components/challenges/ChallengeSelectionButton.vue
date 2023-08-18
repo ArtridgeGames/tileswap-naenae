@@ -22,17 +22,17 @@ export default {
 <style scoped>
 
 div {
-    width:210px;
-    padding: 15px;
+    width:var(--button-default-w);
+    padding: var(--button-padding);
     border: none;
-    border-radius: 7px;
-    background-color:white;
+    border-radius: var(--button-border-radius);
+    background-color:var(--hl-color);
     color: v-bind(color);
-    font-size: 25px;
+    font-size: var(--font-size-sm);
     cursor: pointer;
     margin: 10px;
     display: inline-block;
-    color: black;
+    color: var(--shadow-text-color);
     text-align:center;
 }
 

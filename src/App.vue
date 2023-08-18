@@ -1,3 +1,7 @@
+<script setup>
+import videoUrl from '/videos/loop.mp4';
+</script>
+
 <template>
   <router-view v-slot="{ Component }">
     <transition name="fade" mode="out-in">
@@ -5,6 +9,22 @@
     </transition>
   </router-view>
 </template>
+
+<style scoped>
+video {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -100;
+  transform: translateX(-50%) translateY(-50%);
+  background: url('/images/loop.mp4') no-repeat;
+  background-size: cover;
+}
+</style>
 
 <script>
 import { RouterView } from 'vue-router';

@@ -6,13 +6,13 @@
 
 <style scoped>
 button {
-  width:210px;
-  padding: 15px;
+  width: var(--button-default-w);
+  padding: var(--button-padding);
   border: none;
-  border-radius: 7px;
+  border-radius: var(--button-border-radius);
   background-color: v-bind(backgroundColor);
   color: v-bind(color);
-  font-size: 25px;
+  font-size: var(--font-size-sm);
   cursor: pointer;
   margin: 10px;
   display: inline-block;
@@ -27,10 +27,10 @@ export default {
   props: ['text', 'black'],
   computed: {
     backgroundColor() {
-      return this.black !== undefined ? 'black' : 'white';
+      return this.black !== undefined ? 'var(--shadow-color)' : 'var(--hl-color)';
     },
     color() {
-      return this.black !== undefined ? 'white' : 'black';
+      return this.black !== undefined ? 'var(--hl-text-color)' : 'var(--shadow-text-color)';
     }
   }
 }

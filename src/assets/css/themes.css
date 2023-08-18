@@ -1,0 +1,212 @@
+.mer {
+  --font-family: ChingChong;
+
+  --font-size-sm: 24px;
+  --font-size-md: 48px;
+  --font-size-lg: 64px;
+  --title-font-size: 120px;
+
+  --bg-color: #086788;
+  /* #adad85 */
+  --hl-text-color: #FFF1D0;
+  --shadow-text-color: #DD1c1A;
+  --hl-color: #fff1D0;
+  --shadow-color: #DD1c1a;
+
+  --success-color: #dac778;
+  --puzzle-white: #b5ab9e;
+  --devmode-color: red;
+
+  --tile-border-radius:
+    /*10px*/
+  ;
+  --button-border-radius:
+    /*7px*/
+  ;
+  --sb-border-radius:
+    /*10px*/
+  ;
+  --popup-border-radius:
+    /*15px*/
+  ;
+
+  --button-padding: 15px;
+  --button-default-w: 210px;
+  --sb-size: 100px;
+
+  --fade-time: 0.2s;
+  --zoom-time: 0.2s;
+  --tile-swap-time: 0.3s;
+
+  --popup-bg-trans: rgba(0, 0, 0, 0.5);
+  --popup-width: 20%;
+
+  text-transform: uppercase !important;
+}
+
+.bacon {
+  --font-family: "Times New Roman", Times, serif;
+
+  --font-size-sm: 24px;
+  --font-size-md: 48px;
+  --font-size-lg: 64px;
+  --title-font-size: 120px;
+
+  --bg-color: #D77A61F;
+  /* #adad85 */
+  --hl-text-color: #DBD3d8;
+  --shadow-text-color: #223843;
+  --hl-color: #EFF1F3;
+  --shadow-color: #223843;
+
+  --success-color: #dac778;
+  --puzzle-white: #b5ab9e;
+  --devmode-color: red;
+
+  --tile-border-radius: 20px;
+  --button-border-radius: 7px;
+  --sb-border-radius: 10px;
+  --popup-border-radius: 15px;
+
+  --button-padding: 15px;
+  --button-default-w: 210px;
+  --sb-size: 100px;
+
+  --fade-time: 0.2s;
+  --zoom-time: 0.2s;
+  --tile-swap-time: 0.3s;
+
+  --popup-bg-trans: rgba(0, 0, 0, 0.5);
+  --popup-width: 20%;
+
+  text-transform: uppercase !important;
+}
+
+.france {
+  --font-family: "Times New Roman", Times, serif;
+
+  --font-size-sm: 24px;
+  --font-size-md: 48px;
+  --font-size-lg: 64px;
+  --title-font-size: 120px;
+
+  --bg-color: #002B80;
+  /* #adad85 */
+  --hl-text-color: #F9F9F9;
+  --shadow-text-color: #C60101;
+  --hl-color: #F9F9F9;
+  --shadow-color: #C60101;
+
+  --success-color: #dac778;
+  --puzzle-white: #b5ab9e;
+  --devmode-color: red;
+
+  --tile-border-radius: 25px 8px;
+  --button-border-radius: 7px;
+  --sb-border-radius: 10px;
+  --popup-border-radius: 15px;
+
+  --button-padding: 15px;
+  --button-default-w: 210px;
+  --sb-size: 100px;
+
+  --fade-time: 0.2s;
+  --zoom-time: 0.2s;
+  --tile-swap-time: 0.3s;
+
+  --popup-bg-trans: rgba(0, 0, 0, 0.5);
+  --popup-width: 20%;
+
+  text-transform: uppercase !important;
+}
+
+body.france button {
+  text-transform: uppercase !important;
+}
+
+.jsp {
+  --font-family: ChingChong;
+
+  --font-size-sm: 24px;
+  --font-size-md: 48px;
+  --font-size-lg: 64px;
+  --title-font-size: 120px;
+
+   --bg-color: linear-gradient(180deg, rgba(20,54,66,1) 0%, rgba(15,139,141,1) 72%, rgba(149,212,247,1) 100%);
+  
+  
+  /* #adad85 */
+  --hl-text-color: #DAD2D8;
+  --shadow-text-color: #143642;
+  --hl-color: #DAD2D8;
+  --shadow-color: #143642;
+
+  --success-color: #dac778;
+  --puzzle-white: #b5ab9e;
+  --devmode-color: red;
+
+  --tile-border-radius:
+    /*10px*/
+  ;
+  --button-border-radius:
+    /*7px*/
+  ;
+  --sb-border-radius:
+    /*10px*/
+  ;
+  --popup-border-radius:
+    /*15px*/
+  ;
+
+  --button-padding: 15px;
+  --button-default-w: 210px;
+  --sb-size: 100px;
+
+  --fade-time: 0.2s;
+  --zoom-time: 0.2s;
+  --tile-swap-time: 0.3s;
+
+  --popup-bg-trans: rgba(0, 0, 0, 0.5);
+  --popup-width: 20%;
+
+  text-transform: uppercase !important;
+}
+
+.synthwave {
+  /* --font-family: 'Vermin Vibes 1989'; */
+  --font-family: VerminVibes;
+  font-weight: normal;
+  font-style: normal;
+  
+  --font-size-sm: 24px;
+  --font-size-md: 48px;
+  --font-size-lg: 64px;
+  --title-font-size: 120px;
+
+  --bg-color: linear-gradient(157deg, rgba(70,49,145,1) 0%, rgba(231,38,150,1) 27%, rgba(249,155,29,1) 52%, rgba(94,219,165,1) 75%, rgba(70,49,145,1) 100%);
+  
+  --hl-text-color: black;
+  --shadow-text-color: white;
+  --hl-color: black;
+  --shadow-color: white;
+
+  --success-color: #dac778;
+  --puzzle-white: #b5ab9e;
+  --devmode-color: red;
+
+  --tile-border-radius: /*10px*/;
+  --button-border-radius: /*7px*/;
+  --sb-border-radius: /*10px*/;
+  --popup-border-radius: /*15px*/;
+
+  --button-padding: 15px;
+  --button-default-w: 210px;
+  --sb-size:100px;
+
+  --fade-time: 0.2s;
+  --zoom-time: 0.2s;
+  --tile-swap-time: 0.3s;
+
+  --popup-bg-trans:rgba(0,0,0,0.5);
+  --popup-width:20%;
+}

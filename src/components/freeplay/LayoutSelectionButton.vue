@@ -23,19 +23,19 @@ import { useStore } from '@/store/store.js';
 .container {
   position: relative;
   display: inline-block;
-  background-color: white;
-  border-radius: 10px;
-  width: 100px;
-  height: 100px;
+  background-color:var(--hl-color);
+  border-radius: var(--sb-border-radius);
+  width: var(--sb-size);
+  height: var(--sb-size);
   margin: 6px;
   cursor: pointer;
 }
 .container::before {
   content: attr(data-level);
   position: absolute;
-  background-color: black;
+  background-color: var(--shadow-color);
   padding: 5px;
-  border-radius: 5px;
+  border-radius: calc(var(--sb-border-radius)/2);
   width: 10px;
   height: 10px;
   top: -3px;
@@ -45,12 +45,12 @@ import { useStore } from '@/store/store.js';
   justify-content: center;
 }
 .container[data-level="30"]::before {
-  background-color: #dac778;
+  background-color: var(--bg-color);
 }
 .tile {
-  background-color: black;
+  background-color: var(--shadow-color);
   position: absolute;
-  border-radius: 2px;
+  border-radius: calc(var(--tile-border-radius)/10);
   display: inline-block;
 }
 .layout-preview {

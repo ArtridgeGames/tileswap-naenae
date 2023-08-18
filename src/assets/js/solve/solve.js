@@ -4,7 +4,7 @@ import { FiniteField, FiniteFieldMatrix } from './FiniteField.js';
 import { tilesToFlip } from '../Layout.js';
 
 const active = ref(
-  process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
+  false
 );
 if (globalThis.window && !window.hasOwnProperty('devMode')) {
   Object.defineProperty(window, 'devMode', {

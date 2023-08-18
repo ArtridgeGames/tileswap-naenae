@@ -5,6 +5,7 @@ import CSB from '../../components/challenges/ChallengeSelectionButton.vue';
 
 <template>
   <div>
+    <h1 class="title">Select a challenge</h1>
     <LinkButton class="top right" text="back" to="/" />
     <CSB v-for="(challenge,i) in challenges" :key="i" @click="selectChallenge(challenge)" :challenge="challenge"/>
   </div>

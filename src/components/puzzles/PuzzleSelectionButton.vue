@@ -10,7 +10,7 @@ import { useStore } from '@/store/store.js';
       :key="'t' + tile"
       class="tile"
       :style="{
-        backgroundColor: layout.isWhite(tile) ? '#b5ab9e' : 'black',
+        backgroundColor: layout.isWhite(tile) ? 'var(--puzzle-white)' : 'var(--shadow-color)',
         transform: `translate(${
           tileSizePreview * ((tile % layout.width) - layout.width / 2) + 50
         }px, ${tileSizePreview * (Math.floor(tile / layout.width) - layout.height / 2) + 50}px)`,
@@ -25,10 +25,10 @@ import { useStore } from '@/store/store.js';
 .container {
   position: relative;
   display: inline-block;
-  background-color: v-bind('solved ? "#DAC778" : "white"');
-  border-radius: 10px;
-  width: 100px;
-  height: 100px;
+  background-color: v-bind('solved ? "var(--success-color)" : "var(--hl-color)"');
+  border-radius: var(--sb-border-radius);
+  width: var(--sb-size);
+  height: var(--sb-size);
   margin: 6px;
   cursor: pointer;
 }

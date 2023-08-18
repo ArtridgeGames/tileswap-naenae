@@ -35,7 +35,6 @@ main {
 }
 @media screen and (max-width: 600px) {
   h1 {
-    font-size: 40px;
     padding-top: 60px;
   }
 }

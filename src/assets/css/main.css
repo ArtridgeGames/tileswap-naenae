@@ -1,22 +1,70 @@
+.default {
+  --font-family: TileSwap;
+
+  --font-size-sm: 24px;
+  --font-size-md: 48px;
+  --font-size-lg: 64px;
+  --title-font-size: 120px;
+
+  --bg-color: #bbb2ea; /*#adad85; */
+  --hl-text-color: #fff;
+  --shadow-text-color: #000;
+  --hl-color: #fff;
+  --shadow-color: #000;
+
+  --success-color: #dac778;
+  --puzzle-white: #b5ab9e;
+  --devmode-color: red;
+
+  --tile-border-radius: 30px;
+  --button-border-radius: 7px;
+  --sb-border-radius: 10px;
+  --popup-border-radius: 15px;
+
+  --button-padding: 15px;
+  --button-default-w: 210px;
+  --sb-size: 100px;
+
+  --fade-time: 0.2s;
+  --zoom-time: 0.2s;
+  --tile-swap-time: 0.3s;
+
+  --popup-bg-trans: rgba(0, 0, 0, 0.5);
+  --popup-width: 20%;
+}
+
+
 @font-face {
   font-family: TileSwap;
   src: url('/fonts/TileSwap.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: ChingChong;
+  src: url('/fonts/TsukimiRounded-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: VerminVibes;
+  src: url('/fonts/Vermin-Vibes-1989.ttf') format('truetype');
+}
+
 * {
-  font-family: TileSwap, sans-serif;
+  font-family: var(--font-family), sans-serif;
   user-select: none;
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent !important;
   touch-action: manipulation !important;
 }
 
-html, body, #app {
-  background-color: #adad85;
+html,
+body,
+#app {
+  background: var(--bg-color);
   margin: 0;
   height: 100%;
   overflow: hidden;
-  color: white;
+  color: var(--hl-text-color);
 }
 
 img {
@@ -25,13 +73,13 @@ img {
 }
 
 h1.title {
-  font-size: 55px;
+  font-size: var(--font-size-lg);
   text-align: center;
 }
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.2s ease;
+  transition: opacity var(--fade-time) ease;
 }
 
 .fade-enter-from,
@@ -41,7 +89,7 @@ h1.title {
 
 .zoom-enter-active,
 .zoom-leave-active {
-  transition: scale 0.2s ease;
+  transition: scale var(--zoom-time) ease;
 }
 
 .zoom-enter-from,
@@ -53,21 +101,41 @@ h1.title {
   text-align: center;
 }
 
-.top, .left, .right, .bottom, .center, .middle {
+.top,
+.left,
+.right,
+.bottom,
+.center,
+.middle {
   position: absolute;
 }
-.top { top: 0; }
-.left { left: 0; }
-.right { right: 0; }
-.bottom { bottom: 0; }
+
+.top {
+  top: 0;
+}
+
+.left {
+  left: 0;
+}
+
+.right {
+  right: 0;
+}
+
+.bottom {
+  bottom: 0;
+}
+
 .center {
   left: 50%;
   translate: -50%;
 }
+
 .middle {
   top: 50%;
   translate: 0 -50%;
 }
+
 .center.middle {
   translate: -50% -50%;
 }
@@ -78,6 +146,7 @@ h1.title {
 }
 
 @keyframes shake {
+
   10%,
   90% {
     transform: translate3d(-2px, 0, 0);

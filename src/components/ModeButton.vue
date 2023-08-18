@@ -13,13 +13,14 @@
     flex-direction: column;
     text-align: center;
     cursor: pointer;
+    align-items: center;
   }
   img {
     width: 270px;
     height: 270px;
   }
   span {
-    font-size: 50px;
+    font-size: var(--font-size-md);
   }
 </style>
 
