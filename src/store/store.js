@@ -28,9 +28,9 @@ export const useStore = defineStore('store', () => {
 
   const stats = ref({ ...INITIAL_STATS });
 
-  // setInterval(() => {
-  //   stats.value.timePlayed++;
-  // }, 1e3);
+  setInterval(() => {
+    stats.value.timePlayed++;
+  }, 1e3);
   
   function setLayout(layout) {
     currentLayout.value = layout;
