@@ -1,4 +1,6 @@
 import { ref, computed } from 'vue';
+import { useStore } from '../../store/store.js';
+import { solve } from './solve/solve.js';
 
 export const tilesToFlip = ref(
   [
@@ -35,6 +37,18 @@ export const setModulo = (value) => {
 export const gradient = computed(() => {
   return new Array(modulo.value).fill().map((e, i) => {
     return `rgb(${255*(i/(modulo.value-1))},${255*(i/(modulo.value-1))},${255*(i/(modulo.value-1))})`
+  });
+})
+
+export const outlineGradient = computed(() => {
+  return new Array(modulo.value).fill().map((e, i) => {
+    return `rgb(${143*(i/(modulo.value-1))+36},${143*(i/(modulo.value-1))+36},${143*(i/(modulo.value-1))+36})`
+  });
+})
+
+export const highlightGradient = computed(() => {
+  return new Array(modulo.value).fill().map((e, i) => {
+    return `rgb(${190*(i/(modulo.value-1))+51},${190*(i/(modulo.value-1))+51},${190*(i/(modulo.value-1))+51})`
   });
 })
 
@@ -995,6 +1009,12 @@ export class Layout {
       exclude: e.exclude ?? [],
     });
   }).sort((a, b) => a.unlockCategory - b.unlockCategory);
+
+  static get FILTERED_LAYOUTS() {
+    const store = useStore();
+    return this.LAYOUTS.filter(e => e.unlockCategory <= store.unlockedCategoriesFP)
+  }
+
   /**
    * Creates a new Layout object
    * @param {Number} width the width of the layout
@@ -1007,7 +1027,7 @@ export class Layout {
     this.height = height;
     this.exclude = exclude ?? [];
     this.unlockCategory = unlockCategory ?? 0;
-    this.matrix = new Array(height).fill(0).map(() => new Array(width).fill(0));
+    this.matrix = new Array(height).fill(0).map(() => new Array(width).fill().map(e => modulo.value - 1));
     for (const e of this.exclude) {
       this.matrix[Math.floor(e / width)][e % width] = -1;
     }
@@ -1081,7 +1101,7 @@ export class Layout {
    */
   isWhite(row, column) {
     if (column === undefined) return this.matrix[Math.floor(row / this.width)][row % this.width] === modulo.value-1;
-    return this.matrix[row][column] === modulo.value-1;
+    return this.matrix[row][column] === modulo.value - 1;
   }
 
   nTiles() {
@@ -1122,10 +1142,26 @@ export class Layout {
       copy.swapTiles(row, tile, -1);
     }
 
+    const { solutions, shortest, zerows, } = solve(copy.matrix);
+    
+    const solution = solutions[shortest];
+    const threshold = 
+           zerows !== 1 ? 
+             (iterations > zerows ? zerows : iterations) : 
+             Math.floor(iterations - modulo.value * (iterations / 3) + 2);
+
     // Regenerate if the matrix is already solved
-    return copy.matrix.every(row => row.every(tile => tile === 1 || tile === -1)) 
-      ? this.generatePosition(iterations) 
-      : copy;
+    if (copy.matrix.every(row => row.every(tile => tile === modulo.value || tile === -1))) {
+      return this.generatePosition(iterations);
+    }
+
+    if (solution.moves < threshold) {
+      return this.generatePosition(iterations);
+    }
+
+    return copy;
+
+
   }
 
   /**
@@ -1166,3 +1202,5 @@ export class Layout {
     return ((n % modulo.value) + modulo.value) % modulo.value;
   }
 }
+
+

@@ -1,83 +1,113 @@
 <script setup>
-import { useStore } from '@/store/store.js'
-import Layout from '../../components/Layout.vue';
+import { useStore } from "@/store/store.js";
+import Layout from "../../components/Layout.vue";
 import Button from "../../components/Button.vue";
 import DifficultySlider from "../../components/DifficultySlider.vue";
-import ModuloSlider from '../../components/ModuloSlider.vue';
+import ModuloSlider from "../../components/ModuloSlider.vue";
 import Modal from "../../components/Modal.vue";
 import LinkButton from "../../components/LinkButton.vue";
-import { useWindow } from "@/assets/js/window.js"
+import { useWindow } from "@/assets/js/window.js";
 </script>
 
 <template>
   <div>
     <div class="top-menu">
-      
-      <div class="devmode" 
+      <div
+        class="devmode"
         v-if="devMode && windowWidth < 600"
-        @click="showDevMode = !showDevMode">
-        <span>
-          DEV
-        </span>
+        @click="showDevMode = !showDevMode"
+      >
+        <span> DEV </span>
       </div>
 
       <Button text="randomize" @click="randomize" />
       <DifficultySlider v-model="difficulty" />
     </div>
 
-    <p v-show="moves > 0" class="move-counter top" :class="{
-      left: windowWidth < 600,
-      center: windowWidth >= 600
-    }">{{ moves }} move{{ moves > 1 ? 's' : '' }}</p>
+    <p
+      v-show="moves > 0"
+      class="move-counter top"
+      :class="{
+        left: windowWidth < 600,
+        center: windowWidth >= 600,
+      }"
+    >
+      {{ moves }} move{{ moves > 1 ? "s" : "" }}
+    </p>
 
     <div class="top right">
       <LinkButton text="back" to="/freeplaySelection" />
-      <ModuloSlider v-model="internalModulo"/>
+      <ModuloSlider v-model="internalModulo" />
     </div>
 
     <main>
-      <Layout v-model="layout" :solution="devMode ? solution : null" @swap="handleClick" />
+      <Transition name="fade" mode="out-in">
+        <Layout
+          :key="modulo"
+          v-model="layout"
+          :solution="devMode ? solution : null"
+          @swap="handleClick"
+        />
+      </Transition>
     </main>
+    <div class="open-dev left bottom" @click="setDevMode(true)" v-if="!devMode">v</div>
 
-    <div class="devmode middle"
-      :class="{
-        left: windowWidth >= 600,
-        center: windowWidth < 600
-      }"
-      v-if="devMode && (windowWidth < 600 ? showDevMode : true)">
-      <h1>DevMode</h1>
-      <div class="input">
-        <input type="checkbox" v-model="solveOnClick"> Solve on click
+    <Transition name="fade" >
+      <div
+        class="devmode middle"
+        :class="{
+          left: windowWidth >= 600,
+          center: windowWidth < 600,
+        }"
+        v-if="devMode && (windowWidth < 600 ? showDevMode : true)"
+      >
+        <div class="close-dev" @click="setDevMode(false)">x</div>
+        <h1>DevMode</h1>
+  
+        <div class="input">
+          <input type="checkbox" v-model="solveOnClick" /> re-solve on click
+        </div>
+        <p>Det: {{ determinant }}</p>
+  
+        <hr />
+  
+        <div v-if="determinant !== 0">
+          <p>Only one solution found:</p>
+          <p>{{ solutions[0].moves }} moves</p>
+        </div>
+  
+        <div v-else>
+          <p>Multiple solutions found:</p>
+          <p
+            v-for="(solution, i) in solutions"
+            class="cursor"
+            :class="{ selected: solutionIndex === i }"
+            :key="i"
+            @click="solutionIndex = i"
+          >
+            {{ solution.moves }} moves
+          </p>
+        </div>
       </div>
-      <p>Det: {{ determinant }}</p>
-      <hr>
-      <div v-if="determinant !== 0">
-        <p>Only one solution found.</p>
-      </div>
-      <div v-else>
-        <p>Multiple solutions found:</p>
-        <p v-for="(solution, i) in solutions" class="cursor" :class="{ selected: solutionIndex === i }" :key="i" @click="solutionIndex = i">{{ solution.moves }} moves</p>
-      </div>
-    </div>
+    </Transition>
 
     <Modal v-model="showModal">
-      <h1>you won in {{ moves }} move{{ moves > 1 ? 's' : '' }}!</h1>
+      <h1>you won in {{ moves }} move{{ moves > 1 ? "s" : "" }}!</h1>
       <Button black text="yay!" @click="showModal = false" />
     </Modal>
   </div>
-
 </template>
 
 <style scoped>
-.top-menu{
+.top-menu {
   width: 240px;
   margin-left: 20px;
 }
-main{
+main {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
 }
 .move-counter {
   font-size: 30px;
@@ -94,7 +124,9 @@ main{
   background-color: var(--devmode-color);
   height: 2px;
 }
-.devmode p, .devmode h1, .devmode span {
+.devmode p,
+.devmode h1,
+.devmode span {
   font-family: monospace;
   margin: 10px;
 }
@@ -111,12 +143,39 @@ main{
 .devmode p.selected {
   outline: 2px solid var(--devmode-color);
 }
+
+.close-dev {
+  float: right;
+  background-color: black;
+  color: var(--devmode-color);
+  outline: 2px solid var(--devmode-color);
+  border-radius: 2px;
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+}
+
+.open-dev {
+  background-color: black;
+  color: red;
+  border-radius: 5px;
+  outline: 2px solid red;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  cursor: pointer;
+  padding-top:3px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
 .cursor {
   cursor: pointer;
 }
 
 @media screen and (max-width: 600px) {
-  .top-menu{
+  .top-menu {
     position: absolute;
     bottom: 0;
     width: 80%;
@@ -132,15 +191,15 @@ main{
 }
 </style>
 <script>
-import { solve, devMode } from '../../assets/js/solve/solve';
-import { modulo, setModulo } from '../../assets/js/Layout.js';
-import { watch } from 'vue';
+import { solve, devMode, setDevMode } from "../../assets/js/solve/solve";
+import { modulo, setModulo } from "../../assets/js/Layout.js";
+import { watch } from "vue";
 
 export default {
   data() {
     const store = useStore();
     const layout = store.currentLayout;
-    
+
     const { width: windowWidth } = useWindow();
 
     return {
@@ -155,7 +214,7 @@ export default {
       solutionIndex: 0,
       determinant: 0,
       moves: 0,
-      solveOnClick: false
+      solveOnClick: false,
     };
   },
   watch: {
@@ -170,13 +229,13 @@ export default {
       if (!this.showModal) {
         this.randomize();
       }
-    }
+    },
   },
   computed: {
     solution() {
       if (this.solutions.length === 0) return null;
       return this.solutions[this.solutionIndex].matrix;
-    }
+    },
   },
   methods: {
     handleClick(index, row, tile) {
@@ -187,7 +246,10 @@ export default {
           this.updateSolutions();
         } else {
           for (const solution of this.solutions) {
-            solution.matrix[row][tile] = (((solution.matrix[row][tile] - 1) % modulo.value) + modulo.value) % modulo.value;
+            solution.matrix[row][tile] =
+              (((solution.matrix[row][tile] - 1) % modulo.value) +
+                modulo.value) %
+              modulo.value;
           }
         }
       }
@@ -199,7 +261,7 @@ export default {
     },
     randomize() {
       this.moves = 0;
-      this.layout = this.layout.generatePosition(this.difficulty);
+      this.layout = this.layout.generatePosition(this.difficulty+Math.round(Math.random()*(modulo.value-1)));
       this.$nextTick(() => {
         try {
           if (devMode.value) {
@@ -207,16 +269,16 @@ export default {
           }
         } catch (e) {
           console.error(e);
-          this.solution = this.layout.matrix.map(row => row.map(tile => 0));
+          this.solution = this.layout.matrix.map((row) => row.map((tile) => 0));
         }
-      })
+      });
     },
     updateSolutions() {
       const { solutions, shortest, determinant } = solve(this.layout.matrix);
       this.solutionIndex = shortest;
       this.solutions = solutions;
       this.determinant = determinant;
-    }
+    },
   },
   mounted() {
     this.randomize();
@@ -225,7 +287,7 @@ export default {
       if (newVal) {
         this.updateSolutions();
       }
-    })
-  }
-}
+    });
+  },
+};
 </script>

@@ -1,60 +1,76 @@
 <script setup>
-import { useStore } from '@/store/store.js'
-import TileSVG from './TileSVG.vue';
+import { useStore } from "@/store/store.js";
+import TileSVG from "./TileSVG.vue";
 </script>
 
 <template>
-    <div class="tile" :class="{ 'flipped-tile': flipped }">
-      <div class="inner-tile">
-        <div class="front">
-          <TileSVG outline="#242424" highlight="#333" />
-        </div>
-        <div class="back">
-          <TileSVG outline="#eee" highlight="#b3b3b3" />
-        </div>
+  <div class="tile" :class="{ 'flipped-tile': flipped }">
+    <div class="inner-tile">
+      <div
+        class="front"
+        :style="{
+          background: frontColor,
+        }"
+      >
+        <TileSVG :outline="frontOutline" :highlight="frontHighlight" />
+      </div>
+
+      <div
+        class="back"
+        :style="{
+          background: backColor,
+        }"
+      >
+        <TileSVG :outline="backOutline" :highlight="backHighlight" />
       </div>
     </div>
+  </div>
 </template>
 
 <script>
-import { watch } from 'vue';
-import { modulo, gradient } from '../assets/js/Layout';
+import { watch } from "vue";
+import {
+  modulo,
+  gradient,
+  outlineGradient,
+  highlightGradient,
+} from "../assets/js/Layout.js";
 export default {
-  props: ['tile', 'visible', 'small'],
+  props: ["tile", "visible", "small", "position"],
   data() {
     return {
-      tileSize: '30px',
-      borderRadius: '15px',
+      tileSize: "30px",
+      borderRadius: "15px",
       flipped: false,
-      previousFront: 0,
-      previousBack: 0,
-      gradient
-    }
+      frontColor: gradient.value[this.tile],
+      backColor: gradient.value[this.mod(this.tile + 1)],
+      frontOutline: outlineGradient.value[this.tile],
+      backOutline: outlineGradient.value[this.mod(this.tile + 1)],
+      frontHighlight: highlightGradient.value[this.tile],
+      backHighlight: highlightGradient.value[this.mod(this.tile + 1)],
+      gradient,
+      outlineGradient,
+      highlightGradient,
+    };
   },
   watch: {
-    tile() {
+    tile(newVal) {
       this.flipped = !this.flipped;
+      if (this.flipped) {
+        this.backColor = this.gradient[newVal];
+        this.backOutline = this.outlineGradient[newVal];
+        this.backHighlight = this.highlightGradient[newVal];
+      } else {
+        this.frontColor = this.gradient[newVal];
+        this.frontOutline = this.outlineGradient[newVal];
+        this.frontHighlight = this.highlightGradient[newVal];
+      }
     },
-  },
-  computed: {
-    frontColor() {
-      this.previousFront = this.gradient.indexOf(this.frontColor);
-      if (this.flipped)
-        return this.gradient[this.previousFront];
-      return this.gradient[this.tile];
-    },
-    backColor() {
-      this.previousBack = this.gradient.indexOf(this.backColor);
-      if (!this.flipped)
-        return this.gradient[this.previousBack];
-      return this.gradient[this.tile];
-
-    }
   },
   methods: {
-    modulo(n) {
+    mod(n) {
       return ((n % modulo.value) + modulo.value) % modulo.value;
-    }
+    },
   },
   mounted() {
     const store = useStore();
@@ -62,26 +78,28 @@ export default {
     const resize = () => {
       const { width, height } = store.currentLayout;
 
-      const size = ( 
-        (1 / (Math.sqrt(width**2 + height**2) * (window.innerWidth > 600 ? 0.5 : 0.8))) *
-        300 * (this.$props.small !== undefined ? 0.5 : 1)
-      );
-      this.borderRadius = 0.2*size + 'px';
-      this.tileSize = size + 'px';
+      const size =
+        (1 /
+          (Math.sqrt(width ** 2 + height ** 2) *
+            (window.innerWidth > 600 ? 0.5 : 0.8))) *
+        300 *
+        (this.$props.small !== undefined ? 0.5 : 1);
+      this.borderRadius = 0.2 * size + "px";
+      this.tileSize = size + "px";
     };
 
     watch(() => store.currentLayout, resize, { deep: true, immediate: false });
     resize();
-    window.addEventListener('resize', resize);
-  }
-}
+    window.addEventListener("resize", resize);
+  },
+};
 </script>
 
-<style scoped>
-.tile{
+  <style scoped>
+.tile {
   width: v-bind(tileSize);
   height: v-bind(tileSize);
-  opacity: v-bind('visible ? 1 : 0');
+  opacity: v-bind("visible ? 1 : 0");
   border-radius: v-bind(borderRadius);
   margin: 7px;
   display: inline-block;
@@ -93,7 +111,7 @@ export default {
   position: relative;
   width: 100%;
   height: 100%;
-  transition: all var(--tile-swap-time) ease;
+  transition: transform var(--tile-swap-time) ease;
   border-radius: v-bind(borderRadius);
   transform-style: preserve-3d;
 }
@@ -102,7 +120,8 @@ export default {
   transform: rotateX(-180deg);
 }
 
-.tile .front, .tile .back {
+.tile .front,
+.tile .back {
   width: 100%;
   height: 100%;
   -webkit-backface-visibility: hidden;
@@ -110,7 +129,7 @@ export default {
   border-radius: v-bind(borderRadius);
 }
 .tile .back {
-  transform:rotateX(180deg) translateY(100%);
+  transform: rotateX(180deg) translateY(100%);
   position: absolute;
   width: 100%;
 }
@@ -120,11 +139,11 @@ export default {
   padding: 0;
 }
 
-.front{
-    background-color: v-bind('frontColor');
+.front {
+  background-color: v-bind("frontColor");
 }
-.back{
-    background-color: v-bind('backColor');
+.back {
+  background-color: v-bind("backColor");
 }
 
 @media screen and (max-width: 600px) {

@@ -22,13 +22,15 @@ export const STATS_DATA = {
     display: str
   },
   puzzlesCompleted: {
+    initialValue: [],
     name: "Puzzles Completed",
     display: (val) => {
-      return `${val} / ${Puzzle.PUZZLES.length}`
+      return `${val.length} / ${Puzzle.PUZZLES.length}`
     }
   }
 }
 
 export const INITIAL_STATS = Object.fromEntries(
-  Object.keys(STATS_DATA).map(e => [e, STATS_DATA[e].initialValue ?? 0])
+  Object.keys(STATS_DATA)
+    .map(e => [e, STATS_DATA[e].initialValue ?? 0])
 );

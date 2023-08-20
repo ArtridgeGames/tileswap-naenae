@@ -43,7 +43,7 @@ main {
 export default {
   data() {
     return {
-      puzzles: Puzzle.PUZZLES
+      puzzles: Puzzle.FILTERED_PUZZLES
     }
   }
 }

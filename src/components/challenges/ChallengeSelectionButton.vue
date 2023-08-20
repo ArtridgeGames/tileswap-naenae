@@ -13,7 +13,10 @@ export default {
       const seconds = (this.challenge.timeLimit%60).toString();
       const maxMoves = this.challenge.moveLimit.toString();
       const nPatterns = this.challenge.nPatterns.toString();
-      return  minutes + ":" + seconds + "<br>" + (maxMoves>0?(maxMoves + " moves<br>"):"no move limit<br>") + nPatterns + " layouts"
+      if (this.challenge.name === "") {
+        return  minutes + ":" + seconds + "<br>" + (maxMoves>0?(maxMoves + " moves<br>"):"no move limit<br>") + nPatterns + " layouts"
+      }
+      return this.challenge.name;
     }
   }
 }

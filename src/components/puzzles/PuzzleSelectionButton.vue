@@ -10,7 +10,7 @@ import { useStore } from '@/store/store.js';
       :key="'t' + tile"
       class="tile"
       :style="{
-        backgroundColor: layout.isWhite(tile) ? 'var(--puzzle-white)' : 'var(--shadow-color)',
+        backgroundColor: (solved ? puzzle.targetIsWhite(tile) : puzzle.baseIsWhite(tile)) ? 'var(--puzzle-white)' : 'var(--shadow-color)',
         transform: `translate(${
           tileSizePreview * ((tile % layout.width) - layout.width / 2) + 50
         }px, ${tileSizePreview * (Math.floor(tile / layout.width) - layout.height / 2) + 50}px)`,
@@ -63,7 +63,7 @@ export default {
     },
     solved() {
       const store = useStore();
-      return store.solvedPuzzles.includes(this.puzzle.id);
+      return store.stats.puzzlesCompleted.includes(this.puzzle.id);
     },
     includedTiles() {
       return new Array(this.layout.width * this.layout.height)

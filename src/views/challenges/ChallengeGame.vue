@@ -6,11 +6,18 @@ import Button from '../../components/Button.vue';
 
 <template>
   <div>
-    <p class="info">{{ formattedTime }} {{ moves }} - {{ percentageCompleted }}</p>
+
+    <div v-if="hasStarted">
+      <h2 class="info"> {{ formattedTime }} {{ moves }} - {{ percentageCompleted }}</h2>
+      <h2 class="moves">{{ movesPer }}</h2>
+    </div>
+    <h2 class="info" v-else>Click To Start The Challenge !</h2>
+    
     <main>
-      <Layout v-model="layout" @swap="handleClick" />
+      <Transition name="fade" mode="out-in">
+        <Layout :key="currentChallenge.currentPattern" v-model="layout" @swap="handleClick" />
+      </Transition>
     </main>
-    <p class="moves">{{ movesPer }}</p>
 
     <Modal v-model="showWinModal">
       <h1>you won the challenge!</h1>
@@ -35,7 +42,7 @@ main {
   position: absolute;
   top: 20px;
   left: 50%;
-  font-size: 30px;
+  font-size: var(--font-size-md);
   transform: translateX(-50%);
 }
 .moves {
@@ -43,7 +50,9 @@ main {
   left: 50%;
   bottom: 5%;
   font-size: var(--font-size-lg);
+  pointer-events: none;
 }
+
 </style>
 
 <script>
@@ -61,7 +70,8 @@ export default {
       showWinModal: false,
       showLostModal: false,
       modalText: "",
-      timerId: 0
+      timerId: 0,
+      hasStarted: false
     }
   },
   methods: {
@@ -69,12 +79,12 @@ export default {
       const store = useStore()
       this.nMoves -= 1
       this.nMovesPer -= 1
+      this.hasStarted = true;
       if (this.layout.isSolved()) {
         store.stats.layoutsSolved++;
         this.nMovesPer = this.currentChallenge.moveLimitPer;
         if (this.currentChallenge.currentPattern === this.currentChallenge.nPatterns - 1) {
           this.showWinModal = true;
-          this.currentChallenge.reset();
           window.clearInterval(this.timerId);
           return;
         }
@@ -85,7 +95,6 @@ export default {
       if (this.nMoves == 0 || this.nMovesPer == 0) {
         this.modalText = "no moves left!";
         this.showLostModal = true;
-        this.currentChallenge.reset();
         window.clearInterval(this.timerId);
       }
     }
@@ -94,11 +103,13 @@ export default {
     showWinModal() {
       if (!this.showWinModal) {
         this.$router.push('/challengeSelection');
+        this.currentChallenge.reset();
       }
     },
     showLostModal() {
       if (!this.showLostModal) {
         this.$router.push('/challengeSelection');
+        this.currentChallenge.reset();
       }
     }
   },
@@ -121,11 +132,10 @@ export default {
   },
   mounted() {
     this.timerId = window.setInterval(()=>{
-      this.time -= 1;
+      this.time -= 1 * this.hasStarted;
       if (this.time <= 0) {
         this.modalText = "no time left!";
         this.showLostModal = true;
-        this.currentChallenge.reset();
         window.clearInterval(this.timerId);
       }
     }, 1000);

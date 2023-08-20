@@ -16,6 +16,9 @@ if (globalThis.window && !window.hasOwnProperty('devMode')) {
   });
 }
 export const devMode = computed(() => active.value);
+export const setDevMode = val => {
+  active.value = val
+}
 
 const inverses = new Map();
 const determinants = new Map();
@@ -59,8 +62,10 @@ export const solve = (state) => {
   const counts = [];
   const solutions = [];
   let i = 0;
+  let zerows = 0;
   for (const state of states) {
-    const { matrix, determinant } = solvePattern(state);
+    const { matrix, determinant, zerows: z } = solvePattern(state);
+    zerows = z;
     const count = matrix.flat().filter(e => e !== -1).reduce((acc, v) => acc + v, 0);
     counts.push(count);
     solutions.push(new Solution(rotateNTimes(matrix, 4 - i++), determinant, count));
@@ -70,11 +75,11 @@ export const solve = (state) => {
   const n = counts.indexOf(min);
   return {
     solutions,
+    zerows,
     shortest: n,
     determinant: solutions[0].determinant.value,
   }
 }
-
 
 function solvePattern(state) {
 
@@ -92,6 +97,7 @@ function solvePattern(state) {
   const key = `${width}x${height},${Layout.getExcludeFromMatrix(state)},${tilesToFlip.value},${modulo.value}}`;
 
   let result = [];
+  let zerows = 0;
 
   const M = generateMoveMatrix(width, height, state);
 
@@ -112,6 +118,7 @@ function solvePattern(state) {
       inverses.set(key, I);
     }
     result = I.multiply(P).matrix.map(e => e[0].value);
+    zerows = 1;
   } else {
 
     const augmentedMatrix = FiniteFieldMatrix.from2DArray(
@@ -120,6 +127,8 @@ function solvePattern(state) {
     );
 
     const augmentedRref = augmentedMatrix.reducedRowEchelonForm();
+
+    zerows = augmentedRref.matrix.filter(row => row.every(e => e.equals(0))).length - 1;
 
     const rrefLastCol = FiniteFieldMatrix.from2DArray(
       augmentedRref.matrix.map(row => [row[row.length - 1]]),
@@ -153,7 +162,8 @@ function solvePattern(state) {
 
   return {
     matrix: result.map((_, i) => result.slice(i * width, (i + 1) * width)).filter(e => e.length),
-    determinant: det
+    determinant: det,
+    zerows
   }
 }
 

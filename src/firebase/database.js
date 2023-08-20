@@ -1,6 +1,6 @@
 import { app } from "./firebase.js";
-import { user, isSignedIn } from "./auth.js";
-import { getDatabase, ref, get, set } from "firebase/database";
+import { user, isSignedIn, authLoaded } from "./auth.js";
+import { getDatabase, ref, get, set, remove as rem } from "firebase/database";
 import { watch } from 'vue';
 
 const db = getDatabase(app);
@@ -36,6 +36,13 @@ export const write = async (path, data) => {
   registeredWriteOperations.push({ path, data });
 }
 
+export const remove = async (path) => {
+  if (!isSignedIn.value || !authLoaded.value) {
+    return;
+  }
+  return await rem(ref(db, path), null);
+}
+
 setInterval(async () => {
   const batch = [];
   for (const { path, data } of registeredWriteOperations) {
@@ -52,7 +59,7 @@ setInterval(async () => {
  */
 export const register = async (observable, path) => {
   watch(observable, val => {
-    if (isSignedIn.value) {
+    if (isSignedIn.value && authLoaded.value) {
       write(`users/${user.value.uid}/game-data/tileswap-naenae/${path}/`, serializeForFirebase(val));
     }
   }, { deep: true });

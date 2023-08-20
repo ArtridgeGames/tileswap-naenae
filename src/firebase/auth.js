@@ -8,6 +8,8 @@ const auth = getAuth(app);
 const currentUser = ref({});
 const currentUserData = ref({});
 
+export const authLoaded = new ref(false);
+
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     currentUser.value = user;
@@ -17,7 +19,13 @@ onAuthStateChanged(auth, async (user) => {
       if (currentUserData.value['game-data'] 
        && currentUserData.value['game-data']['tileswap-naenae']
        && currentUserData.value['game-data']['tileswap-naenae'][path]) {
-        observable.value = currentUserData.value['game-data']['tileswap-naenae'][path];
+        const data = currentUserData.value['game-data']['tileswap-naenae'][path];
+        if (typeof data === 'object' && !Array.isArray(data)) {
+          observable.value = { ...observable.value, ...data };
+        } else {
+          observable.value = currentUserData.value['game-data']['tileswap-naenae'][path];
+        }
+
       }
     }
 
@@ -25,6 +33,7 @@ onAuthStateChanged(auth, async (user) => {
     currentUser.value = {};
     currentUserData.value = {};
   }
+  authLoaded.value = true;
 });
 
 /**

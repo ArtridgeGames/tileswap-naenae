@@ -4,42 +4,51 @@ import Tile from "./Tile.vue";
 
 <template>
   <div>
-    <Transition name="list" mode="out-in">
-      <div :key="currentChallenge?.currentPattern">
-        <div
-          class="row"
-          v-for="(row, rowIndex) in modelValue.matrix"
-          :key="'row' + rowIndex + '' + currentChallenge?.currentPattern"
-        >
-          <Tile
-            :small="small"
-            v-for="(tile, tileIndex) in row"
-            :tile="tile"
-            :visible="tile !== -1"
-            :key="
-              rowIndex + '' + tileIndex + '' + currentChallenge?.currentPattern
-            "
-            :class="{
-              solution:
-                devMode && solution && solution[rowIndex][tileIndex] >= 1,
-            }"
-            :style="{
-              outline: target
-                ? `5px solid ${gradient[target[rowIndex][tileIndex]]}`
-                : 'none',
-            }"
-            :data-moves="solution ? solution[rowIndex][tileIndex] : ''"
-            @click="onTileClick(rowIndex, tileIndex)"
-          />
-        </div>
+    <div>
+      <div
+        class="row"
+        v-for="(row, rowIndex) in modelValue.matrix"
+        :key="'row' + rowIndex + '' + currentChallenge?.currentPattern + modulo"
+      >
+        <Tile
+          class="tile"
+          :small="small"
+          v-for="(tile, tileIndex) in row"
+          :tile="tile"
+          :visible="tile !== -1"
+          :position="[rowIndex, tileIndex]"
+          :key="
+            rowIndex + '' + tileIndex + '' + currentChallenge?.currentPattern
+          "
+          :class="{
+            solution:
+              devMode && solution && solution[rowIndex][tileIndex] >= 1,
+          }"
+          :style="{
+            outline: target
+              ? `5px solid ${gradient[target[rowIndex][tileIndex]]}`
+              : 'none',
+          }"
+          :data-moves="
+            solution
+              ? modulo !== 2
+                ? solution[rowIndex][tileIndex]
+                : ''
+              : ''
+          "
+          @click="onTileClick(rowIndex, tileIndex)"
+        />
       </div>
-    </Transition>
+    </div>
   </div>
 </template>
 
 <style scoped>
 .row {
   white-space: nowrap;
+}
+.tile {
+  transition: outline 0.2s ease;
 }
 .solution {
   outline: 5px solid red !important;
@@ -57,6 +66,7 @@ import Tile from "./Tile.vue";
 import { useStore } from "../store/store";
 import { devMode } from "../assets/js/solve/solve";
 import { gradient } from "../assets/js/Layout.js";
+import { modulo } from "../assets/js/Layout.js";
 
 export default {
   props: ["modelValue", "small", "disabled", "solution", "target"],

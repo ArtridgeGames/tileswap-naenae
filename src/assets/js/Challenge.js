@@ -2,7 +2,7 @@ import { Layout } from './Layout.js';
 import { useStore } from '../../store/store.js'
 export class Challenge {
   static THRESHOLD = 60
-  constructor({ timeLimit, moveLimit, totalClicks, patternRange, nPatterns, bigLayoutAdapt, moveLimitPer, modulo }) {
+  constructor({ timeLimit, moveLimit, totalClicks, patternRange, nPatterns, bigLayoutAdapt, moveLimitPer, modulo, name}) {
     this.timeLimit = timeLimit;
     this.moveLimit = moveLimit;
     this.totalClicks = totalClicks;
@@ -12,9 +12,10 @@ export class Challenge {
     this.currentPattern = 0;
     this.moveLimitPer = moveLimitPer;
     this.bigLayoutAdapt = bigLayoutAdapt;
-    this.challengeLayouts = this.generateLayouts();
+    this.generateLayouts();
     this.nMoves = 0;
     this.modulo =  modulo ?? 2;
+    this.name = name;
   }
 
   generateLayouts() {
@@ -38,7 +39,7 @@ export class Challenge {
     }
     challengeLayouts.sort(()=>Math.random()-0.5);
 
-    return challengeLayouts
+    this.challengeLayouts = challengeLayouts
   }
 
   getCurrentLayout() {
@@ -51,6 +52,7 @@ export class Challenge {
     store.setLayout(this.getCurrentLayout())
   }
   reset() {
+    this.generateLayouts();
     this.currentPattern = 0;
   }
 } 

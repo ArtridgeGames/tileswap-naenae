@@ -44,7 +44,7 @@ main {
 export default {
   data() {
     return {
-      layouts: Layout.LAYOUTS
+      layouts: Layout.FILTERED_LAYOUTS
     }
   },
   methods: {

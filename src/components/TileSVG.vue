@@ -20,7 +20,7 @@
         <path
           id="path2326"
           :style="{
-            fill: outline,
+            fill: highlight,
           }"
           style="
             fill-opacity: 1;
@@ -35,7 +35,7 @@
         />
         <rect
           :style="{
-            stroke: highlight,
+            stroke: outline,
           }"
           style="
             fill: none;

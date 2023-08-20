@@ -55,16 +55,6 @@ import Stats from '../components/Stats.vue';
 </template>
 
 <style scoped>
-
-  video {
-    position: fixed;
-    top: 0;
-    left: 0;
-    min-width: 100%;
-    min-height: 100%;
-    z-index: -1;
-  }
-
   main {
     display: flex;
     flex-direction: row;

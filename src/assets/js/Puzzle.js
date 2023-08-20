@@ -1,4 +1,5 @@
-import { Layout, modulo } from './Layout.js';
+import { Layout } from './Layout.js';
+import { useStore } from '../../store/store.js';
 
 /**
  * A class representing tile swap puzzles.
@@ -662,7 +663,7 @@ export class Puzzle {
       solution: [1, 3, 4, 6, 7, 17, 18]
     },
     {
-      moves: 30,
+      moves: 8,
       base: [
         [1, 0, 1, 0, 1],
         [0, 1, 0, 1, 0],
@@ -680,7 +681,7 @@ export class Puzzle {
       solution: [6, 9, 21, 24]
     },
     {
-      moves: 30,
+      moves: 12,
       base: [
         [2, 2, 2, 2, 2, 0],
         [1, 1, 0, 2, 2, 1],
@@ -908,7 +909,7 @@ export class Puzzle {
       solution: [2, 10, 12, 14, 22]
     },
     {
-      moves: 75,
+      moves: 150,
       base: [
         [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
         [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
@@ -986,7 +987,9 @@ export class Puzzle {
       solution: [2, 4, 5, 13, 26, 27, 30, 31, 36, 37, 40, 43, 44, 48, 49, 53, 54, 57, 60, 71]
     }
 
-  ].map((e, id) => {
+  ]
+  .sort((a, b) => a.solution.length - b.solution.length)
+  .map((e, id) => {
 
     const { base: baseMatrix, target: targetMatrix, moves, solution, modulo } = e;
 
@@ -1040,8 +1043,12 @@ export class Puzzle {
     this.solution = solution;
     this.id = id;
     this.modulo = modulo;
+    this.unlockCategory = Math.floor(id / 5) + 1;
   }
-
+  static get FILTERED_PUZZLES() {
+    const store = useStore();
+    return this.PUZZLES.filter(e => e.unlockCategory <= store.unlockedCategoriesPZ)
+  }
   /**
    * Checks if the puzzle is solved.
    * @param {Layout} layout the layout to check
@@ -1051,5 +1058,15 @@ export class Puzzle {
       .every((row, i) =>
         row.every((tile, j) => tile === layout.matrix[i][j])
       );
+  }
+
+  targetIsWhite(row, column) {
+    if (column === undefined) return this.target.matrix[Math.floor(row / this.target.width)][row % this.target.width] === this.modulo - 1;
+    return this.target.matrix[row][column] === this.modulo - 1;
+  }
+
+  baseIsWhite(row, column) {
+    if (column === undefined) return this.base.matrix[Math.floor(row / this.base.width)][row % this.base.width] === this.modulo - 1;
+    return this.base.matrix[row][column] === this.modulo - 1;
   }
 }
