@@ -998,7 +998,7 @@ export class Layout {
       exclude: [0, 1, 9, 10, 11, 15, 16, 17, 24, 25, 30, 31, 33, 34],
       unlockCategory: 17
     },
-  ].map(e => {
+  ].map((e,id) => {
     const width = parseInt(e.dimensions.split("x")[0]);
     const height = parseInt(e.dimensions.split("x")[1]);
     const { unlockCategory } = e;
@@ -1006,6 +1006,7 @@ export class Layout {
     return new Layout({
       width, height, 
       unlockCategory,
+      id,
       exclude: e.exclude ?? [],
     });
   }).sort((a, b) => a.unlockCategory - b.unlockCategory);
@@ -1022,12 +1023,13 @@ export class Layout {
    * @param {Number[]} exclude the indices of the tiles to exclude from the layout
    * @param {Number} unlockCategory the level at which this layout is unlocked
    */
-  constructor ({ width, height, exclude, unlockCategory }) {
+  constructor ({ width, height, exclude, unlockCategory, id }) {
     this.width = width;
     this.height = height;
     this.exclude = exclude ?? [];
     this.unlockCategory = unlockCategory ?? 0;
     this.matrix = new Array(height).fill(0).map(() => new Array(width).fill().map(e => modulo.value - 1));
+    this.id = id;
     for (const e of this.exclude) {
       this.matrix[Math.floor(e / width)][e % width] = -1;
     }
@@ -1113,8 +1115,8 @@ export class Layout {
    * @returns {Layout} a copy of the layout
    */
   copy() {
-    const { width, height, exclude, unlockCategory } = this;
-    const copy = new Layout({ width, height, exclude, unlockCategory });
+    const { width, height, exclude, unlockCategory, id } = this;
+    const copy = new Layout({ width, height, exclude, unlockCategory, id });
     copy.matrix = this.matrix.map(row => row.slice());
     return copy;
   }
@@ -1141,27 +1143,25 @@ export class Layout {
       
       copy.swapTiles(row, tile, -1);
     }
-
-    const { solutions, shortest, zerows, } = solve(copy.matrix);
     
-    const solution = solutions[shortest];
-    const threshold = 
-           zerows !== 1 ? 
-             (iterations > zerows ? zerows : iterations) : 
-             Math.floor(iterations - modulo.value * (iterations / 3) + 2);
-
     // Regenerate if the matrix is already solved
     if (copy.matrix.every(row => row.every(tile => tile === modulo.value || tile === -1))) {
       return this.generatePosition(iterations);
     }
-
-    if (solution.moves < threshold) {
-      return this.generatePosition(iterations);
+    
+    if (copy.nTiles() < 50) {
+      const { solutions, shortest, zerows, } = solve(copy.matrix);
+      
+      const solution = solutions[shortest];
+      const threshold = zerows !== 1 ? 
+              (iterations > zerows ? zerows : iterations) : 
+              Math.floor(iterations - modulo.value * (iterations / 3) + 2);
+      if (solution.moves < threshold) {
+        return this.generatePosition(iterations);
+      }
     }
 
     return copy;
-
-
   }
 
   /**

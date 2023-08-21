@@ -1,6 +1,7 @@
 .default {
   --font-family: TileSwap;
 
+  --font-size-xs: 12px;
   --font-size-sm: 24px;
   --font-size-md: 48px;
   --font-size-lg: 64px;
@@ -77,6 +78,10 @@ h1.title {
   text-align: center;
 }
 
+.is-task-target {
+  outline: 5px solid var(--success-color);
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity var(--fade-time) ease;
@@ -95,6 +100,19 @@ h1.title {
 .zoom-enter-from,
 .zoom-leave-to {
   scale: 0;
+}
+
+.slide-move,
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.4s ease;
+}
+.slide-enter-from,
+.slide-leave-to {
+  transform: translate(800px, -10px);
+}
+.slide-leave-active {
+  position: absolute;
 }
 
 .text-center {

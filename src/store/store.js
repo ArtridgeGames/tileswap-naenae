@@ -11,21 +11,14 @@ export const useStore = defineStore('store', () => {
   const currentChallenge = ref({});
   const difficulty = ref(5);
   const unlockedCategoriesFP = ref(39);
-  const unlockedCategoriesPZ = ref(1);
+  const unlockedCategoriesPZ = ref(10);
+  const currentTasks = ref([0,1,2]);
 
-  const challenges = ref([
-    new Challenge({
-      timeLimit: 60,
-      moveLimit: -1,
-      totalClicks: 90,
-      patternRange: [1, 1],
-      nPatterns: 30,
-      bigLayoutAdapt: false, 
-      moveLimitPer: 3,
-      name: "Think Fast"
-    })
-  ]);
-
+  function setTask(index, task) {
+    currentTasks.value.splice(index, 1);
+    currentTasks.value.push(task);
+  }
+  
   const stats = ref({ ...INITIAL_STATS });
 
   setInterval(() => {
@@ -60,8 +53,9 @@ export const useStore = defineStore('store', () => {
     setChallenge,
     solvePuzzle,
     stats,
-    challenges,
+    currentTasks,
+    setTask,
     unlockedCategoriesFP,
-    unlockedCategoriesPZ
+    unlockedCategoriesPZ,
   };
 });

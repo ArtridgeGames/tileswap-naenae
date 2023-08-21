@@ -12,14 +12,14 @@ import CSB from '../../components/challenges/ChallengeSelectionButton.vue';
 </template>
 
 <script>
-import { useStore } from '../../store/store.js'
+import { useStore } from '../../store/store.js';
 import { setModulo } from '../../assets/js/Layout';
+import { Challenge } from '../../assets/js/Challenge';
 
 export default {
   data() {
-    const store = useStore();
     return {
-      challenges: store.challenges
+      challenges: Challenge.CHALLENGES
     }
   },
   methods: {

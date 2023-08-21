@@ -4,7 +4,10 @@ import { useStore } from '@/store/store.js';
 </script>
 
 <template>
-  <div class="container" @click="openGame">
+  <div class="container" @click="openGame" 
+      :class="{
+      'is-task-target': isTaskTarget
+      }">
     <div
       v-for="tile in includedTiles"
       :key="'t' + tile"
@@ -37,6 +40,8 @@ import { useStore } from '@/store/store.js';
   border-radius: 2px;
   display: inline-block;
 }
+
+
 .layout-preview {
   position: absolute;
   left: 50%;
@@ -47,6 +52,7 @@ import { useStore } from '@/store/store.js';
 
 <script>
 import { setModulo } from '../../assets/js/Layout';
+import { Task } from '../../assets/js/Task';
 export default {
   props: ["puzzle"],
   data() {
@@ -70,6 +76,9 @@ export default {
         .fill(0)
         .map((_, i) => i)
         .filter(i => !this.layout.exclude.includes(i))
+    },
+    isTaskTarget() {
+      return Task.isTaskTarget(this.puzzle.id, Task.TASK_TYPES.PUZZLE)
     }
   },
   methods: {

@@ -194,6 +194,7 @@ main {
 import { solve, devMode, setDevMode } from "../../assets/js/solve/solve";
 import { modulo, setModulo } from "../../assets/js/Layout.js";
 import { watch } from "vue";
+import { Task } from '../../assets/js/Task';
 
 export default {
   data() {
@@ -257,6 +258,7 @@ export default {
       if (this.layout.isSolved()) {
         this.store.stats.layoutsSolved++;
         this.showModal = true;
+        Task.advanceTasks(this.layout.id, Task.TASK_TYPES.FREEPLAY);
       }
     },
     randomize() {

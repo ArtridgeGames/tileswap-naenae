@@ -1,6 +1,24 @@
 import { Layout } from './Layout.js';
 import { useStore } from '../../store/store.js'
 export class Challenge {
+
+  static CHALLENGES = [
+    new Challenge({
+      timeLimit: 60,
+      moveLimit: -1,
+      totalClicks: 90,
+      patternRange: [1, 1],
+      nPatterns: 30,
+      bigLayoutAdapt: false, 
+      moveLimitPer: 3,
+      name: "Think Fast"
+    })
+  ].map((e, id) => {
+    e.id = id;
+    return e;
+  });
+
+
   static THRESHOLD = 60
   constructor({ timeLimit, moveLimit, totalClicks, patternRange, nPatterns, bigLayoutAdapt, moveLimitPer, modulo, name}) {
     this.timeLimit = timeLimit;
@@ -16,6 +34,7 @@ export class Challenge {
     this.nMoves = 0;
     this.modulo =  modulo ?? 2;
     this.name = name;
+    this.id = -1;
   }
 
   generateLayouts() {

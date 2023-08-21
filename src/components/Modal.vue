@@ -32,7 +32,8 @@
   border-radius: var(--popup-border-radius);
   z-index: 1000;
   color: var(--shadow-text-color);
-  min-width: var(--popup-width)
+  min-width: var(--popup-width);
+  overflow: hidden;
 }
 @media screen and (max-width: 600px) {
   .modal {

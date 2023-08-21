@@ -58,6 +58,7 @@ main {
 <script>
 
 import { useStore } from '../../store/store.js'
+import { Task } from '../../assets/js/Task';
 export default {
   data() {
     const { currentChallenge } = useStore();
@@ -85,6 +86,7 @@ export default {
         this.nMovesPer = this.currentChallenge.moveLimitPer;
         if (this.currentChallenge.currentPattern === this.currentChallenge.nPatterns - 1) {
           this.showWinModal = true;
+          Task.advanceTasks(this.currentChallenge.id, Task.TASK_TYPES.CHALLENGE);
           window.clearInterval(this.timerId);
           return;
         }

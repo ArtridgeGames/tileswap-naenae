@@ -1,9 +1,12 @@
-<script setup>
-import { useStore } from '@/store/store.js';
-</script>
-
 <template>
-  <div :data-level="completion" class="container" @click="openGame">
+  <div 
+    @click="openGame"
+    :data-level="completion"
+    class="container"
+    :class="{
+      'is-task-target': isTaskTarget
+    }"
+    :title="`${layout.width}x${layout.height} - ${layout.exclude.length}`">
     <div
       v-for="tile in includedTiles"
       :key="'t' + tile"
@@ -62,9 +65,12 @@ import { useStore } from '@/store/store.js';
 </style>
 
 <script>
+import { Task } from '../../assets/js/Task.js';
+import { useStore } from '@/store/store.js';
+
 export default {
   props: ["layout", "completion"],
-  data() {
+  data() {  
     return {
       tileSizePreview:
         (1 / Math.sqrt(this.layout.height * this.layout.width)) *
@@ -77,6 +83,9 @@ export default {
         .fill(0)
         .map((_, i) => i)
         .filter(i => !this.layout.exclude.includes(i))
+    },
+    isTaskTarget() {
+      return Task.isTaskTarget(this.layout.id, Task.TASK_TYPES.FREEPLAY);
     }
   },
   methods: {

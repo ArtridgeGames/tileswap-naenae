@@ -1,10 +1,11 @@
 <template>
-    <div v-html="formattedChall">
-
+    <div v-html="formattedChall" 
+    :class = "{'is-task-target': isTaskTarget}" >
     </div>
 </template>
 
 <script>
+import { Task } from '../../assets/js/Task';
 export default {
   props: ['challenge'],
   computed: {
@@ -17,6 +18,9 @@ export default {
         return  minutes + ":" + seconds + "<br>" + (maxMoves>0?(maxMoves + " moves<br>"):"no move limit<br>") + nPatterns + " layouts"
       }
       return this.challenge.name;
+    },
+    isTaskTarget() {
+      return Task.isTaskTarget(this.challenge.id, Task.TASK_TYPES.CHALLENGE)
     }
   }
 }

@@ -7,6 +7,7 @@ import Button from '../components/Button.vue';
 import LinkButton from '../components/LinkButton.vue';
 import Modal from '../components/Modal.vue';
 import Stats from '../components/Stats.vue';
+import TaskContainer from '../components/TaskContainer.vue';
 </script>
 
 <template>
@@ -25,7 +26,9 @@ import Stats from '../components/Stats.vue';
       left: windowWidth > 600,
       'text-center': windowWidth <= 600,
     }">
-      <Button text="stats" @click="openStats" />
+      <Button v-if="windowWidth <= 600" text="tasks" @click="showTasks = true" />
+
+      <Button text="stats" @click="showStats = true" />
       <LinkButton text="tutorial" to="/tutorial" />
     </div>
 
@@ -43,6 +46,7 @@ import Stats from '../components/Stats.vue';
     </div>
 
 
+
     <Modal v-model="showStats">
       <h1>Stats</h1>
       
@@ -50,6 +54,15 @@ import Stats from '../components/Stats.vue';
 
       <Button black text="close" @click="showStats = false" />
     </Modal>
+
+    <Button v-if="windowWidth > 600" class="top right" text="tasks" @click="showTasks = true" />
+
+    <Modal v-model="showTasks">
+      <h1>Tasks</h1>
+      <TaskContainer />
+      <Button black text="close" @click="showTasks = false" />
+    </Modal>
+
 
   </div>
 </template>
@@ -104,6 +117,7 @@ export default {
       windowWidth,
       user, isSignedIn,
       showStats: false,
+      showTasks: false,
     };
   },
   methods: {
@@ -111,9 +125,6 @@ export default {
     signInForm() {
       signIn(prompt('Email'), prompt('Password'));
     },
-    openStats() {
-      this.showStats = true;
-    }
   }
 }
 </script>

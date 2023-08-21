@@ -76,6 +76,7 @@ main{
 </style>
 
 <script>
+import { Task } from '../../assets/js/Task';
 export default {
   data() {
     const store = useStore();
@@ -123,7 +124,7 @@ export default {
         this.remainingMoves--;
         if (this.puzzle.isSolvedWith(this.layout)) {
           this.showWinModal = true;
-
+          Task.advanceTasks(this.puzzle.id, Task.TASK_TYPES.PUZZLE);
           store.solvePuzzle(this.puzzle.id);
 
         } else if (this.remainingMoves === 0) {
