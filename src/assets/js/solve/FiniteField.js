@@ -1,4 +1,5 @@
 import * as util from 'util';
+import { getIrreduciblePolynomialOfField } from './irreduciblePolynomials.js';
 
 /**
  * A finite field
@@ -7,70 +8,61 @@ import * as util from 'util';
 export class FiniteField {
   constructor(order) {
     if (typeof order !== 'number') {
-      throw new Error('Order must be a number');
+      throw new Error(`Order ${order} is not a number`);
     }
     if (order <= 0) {
-      throw new Error('Order must be greater than 0');
+      throw new Error(`Order ${order} is not positive`);
     }
     if (order % 1 !== 0) {
-      throw new Error('Order must be an integer');
+      throw new Error(`Order ${order} is not an integer`);
     }
     const factors = FiniteField.primeFactors(order);
     
     if (!factors.every(e => e === factors[0])) {
-      throw new Error('Order must be a prime power');
+      throw new Error(`Order ${order} is not a prime power`);
     }
 
     this.order = order;
     this.p = factors[0];
     this.q = factors.length;
+    this.isPrimeField = this.q === 1;
   }
 
   /**
    * Create a new element in the field
-   * @param {Number|Number[]|FiniteFieldElement|FiniteFieldPolynomial} value value of the element
-   * @returns {FiniteFieldElement|FiniteFieldPolynomial} The new element
+   * @param {Number|Number[]|FiniteFieldElement} value value of the element
+   * @returns {FiniteFieldElement} The new element
    */
   el(value) {
     // If the value is already an element in the field and the field is prime, return the element
     if (value instanceof FiniteFieldElement) {
-      if (this.q !== 1) {
-        throw new Error('Cannot create element in non-prime field');
-      }
       if (value.field.order !== this.order) {
         throw new Error('Cannot create element in different field');
       }
       return value;
     }
 
-    if (value instanceof FiniteFieldPolynomial) {
-      if (this.q === 1) {
-        throw new Error('Cannot create polynomial in prime field');
-      }
-      if (value.field.order !== this.order) {
-        throw new Error('Cannot create polynomial in different field');
-      }
-      return value;
-    }
-
     if (typeof value === 'number') {
-      if (this.q === 1) {
-        return new FiniteFieldElement(
-          FiniteField.mod(value, this.order),
+      if (this.isPrimeField) {
+        return new FiniteFieldValue(
+          value,
           this
         );
       }
-      return FiniteFieldPolynomial.fromInteger(value, this);
+      return FiniteFieldPolynomialAsElement.fromInteger(value, this);
     }
 
+
     if (value instanceof Array) {
-      if (this.q === 1) {
-        throw new Error('Cannot create polynomial in prime field');
-      }
-      return new FiniteFieldPolynomial(value, this);
+      return new FiniteFieldPolynomialAsElement(value, this);
     }
     
     throw new Error('Cannot create element from non-number');
+  }
+
+  irreduciblePolynomial() {
+    const polynomials = getIrreduciblePolynomialOfField(this);
+    return polynomials[0];
   }
 
   /**
@@ -137,9 +129,129 @@ export class FiniteField {
  * An element in a finite field
  * @property {Number} value The value of the element
  * @property {FiniteField} field The field of the element
+ * @abstract
  */
 export class FiniteFieldElement {
+  constructor(value, field) {
+    if (this.constructor == FiniteFieldElement) {
+      throw new Error("FiniteFieldElement is an abstract class and cannot be instantiated. Use FiniteFieldValue or FiniteFieldPolynomial instead.");
+    }
+    if (typeof value !== 'number') {
+      throw new Error('Value must be a number');
+    }
+    if (!(field instanceof FiniteField)) {
+      throw new Error('Field must be an instance of FiniteField');
+    }
+    this.value = value;
+    this.field = field;
+  }
 
+  /**
+   * Calculate the inverse of the element
+   * @returns {FiniteFieldElement} The inverse of the element
+   */
+  inverse() {
+    throw new Error('Method inverse not implemented in ' + this.constructor.name);
+  }
+
+  /**
+   * Calculate the opposite of the element
+   * @returns {FiniteFieldElement} The opposite of the element
+   */
+  opposite() {
+    throw new Error('Method opposite not implemented in ' + this.constructor.name);
+  }
+
+  /**
+   * Add another element to the element
+   * @param {FiniteFieldElement|Number} other
+   * @returns {FiniteFieldElement} The result of the addition
+   */
+  add(other) {
+    throw new Error('Method add not implemented in ' + this.constructor.name);
+  }
+
+  /**
+   * Subtract another element from the element
+   * @param {FiniteFieldElement|Number} other
+   * @returns {FiniteFieldElement} The result of the subtraction
+   */
+  subtract(other) {
+    throw new Error('Method subtract not implemented in ' + this.constructor.name);
+  }
+
+  /**
+   * Multiply the element by another element
+   * @param {FiniteFieldElement|Number} other
+   * @returns {FiniteFieldElement} The result of the multiplication
+   */
+  multiply(other) {
+    throw new Error('Method multiply not implemented in ' + this.constructor.name);
+  }
+
+  /**
+   * Divide the element by another element
+   * @param {FiniteFieldElement|Number} other
+   * @returns {FiniteFieldElement} The result of the division
+   * @throws {Error} If the other element is 0
+   */
+  divide(other) {
+    throw new Error('Method divide not implemented in ' + this.constructor.name);
+  }
+
+  /**
+   * Raise the element to an integer power. If the power is negative, the inverse is used instead
+   * @param {Number} n The power to raise the element to
+   * @returns {FiniteFieldElement} The result of the power
+   */
+  pow(n) {
+    throw new Error('Method pow not implemented in ' + this.constructor.name);
+  }
+
+  /**
+   * Calculate the square root of the element if it exists
+   * @returns {FiniteFieldElement} The square root of the element
+   * @throws {Error} If the element has no square root
+   */
+  sqrt() {
+    throw new Error('Method sqrt not implemented in ' + this.constructor.name);
+  }
+
+  /**
+   * Calculate the absolute value of the element
+   * @returns {FiniteFieldElement} The absolute value of the element
+   */
+  abs() {
+    throw new Error('Method abs not implemented in ' + this.constructor.name);
+  }
+
+  /**
+   * Checks if the element is equal to another element
+   * @param {FiniteFieldElement|Number} other The other element to compare to
+   * @returns {Boolean} whether the element is equal to the other element
+   * @throws {Error} If the other element is not in the same field
+   */
+  equals(other) {
+    throw new Error('Method equals not implemented in ' + this.constructor.name);
+  }
+
+  /**
+   * Returns a copy of the element
+   * @returns {FiniteFieldElement} The copy of the element
+   */
+  copy() {
+    throw new Error('Method copy not implemented in ' + this.constructor.name);
+  }
+}
+
+
+/**
+ * A value in a prime finite field
+ * @property {Number} value The value of the element
+ * @property {FiniteField} field The field of the element
+ * @extends FiniteFieldElement
+ */
+export class FiniteFieldValue extends FiniteFieldElement {
   /**
    * Create a new element in a finite field
    * @param {Number} value value of the element
@@ -152,8 +264,11 @@ export class FiniteFieldElement {
     if (!(field instanceof FiniteField)) {
       throw new Error('Field must be an instance of FiniteField');
     }
-    this.value = FiniteField.mod(value, field.order);
-    this.field = field;
+    if (!FiniteField.isPrime(field.order)) {
+      throw new Error('Field must be a prime field');
+    }
+
+    super(FiniteField.mod(value, field.order), field);
   }
 
   /**
@@ -174,10 +289,6 @@ export class FiniteFieldElement {
     return this.#applyOperation(this.field.el(other), operation);
   }
 
-  /**
-   * Calculate the inverse of the element
-   * @returns {FiniteFieldElement} The inverse of the element
-   */
   inverse() {
     if (this.value === 0) {
       throw new Error('Cannot divide by zero');
@@ -185,10 +296,6 @@ export class FiniteFieldElement {
     return this.pow(this.field.order - 2);
   }
 
-  /**
-   * Calculate the opposite of the element
-   * @returns {FiniteFieldElement} The opposite of the element
-   */
   opposite() {
     return this.field.el(-this.value);
   }
@@ -221,10 +328,6 @@ export class FiniteFieldElement {
     return result;
   }
 
-  /**
-   * Calculate the square root of the element if it exists
-   * @returns {FiniteFieldElement} The square root of the element
-   */
   sqrt() {
     if (this.value === 0) return this.field.el(0);
     if (this.value === 1) return this.field.el(1);
@@ -245,11 +348,6 @@ export class FiniteFieldElement {
     )
   }
 
-  /**
-   * Checks if the element is equal to another element
-   * @param {FiniteFieldElement|Number} other The other element to compare to
-   * @returns {Boolean} whether the element is equal to the other element
-   */
   equals(other) {
     if (other instanceof FiniteFieldElement) {
       if (other.field.order !== this.field.order) {
@@ -274,12 +372,13 @@ export class FiniteFieldElement {
 }
 
 /**
- * A polynomial in a finite field
+ * A polynomial in a non-prime finite field
  * @property {FiniteField} field The field of the polynomial
  * @property {FiniteField} primeField The prime field for the coefficients of the polynomial
  * @property {FiniteFieldElement[]} coefficients The coefficients of the polynomial
+ * @extends FiniteFieldElement
  */
-export class FiniteFieldPolynomial {
+export class FiniteFieldPolynomialAsElement extends FiniteFieldElement {
 
   /**
    * Create a new polynomial in a finite field
@@ -287,72 +386,53 @@ export class FiniteFieldPolynomial {
    * @param {FiniteField} field 
    */
   constructor(coefficients, field) {
+
+    if (!(field instanceof FiniteField)) {
+      throw new Error('Field must be an instance of FiniteField');
+    }
+    if (FiniteField.isPrime(field.order)) {
+      console.warn('[warn] Creating polynomial in prime field. Use FiniteFieldValue instead');
+    }
+
+    
+    super(FiniteFieldPolynomialAsElement.coefficientsToInteger(coefficients, field), field);
+    
     this.field = field;
     this.primeField = FiniteField.fromOrder(field.p);
 
-    const len = coefficients.length;
-    
-    if (len > field.q) {
-      throw new Error(`${coefficients.length} coefficients given, but field has order p ^ q where q = ${field.q}`);
-    }
-
-    if (len < field.q) {
-      for (let i = 0; i < field.q - len; i++) {
-        coefficients.splice(0, 0, this.primeField.el(0));
-      }
-    }
-
-    this.coefficients = coefficients.map(e => this.primeField.el(e));
+    this.poly = new FiniteFieldPolynomial(coefficients, this.primeField);
   }
 
   add(other) {
-    if (other instanceof FiniteFieldPolynomial) {
+    if (other instanceof FiniteFieldPolynomialAsElement) {
       if (other.field.order !== this.field.order) {
         throw new Error('Cannot add polynomials in different fields');
       }
       const coefficients = [];
       for (let i = 0; i < Math.max(this.coefficients.length, other.coefficients.length); i++) {
-        coefficients.push(this.coefficients[i].add(other.coefficients[i]));
+        const a = this.coefficients[i] ?? this.primeField.el(0);
+        const b = other.coefficients[i] ?? this.primeField.el(0);
+        coefficients.push(this.coefficients[a].add(b));
       }
-      return new FiniteFieldPolynomial(coefficients, this.field);
+      return this.field.el(coefficients);
     }
 
     if (other instanceof Array) {
-      return this.add(new FiniteFieldPolynomial(other, this.field));
+      return this.add(this.field.el(other));
     }
 
     throw new Error('Cannot add polynomial to non-polynomial');
   }
 
-  multiply(other) {
-    if (other instanceof FiniteFieldPolynomial) {
-      if (other.field.order !== this.field.order) {
-        throw new Error('Cannot multiply polynomials in different fields');
-      }
-      const coefficients = new Array(this.coefficients.length + other.coefficients.length - 1).fill().map(e => this.primeField.el(0));
-      for (let i = 0; i < this.coefficients.length; i++) {
-        for (let j = 0; j < other.coefficients.length; j++) {
-          coefficients[i + j] = coefficients[i + j].add(this.coefficients[i].multiply(other.coefficients[j]));
-        }
-      }
-      return new FiniteFieldPolynomial(coefficients, this.field);
-    }
-
-    if (other instanceof FiniteFieldElement) {
-      return this.multiply(new FiniteFieldPolynomial([other], other.field));
-    }
-
-    if (typeof other === 'number') {
-      return this.multiply(this.field.el(other));
-    }
-
-    throw new Error('Cannot multiply polynomial by non-polynomial');
-  }
-
   static fromInteger(n, field) {
     const str = n.toString(field.p);
     const coefficients = str.split('').map(e => parseInt(e));
-    return new FiniteFieldPolynomial(coefficients, field);
+    return new FiniteFieldPolynomialAsElement(coefficients, field);
+  }
+
+  static coefficientsToInteger(coefficients, field) {
+    field = FiniteField.fromOrder(field.p);
+    return parseInt(coefficients.map(e => field.el(e)).map(e => e.value).join(''), field.p);
   }
 
   toString() {
@@ -373,17 +453,53 @@ export class FiniteFieldPolynomial {
   }
 }
 
+export class FiniteFieldPolynomial {
+  constructor(coefficients, field) {
+
+    if (!(field instanceof FiniteField)) {
+      throw new Error('Field must be an instance of FiniteField');
+    }
+    if (!FiniteField.isPrime(field.order)) {
+      throw new Error('Field must be a prime field');
+    }
+
+    this.field = field;
+
+    this.coefficients = coefficients.map(e => this.field.el(e));
+  }
+
+  add(other) {
+    if (other instanceof FiniteFieldPolynomial) {
+      if (other.field.order !== this.field.order) {
+        throw new Error('Cannot add polynomials in different fields');
+      }
+      const coefficients = [];
+      for (let i = 0; i < Math.max(this.coefficients.length, other.coefficients.length); i++) {
+        const a = this.coefficients[i] ?? this.primeField.el(0);
+        const b = other.coefficients[i] ?? this.primeField.el(0);
+        coefficients.push(this.coefficients[a].add(b));
+      }
+      return this.field.el(coefficients);
+    }
+
+    if (other instanceof Array) {
+      return this.add(this.field.el(other));
+    }
+    throw new Error('Cannot add polynomial to non-polynomial');
+  }
+}
+
 /**
  * A matrix over a finite field
  * @property {Number} width The width of the matrix
  * @property {Number} height The height of the matrix
  * @property {FiniteField} field The field of the matrix
- * @property {FiniteFieldElement[][] | FiniteFieldPolynomial[][]} matrix The matrix
+ * @property {FiniteFieldElement[][]} matrix The matrix
  */
 export class FiniteFieldMatrix {
   /**
    * Create a new matrix in a finite field
-   * @param {Number[][] | FiniteFieldElement[][] | FiniteFieldPolynomial[][]} matrix 2D array of numbers
+   * @param {Number[][] | FiniteFieldElement[][]} matrix 2D array of numbers
    * @param {FiniteField} field field of the matrix
    */
   constructor(matrix, field) {

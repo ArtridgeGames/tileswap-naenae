@@ -91,6 +91,10 @@ export default {
     watch(() => store.currentLayout, resize, { deep: true, immediate: false });
     resize();
     window.addEventListener("resize", resize);
+
+
+    this.$nextTick(resize);
+    window.addEventListener("orientationchange", resize);
   },
 };
 </script>

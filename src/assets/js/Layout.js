@@ -23,6 +23,7 @@ if (globalThis.window && !window.hasOwnProperty('modulo')) {
   Object.defineProperty(window, 'modulo', {
     get: () => modulo.value,
     set: (value) => {
+      if (typeof value !== 'number') throw new Error('Modulo must be a number');
       if (value < 2) throw new Error('Modulo must be greater than 1');
       modulo.value = value
     }

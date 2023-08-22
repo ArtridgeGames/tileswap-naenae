@@ -34,17 +34,13 @@ export const useStore = defineStore('store', () => {
   function setChallenge(challenge) {
     currentChallenge.value = challenge;
   }
-  function solvePuzzle(id) {
-    if (!stats.value.puzzlesCompleted.includes(id)) {
-      stats.value.puzzlesCompleted.push(id);
-    }
-  }
   function setMaxTask(n) {
     maxTask.value = n
   }
   
   register(difficulty, 'difficulty');
   register(stats, 'stats');
+
   return {
     currentLayout,
     currentPuzzle,
@@ -53,7 +49,6 @@ export const useStore = defineStore('store', () => {
     setLayout,
     setPuzzle,
     setChallenge,
-    solvePuzzle,
     stats,
     currentTasks,
     maxTask,

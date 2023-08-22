@@ -2,17 +2,18 @@
 import Layout from '../../components/Layout.vue';
 import Modal from "../../components/Modal.vue";
 import Button from '../../components/Button.vue';
+import Progress from '../../components/Progress.vue';
 </script>
 
 <template>
   <div>
 
     <div v-if="hasStarted">
-      <h2 class="info"> {{ formattedTime }} {{ moves }} - {{ percentageCompleted }}</h2>
-      <h2 class="moves">{{ movesPer }}</h2>
+      <h2 class="info center"> {{ formattedTime }} {{ moves }} - {{ percentageCompleted + '%' }}</h2>
+      <h2 class="moves center">{{ movesPer }}</h2>
     </div>
-    <h2 class="info" v-else>Click To Start The Challenge !</h2>
-    
+    <h2 class="info center" v-else>Click To Start The Challenge !</h2>
+    <Progress class="center progress" :value="percentageCompleted" :max="100" />
     <main>
       <Transition name="fade" mode="out-in">
         <Layout :key="currentChallenge.currentPattern" v-model="layout" @swap="handleClick" />
@@ -41,24 +42,35 @@ main {
 .info {
   position: absolute;
   top: 20px;
-  left: 50%;
   font-size: var(--font-size-md);
-  transform: translateX(-50%);
+  white-space: nowrap;
 }
 .moves {
   position:absolute;
-  left: 50%;
   bottom: 5%;
   font-size: var(--font-size-lg);
   pointer-events: none;
 }
 
+.progress {
+  width: 50%;
+  top: 150px;
+  height: 20px;
+  background-color: var(--hl-color);
+}
+
+@media screen and (max-width: 600px)  {
+  .progress {
+    width: 90%;
+  }
+}
 </style>
 
 <script>
 
 import { useStore } from '../../store/store.js'
 import { Task } from '../../assets/js/Task';
+import { formatTime } from '../../assets/js/Format';
 export default {
   data() {
     const { currentChallenge } = useStore();
@@ -86,6 +98,8 @@ export default {
         this.nMovesPer = this.currentChallenge.moveLimitPer;
         if (this.currentChallenge.currentPattern === this.currentChallenge.nPatterns - 1) {
           this.showWinModal = true;
+          this.currentChallenge.minTime = Math.min(this.currentChallenge.timeLimit - this.time, this.currentChallenge.minTime);
+          this.currentChallenge.maxPercent = 100;
           Task.advanceTasks(this.currentChallenge.id, Task.TASK_TYPES.CHALLENGE);
           window.clearInterval(this.timerId);
           return;
@@ -96,6 +110,7 @@ export default {
       }
       if (this.nMoves == 0 || this.nMovesPer == 0) {
         this.modalText = "no moves left!";
+        this.currentChallenge.maxPercent = Math.max(this.percentageCompleted, this.currentChallenge.maxPercent);
         this.showLostModal = true;
         window.clearInterval(this.timerId);
       }
@@ -117,13 +132,10 @@ export default {
   },
   computed: {
     formattedTime() {
-      const minutes = Math.floor(this.time / 60).toString();
-      const seconds = (this.time % 60).toString()
-    
-      return `${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`
+      return formatTime(this.time);
     },
     percentageCompleted() {
-      return Math.floor(this.currentChallenge.currentPattern / this.currentChallenge.nPatterns * 100) + '%';
+      return Math.floor(this.currentChallenge.currentPattern / this.currentChallenge.nPatterns * 100);
     },
     moves() {
       return this.nMoves <= -1?"":"- "+this.nMoves
@@ -137,6 +149,7 @@ export default {
       this.time -= 1 * this.hasStarted;
       if (this.time <= 0) {
         this.modalText = "no time left!";
+        this.currentChallenge.maxPercent = Math.max(this.percentageCompleted, this.currentChallenge.maxPercent);
         this.showLostModal = true;
         window.clearInterval(this.timerId);
       }

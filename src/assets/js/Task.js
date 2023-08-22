@@ -67,7 +67,6 @@ export class Task {
     const storeId = currentTasks.indexOf(this.id);
     setMaxTask(maxTask + 1);
     const nextTask = maxTask < (Task.TASKS.length - 1) ? maxTask + 1: -1;
-    console.log(nextTask);
     setTask(storeId, nextTask);
   }
 

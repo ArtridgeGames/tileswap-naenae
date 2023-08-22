@@ -1,5 +1,6 @@
 import { Layout } from './Layout.js';
 import { useStore } from '../../store/store.js'
+
 export class Challenge {
 
   static CHALLENGES = [
@@ -27,9 +28,9 @@ export class Challenge {
     e.id = id;
     return e;
   });
+  
+  static THRESHOLD = 60;
 
-
-  static THRESHOLD = 60
   constructor({ timeLimit, moveLimit, totalClicks, patternRange, nPatterns, bigLayoutAdapt, moveLimitPer, modulo, name}) {
     this.timeLimit = timeLimit;
     this.moveLimit = moveLimit;
@@ -46,6 +47,53 @@ export class Challenge {
     this.name = name;
     this.id = -1;
   }
+
+  get maxPercent() {
+    const store = useStore();
+    for (let i = 0; i < store.stats.challengesCompleted.length; i++) {
+      const data = store.stats.challengesCompleted[i];
+      if (data.id === this.id) {
+        return data.maxPercent;
+      }
+    }
+    return 0;
+  }
+
+  get minTime() {
+    const store = useStore();
+    for (let i = 0; i < store.stats.challengesCompleted.length; i++) {
+      const data = store.stats.challengesCompleted[i];
+      if (data.id === this.id) {
+        return data.minTime;
+      }
+    }
+    return this.timeLimit;
+  }
+
+  set maxPercent(val) {
+    const store = useStore();
+    for (let i = 0; i < store.stats.challengesCompleted.length; i++) {
+      const data = store.stats.challengesCompleted[i];
+      if (data.id === this.id) {
+        data.maxPercent = Math.max(data.maxPercent, val);
+        return
+      }
+    }
+    store.stats.challengesCompleted.push({id: this.id, maxPercent: val, minTime: this.timeLimit});
+  }
+
+  set minTime(val) {
+    const store = useStore();
+    for (let i = 0; i < store.stats.challengesCompleted.length; i++) {
+      const data = store.stats.challengesCompleted[i];
+      if (data.id === this.id) {
+        data.minTime = Math.min(data.minTime, val);
+        return;
+      }
+    }
+    store.stats.challengesCompleted.push({id: this.id, maxPercent: 0, minTime: val });
+  }
+
 
   generateLayouts() {
     const possibleLayouts = Layout.LAYOUTS.filter(e=>e.unlockCategory>=this.rangeStart && 

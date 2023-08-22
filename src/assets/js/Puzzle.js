@@ -1027,7 +1027,12 @@ export class Puzzle {
     return new Puzzle({
       base, target, moves, solution, id, modulo: modulo ?? 2
     });
-  })
+  });
+
+  static get FILTERED_PUZZLES() {
+    const store = useStore();
+    return this.PUZZLES.filter(e => e.unlockCategory <= store.unlockedCategoriesPZ);
+  }
 
   /**
    * Creates a new puzzle.
@@ -1045,10 +1050,7 @@ export class Puzzle {
     this.modulo = modulo;
     this.unlockCategory = Math.floor(id / 5) + 1;
   }
-  static get FILTERED_PUZZLES() {
-    const store = useStore();
-    return this.PUZZLES.filter(e => e.unlockCategory <= store.unlockedCategoriesPZ)
-  }
+  
   /**
    * Checks if the puzzle is solved.
    * @param {Layout} layout the layout to check
@@ -1068,5 +1070,28 @@ export class Puzzle {
   baseIsWhite(row, column) {
     if (column === undefined) return this.base.matrix[Math.floor(row / this.base.width)][row % this.base.width] === this.modulo - 1;
     return this.base.matrix[row][column] === this.modulo - 1;
+  }
+
+  get completionMoves() {
+    const store = useStore();
+    for (let i = 0; i < store.stats.puzzlesCompleted.length; i++) {
+      const data = store.stats.puzzlesCompleted[i];
+      if (data.id === this.id) {
+        return data.completionMoves;
+      }
+    }
+    return -1;
+  }
+  
+  set completionMoves(val) {
+    const store = useStore();
+    for (let i = 0; i < store.stats.puzzlesCompleted.length; i++) {
+      const data = store.stats.puzzlesCompleted[i];
+      if (data.id === this.id) {
+        data.completionMoves = Math.min(val, data.completionMoves);
+        return;
+      }
+    }
+    store.stats.puzzlesCompleted.push({id: this.id, completionMoves: val})
   }
 }

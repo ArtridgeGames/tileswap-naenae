@@ -13,8 +13,10 @@
   --hl-color: #fff;
   --shadow-color: #000;
 
+  --bronze-color: #c59650;
+  --silver-color: #d6d6d6;
   --success-color: #dac778;
-  --puzzle-white: #b5ab9e;
+  --puzzle-white: #9e968d;
   --devmode-color: red;
 
   --tile-border-radius: 30px;
@@ -31,7 +33,7 @@
   --tile-swap-time: 0.3s;
 
   --popup-bg-trans: rgba(0, 0, 0, 0.5);
-  --popup-width: 20%;
+  --popup-width: 50%;
 }
 
 

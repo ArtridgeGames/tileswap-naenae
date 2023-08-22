@@ -1,4 +1,5 @@
 import { Puzzle } from './Puzzle';
+import { Challenge } from './Challenge';
 
 const str = (val) => `${val}`;
 
@@ -27,7 +28,14 @@ export const STATS_DATA = {
     display: (val) => {
       return `${val.length} / ${Puzzle.PUZZLES.length}`
     }
-  }
+  },
+  challengesCompleted: {
+    initialValue: [],
+    name: "Challenges Completed",
+    display: (val) => {
+      return `${val.length} / ${Challenge.CHALLENGES.length}`
+    }
+  },
 }
 
 export const INITIAL_STATS = Object.fromEntries(

@@ -1,22 +1,32 @@
 <script setup>
-import { useStore } from '@/store/store.js';
-
+import { useStore } from "@/store/store.js";
 </script>
 
 <template>
-  <div class="container" @click="openGame" 
-      :class="{
-      'is-task-target': isTaskTarget
-      }">
+  <div
+    class="container"
+    @click="openGame"
+    :class="{
+      'is-task-target': isTaskTarget,
+    }"
+  >
     <div
       v-for="tile in includedTiles"
       :key="'t' + tile"
       class="tile"
       :style="{
-        backgroundColor: (solved ? puzzle.targetIsWhite(tile) : puzzle.baseIsWhite(tile)) ? 'var(--puzzle-white)' : 'var(--shadow-color)',
+        backgroundColor: (
+          solved ? puzzle.targetIsWhite(tile) : puzzle.baseIsWhite(tile)
+        )
+          ? 'var(--puzzle-white)'
+          : 'var(--shadow-color)',
         transform: `translate(${
           tileSizePreview * ((tile % layout.width) - layout.width / 2) + 50
-        }px, ${tileSizePreview * (Math.floor(tile / layout.width) - layout.height / 2) + 50}px)`,
+        }px, ${
+          tileSizePreview *
+            (Math.floor(tile / layout.width) - layout.height / 2) +
+          50
+        }px)`,
         width: `${tileSizePreview - 1}px`,
         height: `${tileSizePreview - 1}px`,
       }"
@@ -28,7 +38,7 @@ import { useStore } from '@/store/store.js';
 .container {
   position: relative;
   display: inline-block;
-  background-color: v-bind('solved ? "var(--success-color)" : "var(--hl-color)"');
+  background-color: v-bind(buttonColor);
   border-radius: var(--sb-border-radius);
   width: var(--sb-size);
   height: var(--sb-size);
@@ -41,7 +51,6 @@ import { useStore } from '@/store/store.js';
   display: inline-block;
 }
 
-
 .layout-preview {
   position: absolute;
   left: 50%;
@@ -51,16 +60,14 @@ import { useStore } from '@/store/store.js';
 </style>
 
 <script>
-import { setModulo } from '../../assets/js/Layout';
-import { Task } from '../../assets/js/Task';
+import { setModulo } from "../../assets/js/Layout";
+import { Task } from "../../assets/js/Task";
 export default {
   props: ["puzzle"],
   data() {
     const { width, height } = this.puzzle.target;
     return {
-      tileSizePreview:
-        (1 / Math.sqrt(width * height)) *
-        50,
+      tileSizePreview: (1 / Math.sqrt(width * height)) * 50,
     };
   },
   computed: {
@@ -69,17 +76,30 @@ export default {
     },
     solved() {
       const store = useStore();
-      return store.stats.puzzlesCompleted.includes(this.puzzle.id);
+      return store.stats.puzzlesCompleted.some(({ id }) => {
+        return id === this.puzzle.id;
+      });
     },
     includedTiles() {
       return new Array(this.layout.width * this.layout.height)
         .fill(0)
         .map((_, i) => i)
-        .filter(i => !this.layout.exclude.includes(i))
+        .filter((i) => !this.layout.exclude.includes(i));
     },
     isTaskTarget() {
-      return Task.isTaskTarget(this.puzzle.id, Task.TASK_TYPES.PUZZLE)
-    }
+      return Task.isTaskTarget(this.puzzle.id, Task.TASK_TYPES.PUZZLE);
+    },
+    buttonColor() {
+      const solutionL = this.puzzle.solution.length;
+      const completionMoves = this.puzzle.completionMoves;
+      return !this.solved
+        ? "var(--hl-color)"
+        : (completionMoves === solutionL
+        ? "var(--success-color)"
+        : completionMoves <= solutionL * 1.2
+        ? "var(--silver-color)"
+        : "var(--bronze-color)");
+    },
   },
   methods: {
     openGame() {
@@ -91,6 +111,6 @@ export default {
 
       this.$router.push("/puzzleGame");
     },
-  }
+  },
 };
 </script>
