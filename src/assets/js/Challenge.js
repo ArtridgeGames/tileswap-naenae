@@ -12,6 +12,16 @@ export class Challenge {
       bigLayoutAdapt: false, 
       moveLimitPer: 3,
       name: "Think Fast"
+    }),
+    new Challenge({
+      timeLimit: 60,
+      moveLimit: -1,
+      totalClicks: 2,
+      patternRange: [1, 1],
+      nPatterns: 1,
+      bigLayoutAdapt: false, 
+      moveLimitPer: 2,
+      name: "EZ"
     })
   ].map((e, id) => {
     e.id = id;

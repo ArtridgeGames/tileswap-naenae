@@ -13,7 +13,7 @@ export const useStore = defineStore('store', () => {
   const unlockedCategoriesFP = ref(39);
   const unlockedCategoriesPZ = ref(10);
   const currentTasks = ref([0,1,2]);
-
+  const maxTask = ref(2);
   function setTask(index, task) {
     currentTasks.value.splice(index, 1);
     currentTasks.value.push(task);
@@ -39,10 +39,12 @@ export const useStore = defineStore('store', () => {
       stats.value.puzzlesCompleted.push(id);
     }
   }
+  function setMaxTask(n) {
+    maxTask.value = n
+  }
   
   register(difficulty, 'difficulty');
   register(stats, 'stats');
-
   return {
     currentLayout,
     currentPuzzle,
@@ -54,7 +56,9 @@ export const useStore = defineStore('store', () => {
     solvePuzzle,
     stats,
     currentTasks,
+    maxTask,
     setTask,
+    setMaxTask,
     unlockedCategoriesFP,
     unlockedCategoriesPZ,
   };

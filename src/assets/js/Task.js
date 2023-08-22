@@ -26,12 +26,12 @@ export class Task {
     }),
     new Task({
       timesRequired: 1,
-      targetId: [0],
+      targetId: [1],
       type: Task.TASK_TYPES.CHALLENGE
     }),
     new Task({
       timesRequired: 1,
-      targetId: [0],
+      targetId: [1],
       type: Task.TASK_TYPES.CHALLENGE
     })
   ].map((e, id) => {
@@ -63,9 +63,11 @@ export class Task {
   }
 
   claim() {
-    const { currentTasks, setTask } = useStore();
+    const { currentTasks, setTask, maxTask, setMaxTask } = useStore();
     const storeId = currentTasks.indexOf(this.id);
-    const nextTask = Math.max(...currentTasks) < (Task.TASKS.length - 1) ? Math.max(...currentTasks) + 1 : -1;
+    setMaxTask(maxTask + 1);
+    const nextTask = maxTask < (Task.TASKS.length - 1) ? maxTask + 1: -1;
+    console.log(nextTask);
     setTask(storeId, nextTask);
   }
 
