@@ -94,7 +94,7 @@ export default {
       const completionMoves = this.puzzle.completionMoves;
       return !this.solved
         ? "var(--hl-color)"
-        : (completionMoves === solutionL
+        : (completionMoves <= solutionL
         ? "var(--success-color)"
         : completionMoves <= solutionL * 1.2
         ? "var(--silver-color)"

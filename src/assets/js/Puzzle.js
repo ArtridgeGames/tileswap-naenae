@@ -796,7 +796,7 @@ export class Puzzle {
         [2, 0, 1, 1, 1, 1, 0, 0, 0, 0, 2],
         [2, 2, 1, 1, 1, 1, 1, 1, 2, 2, 2]
       ],
-      solution: [3, 4, 5, 6, 12, 13, 18, 20, 24, 25, 27, 28, 34, 36, 39, 42, 46, 47, 49, 50, 51, 52, 54, 57, 58, 59, 61, 63, 64, 69, 70, 71, 72]
+      solution: [2, 4, 12, 13, 18, 20, 34, 35, 38, 42, 44, 45, 46, 48, 49, 52, 53, 59, 60, 63, 64, 68, 70]
     },
     {
       moves: 25,
@@ -988,46 +988,46 @@ export class Puzzle {
     }
 
   ]
-  .sort((a, b) => a.solution.length - b.solution.length)
-  .map((e, id) => {
+    .sort((a, b) => a.solution.length - b.solution.length)
+    .map((e, id) => {
 
-    const { base: baseMatrix, target: targetMatrix, moves, solution, modulo } = e;
+      const { base: baseMatrix, target: targetMatrix, moves, solution, modulo } = e;
 
-    baseMatrix.forEach((row, y) => row.forEach((cell, x) => {
-      if (cell === 2) {
-        baseMatrix[y][x] = -1;
-        targetMatrix[y][x] = -1;
-      } else if (cell === 1) {
-        baseMatrix[y][x] = (modulo ?? 2) - 1;
-      }
-    }));
+      baseMatrix.forEach((row, y) => row.forEach((cell, x) => {
+        if (cell === 2) {
+          baseMatrix[y][x] = -1;
+          targetMatrix[y][x] = -1;
+        } else if (cell === 1) {
+          baseMatrix[y][x] = (modulo ?? 2) - 1;
+        }
+      }));
 
-    const width = baseMatrix[0].length;
-    const height = baseMatrix.length;
-    const exclude = Layout.getExcludeFromMatrix(baseMatrix);
+      const width = baseMatrix[0].length;
+      const height = baseMatrix.length;
+      const exclude = Layout.getExcludeFromMatrix(baseMatrix);
 
-    const base = new Layout({
-      width, height,
-      exclude,
-      unlockCategory: 0
+      const base = new Layout({
+        width, height,
+        exclude,
+        unlockCategory: 0
+      });
+      base.setMatrix(baseMatrix);
+
+      const target = new Layout({
+        width, height,
+        exclude,
+        unlockCategory: 0
+      })
+      target.setMatrix(
+        targetMatrix.map(row =>
+          row.map(e => e === 1 ? (modulo ?? 2) - 1 : e)
+        )
+      );
+
+      return new Puzzle({
+        base, target, moves, solution, id, modulo: modulo ?? 2
+      });
     });
-    base.setMatrix(baseMatrix);
-
-    const target = new Layout({
-      width, height,
-      exclude,
-      unlockCategory: 0
-    })
-    target.setMatrix(
-      targetMatrix.map(row => 
-        row.map(e => e === 1 ? (modulo ?? 2) - 1 : e)
-      )
-    );
-
-    return new Puzzle({
-      base, target, moves, solution, id, modulo: modulo ?? 2
-    });
-  });
 
   static get FILTERED_PUZZLES() {
     const store = useStore();
@@ -1050,7 +1050,7 @@ export class Puzzle {
     this.modulo = modulo;
     this.unlockCategory = Math.floor(id / 5) + 1;
   }
-  
+
   /**
    * Checks if the puzzle is solved.
    * @param {Layout} layout the layout to check
@@ -1082,7 +1082,7 @@ export class Puzzle {
     }
     return -1;
   }
-  
+
   set completionMoves(val) {
     const store = useStore();
     for (let i = 0; i < store.stats.puzzlesCompleted.length; i++) {
@@ -1092,6 +1092,6 @@ export class Puzzle {
         return;
       }
     }
-    store.stats.puzzlesCompleted.push({id: this.id, completionMoves: val})
+    store.stats.puzzlesCompleted.push({ id: this.id, completionMoves: val })
   }
 }
