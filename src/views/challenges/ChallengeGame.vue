@@ -100,7 +100,7 @@ export default {
           this.showWinModal = true;
           this.currentChallenge.minTime = Math.min(this.currentChallenge.timeLimit - this.time, this.currentChallenge.minTime);
           this.currentChallenge.maxPercent = 100;
-          Task.advanceTasks(this.currentChallenge.id, Task.TASK_TYPES.CHALLENGE);
+          Task.advanceTasks(this.currentChallenge.id, Task.TASK_TYPES.CHALLENGE, this.currentChallenge.timeLimit - this.time);
           window.clearInterval(this.timerId);
           return;
         }

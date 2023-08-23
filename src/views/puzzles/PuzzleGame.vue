@@ -125,7 +125,7 @@ export default {
         if (this.puzzle.isSolvedWith(this.layout)) {
           this.showWinModal = true;
           this.puzzle.completionMoves = this.moves;
-          Task.advanceTasks(this.puzzle.id, Task.TASK_TYPES.PUZZLE);
+          Task.advanceTasks(this.puzzle.id, Task.TASK_TYPES.PUZZLE, this.moves);
 
         } else if (this.remainingMoves === 0) {
           this.showLostModal = true;

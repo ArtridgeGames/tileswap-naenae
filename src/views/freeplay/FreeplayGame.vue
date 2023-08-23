@@ -221,6 +221,7 @@ export default {
   watch: {
     difficulty() {
       this.store.difficulty = this.difficulty;
+      this.randomize();
     },
     internalModulo(newVal) {
       setModulo(newVal);
@@ -258,7 +259,7 @@ export default {
       if (this.layout.isSolved()) {
         this.store.stats.layoutsSolved++;
         this.showModal = true;
-        Task.advanceTasks(this.layout.id, Task.TASK_TYPES.FREEPLAY);
+        Task.advanceTasks(this.layout.id, Task.TASK_TYPES.FREEPLAY, this.store.difficulty);
       }
     },
     randomize() {
