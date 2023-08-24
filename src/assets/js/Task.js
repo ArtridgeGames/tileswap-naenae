@@ -1,5 +1,8 @@
 import { useStore } from '../../store/store';
 import { Layout } from './Layout';
+import { Puzzle } from './Puzzle';
+import { Challenge } from './Challenge';
+
 const TASK_TARGET_NAMES = {
   FREEPLAY: 'freeplay layout',
   PUZZLE: 'puzzle',
@@ -20,24 +23,16 @@ export class Task {
       type: Task.TASK_TYPES.FREEPLAY,
       difficulty: 16
     }),
-    new Task({
-      timesRequired: 1,
-      targetId: [2],
-      type: Task.TASK_TYPES.PUZZLE,
-      difficulty: 2
-    }),
+    this.generateTask(Math.random()*99+1, Task.TASK_TYPES.PUZZLE),
     new Task({
       timesRequired: 1,
       targetId: [1],
       type: Task.TASK_TYPES.CHALLENGE,
       difficulty: 2
-    }),
-    new Task({
-      timesRequired: 1,
-      targetId: [1],
-      type: Task.TASK_TYPES.CHALLENGE
     })
   ].map((e, id) => {
+    console.log(e);
+    console.log(id);
     e.id = id;
     return e;
   });
@@ -111,7 +106,7 @@ export class Task {
       .filter(index => 
         (type === Task.TASK_TYPES.FREEPLAY?
         Task.TASKS[index].difficulty <= difficulty:
-        Task.TASKS[index].difficulty >= difficulty))
+        Task.TASKS[index].difficulty >= difficulty)||Task.TASKS[index].difficulty === -1)
       .filter(index => {
         const task = Task.TASKS[index];
         return task.targetsDone.reduce((acc, cur) => acc + (cur === id ? 1 : 0), 0) < task.timesRequired;
@@ -120,5 +115,21 @@ export class Task {
         const task = Task.TASKS[index];
         task.targetsDone.push(id);
       });
-  }
+    }
+    
+    static generateTask(difficultyPercent, type) {
+      let targetIds = [];
+      if (type === Task.TASK_TYPES.PUZZLE) {
+        const startingPuzzle = Math.floor(Math.min(difficultyPercent*Puzzle.PUZZLES.length/100, Puzzle.PUZZLES.length*0.9));
+        const range = Math.floor(Puzzle.PUZZLES.length/10)
+        targetIds.push(Math.min(Math.floor(Math.random()*range+startingPuzzle), Puzzle.PUZZLES.length-1))
+        const currentPuzzle = Puzzle.PUZZLES.filter(puzz => puzz.id === targetIds[0])[0];
+        const difficulty = difficultyPercent<=30?-1:difficultyPercent<=60?currentPuzzle.solution.length*1.2:currentPuzzle.solution.length;
+        return new Task({
+          timesRequired: 1, 
+          targetId: targetIds, 
+          type: type, 
+          difficulty: Math.ceil(difficulty)});
+      }
+    }
 }
