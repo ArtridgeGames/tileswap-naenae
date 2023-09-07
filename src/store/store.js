@@ -18,7 +18,13 @@ export const useStore = defineStore('store', () => {
     currentTasks.value.splice(index, 1);
     currentTasks.value.push(task);
   }
-  
+  const settings = ref([
+    {
+      name: 'background color',
+      options: ['#bbb2ea', '#adad85'],
+      selected: 0
+    }
+  ])
   const stats = ref({ ...INITIAL_STATS });
 
   setInterval(() => {
@@ -56,5 +62,6 @@ export const useStore = defineStore('store', () => {
     setMaxTask,
     unlockedCategoriesFP,
     unlockedCategoriesPZ,
+    settings
   };
 });

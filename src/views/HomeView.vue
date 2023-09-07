@@ -7,6 +7,7 @@ import Button from '../components/Button.vue';
 import LinkButton from '../components/LinkButton.vue';
 import Modal from '../components/Modal.vue';
 import Stats from '../components/Stats.vue';
+import Settings from '../components/Settings.vue';
 import TaskContainer from '../components/TaskContainer.vue';
 </script>
 
@@ -29,6 +30,7 @@ import TaskContainer from '../components/TaskContainer.vue';
       <Button v-if="windowWidth <= 600" text="tasks" @click="showTasks = true" />
 
       <Button text="stats" @click="showStats = true" />
+      <Button text="settings" @click="showSettings = true" />
       <LinkButton text="tutorial" to="/tutorial" />
     </div>
 
@@ -54,7 +56,10 @@ import TaskContainer from '../components/TaskContainer.vue';
 
       <Button black text="close" @click="showStats = false" />
     </Modal>
-
+    <Modal v-model="showSettings">
+      <h1>Settings</h1>
+      <Settings />
+    </Modal>
     <Button v-if="windowWidth > 600" class="top right" text="tasks" @click="showTasks = true" />
 
     <Modal v-model="showTasks">
@@ -118,6 +123,7 @@ export default {
       user, isSignedIn,
       showStats: false,
       showTasks: false,
+      showSettings: false,
     };
   },
   methods: {
