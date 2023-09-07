@@ -1,3 +1,7 @@
+:root {
+  --root-bg-color: #bbb2ea;
+}
+
 .default {
   --font-family: TileSwap;
 
@@ -7,7 +11,7 @@
   --font-size-lg: 64px;
   --title-font-size: 120px;
 
-  --bg-color: #bbb2ea; /*#adad85; */
+  --bg-color: var(--root-bg-color); /* #bbb2ea */ /* #adad85 */
   --hl-text-color: #fff;
   --shadow-text-color: #000;
   --hl-color: #fff;
@@ -68,6 +72,7 @@ body,
   height: 100%;
   overflow: hidden;
   color: var(--hl-text-color);
+  transition: background 0.3s ease;
 }
 
 img {

@@ -1,9 +1,8 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { register } from '../firebase/database.js';
 import { INITIAL_STATS } from '../assets/js/Stats.js';
-import { Challenge } from '../assets/js/Challenge.js';
-
+import { INITIAL_SETTINGS, SETTINGS_DATA } from '../assets/js/Settings.js';
 
 export const useStore = defineStore('store', () => {
   const currentLayout = ref({});
@@ -18,18 +17,20 @@ export const useStore = defineStore('store', () => {
     currentTasks.value.splice(index, 1);
     currentTasks.value.push(task);
   }
-  const settings = ref([
-    {
-      name: 'background color',
-      options: ['#bbb2ea', '#adad85'],
-      selected: 0
-    }
-  ])
-  const stats = ref({ ...INITIAL_STATS });
 
+  const settings = ref({ ...INITIAL_SETTINGS });
+
+  watch(settings, _ => {
+    for (const setting of Object.keys(settings.value)) {
+      SETTINGS_DATA[setting].onChange(settings.value[setting]);
+    }
+  }, { deep: true });
+
+  const stats = ref({ ...INITIAL_STATS });
+  
   setInterval(() => {
-    stats.value.timePlayed++;
-  }, 1e3);
+    stats.value.timePlayed += 10;
+  }, 10e3);
   
   function setLayout(layout) {
     currentLayout.value = layout;
@@ -46,6 +47,7 @@ export const useStore = defineStore('store', () => {
   
   register(difficulty, 'difficulty');
   register(stats, 'stats');
+  register(settings, 'settings');
 
   return {
     currentLayout,

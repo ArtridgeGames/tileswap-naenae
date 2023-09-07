@@ -1,5 +1,5 @@
 import { Layout } from './Layout.js';
-import { useStore } from '../../store/store.js'
+import { useStore } from '../../store/store.js';
 
 export class Challenge {
 
@@ -8,44 +8,74 @@ export class Challenge {
       timeLimit: 60,
       moveLimit: -1,
       totalClicks: 90,
-      patternRange: [1, 1],
+      patterns: [0],
       nPatterns: 30,
-      bigLayoutAdapt: false, 
+      bigLayoutAdapt: false,
       moveLimitPer: 3,
+      hasSpecificPatterns: true,
       name: "Think Fast"
     }),
     new Challenge({
       timeLimit: 60,
       moveLimit: -1,
       totalClicks: 2,
-      patternRange: [1, 1],
+      patterns: [1, 1],
       nPatterns: 1,
-      bigLayoutAdapt: false, 
+      bigLayoutAdapt: false,
       moveLimitPer: 2,
+      hasSpecificPatterns: false,
       name: "EZ"
+    }),
+    new Challenge({
+      timeLimit: 60,
+      moveLimit: -1,
+      totalClicks: 90,
+      patterns: [2],
+      nPatterns: 30,
+      bigLayoutAdapt: false,
+      moveLimitPer: -1,
+      hasSpecificPatterns: true,
+      name: "Think a bit less fast but still fast enough to be fast enough, you know?"
+    }),
+    new Challenge({
+      timeLimit: 60,
+      moveLimit: -1,
+      totalClicks: 90,
+      patterns: [11],
+      nPatterns: 30,
+      bigLayoutAdapt: false,
+      moveLimitPer: -1,
+      hasSpecificPatterns: true,
+      name: "OG"
     })
   ].map((e, id) => {
     e.id = id;
     return e;
   });
-  
+
   static THRESHOLD = 60;
 
-  constructor({ timeLimit, moveLimit, totalClicks, patternRange, nPatterns, bigLayoutAdapt, moveLimitPer, modulo, name}) {
+  constructor({ timeLimit, moveLimit, totalClicks, patterns, nPatterns, bigLayoutAdapt, moveLimitPer, hasSpecificPatterns, modulo, name }) {
     this.timeLimit = timeLimit;
     this.moveLimit = moveLimit;
     this.totalClicks = totalClicks;
-    this.rangeStart = patternRange[0];
-    this.rangeEnd = patternRange[1];
+    if (!hasSpecificPatterns){
+      this.rangeStart = patterns[0];
+      this.rangeEnd = patterns[1];
+    } else {
+      this.patterns = patterns;
+    }
+    
     this.nPatterns = nPatterns;
     this.currentPattern = 0;
     this.moveLimitPer = moveLimitPer;
     this.bigLayoutAdapt = bigLayoutAdapt;
-    this.generateLayouts();
+    this.hasSpecificPatterns = hasSpecificPatterns;
     this.nMoves = 0;
-    this.modulo =  modulo ?? 2;
+    this.modulo = modulo ?? 2;
     this.name = name;
     this.id = -1;
+    this.generateLayouts();
   }
 
   get maxPercent() {
@@ -79,7 +109,7 @@ export class Challenge {
         return
       }
     }
-    store.stats.challengesCompleted.push({id: this.id, maxPercent: val, minTime: this.timeLimit});
+    store.stats.challengesCompleted.push({ id: this.id, maxPercent: val, minTime: this.timeLimit });
   }
 
   set minTime(val) {
@@ -91,30 +121,34 @@ export class Challenge {
         return;
       }
     }
-    store.stats.challengesCompleted.push({id: this.id, maxPercent: 0, minTime: val });
+    store.stats.challengesCompleted.push({ id: this.id, maxPercent: 0, minTime: val });
   }
 
-
   generateLayouts() {
-    const possibleLayouts = Layout.LAYOUTS.filter(e=>e.unlockCategory>=this.rangeStart && 
-                                            e.unlockCategory<=this.rangeEnd)
+    let possibleLayouts;
+    if (!this.hasSpecificPatterns) {
+      possibleLayouts = Layout.LAYOUTS.filter(e => e.unlockCategory >= this.rangeStart &&
+        e.unlockCategory <= this.rangeEnd)
+    } else {
+      possibleLayouts = Layout.LAYOUTS.filter(e => this.patterns.includes(e.id))
+    }
     const challengeLayouts = []
-    for(let i = 0; i<this.nPatterns;i++) {
-      challengeLayouts.push(possibleLayouts[Math.floor(Math.random()*possibleLayouts.length)])
+    for (let i = 0; i < this.nPatterns; i++) {
+      challengeLayouts.push(possibleLayouts[Math.floor(Math.random() * possibleLayouts.length)])
     }
     const nBigLay = challengeLayouts.reduce(
       (acc, cur) => acc + (cur.nTiles() >= Challenge.THRESHOLD ? 1 : 0), 0
     );
 
-    const nMovesPer = Math.round(this.totalClicks/(this.nPatterns + (this.bigLayoutAdapt?nBigLay:0)));
-    for (let i = 0; i<challengeLayouts.length; i++) {
+    const nMovesPer = Math.round(this.totalClicks / (this.nPatterns + (this.bigLayoutAdapt ? nBigLay : 0)));
+    for (let i = 0; i < challengeLayouts.length; i++) {
       challengeLayouts[i] = challengeLayouts[i].generatePosition(
         this.bigLayoutAdapt ? (
           challengeLayouts[i].nTiles() >= Challenge.THRESHOLD ? nMovesPer * 2 : nMovesPer)
-        : nMovesPer
+          : nMovesPer
       )
     }
-    challengeLayouts.sort(()=>Math.random()-0.5);
+    challengeLayouts.sort(() => Math.random() - 0.5);
 
     this.challengeLayouts = challengeLayouts
   }

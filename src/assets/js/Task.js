@@ -31,8 +31,6 @@ export class Task {
       difficulty: 2
     })
   ].map((e, id) => {
-    console.log(e);
-    console.log(id);
     e.id = id;
     return e;
   });

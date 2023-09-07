@@ -1,5 +1,5 @@
 import { Layout, modulo } from '../Layout.js';
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import { FiniteField, FiniteFieldMatrix } from './FiniteField.js';
 import { tilesToFlip } from '../Layout.js';
 
@@ -92,7 +92,6 @@ function solvePattern(state) {
     state.flat()
       .filter(e => e !== -1) // Remove excluded cells
       .map(e => [(e + 1) % modulo.value])); // Invert the cells
-
 
   const key = `${width}x${height},${Layout.getExcludeFromMatrix(state)},${tilesToFlip.value},${modulo.value}}`;
 

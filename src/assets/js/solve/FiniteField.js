@@ -392,6 +392,7 @@ export class FiniteFieldPolynomialAsElement extends FiniteFieldElement {
     }
     if (FiniteField.isPrime(field.order)) {
       console.warn('[warn] Creating polynomial in prime field. Use FiniteFieldValue instead');
+      console.trace();
     }
 
     
@@ -436,9 +437,9 @@ export class FiniteFieldPolynomialAsElement extends FiniteFieldElement {
   }
 
   toString() {
-    return (this.coefficients.map((e, i) => {
+    return (this.poly.coefficients.map((e, i) => {
       if (e.equals(0)) return '';
-      const deg = this.coefficients.length - i - 1;
+      const deg = this.poly.coefficients.length - i - 1;
       if (deg === 0) return e.value.toString();
       const val = e.value === 1 ? '' : e.value;
       if (deg === 1) return `${val}x`;
@@ -459,11 +460,9 @@ export class FiniteFieldPolynomial {
     if (!(field instanceof FiniteField)) {
       throw new Error('Field must be an instance of FiniteField');
     }
-    if (!FiniteField.isPrime(field.order)) {
-      throw new Error('Field must be a prime field');
-    }
 
     this.field = field;
+    this.primeField = FiniteField.fromOrder(field.p);
 
     this.coefficients = coefficients.map(e => this.field.el(e));
   }
@@ -486,6 +485,62 @@ export class FiniteFieldPolynomial {
       return this.add(this.field.el(other));
     }
     throw new Error('Cannot add polynomial to non-polynomial');
+  }
+
+  multiply(other) {
+    if (other instanceof FiniteFieldPolynomial) {
+      if (other.field.order !== this.field.order) {
+        throw new Error('Cannot multiply polynomials in different fields');
+      }
+      const coefficients = [];
+      for (let i = 0; i < this.coefficients.length + other.coefficients.length - 1; i++) {
+        coefficients.push(this.field.el(0));
+      }
+      for (let i = 0; i < this.coefficients.length; i++) {
+        for (let j = 0; j < other.coefficients.length; j++) {
+          coefficients[i + j] = coefficients[i + j].add(this.coefficients[i].multiply(other.coefficients[j]));
+        }
+      }
+      return this.field.el(coefficients);
+    }
+
+    if (other instanceof Array) {
+      return this.multiply(this.field.el(other));
+    }
+
+    throw new Error('Cannot multiply polynomial by non-polynomial');
+  }
+
+  equals(other) {
+    if (other instanceof FiniteFieldPolynomial) {
+      if (other.field.order !== this.field.order) {
+        throw new Error('Cannot compare polynomials in different fields');
+      }
+      return this.coefficients.every((e, i) => e.equals(other.coefficients[i]));
+    }
+
+    if (other instanceof Array) {
+      return this.equals(this.field.el(other));
+    }
+
+    throw new Error('Cannot compare polynomial to non-polynomial');
+  }
+
+  toString() {
+    return (this.coefficients.map((e, i) => {
+      if (e.equals(0)) return '';
+      const deg = this.coefficients.length - i - 1;
+      if (deg === 0) return e.value.toString();
+      const val = e.value === 1 ? '' : e.value;
+      if (deg === 1) return `${val}x`;
+      return `${val}x^${deg}`;
+    }).filter(e => e)
+      .join(' + ') || '0') 
+      + ` (mod ${this.field.order})`;
+  }
+
+  [util.inspect?.custom]() {
+    return this.toString();
   }
 }
 

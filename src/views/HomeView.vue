@@ -9,6 +9,7 @@ import Modal from '../components/Modal.vue';
 import Stats from '../components/Stats.vue';
 import Settings from '../components/Settings.vue';
 import TaskContainer from '../components/TaskContainer.vue';
+import SplashScreen from '../components/SplashScreen.vue';
 </script>
 
 <template>
@@ -16,7 +17,7 @@ import TaskContainer from '../components/TaskContainer.vue';
 
     <h1 class="main-title">Tile<span>Swap</span></h1>
   
-    <main>
+    <main class="buttons">
       <ModeButton name="Freeplay" :image="freeplayUrl" path="/freeplaySelection" />
       <ModeButton name="Puzzles" :image="puzzlesUrl" path="/puzzleSelection" />
       <ModeButton name="Challenges" :image="challengesUrl" path="/challengeSelection" />
@@ -47,8 +48,6 @@ import TaskContainer from '../components/TaskContainer.vue';
       </p>
     </div>
 
-
-
     <Modal v-model="showStats">
       <h1>Stats</h1>
       
@@ -69,11 +68,16 @@ import TaskContainer from '../components/TaskContainer.vue';
     </Modal>
 
 
+    <Transition name="fade">
+      <SplashScreen v-if="showSplash" />
+    </Transition>
+
+
   </div>
 </template>
 
 <style scoped>
-  main {
+  main.buttons {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -102,7 +106,7 @@ import TaskContainer from '../components/TaskContainer.vue';
     h1.main-title {
       font-size: var(--font-size-lg);
     }
-    main {
+    main.buttons {
       flex-direction: column;
     }
     .container {
@@ -112,8 +116,9 @@ import TaskContainer from '../components/TaskContainer.vue';
 </style>
 
 <script>
-import { user, isSignedIn, signOut, signIn } from '../firebase/auth.js';
+import { user, isSignedIn, signOut, signIn, authLoaded } from '../firebase/auth.js';
 import { useWindow } from '../assets/js/window.js';
+import { watch } from 'vue';
 
 export default {
   data() {
@@ -124,6 +129,7 @@ export default {
       showStats: false,
       showTasks: false,
       showSettings: false,
+      showSplash: !authLoaded.value,
     };
   },
   methods: {
@@ -131,6 +137,11 @@ export default {
     signInForm() {
       signIn(prompt('Email'), prompt('Password'));
     },
+  },
+  mounted() {
+    watch(authLoaded, val => {
+      this.showSplash = false;
+    });
   }
 }
 </script>

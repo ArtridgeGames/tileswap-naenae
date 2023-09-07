@@ -15,6 +15,7 @@ import Tile from "./Tile.vue";
           :small="small"
           v-for="(tile, tileIndex) in row"
           :tile="tile"
+          :data-tile="`${tile + 1}`"
           :visible="tile !== -1"
           :position="[rowIndex, tileIndex]"
           :key="
@@ -23,6 +24,7 @@ import Tile from "./Tile.vue";
           :class="{
             solution:
               devMode && solution && solution[rowIndex][tileIndex] >= 1,
+            'color-blind': settings.colorBlind === 1,
           }"
           :style="{
             outline: target
@@ -49,6 +51,7 @@ import Tile from "./Tile.vue";
 }
 .tile {
   transition: outline 0.2s ease;
+  position: relative;
 }
 .solution {
   outline: 5px solid red !important;
@@ -59,6 +62,18 @@ import Tile from "./Tile.vue";
   z-index: 10;
   transform: translate(10px, 10px);
   color: red;
+}
+
+.color-blind::before {
+  content: attr(data-tile);
+  position: absolute;
+  z-index: 10;
+  left: 50%;
+  top: 50%;
+  color: black;
+  transform: translate(-50%,-50%);
+  font-size: var(--font-size-lg);
+  -webkit-text-stroke: 1px white;
 }
 </style>
 
@@ -72,9 +87,10 @@ export default {
   props: ["modelValue", "small", "disabled", "solution", "target"],
   emits: ["update:modelValue", "swap"],
   data() {
-    const store = useStore();
+    const { currentChallenge, settings } = useStore();
     return {
-      currentChallenge: store.currentChallenge,
+      currentChallenge,
+      settings,
       gradient,
     };
   },

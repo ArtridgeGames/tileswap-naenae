@@ -1,3 +1,4 @@
+import { useStore } from './store/store';
 import './assets/css/main.css';
 import './assets/css/themes.css';
 import './assets/css/slider.css';
@@ -15,5 +16,6 @@ setActivePinia(pinia);
 
 app.use(router);
 app.use(pinia);
+
 
 app.mount('#app');
