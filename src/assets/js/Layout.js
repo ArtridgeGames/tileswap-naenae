@@ -59,7 +59,7 @@ export const highlightGradient = computed(() => {
   const frontColor = SETTINGS_DATA.tilesColor.value[1];
   const difference = {r:frontColor.r - backColor.r,  g:frontColor.g - backColor.g, b:frontColor.b - backColor.b}
   return new Array(modulo.value).fill().map((e, i) => {
-    return `rgb(${difference.r*0.75*(i/(modulo.value-1))+backColor.r+70},${difference.g*0.75*(i/(modulo.value-1))+backColor.g+70},${difference.b*0.75*(i/(modulo.value-1))+backColor.b+70})`
+    return `rgb(${difference.r*0.75*(i/(modulo.value-1))+backColor.r+50},${difference.g*0.75*(i/(modulo.value-1))+backColor.g+50},${difference.b*0.75*(i/(modulo.value-1))+backColor.b+50})`
   });
 })
 

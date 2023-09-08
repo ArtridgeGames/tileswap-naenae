@@ -4,7 +4,9 @@
       {{ setting.name }} :
       <div
         :style="`${(value instanceof Array) ? 
-          value.map((e, i) => `--value-${i + 1}: ` + formatRgb(e) + ';').join(' ') :
+          value[0] instanceof Object ?
+            value.map((e, i) => `--value-${i + 1}: ` + formatRgb(e) + ';').join(' ') :
+            `--value: ${formatBR(value, 0.4)};`:
           `--value: ${value};` 
         } 
         --selected: ${
@@ -79,6 +81,16 @@ ul > li {
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.tilesShape {
+  border-radius: var(--value);  
+  width: 50px;
+  height: 50px;
+  margin-left: 5px;
+  cursor: pointer;
+  display: inline-block;
+  background-color: #666;
+}
 </style>
 
 <script>
@@ -93,6 +105,13 @@ export default {
     },
     formatRgb(color) {
       return `rgb(${color.r},${color.g},${color.b})`
+    },
+    formatBR(borderRadius, mul) {
+      let border = '';
+      for (let i = 0; i<borderRadius.length; i++) {
+        border += `${borderRadius[i]*mul}px `
+      }
+      return border;
     }
   },
   computed: {

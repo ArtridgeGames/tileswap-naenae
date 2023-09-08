@@ -53,7 +53,7 @@
           height="57.052242"
           x="1.4738767"
           y="1.4738767"
-          ry="9.5872917"
+          :ry="borderRadius" 
         />
       </g>
     </svg>
@@ -62,6 +62,6 @@
 
 <script>
 export default {
-  props: ['outline', 'highlight']
+  props: ['outline', 'highlight', 'borderRadius']
 }
 </script>

@@ -37,6 +37,21 @@ export const SETTINGS_DATA = {
     onChange(index) {
       return;
     }
+  },
+  tilesShape: {
+    name: 'Tiles Shape',
+    options: [[30], [30, 60], [0], [100]],
+    get value() {
+      const { settings } = useStore();
+      return this.options[settings.tilesShape]
+    },
+    onChange(index) {
+      let border = '';
+      for (let i = 0; i<this.options[index].length; i++) {
+        border += `${this.options[index][i]}px `
+      }
+      document.documentElement.style.setProperty('--root-tile-border-radius', border);
+    }
   }
 }
 

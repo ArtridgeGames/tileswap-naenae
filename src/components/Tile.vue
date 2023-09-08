@@ -12,7 +12,7 @@ import TileSVG from "./TileSVG.vue";
           background: frontColor,
         }"
       >
-        <TileSVG :outline="frontOutline" :highlight="frontHighlight" />
+        <TileSVG :outline="frontOutline" :highlight="frontHighlight" :borderRadius="borderRadius/3"/>
       </div>
 
       <div
@@ -21,7 +21,7 @@ import TileSVG from "./TileSVG.vue";
           background: backColor,
         }"
       >
-        <TileSVG :outline="backOutline" :highlight="backHighlight" />
+        <TileSVG :outline="backOutline" :highlight="backHighlight" :borderRadius="borderRadius/3"/>
       </div>
     </div>
   </div>
@@ -35,6 +35,7 @@ import {
   outlineGradient,
   highlightGradient,
 } from "../assets/js/Layout.js";
+import { SETTINGS_DATA } from "../assets/js/Settings";
 export default {
   props: ["tile", "visible", "small", "position"],
   data() {
@@ -52,6 +53,11 @@ export default {
       outlineGradient,
       highlightGradient,
     };
+  },
+  computed: {
+    borderRadius() {
+      return Math.max(...SETTINGS_DATA.tilesShape.value);
+    }
   },
   watch: {
     tile(newVal) {
@@ -74,7 +80,7 @@ export default {
   },
   mounted() {
     const store = useStore();
-
+    const tileShape = SETTINGS_DATA.tilesShape.value;
     const resize = () => {
       const { width, height } = store.currentLayout;
 
@@ -84,7 +90,10 @@ export default {
             (window.innerWidth > 600 ? 0.5 : 0.8))) *
         300 *
         (this.$props.small !== undefined ? 0.5 : 1);
-      this.borderRadius = 0.2 * size + "px";
+      this.borderRadius = ''
+      for (let i = 0; i<tileShape.length; i++) {
+        this.borderRadius += `${tileShape[i] * size * 0.2/30}px `
+      }
       this.tileSize = size + "px";
     };
 
