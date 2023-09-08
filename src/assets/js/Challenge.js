@@ -37,6 +37,18 @@ export class Challenge {
       hasSpecificPatterns: true,
       name: "Think a bit less fast but still fast enough to be fast enough, you know?"
     }),
+    ,
+    new Challenge({
+      timeLimit: 60,
+      moveLimit: -1,
+      totalClicks: 16,
+      patterns: [0,15,21,22,23,24,47],
+      nPatterns: 5,
+      bigLayoutAdapt: false,
+      moveLimitPer: 4,
+      hasSpecificPatterns: true,
+      name: "Challenge 1"
+    }),
     new Challenge({
       timeLimit: 60,
       moveLimit: -1,
