@@ -6,7 +6,7 @@
     :class="{
       'is-task-target': isTaskTarget
     }"
-    :title="`${layout.width}x${layout.height} - ${layout.exclude.length}`">
+    :title="`${layout.width}x${layout.height} - ${layout.exclude.length} (id: ${layout.id})`">
     <div
       v-for="tile in includedTiles"
       :key="'t' + tile"
@@ -93,7 +93,7 @@ export default {
       const store = useStore();
       store.setLayout(this.layout);
       this.$router.push("/freeplayGame");
-    },
+    }
   }
 };
 </script>
