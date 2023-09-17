@@ -12,7 +12,7 @@ import TileSVG from "./TileSVG.vue";
           background: frontColor,
         }"
       >
-        <TileSVG :outline="frontOutline" :highlight="frontHighlight" :borderRadius="borderRadius/3"/>
+        <TileSVG :outline="frontOutline" :highlight="frontHighlight" :borderRadius="borderRadiusSetting/3"/>
       </div>
 
       <div
@@ -21,7 +21,7 @@ import TileSVG from "./TileSVG.vue";
           background: backColor,
         }"
       >
-        <TileSVG :outline="backOutline" :highlight="backHighlight" :borderRadius="borderRadius/3"/>
+        <TileSVG :outline="backOutline" :highlight="backHighlight" :borderRadius="borderRadiusSetting/3"/>
       </div>
     </div>
   </div>
@@ -55,7 +55,7 @@ export default {
     };
   },
   computed: {
-    borderRadius() {
+    borderRadiusSetting() {
       return Math.max(...SETTINGS_DATA.tilesShape.value);
     }
   },
@@ -117,6 +117,8 @@ export default {
   margin: 7px;
   display: inline-block;
   cursor: v-bind('visible ? "pointer" : "default"');
+  overflow: hidden;
+  outline: solid 5px  v-bind("frontOutline");
 }
 
 .tile > .inner-tile {

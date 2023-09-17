@@ -20,7 +20,7 @@
         <path
           id="path2326"
           :style="{
-            fill: highlight,
+            fill: highlight
           }"
           style="
             fill-opacity: 1;
@@ -54,7 +54,7 @@
           x="1.4738767"
           y="1.4738767"
           :ry="borderRadius" 
-        />
+        /> 
       </g>
     </svg>
   </div>
