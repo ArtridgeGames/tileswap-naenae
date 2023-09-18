@@ -2,7 +2,7 @@
 import LayoutSelectionButton from "../../components/freeplay/LayoutSelectionButton.vue";
 import LinkButton from "../../components/buttons/LinkButton.vue";
 import IconButton from "../../components/buttons/IconButton.vue";
-import randomUrl from "../../../public/images/svg/tutorial.svg";
+import randomUrl from "/images/svg/tutorial.svg";
 import { Layout } from "../../assets/js/Layout.js";
 </script>
 

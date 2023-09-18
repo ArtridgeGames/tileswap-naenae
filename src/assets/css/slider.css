@@ -127,3 +127,7 @@ how to remove the virtical space around the range input in IE*/
 ::-webkit-scrollbar {
   display: none;
 }
+body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
