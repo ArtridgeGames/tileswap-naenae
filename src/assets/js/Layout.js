@@ -286,6 +286,11 @@ export class Layout {
       ],
       unlockCategory: 1,
       id: 22
+    }, { dimensions: "4x4", exclude: [1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14], unlockCategory: -2, id:32 }, {
+      dimensions: "5x5",
+      exclude: [5, 7, 9, 10, 12, 14, 15, 17, 19],
+      unlockCategory: -2,
+      id: 40
     },
     {
       dimensions: "3x3",
