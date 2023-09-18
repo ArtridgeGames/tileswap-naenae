@@ -96,27 +96,27 @@ export class Layout {
     },
     {
       dimensions: "8x8",
-      unlockCategory: 16,
+      unlockCategory: 15,
       id: 5
     },
     {
       dimensions: "9x9",
-      unlockCategory: 16,
+      unlockCategory: 15,
       id: 6
     },
     {
       dimensions: "10x10",
-      unlockCategory: 16,
+      unlockCategory: 15,
       id: 7
     },
     {
       dimensions: "11x11",
-      unlockCategory: 16,
+      unlockCategory: 15,
       id: 8
     },
     {
       dimensions: "12x12",
-      unlockCategory: 16,
+      unlockCategory: 15,
       id: 9
     },
     {
