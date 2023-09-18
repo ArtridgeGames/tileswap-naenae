@@ -131,3 +131,6 @@ body {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
+::-moz-scrollbar {
+  display: none;
+}

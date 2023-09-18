@@ -29,6 +29,7 @@ main.container {
   border-radius: var(--button-border-radius);
   background-color: var(--hl-color);
   padding: var(--button-padding);
+  overflow: hidden;
 }
 </style>
 
