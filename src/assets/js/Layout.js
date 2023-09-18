@@ -1186,6 +1186,11 @@ export class Layout {
       .map((row, y) => row.map((cell, x) => cell === -1 ? y * width + x : null)).flat().filter(e => e || e === 0);
   }
 
+  static getRandomLayout() {
+    const layouts = Layout.FILTERED_LAYOUTS;
+    return layouts[Math.floor(Math.random() * layouts.length)];
+  }
+
   /**
    * Parses a string or object into a Layout object
    * @param {String|Object} state the string or object to parse

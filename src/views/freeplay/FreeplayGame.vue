@@ -1,11 +1,11 @@
 <script setup>
 import { useStore } from "@/store/store.js";
-import Layout from "../../components/Layout.vue";
-import Button from "../../components/Button.vue";
+import LayoutVue from "../../components/Layout.vue";
+import Button from "../../components/buttons/Button.vue";
 import DifficultySlider from "../../components/DifficultySlider.vue";
 import ModuloSlider from "../../components/ModuloSlider.vue";
 import Modal from "../../components/Modal.vue";
-import LinkButton from "../../components/LinkButton.vue";
+import LinkButton from "../../components/buttons/LinkButton.vue";
 import { useWindow } from "@/assets/js/window.js";
 </script>
 
@@ -42,8 +42,8 @@ import { useWindow } from "@/assets/js/window.js";
 
     <main>
       <Transition name="fade" mode="out-in">
-        <Layout
-          :key="modulo"
+        <LayoutVue
+          :key="modulo + layout.id"
           v-model="layout"
           :solution="devMode ? solution : null"
           @swap="handleClick"
@@ -192,7 +192,7 @@ main {
 </style>
 <script>
 import { solve, devMode, setDevMode } from "../../assets/js/solve/solve";
-import { modulo, setModulo } from "../../assets/js/Layout.js";
+import { modulo, setModulo, Layout } from "../../assets/js/Layout.js";
 import { watch } from "vue";
 import { Task } from '../../assets/js/Task';
 
@@ -229,6 +229,10 @@ export default {
     },
     showModal() {
       if (!this.showModal) {
+        if (this.store.isRandomFreeplay) {
+          this.store.setLayout(Layout.getRandomLayout());
+          this.layout = this.store.currentLayout;
+        }
         this.randomize();
       }
     },

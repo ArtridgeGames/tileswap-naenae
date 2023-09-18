@@ -1,6 +1,8 @@
 <script setup>
 import LayoutSelectionButton from "../../components/freeplay/LayoutSelectionButton.vue";
-import LinkButton from "../../components/LinkButton.vue";
+import LinkButton from "../../components/buttons/LinkButton.vue";
+import IconButton from "../../components/buttons/IconButton.vue";
+import randomUrl from "../../../public/images/svg/tutorial.svg";
 import { Layout } from "../../assets/js/Layout.js";
 </script>
 
@@ -10,6 +12,9 @@ import { Layout } from "../../assets/js/Layout.js";
     <LinkButton class="top right" text="back" to="/" />
     
     <div class="layouts">
+
+      <IconButton :icon="randomUrl" @click="startRandomFreeplay" />
+
       <LayoutSelectionButton
         v-for="(layout, index) in layouts"
         :layout="layout"
@@ -41,6 +46,8 @@ main {
 </style>
 
 <script>
+import { useStore } from '../../store/store.js';
+
 export default {
   data() {
     return {
@@ -50,6 +57,12 @@ export default {
   methods: {
     goHome() {
       this.$router.push("/");
+    },
+    startRandomFreeplay() {
+      const store = useStore();
+      store.isRandomFreeplay = true;
+      store.setLayout(Layout.getRandomLayout());
+      this.$router.push("/freeplayGame");
     }
   }
 };

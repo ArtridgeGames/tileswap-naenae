@@ -37,7 +37,6 @@ export class Challenge {
       hasSpecificPatterns: true,
       name: "Think a bit less fast but still fast enough to be fast enough, you know?"
     }),
-    ,
     new Challenge({
       timeLimit: 60,
       moveLimit: -1,
@@ -162,8 +161,7 @@ export class Challenge {
     }
     challengeLayouts.sort(() => Math.random() - 0.5);
 
-    this.challengeLayouts = challengeLayouts
-    console.log(challengeLayouts)
+    this.challengeLayouts = challengeLayouts;
   }
 
   getCurrentLayout() {

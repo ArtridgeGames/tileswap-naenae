@@ -91,6 +91,7 @@ export default {
   methods: {
     openGame() {
       const store = useStore();
+      store.isRandomFreeplay = false;
       store.setLayout(this.layout);
       this.$router.push("/freeplayGame");
     }

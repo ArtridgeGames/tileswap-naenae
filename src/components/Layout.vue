@@ -19,7 +19,7 @@ import Tile from "./Tile.vue";
           :visible="tile !== -1"
           :position="[rowIndex, tileIndex]"
           :key="
-            rowIndex + '' + tileIndex + '' + currentChallenge?.currentPattern
+            rowIndex + '' + tileIndex + '' + currentChallenge?.currentPattern + modelValue.id
           "
           :class="{
             solution:

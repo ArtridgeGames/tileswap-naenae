@@ -1,12 +1,14 @@
 <script setup>
 import Layout from '../../components/Layout.vue';
 import Modal from "../../components/Modal.vue";
-import Button from '../../components/Button.vue';
+import Button from '../../components/buttons/Button.vue';
 import Progress from '../../components/Progress.vue';
 </script>
 
 <template>
   <div>
+
+    <Button class="top right" text="back" @click="showPauseModal = true" />
 
     <div v-if="hasStarted">
       <h2 class="info center"> {{ formattedTime }} {{ moves }} - {{ percentageCompleted + '%' }}</h2>
@@ -28,6 +30,12 @@ import Progress from '../../components/Progress.vue';
     <Modal v-model="showLostModal">
       <h1>{{ modalText }}</h1>
       <Button black text="adnwkhu!" @click="showLostModal = false" />
+    </Modal>
+
+    <Modal v-model="showPauseModal">
+      <h1>Are you sure you want to go back?</h1>
+      <Button black text="resume" @click="resume" />
+      <Button black text="quit" @click="quit" />
     </Modal>
   </div>
 </template>
@@ -82,6 +90,7 @@ export default {
       layout: currentChallenge.getCurrentLayout(),
       showWinModal: false,
       showLostModal: false,
+      showPauseModal: false,
       modalText: "",
       timerId: 0,
       hasStarted: false
@@ -114,6 +123,15 @@ export default {
         this.showLostModal = true;
         window.clearInterval(this.timerId);
       }
+    },
+    resume() {
+      this.showPauseModal = false;
+    },
+    quit() {
+      this.showPauseModal = false;
+      window.clearInterval(this.timerId);
+      this.currentChallenge.reset();
+      this.$router.push('/challengeSelection');
     }
   },
   watch: {
@@ -146,7 +164,7 @@ export default {
   },
   mounted() {
     this.timerId = window.setInterval(()=>{
-      this.time -= 1 * this.hasStarted;
+      this.time -= 1 * this.hasStarted * !this.showPauseModal;
       if (this.time <= 0) {
         this.modalText = "no time left!";
         this.currentChallenge.maxPercent = Math.max(this.percentageCompleted, this.currentChallenge.maxPercent);

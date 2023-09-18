@@ -1,5 +1,5 @@
 <script setup>
-import LinkButton from '../../components/LinkButton.vue';
+import LinkButton from '../../components/buttons/LinkButton.vue';
 import CSB from '../../components/challenges/ChallengeSelectionButton.vue';
 </script>
 
@@ -7,7 +7,7 @@ import CSB from '../../components/challenges/ChallengeSelectionButton.vue';
   <div>
     <h1 class="title">Select a challenge</h1>
     <LinkButton class="top right" text="back" to="/" />
-    <CSB v-for="(challenge,i) in challenges" :key="i" @click="selectChallenge(challenge)" :challenge="challenge"/>
+    <CSB v-for="challenge in challenges" :key="challenge.id" @click="selectChallenge(challenge)" :challenge="challenge"/>
   </div>
 </template>
 

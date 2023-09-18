@@ -1,7 +1,7 @@
 <script setup>
 import LayoutVue from '../components/Layout.vue';
 import Modal from '../components/Modal.vue';
-import Button from '../components/Button.vue';
+import Button from '../components/buttons/Button.vue';
 </script>
 
 <template>

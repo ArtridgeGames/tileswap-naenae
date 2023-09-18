@@ -13,6 +13,8 @@ export const useStore = defineStore('store', () => {
   const unlockedCategoriesPZ = ref(10);
   const currentTasks = ref([0,1,2]);
   const maxTask = ref(2);
+  const isRandomFreeplay = ref(false);
+  
   function setTask(index, task) {
     currentTasks.value.splice(index, 1);
     currentTasks.value.push(task);
@@ -53,6 +55,7 @@ export const useStore = defineStore('store', () => {
     currentLayout,
     currentPuzzle,
     currentChallenge,
+    isRandomFreeplay,
     difficulty,
     setLayout,
     setPuzzle,

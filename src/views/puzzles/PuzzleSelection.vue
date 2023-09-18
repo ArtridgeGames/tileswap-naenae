@@ -1,5 +1,5 @@
 <script setup>
-import LinkButton from '@/components/LinkButton.vue';
+import LinkButton from '@/components/buttons/LinkButton.vue';
 import PuzzleSelectionButton from '@/components/puzzles/PuzzleSelectionButton.vue';
 import { Puzzle } from '../../assets/js/Puzzle.js';
 </script>

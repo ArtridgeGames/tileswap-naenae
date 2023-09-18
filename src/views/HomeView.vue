@@ -3,8 +3,12 @@ import ModeButton from '../components/ModeButton.vue';
 import freeplayUrl from '/images/freeplay-transparent.png';
 import puzzlesUrl from '/images/puzzles-transparent.png';
 import challengesUrl from '/images/challenges-transparent.png';
-import Button from '../components/Button.vue';
-import LinkButton from '../components/LinkButton.vue';
+import statsUrl from '/images/svg/stats.svg';
+import settingsUrl from '/images/svg/settings.svg';
+import taskUrl from '/images/svg/tasks.svg';
+import tutorialUrl from '/images/svg/tutorial.svg';
+import Button from '../components/buttons/Button.vue';
+import IconButton from '../components/buttons/IconButton.vue';
 import Modal from '../components/Modal.vue';
 import Stats from '../components/Stats.vue';
 import Settings from '../components/Settings.vue';
@@ -17,7 +21,7 @@ import SplashScreen from '../components/SplashScreen.vue';
 
     <h1 class="main-title">Tile<span>Swap</span></h1>
   
-    <main class="buttons">
+      <main class="buttons">
       <ModeButton name="Freeplay" :image="freeplayUrl" path="/freeplaySelection" />
       <ModeButton name="Puzzles" :image="puzzlesUrl" path="/puzzleSelection" />
       <ModeButton name="Challenges" :image="challengesUrl" path="/challengeSelection" />
@@ -25,14 +29,13 @@ import SplashScreen from '../components/SplashScreen.vue';
 
     <div :class="{
       bottom: windowWidth > 600,
-      left: windowWidth > 600,
+      center: windowWidth > 600,
       'text-center': windowWidth <= 600,
-    }">
-      <Button v-if="windowWidth <= 600" text="tasks" @click="showTasks = true" />
-
-      <Button text="stats" @click="showStats = true" />
-      <Button text="settings" @click="showSettings = true" />
-      <LinkButton text="tutorial" to="/tutorial" />
+    }" style="width: max-content">
+      <IconButton :icon="taskUrl" @click="showTasks = true" />
+      <IconButton :icon="statsUrl" @click="showStats = true" />
+      <IconButton :icon="settingsUrl" @click="showSettings = true" />
+      <IconButton :icon="tutorialUrl" to="/tutorial" />
     </div>
 
     <div :class="{
@@ -59,7 +62,6 @@ import SplashScreen from '../components/SplashScreen.vue';
       <h1>Settings</h1>
       <Settings />
     </Modal>
-    <Button v-if="windowWidth > 600" class="top right" text="tasks" @click="showTasks = true" />
 
     <Modal v-model="showTasks">
       <h1>Tasks</h1>
