@@ -13,18 +13,40 @@ export class Challenge {
       bigLayoutAdapt: false,
       moveLimitPer: 3,
       hasSpecificPatterns: true,
-      name: "Think Fast"
+      name: "Think Fast - Expert"
     }),
     new Challenge({
       timeLimit: 60,
       moveLimit: -1,
-      totalClicks: 2,
-      patterns: [1, 1],
-      nPatterns: 1,
+      totalClicks: 45,
+      patterns: [0],
+      nPatterns: 15,
       bigLayoutAdapt: false,
-      moveLimitPer: 2,
-      hasSpecificPatterns: false,
-      name: "EZ"
+      moveLimitPer: 5,
+      hasSpecificPatterns: true,
+      name: "Think Fast - Hard"
+    }),
+    new Challenge({
+      timeLimit: 60,
+      moveLimit: -1,
+      totalClicks: 33,
+      patterns: [0],
+      nPatterns: 11,
+      bigLayoutAdapt: false,
+      moveLimitPer: 7,
+      hasSpecificPatterns: true,
+      name: "Think Fast - Medium"
+    }),
+    new Challenge({
+      timeLimit: 60,
+      moveLimit: -1,
+      totalClicks: 21,
+      patterns: [0],
+      nPatterns: 7,
+      bigLayoutAdapt: false,
+      moveLimitPer: 7,
+      hasSpecificPatterns: true,
+      name: "Think Fast - Easy"
     }),
     new Challenge({
       timeLimit: 60,
@@ -40,13 +62,46 @@ export class Challenge {
     new Challenge({
       timeLimit: 60,
       moveLimit: -1,
-      totalClicks: 16,
-      patterns: [1, 2],
+      totalClicks: 17,
+      patterns: [1,1],
       nPatterns: 5,
       bigLayoutAdapt: false,
-      moveLimitPer: 4,
+      moveLimitPer: -1,
       hasSpecificPatterns: false,
-      name: "Challenge 1"
+      name: "Challenge 1 - Easy"
+    }),
+    new Challenge({
+      timeLimit: 60,
+      moveLimit: -1,
+      totalClicks: 30,
+      patterns: [1,1],
+      nPatterns: 10,
+      bigLayoutAdapt: false,
+      moveLimitPer: -1,
+      hasSpecificPatterns: false,
+      name: "Challenge 1 - Medium"
+    }),
+    new Challenge({
+      timeLimit: 60,
+      moveLimit: -1,
+      totalClicks: 55,
+      patterns: [1,1],
+      nPatterns: 14,
+      bigLayoutAdapt: false,
+      moveLimitPer: -1,
+      hasSpecificPatterns: false,
+      name: "Challenge 1 - Hard"
+    }),
+    new Challenge({
+      timeLimit: 60,
+      moveLimit: -1,
+      totalClicks: 92,
+      patterns: [1,1],
+      nPatterns: 22,
+      bigLayoutAdapt: false,
+      moveLimitPer: -1,
+      hasSpecificPatterns: false,
+      name: "Challenge 1 - Expert"
     }),
     new Challenge({
       timeLimit: 60,
