@@ -13,7 +13,7 @@ import { Layout } from "../../assets/js/Layout.js";
       <LayoutSelectionButton
         v-for="(layout, index) in layouts"
         :layout="layout"
-        :completion="1"
+        :completion="layout.id"
         :key="index"
       ></LayoutSelectionButton>
     </div>
