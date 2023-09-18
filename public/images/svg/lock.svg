@@ -1,0 +1,38 @@
+
+<svg
+   width="50%"
+   height="50%"
+   viewBox="0 0 300 300"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   sodipodi:docname="lock.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#000000;fill-opacity:1;stroke-width:48.901;stroke-linecap:round;stroke-linejoin:round;paint-order:fill markers stroke"
+       id="rect848"
+       width="220"
+       height="160"
+       x="40"
+       y="130"
+       ry="15" />
+    <!-- <path
+       id="path2000"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.04606px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 149.31394,182.42969 a 18.306127,18.306127 0 0 0 -18.30613,18.30613 18.306127,18.306127 0 0 0 7.07116,14.39972 L 130.97512,240 h 36.61226 l -7.09363,-24.82564 a 18.306127,18.306127 0 0 0 7.12632,-14.43854 18.306127,18.306127 0 0 0 -18.30613,-18.30613 z" /> -->
+    <path
+       style="fill:none;stroke:#000000;stroke-width:34.1931;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 84.557767,169.73988 V 88.096825 c 0,0 0,-63.500154 64.442233,-63.500154 64.44223,0 64.44223,63.500154 64.44223,63.500154 v 81.643055"
+       id="path3236"
+       sodipodi:nodetypes="ccscc" />
+  </g>
+</svg>
