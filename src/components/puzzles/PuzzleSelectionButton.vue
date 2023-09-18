@@ -1,5 +1,6 @@
 <script setup>
 import { useStore } from "@/store/store.js";
+import lockURL from '/images/svg/lock.svg';
 </script>
 
 <template>
@@ -8,8 +9,10 @@ import { useStore } from "@/store/store.js";
     @click="openGame"
     :class="{
       'is-task-target': isTaskTarget,
-    }"
+      'locked': !unlocked,
+    }" 
   >
+  <div v-if="unlocked">
     <div
       v-for="tile in includedTiles"
       :key="'t' + tile"
@@ -31,6 +34,10 @@ import { useStore } from "@/store/store.js";
         height: `${tileSizePreview - 1}px`,
       }"
     ></div>
+  </div>
+  <div v-else>
+    <img :src="lockURL">
+  </div>
   </div>
 </template>
 
@@ -56,6 +63,16 @@ import { useStore } from "@/store/store.js";
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+.container.locked {
+  background: #ddd;
+}
+img {
+  width: 60%;
+  height: 60%;
+  position: absolute;
+  top: 20%;
+  left: 20%;
 }
 </style>
 
@@ -100,9 +117,15 @@ export default {
         ? "var(--silver-color)"
         : "var(--bronze-color)");
     },
+    unlocked() {
+      const store = useStore()
+      return store.unlockedCategoriesPZ >= this.puzzle.id;
+
+    }
   },
   methods: {
     openGame() {
+      if (!this.unlocked) return;
       const store = useStore();
       store.setPuzzle(this.puzzle);
       store.setLayout(this.layout);

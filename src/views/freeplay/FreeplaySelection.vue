@@ -11,9 +11,7 @@ import { Layout } from "../../assets/js/Layout.js";
     <h1 class="title">Select a layout</h1>
     <LinkButton class="top right" text="back" to="/" />
     <br>
-    
     <div>
-
       <div class="text-center">
         <IconButton :icon="randomUrl" @click="startRandomFreeplay" />
       </div>
@@ -60,8 +58,9 @@ import { useStore } from '../../store/store.js';
 export default {
   data() {
     const categories = new Set(Layout.FILTERED_LAYOUTS.map(e => e.unlockCategory)).size;
+    const lowest = Math.min(...Layout.FILTERED_LAYOUTS.map(e => e.unlockCategory));
     const layouts = new Array(categories).fill(0).map((_, i) => {
-      return Layout.FILTERED_LAYOUTS.filter(e => e.unlockCategory === i + 1);
+      return Layout.FILTERED_LAYOUTS.filter(e => e.unlockCategory === i + lowest);
     });
     console.log(layouts);
     return {

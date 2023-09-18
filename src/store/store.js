@@ -9,8 +9,8 @@ export const useStore = defineStore('store', () => {
   const currentPuzzle = ref({});
   const currentChallenge = ref({});
   const difficulty = ref(5);
-  const unlockedCategoriesFP = ref(39);
-  const unlockedCategoriesPZ = ref(10);
+  const unlockedCategoriesFP = ref(3);
+  const unlockedCategoriesPZ = ref(51);
   const currentTasks = ref([0,1,2]);
   const maxTask = ref(2);
   const isRandomFreeplay = ref(false);

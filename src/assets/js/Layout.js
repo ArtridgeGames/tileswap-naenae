@@ -3434,7 +3434,8 @@ export class Layout {
 
   static get FILTERED_LAYOUTS() {
     const store = useStore();
-    return this.LAYOUTS.filter(e => e.unlockCategory <= store.unlockedCategoriesFP && e.unlockCategory > 0)
+    return this.LAYOUTS;
+    return this.LAYOUTS.filter(e => e.unlockCategory > 0)
   }
 
   /**

@@ -1,23 +1,32 @@
+<script setup>
+import lockURL from '/images/svg/lock.svg';
+</script>
+
 <template>
   <ul>
     <li v-for="(setting, key) in settingsList" :key="key">
       {{ setting.name }} :
       <div
-        :style="`${(value instanceof Array) ? 
-          value[0] instanceof Object ?
-            value.map((e, i) => `--value-${i + 1}: ` + formatRgb(e) + ';').join(' ') :
-            `--value: ${formatBR(value, 0.4)};`:
-          `--value: ${value};` 
+        :style="`${
+          value instanceof Array
+            ? value[0] instanceof Object
+              ? value
+                  .map((e, i) => `--value-${i + 1}: ` + formatRgb(e) + ';')
+                  .join(' ')
+              : `--value: ${formatBR(value, 0.4)};`
+            : `--value: ${value};`
         } 
-        --selected: ${
-          j === setting.selected ? '2px' : '0px'
-        }`"
+        --selected: ${j === setting.selected ? '2px' : '0px'}
+        `"
         :data-value="value"
+        :data-locked="j > setting.unlocked"
         :class="key"
         v-for="(value, j) in setting.options"
         :key="value + ' ' + j"
         @click="changeSetting(key, j)"
-      ></div>
+      >
+        <img v-if="j > setting.unlocked" :src="lockURL" />
+    </div>
     </li>
   </ul>
 </template>
@@ -29,6 +38,7 @@ ul {
 }
 ul > li > div {
   outline: var(--selected) solid black;
+  position: relative;
 }
 ul > li {
   margin-bottom: 10px;
@@ -43,7 +53,7 @@ ul > li {
   display: inline-block;
   border-radius: 5px;
   margin-left: 5px;
-  transform: translateY(10%)
+  transform: translateY(10%);
 }
 .tilesColor {
   background-color: var(--value-2);
@@ -53,10 +63,10 @@ ul > li {
   display: inline-block;
   border-radius: 5px;
   margin-left: 5px;
-  transform: translateY(10%)
+  transform: translateY(10%);
 }
 .tilesColor::after {
-  content: '';
+  content: "";
   display: block;
   position: absolute;
   width: 0;
@@ -73,17 +83,18 @@ ul > li {
   display: inline-block;
   border-radius: 5px;
   margin-left: 5px;
-  transform: translateY(10%)
+  transform: translateY(10%);
 }
 .colorBlind::after {
   content: attr(data-value);
   position: absolute;
-  top: 50%; left: 50%;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
 }
 
 .tilesShape {
-  border-radius: var(--value);  
+  border-radius: var(--value);
   width: 50px;
   height: 50px;
   margin-left: 5px;
@@ -91,6 +102,16 @@ ul > li {
   display: inline-block;
   background-color: #666;
 }
+
+img {
+  width: 100%;
+  height: 100%;
+  transform: scale(1.1);
+  position: absolute;
+  background: white;
+}
+
+
 </style>
 
 <script>
@@ -100,19 +121,20 @@ import { SETTINGS_DATA } from "../assets/js/Settings.js";
 export default {
   methods: {
     changeSetting(key, index) {
+      if (index > SETTINGS_DATA[key].unlocked) return;
       const store = useStore();
       store.settings[key] = index;
     },
     formatRgb(color) {
-      return `rgb(${color.r},${color.g},${color.b})`
+      return `rgb(${color.r},${color.g},${color.b})`;
     },
     formatBR(borderRadius, mul) {
-      let border = '';
-      for (let i = 0; i<borderRadius.length; i++) {
-        border += `${borderRadius[i]*mul}px `
+      let border = "";
+      for (let i = 0; i < borderRadius.length; i++) {
+        border += `${borderRadius[i] * mul}px `;
       }
       return border;
-    }
+    },
   },
   computed: {
     settingsList() {

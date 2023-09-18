@@ -10,7 +10,8 @@ export const SETTINGS_DATA = {
     },
     onChange(index) {
       document.documentElement.style.setProperty('--root-bg-color', this.options[index]);
-    }
+    },
+    unlocked: 2
   },
   tilesColor: {
     name: 'Tiles Color',
@@ -25,7 +26,8 @@ export const SETTINGS_DATA = {
     },
     onChange(index) {
       return;
-    }
+    },
+    unlocked: 2
   },
   colorBlind: {
     name: 'Color Blind',
@@ -36,7 +38,8 @@ export const SETTINGS_DATA = {
     },
     onChange(index) {
       return;
-    }
+    },
+    unlocked: 2
   },
   tilesShape: {
     name: 'Tiles Shape',
@@ -51,7 +54,8 @@ export const SETTINGS_DATA = {
         border += `${this.options[index][i]}px `
       }
       document.documentElement.style.setProperty('--root-tile-border-radius', border);
-    }
+    },
+    unlocked: 2
   }
 }
 

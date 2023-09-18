@@ -1,24 +1,34 @@
+<script setup>
+import lockUrl from '/images/svg/lock.svg'
+</script>
+
 <template>
   <div 
     @click="openGame"
     :data-level="completion"
     class="container"
     :class="{
-      'is-task-target': isTaskTarget
+      'is-task-target': isTaskTarget,
+      'locked': !unlocked,
     }"
     :title="`${layout.width}x${layout.height} - ${layout.exclude.length} (id: ${layout.id})`">
-    <div
-      v-for="tile in includedTiles"
-      :key="'t' + tile"
-      class="tile"
-      :style="{
-        transform: `translate(${
-          tileSizePreview * ((tile % layout.width) - layout.width / 2) + 50
-        }px, ${tileSizePreview * (Math.floor(tile / layout.width) - layout.height / 2) + 50}px)`,
-        width: `${tileSizePreview - 1}px`,
-        height: `${tileSizePreview - 1}px`,
-      }"
-    ></div>
+      <div v-if="unlocked">
+        <div
+          v-for="tile in includedTiles"
+          :key="'t' + tile"
+          class="tile"
+          :style="{
+            transform: `translate(${
+              tileSizePreview * ((tile % layout.width) - layout.width / 2) + 50
+            }px, ${tileSizePreview * (Math.floor(tile / layout.width) - layout.height / 2) + 50}px)`,
+            width: `${tileSizePreview - 1}px`,
+            height: `${tileSizePreview - 1}px`,
+          }"
+        ></div>
+      </div>
+      <div v-else>
+        <img :src="lockUrl" />
+      </div>
   </div>
 </template>
 
@@ -62,6 +72,16 @@
   top: 50%;
   transform: translate(-50%, -50%);
 }
+.container.locked {
+  background: #ddd;
+}
+img {
+  width: 60%;
+  height: 60%;
+  position: absolute;
+  top: 20%;
+  left: 20%;
+}
 </style>
 
 <script>
@@ -86,10 +106,15 @@ export default {
     },
     isTaskTarget() {
       return Task.isTaskTarget(this.layout.id, Task.TASK_TYPES.FREEPLAY);
+    },
+    unlocked() {
+      const store = useStore();
+      return store.unlockedCategoriesFP >= this.layout.unlockCategory;
     }
   },
   methods: {
     openGame() {
+      if (!this.unlocked) return;
       const store = useStore();
       store.isRandomFreeplay = false;
       store.setLayout(this.layout);
