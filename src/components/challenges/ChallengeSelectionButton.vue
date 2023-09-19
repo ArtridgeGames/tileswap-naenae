@@ -49,7 +49,8 @@ export default {
       const score = this.challenge.maxPercent !== 0
           ? this.challenge.maxPercent !== 100
             ? this.challenge.maxPercent + "%"
-            : formatTime(this.challenge.minTime)
+            : this.challenge.timeLimit!==-1?formatTime(this.challenge.minTime)
+              : this.challenge.minMoves + " moves"
           : "";
 
       return (!this.challenge.name ? (

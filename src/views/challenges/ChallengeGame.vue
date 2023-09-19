@@ -11,8 +11,8 @@ import Progress from '../../components/Progress.vue';
     <Button class="top right" text="back" @click="showPauseModal = true" />
 
     <div v-if="hasStarted">
-      <h2 class="info center"> {{ formattedTime }} {{ moves }} - {{ percentageCompleted + '%' }}</h2>
-      <h2 class="per center">{{ movesPer }} - {{ formattedTimePer }}</h2>
+      <h2 class="info center"> {{ formattedTime }} {{ moves }} {{ percentageCompleted + '%' }}</h2>
+      <h2 class="per center">{{ movesPer }} {{ formattedTimePer }}</h2>
     </div>
     <h2 class="info center" v-else>Click To Start The Challenge !</h2>
     <Progress class="center progress" :value="percentageCompleted" :max="100" />
@@ -85,6 +85,7 @@ export default {
     return {
       currentChallenge,
       time: currentChallenge.timeLimit,
+      timePer: currentChallenge.timeLimitPer,
       nMoves: currentChallenge.moveLimit,
       nMovesPer: currentChallenge.moveLimitPer,
       layout: currentChallenge.getCurrentLayout(),
@@ -110,6 +111,7 @@ export default {
           this.showWinModal = true;
           this.currentChallenge.minTime = Math.min(this.currentChallenge.timeLimit - this.time, this.currentChallenge.minTime);
           this.currentChallenge.maxPercent = 100;
+          this.currentChallenge.minMoves = Math.min(this.currentChallenge.moveLimit - this.nMoves, this.currentChallenge.minMoves)
           Task.advanceTasks(this.currentChallenge.id, Task.TASK_TYPES.CHALLENGE, this.currentChallenge.timeLimit - this.time);
           window.clearInterval(this.timerId);
           return;
@@ -151,24 +153,24 @@ export default {
   },
   computed: {
     formattedTime() {
-      return formatTime(this.time);
+      return this.currentChallenge.timeLimit!==-1?formatTime(this.time)+"- ":'';
     },
     formattedTimePer() {
-      return formatTime(this.timePer);
+      return this.currentChallenge.timeLimitPer!==-1? formatTime(this.timePer).toString():'';
     },
     percentageCompleted() {
       return Math.floor(this.currentChallenge.currentPattern / this.currentChallenge.nPatterns * 100);
     },
     moves() {
-      return this.nMoves <= -1?"":"- "+this.nMoves
+      return this.nMoves <= -1?"":this.nMoves+" -"
     },
     movesPer() {
-      return this.nMovesPer <= -1?"":this.nMovesPer
+      return this.nMovesPer <= -1?"":(this.nMovesPer + (this.currentChallenge.timeLimitPer===-1?"":" - "))
     }
   },
   mounted() {
     this.timerId = window.setInterval(()=>{
-      if (this.timeLimit !== -1){
+      if (this.currentChallenge.timeLimit !== -1){
         this.time -= 1 * this.hasStarted * !this.showPauseModal;
         if (this.time <= 0) {
           this.modalText = "no time left!";
@@ -176,9 +178,9 @@ export default {
           this.showLostModal = true;
           window.clearInterval(this.timerId);
         }
-      } if (this.timeLimitPer !== -1) {
+      } if (this.currentChallenge.timeLimitPer !== -1) {
         this.timePer -= 1 * this.hasStarted * !this.showPauseModal;
-        if (this.time <= 0) {
+        if (this.timePer <= 0) {
           this.modalText = "no time left!";
           this.currentChallenge.maxPercent = Math.max(this.percentageCompleted, this.currentChallenge.maxPercent);
           this.showLostModal = true;

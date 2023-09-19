@@ -9,6 +9,7 @@ import taskUrl from '/images/svg/tasks.svg';
 import tutorialUrl from '/images/svg/tutorial.svg';
 import Button from '../components/buttons/Button.vue';
 import IconButton from '../components/buttons/IconButton.vue';
+import LinkButton from '../components/buttons/LinkButton.vue';
 import Modal from '../components/Modal.vue';
 import Stats from '../components/Stats.vue';
 import Settings from '../components/Settings.vue';
@@ -18,7 +19,6 @@ import SplashScreen from '../components/SplashScreen.vue';
 
 <template>
   <div class="container">
-
     <h1 class="main-title">Tile<span>Swap</span></h1>
   
       <main class="buttons">
@@ -26,6 +26,8 @@ import SplashScreen from '../components/SplashScreen.vue';
       <ModeButton name="Puzzles" :image="puzzlesUrl" path="/puzzleSelection" />
       <ModeButton name="Challenges" :image="challengesUrl" path="/challengeSelection" />
     </main>
+
+    <LinkButton class="bottom right" text="prout" to="/test" />
 
     <div :class="{
       bottom: windowWidth > 600,

@@ -15,7 +15,9 @@ export class Challenge {
           nPatterns: 30,
           bigLayoutAdapt: false,
           moveLimitPer: 3,
+          timeLimitPer: -1,
           hasSpecificPatterns: true,
+          randomPatterns: true,
           name: "Expert"
         }),
         new Challenge({
@@ -26,7 +28,9 @@ export class Challenge {
           nPatterns: 15,
           bigLayoutAdapt: false,
           moveLimitPer: 5,
+          timeLimitPer: -1,
           hasSpecificPatterns: true,
+          randomPatterns: true,
           name: "Hard"
         }),
         new Challenge({
@@ -37,7 +41,9 @@ export class Challenge {
           nPatterns: 11,
           bigLayoutAdapt: false,
           moveLimitPer: 7,
+          timeLimitPer: -1,
           hasSpecificPatterns: true,
+          randomPatterns: true,
           name: "Medium"
         }),
         new Challenge({
@@ -48,7 +54,9 @@ export class Challenge {
           nPatterns: 7,
           bigLayoutAdapt: false,
           moveLimitPer: 7,
+          timeLimitPer: -1,
           hasSpecificPatterns: true,
+          randomPatterns: true,
           name: "Easy"
         }),
         new Challenge({
@@ -59,7 +67,9 @@ export class Challenge {
           nPatterns: 30,
           bigLayoutAdapt: false,
           moveLimitPer: -1,
+          timeLimitPer: -1,
           hasSpecificPatterns: true,
+          randomPatterns: true,
           name: "Think a bit less fast but still fast enough to be fast enough, you know?"
         })
       ]
@@ -76,7 +86,9 @@ export class Challenge {
           nPatterns: 5,
           bigLayoutAdapt: false,
           moveLimitPer: -1,
+          timeLimitPer: -1,
           hasSpecificPatterns: false,
+          randomPatterns: true,
           name: "Easy"
         }),
         new Challenge({
@@ -87,7 +99,9 @@ export class Challenge {
           nPatterns: 10,
           bigLayoutAdapt: false,
           moveLimitPer: -1,
+          timeLimitPer: -1,
           hasSpecificPatterns: false,
+          randomPatterns: true,
           name: "Medium"
         }),
         new Challenge({
@@ -98,7 +112,9 @@ export class Challenge {
           nPatterns: 14,
           bigLayoutAdapt: false,
           moveLimitPer: -1,
+          timeLimitPer: -1,
           hasSpecificPatterns: false,
+          randomPatterns: true,
           name: "Hard"
         }),
         new Challenge({
@@ -109,7 +125,9 @@ export class Challenge {
           nPatterns: 22,
           bigLayoutAdapt: false,
           moveLimitPer: -1,
+          timeLimitPer: -1,
           hasSpecificPatterns: false,
+          randomPatterns: true,
           name: "Expert"
         }),
       ]
@@ -122,23 +140,27 @@ export class Challenge {
       nPatterns: 30,
       bigLayoutAdapt: false,
       moveLimitPer: -1,
+      timeLimitPer: -1,
       hasSpecificPatterns: true,
+      randomPatterns: true,
       name: "OG"
     }),
     new Challenge({
-      timeLimit: 1000, //should be no limit
+      timeLimit: -1, //should be no limit
       moveLimit: 45,
       totalClicks: 35,
       patterns: [156,157,158,159,160,161,162,163,164,165],
       nPatterns: 10,
       bigLayoutAdapt: false,
       moveLimitPer: -1,
+      timeLimitPer: 10,
       hasSpecificPatterns: true,
+      randomPatterns: false,
       name: "Count"
     })
     ,
     new Challenge({
-      timeLimit: 1000,//should be no limit
+      timeLimit: -1,//should be no limit
       //TODO should have a 10s limit per 
       moveLimit: -1,
       totalClicks: 78,
@@ -149,12 +171,14 @@ export class Challenge {
       nPatterns: 26,
       bigLayoutAdapt: false,
       moveLimitPer: -1,
+      timeLimitPer: 10,
       hasSpecificPatterns: true,
+      randomPatterns: false,
       name: "Read"
     })
   ].map((e, id) => {
     if (e instanceof Challenge) {
-      e.id = id;
+      e.id = id * 100;
       return e;
     }
     e.challenges = e.challenges.map((e, index) => {
@@ -224,7 +248,7 @@ export class Challenge {
         return
       }
     }
-    store.stats.challengesCompleted.push({ id: this.id, maxPercent: val, minTime: this.timeLimit });
+    store.stats.challengesCompleted.push({ id: this.id, maxPercent: val, minTime: this.timeLimit, minMoves: this.moveLimit });
   }
 
   set minTime(val) {
@@ -236,7 +260,32 @@ export class Challenge {
         return;
       }
     }
-    store.stats.challengesCompleted.push({ id: this.id, maxPercent: 0, minTime: val });
+    store.stats.challengesCompleted.push({ id: this.id, maxPercent: 0, minTime: val, minMoves: -1 });
+  }
+
+  set minMoves(val) {
+    if (this.timeLimit === -1){
+      const store = useStore();
+      for (let i = 0; i < store.stats.challengesCompleted.length; i++) {
+        const data = store.stats.challengesCompleted[i];
+        if (data.id === this.id) {
+          data.minMoves = Math.min(data.minMoves, val);
+          return;
+        }
+      }
+      store.stats.challengesCompleted.push({ id: this.id, maxPercent: 0, minTime: -1, minMoves: val });
+    }
+  }
+
+  get minMoves() {
+    const store = useStore();
+    for (let i = 0; i < store.stats.challengesCompleted.length; i++) {
+      const data = store.stats.challengesCompleted[i];
+      if (data.id === this.id) {
+        return data.minMoves;
+      }
+    }
+    return this.timeLimit;
   }
 
   generateLayouts() {
@@ -253,10 +302,10 @@ export class Challenge {
         challengeLayouts.push(possibleLayouts[Math.floor(Math.random() * possibleLayouts.length)])
       }
     } else {
-      for (let j = 0; j < this.patterns; j++){
+      for (let j = 0; j < this.patterns.length; j++){
         let pattern = this.patterns[j];
-        for (let i = 0; i < Layout.LAYOUTS; i++) {
-          if (pattern[j].id === Layout.LAYOUTS[i]) challengeLayouts.push(Layout.LAYOUTS[j]);
+        for (let i = 0; i < Layout.LAYOUTS.length; i++) {
+          if (pattern === Layout.LAYOUTS[i].id) challengeLayouts.push(Layout.LAYOUTS[i]);
         }
       }
     }
@@ -272,7 +321,7 @@ export class Challenge {
           : nMovesPer
       )
     }
-    challengeLayouts.sort(() => Math.random() - 0.5);
+    if (this.randomPatterns) challengeLayouts.sort(() => Math.random() - 0.5);
 
     this.challengeLayouts = challengeLayouts;
   }

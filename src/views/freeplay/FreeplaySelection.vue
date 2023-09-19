@@ -62,7 +62,6 @@ export default {
     const layouts = new Array(categories).fill(0).map((_, i) => {
       return Layout.FILTERED_LAYOUTS.filter(e => e.unlockCategory === i + lowest);
     });
-    console.log(layouts);
     return {
       layouts,
     }

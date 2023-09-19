@@ -18,7 +18,7 @@ import ChallengeCategoryButton from '../../components/challenges/ChallengeCatego
     <Transition name="fade" mode="out-in">
       <div class="container" :key="categoryName">
         <div v-for="challenge in challenges" :key="challenge.id">
-          <CSB v-if="(challenge instanceof Challenge)" @click="selectChallenge(challenge)" :challenge="challenge" :locked="!isUnlocked(challenge)" />
+          <CSB v-if="(challenge instanceof Challenge)" :title="`id: ${challenge.id}`" @click="selectChallenge(challenge)" :challenge="challenge" :locked="!isUnlocked(challenge)" />
           <ChallengeCategoryButton v-else @click="selectCategory(challenge)" :category="challenge" :locked="!isUnlocked(challenge)" />
         </div>
       </div>
