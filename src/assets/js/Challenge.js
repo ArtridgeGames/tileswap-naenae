@@ -124,6 +124,33 @@ export class Challenge {
       moveLimitPer: -1,
       hasSpecificPatterns: true,
       name: "OG"
+    }),
+    new Challenge({
+      timeLimit: 1000, //should be no limit
+      moveLimit: 45,
+      totalClicks: 35,
+      patterns: [156,157,158,159,160,161,162,163,164,165],
+      nPatterns: 10,
+      bigLayoutAdapt: false,
+      moveLimitPer: -1,
+      hasSpecificPatterns: true,
+      name: "Count"
+    })
+    ,
+    new Challenge({
+      timeLimit: 1000,//should be no limit
+      //TODO should have a 10s limit per 
+      moveLimit: -1,
+      totalClicks: 78,
+      patterns: [119, 109, 110, 111, 142, 
+        143, 144, 145, 131, 166, 146, 130, 
+        132, 133, 156, 167, 168, 169, 161, 
+        170, 171, 172, 173, 174, 175, 176],
+      nPatterns: 26,
+      bigLayoutAdapt: false,
+      moveLimitPer: -1,
+      hasSpecificPatterns: true,
+      name: "Read"
     })
   ].map((e, id) => {
     if (e instanceof Challenge) {

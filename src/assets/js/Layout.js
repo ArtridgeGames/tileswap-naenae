@@ -3418,6 +3418,268 @@ export class Layout {
       ],
       unlockCategory: 8,
       id: 155
+    },
+    { //0
+      dimensions: "3x5",
+      "exclude": [
+        4,
+        7,
+        10
+      ],
+      unlockCategory: -3,
+      id: 156
+    },
+    { //1
+      dimensions: "3x5",
+      "exclude": [
+        0,
+        2,
+        5,
+        6,
+        8,
+        9,
+        11
+      ],
+      unlockCategory: -3,
+      id: 157
+    },
+    { //2
+      dimensions: "3x5",
+      "exclude": [
+        3,
+        4,
+        10,
+        11
+      ],
+      unlockCategory: -3,
+      id: 158
+    },
+    { //3
+      dimensions: "3x5",
+      "exclude": [
+        3,
+        4,
+        6,
+        9,
+        10
+      ],
+      unlockCategory: -3,
+      id: 159
+    },
+    { //4
+      dimensions: "3x5",
+      "exclude": [
+        1,
+        2,
+        4,
+        9,
+        10,
+        12,
+        13
+      ],
+      unlockCategory: -3,
+      id: 160
+    },
+    { //5
+      dimensions: "3x5",
+      "exclude": [
+        4, 
+        5, 
+        9,
+        10
+      ],
+      unlockCategory: -3,
+      id: 161
+    },
+    { //6
+      dimensions: "3x5",
+      "exclude": [
+        4,
+        5,
+        10
+      ],
+      unlockCategory: -3,
+      id: 162
+    },
+    { //7
+      dimensions: "3x5",
+      "exclude": [
+        3,
+        4,
+        6,
+        8,
+        10,
+        11,
+        13,
+        14
+      ],
+      unlockCategory: -3,
+      id: 163
+    },
+    { //8
+      dimensions: "3x5",
+      "exclude": [
+        4,
+        10
+      ],
+      unlockCategory: -3,
+      id: 164
+    },
+    { //9
+      dimensions: "3x5",
+      "exclude": [
+        4,
+        9,
+        10
+      ],
+      unlockCategory: -3,
+      id: 165
+    },
+    { //J
+      dimensions: "3x5",
+      "exclude": [
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        14
+      ],
+      unlockCategory: -3,
+      id: 166
+    },
+    { //P
+      dimensions: "3x5",
+      "exclude": [
+        4,
+        10,
+        11,
+        13,
+        14
+      ],
+      unlockCategory: -3,
+      id: 167
+    },
+    { //Q
+      dimensions: "3x5",
+      "exclude": [
+        0,
+        2,
+        4,
+        7,
+        11,
+        12,
+        13
+      ],
+      unlockCategory: 2,
+      id: 168
+    },
+    { //R
+      dimensions: "3x5",
+      "exclude": [
+        2,
+        4,
+        8,
+        10,
+        13
+      ],
+      unlockCategory: -3,
+      id: 169
+    },
+    { //T
+      dimensions: "3x5",
+      "exclude": [
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        12,
+        14
+      ],
+      unlockCategory: -3,
+      id: 170
+    },
+    { //U
+      dimensions: "3x5",
+      "exclude": [
+        1,
+        4,
+        7,
+        10,
+        12
+      ],
+      unlockCategory: -3,
+      id: 171
+    },
+    { //V
+      dimensions: "3x5",
+      "exclude": [
+        1,
+        4,
+        7,
+        12,
+        14
+      ],
+      unlockCategory: -3,
+      id: 172
+    },
+    { //W
+      dimensions: "5x5",
+      "exclude": [
+        1,
+        3,
+        6,
+        8,
+        11,
+        13,
+        16,
+        18,
+        20,
+        22,
+        24
+      ],
+      unlockCategory: -3,
+      id: 173
+    },
+    { //X
+      dimensions: "3x5",
+      "exclude": [
+        1,
+        4,
+        6,
+        8,
+        10,
+        13
+      ],
+      unlockCategory: -3,
+      id: 174
+    },
+    { //Y
+      dimensions: "3x5",
+      "exclude": [
+        1,
+        4,
+        9,
+        10
+      ],
+      unlockCategory: -3,
+      id: 175
+    },
+    { //Z
+      dimensions: "3x5",
+      "exclude": [
+        3,
+        4,
+        6,
+        8,
+        10,
+        11
+      ],
+      unlockCategory: -3,
+      id: 176
     }
   ].map((e) => {
     const width = parseInt(e.dimensions.split("x")[0]);
