@@ -1,16 +1,46 @@
+<script setup>
+import lockURL from '/images/svg/lock.svg'
+</script>
+
 <template>
   <div
     :class="{ 'is-task-target': isTaskTarget,
               'is-completed': challenge.maxPercent === 100}"
     v-html="formattedChall"
+    v-if="!locked"
   ></div>
+  <div class="locked" v-else>
+    <img :src="lockURL"/>
+  </div>
 </template>
+
+<style scoped>
+.locked {
+  background: #ddd;
+  cursor: default;
+  }
+  img {
+    height: 60%;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  div.locked{
+    height: 55px;
+    width: var(--button-default-w);
+    border-radius: var(--button-border-radius);
+    display: inline-block;
+    position: relative;
+  }
+</style>
 
 <script>
 import { Task } from "../../assets/js/Task";
 import { formatTime } from "../../assets/js/Format";
 export default {
-  props: ["challenge"],
+  props: ["challenge", "locked"],
   computed: {
     formattedChall() {
       const maxMoves = this.challenge.moveLimit.toString();

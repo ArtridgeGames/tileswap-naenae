@@ -2,107 +2,118 @@ import { Layout } from './Layout.js';
 import { useStore } from '../../store/store.js';
 
 export class Challenge {
-
   static CHALLENGES = [
-    new Challenge({
-      timeLimit: 60,
-      moveLimit: -1,
-      totalClicks: 90,
-      patterns: [0],
-      nPatterns: 30,
-      bigLayoutAdapt: false,
-      moveLimitPer: 3,
-      hasSpecificPatterns: true,
-      name: "Think Fast - Expert"
-    }),
-    new Challenge({
-      timeLimit: 60,
-      moveLimit: -1,
-      totalClicks: 45,
-      patterns: [0],
-      nPatterns: 15,
-      bigLayoutAdapt: false,
-      moveLimitPer: 5,
-      hasSpecificPatterns: true,
-      name: "Think Fast - Hard"
-    }),
-    new Challenge({
-      timeLimit: 60,
-      moveLimit: -1,
-      totalClicks: 33,
-      patterns: [0],
-      nPatterns: 11,
-      bigLayoutAdapt: false,
-      moveLimitPer: 7,
-      hasSpecificPatterns: true,
-      name: "Think Fast - Medium"
-    }),
-    new Challenge({
-      timeLimit: 60,
-      moveLimit: -1,
-      totalClicks: 21,
-      patterns: [0],
-      nPatterns: 7,
-      bigLayoutAdapt: false,
-      moveLimitPer: 7,
-      hasSpecificPatterns: true,
-      name: "Think Fast - Easy"
-    }),
-    new Challenge({
-      timeLimit: 60,
-      moveLimit: -1,
-      totalClicks: 90,
-      patterns: [2],
-      nPatterns: 30,
-      bigLayoutAdapt: false,
-      moveLimitPer: -1,
-      hasSpecificPatterns: true,
-      name: "Think a bit less fast but still fast enough to be fast enough, you know?"
-    }),
-    new Challenge({
-      timeLimit: 60,
-      moveLimit: -1,
-      totalClicks: 17,
-      patterns: [1,1],
-      nPatterns: 5,
-      bigLayoutAdapt: false,
-      moveLimitPer: -1,
-      hasSpecificPatterns: false,
-      name: "Challenge 1 - Easy"
-    }),
-    new Challenge({
-      timeLimit: 60,
-      moveLimit: -1,
-      totalClicks: 30,
-      patterns: [1,1],
-      nPatterns: 10,
-      bigLayoutAdapt: false,
-      moveLimitPer: -1,
-      hasSpecificPatterns: false,
-      name: "Challenge 1 - Medium"
-    }),
-    new Challenge({
-      timeLimit: 60,
-      moveLimit: -1,
-      totalClicks: 55,
-      patterns: [1,1],
-      nPatterns: 14,
-      bigLayoutAdapt: false,
-      moveLimitPer: -1,
-      hasSpecificPatterns: false,
-      name: "Challenge 1 - Hard"
-    }),
-    new Challenge({
-      timeLimit: 60,
-      moveLimit: -1,
-      totalClicks: 92,
-      patterns: [1,1],
-      nPatterns: 22,
-      bigLayoutAdapt: false,
-      moveLimitPer: -1,
-      hasSpecificPatterns: false,
-      name: "Challenge 1 - Expert"
-    }),
+    {
+      name: "Think Fast",
+      id: 0,
+      challenges: [
+        new Challenge({
+          timeLimit: 60,
+          moveLimit: -1,
+          totalClicks: 90,
+          patterns: [0],
+          nPatterns: 30,
+          bigLayoutAdapt: false,
+          moveLimitPer: 3,
+          hasSpecificPatterns: true,
+          name: "Expert"
+        }),
+        new Challenge({
+          timeLimit: 60,
+          moveLimit: -1,
+          totalClicks: 45,
+          patterns: [0],
+          nPatterns: 15,
+          bigLayoutAdapt: false,
+          moveLimitPer: 5,
+          hasSpecificPatterns: true,
+          name: "Hard"
+        }),
+        new Challenge({
+          timeLimit: 60,
+          moveLimit: -1,
+          totalClicks: 33,
+          patterns: [0],
+          nPatterns: 11,
+          bigLayoutAdapt: false,
+          moveLimitPer: 7,
+          hasSpecificPatterns: true,
+          name: "Medium"
+        }),
+        new Challenge({
+          timeLimit: 60,
+          moveLimit: -1,
+          totalClicks: 21,
+          patterns: [0],
+          nPatterns: 7,
+          bigLayoutAdapt: false,
+          moveLimitPer: 7,
+          hasSpecificPatterns: true,
+          name: "Easy"
+        }),
+        new Challenge({
+          timeLimit: 60,
+          moveLimit: -1,
+          totalClicks: 90,
+          patterns: [2],
+          nPatterns: 30,
+          bigLayoutAdapt: false,
+          moveLimitPer: -1,
+          hasSpecificPatterns: true,
+          name: "Think a bit less fast but still fast enough to be fast enough, you know?"
+        })
+      ]
+    },
+    {
+      name: "Think Slow",
+      id: 1,
+      challenges: [
+        new Challenge({
+          timeLimit: 60,
+          moveLimit: -1,
+          totalClicks: 17,
+          patterns: [1,1],
+          nPatterns: 5,
+          bigLayoutAdapt: false,
+          moveLimitPer: -1,
+          hasSpecificPatterns: false,
+          name: "Easy"
+        }),
+        new Challenge({
+          timeLimit: 60,
+          moveLimit: -1,
+          totalClicks: 30,
+          patterns: [1,1],
+          nPatterns: 10,
+          bigLayoutAdapt: false,
+          moveLimitPer: -1,
+          hasSpecificPatterns: false,
+          name: "Medium"
+        }),
+        new Challenge({
+          timeLimit: 60,
+          moveLimit: -1,
+          totalClicks: 55,
+          patterns: [1,1],
+          nPatterns: 14,
+          bigLayoutAdapt: false,
+          moveLimitPer: -1,
+          hasSpecificPatterns: false,
+          name: "Hard"
+        }),
+        new Challenge({
+          timeLimit: 60,
+          moveLimit: -1,
+          totalClicks: 92,
+          patterns: [1,1],
+          nPatterns: 22,
+          bigLayoutAdapt: false,
+          moveLimitPer: -1,
+          hasSpecificPatterns: false,
+          name: "Expert"
+        }),
+      ]
+    },
     new Challenge({
       timeLimit: 60,
       moveLimit: -1,
@@ -115,17 +126,26 @@ export class Challenge {
       name: "OG"
     })
   ].map((e, id) => {
-    e.id = id;
+    if (e instanceof Challenge) {
+      e.id = id;
+      return e;
+    }
+    e.challenges = e.challenges.map((e, index) => {
+      e.id = id * 100 + index;
+      return e;
+    });
     return e;
   });
 
   static THRESHOLD = 60;
 
-  constructor({ timeLimit, moveLimit, totalClicks, patterns, nPatterns, bigLayoutAdapt, moveLimitPer, hasSpecificPatterns, modulo, name }) {
+  constructor({ timeLimit, moveLimit, totalClicks, patterns, nPatterns,
+                bigLayoutAdapt,timeLimitPer, moveLimitPer, hasSpecificPatterns, modulo, 
+                randomPatterns, name }) {
     this.timeLimit = timeLimit;
     this.moveLimit = moveLimit;
     this.totalClicks = totalClicks;
-    if (!hasSpecificPatterns){
+    if (!hasSpecificPatterns) {
       this.rangeStart = patterns[0];
       this.rangeEnd = patterns[1];
     } else {
@@ -134,6 +154,8 @@ export class Challenge {
     
     this.nPatterns = nPatterns;
     this.currentPattern = 0;
+    this.timeLimitPer = timeLimitPer;
+    this.randomPatterns = randomPatterns;
     this.moveLimitPer = moveLimitPer;
     this.bigLayoutAdapt = bigLayoutAdapt;
     this.hasSpecificPatterns = hasSpecificPatterns;
@@ -199,8 +221,17 @@ export class Challenge {
       possibleLayouts = Layout.LAYOUTS.filter(e => this.patterns.includes(e.id))
     }
     const challengeLayouts = []
-    for (let i = 0; i < this.nPatterns; i++) {
-      challengeLayouts.push(possibleLayouts[Math.floor(Math.random() * possibleLayouts.length)])
+    if (this.randomPatterns){
+      for (let i = 0; i < this.nPatterns; i++) {
+        challengeLayouts.push(possibleLayouts[Math.floor(Math.random() * possibleLayouts.length)])
+      }
+    } else {
+      for (let j = 0; j < this.patterns; j++){
+        let pattern = this.patterns[j];
+        for (let i = 0; i < Layout.LAYOUTS; i++) {
+          if (pattern[j].id === Layout.LAYOUTS[i]) challengeLayouts.push(Layout.LAYOUTS[j]);
+        }
+      }
     }
     const nBigLay = challengeLayouts.reduce(
       (acc, cur) => acc + (cur.nTiles() >= Challenge.THRESHOLD ? 1 : 0), 0

@@ -1,0 +1,20 @@
+{
+  "background_color": "#bbb2ea",
+  "description": "A tile flipping game",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "TileSwap",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "TileSwap",
+  "start_url": "/",
+  "theme_color": "#ffffff",
+  "categories": [],
+  "screenshots": [],
+  "icons": [
+    {
+      "src": "/tileswap-naenae/favicon.ico"
+    }
+  ],
+  "shortcuts": []
+}

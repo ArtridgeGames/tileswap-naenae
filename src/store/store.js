@@ -11,6 +11,7 @@ export const useStore = defineStore('store', () => {
   const difficulty = ref(5);
   const unlockedCategoriesFP = ref(17);
   const unlockedCategoriesPZ = ref(51);
+  const unlockedChallenges = ref([0])
   const currentTasks = ref([0,1,2]);
   const maxTask = ref(2);
   const isRandomFreeplay = ref(false);
@@ -60,6 +61,7 @@ export const useStore = defineStore('store', () => {
     setLayout,
     setPuzzle,
     setChallenge,
+    unlockedChallenges,
     stats,
     currentTasks,
     maxTask,

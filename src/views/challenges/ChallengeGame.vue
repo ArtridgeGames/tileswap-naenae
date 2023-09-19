@@ -12,7 +12,7 @@ import Progress from '../../components/Progress.vue';
 
     <div v-if="hasStarted">
       <h2 class="info center"> {{ formattedTime }} {{ moves }} - {{ percentageCompleted + '%' }}</h2>
-      <h2 class="moves center">{{ movesPer }}</h2>
+      <h2 class="per center">{{ movesPer }} - {{ formattedTimePer }}</h2>
     </div>
     <h2 class="info center" v-else>Click To Start The Challenge !</h2>
     <Progress class="center progress" :value="percentageCompleted" :max="100" />
@@ -53,7 +53,7 @@ main {
   font-size: var(--font-size-md);
   white-space: nowrap;
 }
-.moves {
+.per {
   position:absolute;
   bottom: 5%;
   font-size: var(--font-size-lg);
@@ -105,6 +105,7 @@ export default {
       if (this.layout.isSolved()) {
         store.stats.layoutsSolved++;
         this.nMovesPer = this.currentChallenge.moveLimitPer;
+        this.timePer = this.currentChallenge.timeLimitPer;
         if (this.currentChallenge.currentPattern === this.currentChallenge.nPatterns - 1) {
           this.showWinModal = true;
           this.currentChallenge.minTime = Math.min(this.currentChallenge.timeLimit - this.time, this.currentChallenge.minTime);
@@ -152,6 +153,9 @@ export default {
     formattedTime() {
       return formatTime(this.time);
     },
+    formattedTimePer() {
+      return formatTime(this.timePer);
+    },
     percentageCompleted() {
       return Math.floor(this.currentChallenge.currentPattern / this.currentChallenge.nPatterns * 100);
     },
@@ -164,12 +168,22 @@ export default {
   },
   mounted() {
     this.timerId = window.setInterval(()=>{
-      this.time -= 1 * this.hasStarted * !this.showPauseModal;
-      if (this.time <= 0) {
-        this.modalText = "no time left!";
-        this.currentChallenge.maxPercent = Math.max(this.percentageCompleted, this.currentChallenge.maxPercent);
-        this.showLostModal = true;
-        window.clearInterval(this.timerId);
+      if (this.timeLimit !== -1){
+        this.time -= 1 * this.hasStarted * !this.showPauseModal;
+        if (this.time <= 0) {
+          this.modalText = "no time left!";
+          this.currentChallenge.maxPercent = Math.max(this.percentageCompleted, this.currentChallenge.maxPercent);
+          this.showLostModal = true;
+          window.clearInterval(this.timerId);
+        }
+      } if (this.timeLimitPer !== -1) {
+        this.timePer -= 1 * this.hasStarted * !this.showPauseModal;
+        if (this.time <= 0) {
+          this.modalText = "no time left!";
+          this.currentChallenge.maxPercent = Math.max(this.percentageCompleted, this.currentChallenge.maxPercent);
+          this.showLostModal = true;
+          window.clearInterval(this.timerId);
+        }
       }
     }, 1000);
   }
