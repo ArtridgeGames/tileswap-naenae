@@ -27,7 +27,7 @@ import SplashScreen from '../components/SplashScreen.vue';
       <ModeButton name="Challenges" :image="challengesUrl" path="/challengeSelection" />
     </main>
 
-    <LinkButton class="bottom right" text="prout" to="/test" />
+    <!-- <LinkButton class="bottom right" text="prout" to="/test" /> -->
 
     <div :class="{
       bottom: windowWidth > 600,
