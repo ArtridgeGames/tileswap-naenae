@@ -17,6 +17,8 @@ import { useWindow } from "../../assets/js/window.js";
         bottom: windowWidth <= 600
       }">
       <h1>{{ remainingMoves }} move{{ remainingMoves > 1 ? 's' : '' }} remaining</h1>
+      <h1>{{ completionMoves }}</h1>
+      <h1>{{ nextMedal }}</h1>
       <Button text="retry" @click="reset" />
     </div>
 
@@ -57,6 +59,7 @@ main{
   left: 50%;
   transform: translate(-50%,-50%);
   z-index: 1;
+  margin-top: 30px;
 }
 .target {
   margin-left: 50px;
@@ -97,6 +100,16 @@ export default {
   computed: {
     moves() {
       return this.maxMoves - this.remainingMoves;
+    },
+    completionMoves() {
+      return this.puzzle.completionMoves===-1?'':
+      `current best: ${this.puzzle.completionMoves} moves`;
+    },
+    nextMedal() {
+      if (this.puzzle.completionMoves===-1) return 'next medal: finish the puzzle';
+      return this.puzzle.completionMoves<=this.puzzle.solution.length?''
+        :(`next medal: ${this.puzzle.completionMoves<=this.puzzle.solution.length*1.2?this.puzzle.solution.length
+        :Math.floor(this.puzzle.solution.length*1.2)} moves`)
     }
   },
   watch: {

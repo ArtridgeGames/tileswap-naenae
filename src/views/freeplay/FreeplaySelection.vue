@@ -2,7 +2,7 @@
 import LayoutSelectionButton from "../../components/freeplay/LayoutSelectionButton.vue";
 import LinkButton from "../../components/buttons/LinkButton.vue";
 import IconButton from "../../components/buttons/IconButton.vue";
-import randomUrl from "/images/svg/tutorial.svg";
+import randomUrl from "/images/svg/random.svg";
 import { Layout } from "../../assets/js/Layout.js";
 </script>
 
@@ -38,6 +38,7 @@ main {
 div.text-center {
   margin-bottom: 20px;
 }
+
 .layouts {
   display: flex;
   flex-direction: row;
