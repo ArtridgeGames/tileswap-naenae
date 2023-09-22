@@ -1,6 +1,7 @@
 <script setup>
 import { useStore } from "@/store/store.js";
 import TileSVG from "./TileSVG.vue";
+import TileShape from "./TileShape.vue";
 </script>
 
 <template>
@@ -9,19 +10,21 @@ import TileSVG from "./TileSVG.vue";
       <div
         class="front"
         :style="{
-          background: frontColor,
+          background: 'rgba(0,0,0,0)',
         }"
       >
-        <TileSVG :outline="frontOutline" :highlight="frontHighlight" :borderRadius="borderRadiusSetting/3"/>
+      <TileShape :color="frontColor" :shape="'SpikeTile'"></TileShape>
+        <!-- <TileSVG :outline="frontOutline" :highlight="frontHighlight" :borderRadius="borderRadiusSetting/3"/> -->
       </div>
 
       <div
         class="back"
         :style="{
-          background: backColor,
+          background: 'rgba(0,0,0,0)',
         }"
       >
-        <TileSVG :outline="backOutline" :highlight="backHighlight" :borderRadius="borderRadiusSetting/3"/>
+      <TileShape :color="backColor" :shape="'SpikeTile'"></TileShape>
+        <!-- <TileSVG :outline="backOutline" :highlight="backHighlight" :borderRadius="borderRadiusSetting/3"/> -->
       </div>
     </div>
   </div>
@@ -117,7 +120,7 @@ export default {
   margin: 7px;
   display: inline-block;
   cursor: v-bind('visible ? "pointer" : "default"');
-  overflow: hidden;
+  /* overflow: hidden; */
   outline: solid 5px  v-bind("frontOutline");
 }
 
@@ -153,13 +156,13 @@ export default {
   z-index: 3;
   padding: 0;
 }
-
+/*
 .front {
   background-color: v-bind("frontColor");
 }
 .back {
   background-color: v-bind("backColor");
-}
+}*/
 
 @media screen and (max-width: 600px) {
   .tile {
