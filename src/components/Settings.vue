@@ -1,5 +1,7 @@
 <script setup>
 import lockURL from '/images/svg/lock.svg';
+import SpikeTile from './SpikeTileSVG.vue';
+import Round from './RoundSVG.vue';
 </script>
 
 <template>
@@ -25,6 +27,8 @@ import lockURL from '/images/svg/lock.svg';
         :key="value + ' ' + j"
         @click="changeSetting(key, j)"
       >
+        <SpikeTile v-if="setting.options[j]==='SpikeTile'" :color="'#666'"></SpikeTile>
+        <Round v-else-if="setting.options[j]==='Round'" :color="'#666'"></Round>
         <img v-if="j > setting.unlocked" :src="lockURL" />
     </div>
     </li>
@@ -109,6 +113,15 @@ img {
   transform: scale(1.1);
   position: absolute;
   background: white;
+}
+
+.tilesSVG {
+  width: 50px;
+  height: 50px;
+  margin-left: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-block;
 }
 
 

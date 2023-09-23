@@ -1,7 +1,7 @@
 <template>
   <svg
-   width="120%"
-   height="120%"
+   width="100%"
+   height="100%"
    viewBox="0 0 79.374998 79.375002"
    version="1.1"
    id="svg2365"
@@ -35,12 +35,6 @@
 </svg>
 
 </template>
-
-<style scoped>
-/* g{
-  transform: translate(-8.33%,-8.33%)
-} */
-</style>
 
 <script>
   export default {

@@ -42,7 +42,7 @@ export const SETTINGS_DATA = {
     unlocked: 2
   },
   tilesShape: {
-    name: 'Tiles Shape',
+    name: 'Tiles Border Radius',
     options: [[30], [30, 60], [0], [100]],
     get value() {
       const { settings } = useStore();
@@ -56,6 +56,17 @@ export const SETTINGS_DATA = {
       document.documentElement.style.setProperty('--root-tile-border-radius', border);
     },
     unlocked: 2
+  },
+  tilesSVG: {
+    name: 'Tiles Shape',
+    options: ['Round', 'SpikeTile'],
+    get value() {
+      const { settings } = useStore();
+      return this.options[settings.tilesSVG];
+    },
+    onChange(index) {
+      return;
+    }
   }
 }
 

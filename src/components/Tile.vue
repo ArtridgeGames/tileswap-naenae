@@ -13,7 +13,7 @@ import TileShape from "./TileShape.vue";
           background: 'rgba(0,0,0,0)',
         }"
       >
-      <TileShape :color="frontColor" :shape="'SpikeTile'"></TileShape>
+      <TileShape :color="frontColor" :shape="tileSVG"></TileShape>
         <!-- <TileSVG :outline="frontOutline" :highlight="frontHighlight" :borderRadius="borderRadiusSetting/3"/> -->
       </div>
 
@@ -23,7 +23,7 @@ import TileShape from "./TileShape.vue";
           background: 'rgba(0,0,0,0)',
         }"
       >
-      <TileShape :color="backColor" :shape="'SpikeTile'"></TileShape>
+      <TileShape :color="backColor" :shape="tileSVG"></TileShape>
         <!-- <TileSVG :outline="backOutline" :highlight="backHighlight" :borderRadius="borderRadiusSetting/3"/> -->
       </div>
     </div>
@@ -52,6 +52,7 @@ export default {
       backOutline: outlineGradient.value[this.mod(this.tile + 1)],
       frontHighlight: highlightGradient.value[this.tile],
       backHighlight: highlightGradient.value[this.mod(this.tile + 1)],
+      tileSVG: SETTINGS_DATA.tilesSVG.value,
       gradient,
       outlineGradient,
       highlightGradient,
@@ -61,6 +62,7 @@ export default {
     borderRadiusSetting() {
       return Math.max(...SETTINGS_DATA.tilesShape.value);
     }
+
   },
   watch: {
     tile(newVal) {
