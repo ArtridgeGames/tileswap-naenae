@@ -260,7 +260,7 @@ export class Challenge {
         return;
       }
     }
-    store.stats.challengesCompleted.push({ id: this.id, maxPercent: 0, minTime: val, minMoves: -1 });
+    store.stats.challengesCompleted.push({ id: this.id, maxPercent: 0, minTime: val, minMoves: this.moveLimit });
   }
 
   set minMoves(val) {

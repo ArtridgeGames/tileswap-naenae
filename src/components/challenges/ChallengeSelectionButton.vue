@@ -50,7 +50,7 @@ export default {
           ? this.challenge.maxPercent !== 100
             ? this.challenge.maxPercent + "%"
             : this.challenge.timeLimit!==-1?formatTime(this.challenge.minTime)
-              : this.challenge.minMoves + " moves"
+              : this.challenge.moveLimit!==-1? this.challenge.minMoves + " moves":""
           : "";
 
       return (!this.challenge.name ? (
