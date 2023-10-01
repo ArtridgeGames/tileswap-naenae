@@ -1,4 +1,5 @@
 import { useStore } from '../../store/store.js';
+import { tilesToFlip } from './Layout.js';
 
 export const SETTINGS_DATA = {
   backgroundColor: {
@@ -41,6 +42,18 @@ export const SETTINGS_DATA = {
     },
     unlocked: 2
   },
+  hoverTiles: {
+    name: 'Hover on Tiles',
+    options: ['On', 'Off'],
+    get value() {
+      const { settings } = useStore();
+      return this.options[settings.hoverTiles];
+    },
+    onChange(index) {
+      return;
+    },
+    unlocked: 2
+  },
   tilesShape: {
     name: 'Tiles Border Radius',
     options: [[30], [30, 60], [0], [100]],
@@ -69,6 +82,35 @@ export const SETTINGS_DATA = {
       return;
     },
     unlocked: 2
+  },
+  spread: {
+    name: 'Spread',
+    options: [[
+        [-1, -1], [0, -1], [1, -1],
+        [-1, 0], [0, 0], [1, 0],
+        [-1, 1], [0, 1], [1, 1],
+      ],
+      [
+        [-1,-1], [0,0], [-1,1],
+        [1,-1], [1,1],
+      ],
+      [
+        [-1,0], [0,-1],[1,0],[0,0],[0,1]
+      ]
+    ],
+    get value() {
+      const { settings } = useStore();
+      return this.options[settings.spread];
+    },
+    repr(index) {
+      if (index === 0) return '□';
+      if (index === 1) return '✖';
+      if (index === 2) return '+';
+    },
+    onChange(index) {
+      tilesToFlip.value = this.options[index];
+    },
+    unlocked: 3
   }
 }
 

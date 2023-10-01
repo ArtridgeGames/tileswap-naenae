@@ -25,7 +25,7 @@ import Tile from "./Tile.vue";
             solution:
               devMode && solution && solution[rowIndex][tileIndex] >= 1,
             'color-blind': settings.colorBlind === 1,
-            hover: shouldHover(rowIndex, tileIndex)
+            hover: shouldHover(rowIndex, tileIndex) && settings.hoverTiles === 0,
           }"
           :style="{
             outline: target
