@@ -3680,6 +3680,124 @@ export class Layout {
       ],
       unlockCategory: -3,
       id: 176
+    },
+    { 
+      dimensions: "4x4",
+      "exclude": [
+        0,
+        3,
+        12,
+        15
+      ],
+      unlockCategory: -3,
+      id: 177
+    },
+    { 
+      dimensions: "8x8",
+      "exclude": [
+        1,
+        2,
+        4,
+        9,
+        10,
+        12,
+        13,
+        14,
+        22, 
+        24,
+        25,
+        26,
+        27,
+        28,
+        30,
+        32,
+        33,
+        38,
+        41,
+        42,
+        44,
+        45,
+        46,
+        49,
+        50,
+        60,
+        61,
+        63
+      ],
+      unlockCategory: -3,
+      id: 178
+    },
+    { 
+      dimensions: "7x4",
+      "exclude": [
+        1,
+        5,
+        8,
+        10,
+        12,
+        15,
+        17,
+        19,
+        24
+      ],
+      unlockCategory: -3,
+      id: 178
+    },
+    { 
+      dimensions: "7x6",
+      "exclude": [
+        8,9,10,11,12,17,21,22,24,26,27,28,29,31,38,39,40,41
+      ],
+      unlockCategory: -3,
+      id: 179
+    },
+    { 
+      dimensions: "7x5",
+      "exclude": [
+        4,5,8,9,11,12,15,16,18,19,22,23,25,26,29,30
+      ],
+      unlockCategory: -3,
+      id: 180
+    },
+    { 
+      dimensions: "3x9",
+      "exclude": [
+        1,5,10,12,14,16,21,25
+      ],
+      unlockCategory: -3,
+      id: 181
+    },
+    { 
+      dimensions: "9x3",
+      "exclude": [
+        1,5,10,12,14,16,21,25
+      ],
+      unlockCategory: -3,
+      id: 182
+    },
+    { 
+      dimensions: "7x4",
+      "exclude": [
+        0,1,2,3,4,7,8,9,12,14,17,19,22,24,26
+      ],
+      unlockCategory: -3,
+      id: 183
+    },
+    { 
+      dimensions: "9x5",
+      "exclude": [
+        0,1,2,3,4,5,6,9,10,11,12,13,16,18,19,20,23,25,27,30,32,34,37,39,41,43
+      ],
+      unlockCategory: -3,
+      id: 184
+    },
+    { 
+      dimensions: "11x6",
+      "exclude": [
+        0,1,2,3,4,5,6,7,8,11,12,13,14,15,16,17,20,22,23,24,25,26,29,31,33,34,35,38,40,42,44,47,49,51,53,56,58,60,62,64
+      ],
+      unlockCategory: -3,
+      id: 185
     }
   ].map((e) => {
     const width = parseInt(e.dimensions.split("x")[0]);

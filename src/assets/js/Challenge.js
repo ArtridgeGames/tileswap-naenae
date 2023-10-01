@@ -75,7 +75,7 @@ export class Challenge {
       ]
     },
     {
-      name: "Think Slow",
+      name: "Category 1",
       id: 1,
       challenges: [
         new Challenge({
@@ -160,8 +160,7 @@ export class Challenge {
     })
     ,
     new Challenge({
-      timeLimit: -1,//should be no limit
-      //TODO should have a 10s limit per 
+      timeLimit: -1,
       moveLimit: -1,
       totalClicks: 78,
       patterns: [119, 109, 110, 111, 142, 
@@ -175,6 +174,86 @@ export class Challenge {
       hasSpecificPatterns: true,
       randomPatterns: false,
       name: "Read"
+    }),
+    new Challenge({
+      timeLimit: 90,
+      moveLimit: -1,
+      totalClicks: 80,
+      patterns: [0,1,2,3,4,5,6,7,8,9],
+      nPatterns: 10,
+      bigLayoutAdapt: false,
+      moveLimitPer: -1,
+      timeLimitPer: -1,
+      hasSpecificPatterns: true,
+      randomPatterns: false,
+      name: "Growing Square"
+    }),
+    new Challenge({
+      timeLimit: 120,
+      moveLimit: -1,
+      totalClicks: 80,
+      patterns: [136, 19, 18, 17, 47, 177, 14],
+      nPatterns: 7,
+      bigLayoutAdapt: false,
+      moveLimitPer: -1,
+      timeLimitPer: -1,
+      hasSpecificPatterns: true,
+      randomPatterns: false,
+      name: "Shrinking Circle"
+    }),
+    new Challenge({
+      timeLimit: -1,
+      moveLimit: -1,
+      totalClicks: 60,
+      patterns: [83, 84, 85, 86,
+        104, 93, 94, 95, 96, 97, 
+        98, 99, 117, 103, 30, 152],
+      nPatterns: 10,
+      bigLayoutAdapt: false,
+      moveLimitPer: 15,
+      timeLimitPer: -1,
+      hasSpecificPatterns: true,
+      randomPatterns: true,
+      name: "Game of Life"
+    }),
+    new Challenge({
+      timeLimit: 40,
+      moveLimit: -1,
+      totalClicks: 70,
+      patterns: [69, 45, 66, 130, 178, 179, 180, 182],
+      nPatterns: 7,
+      bigLayoutAdapt: false,
+      moveLimitPer: -1,
+      timeLimitPer: -1,
+      hasSpecificPatterns: true,
+      randomPatterns: true,
+      name: "Snake"
+    }),
+    new Challenge({
+      timeLimit: 50,
+      moveLimit: -1,
+      totalClicks: 44,
+      patterns: [86, 183, 184, 185],
+      nPatterns: 4,
+      bigLayoutAdapt: false,
+      moveLimitPer: -1,
+      timeLimitPer: -1,
+      hasSpecificPatterns: true,
+      randomPatterns: false,
+      name: "Tile Centipede"
+    }),
+    new Challenge({
+      timeLimit: 60,
+      moveLimit: -1,
+      totalClicks: 92,
+      patterns: [1, 10, 11, 24, 25, 27, 28],
+      nPatterns: 12,
+      bigLayoutAdapt: false,
+      moveLimitPer: -1,
+      timeLimitPer: -1,
+      hasSpecificPatterns: true,
+      randomPatterns: true,
+      name: "Category 3"
     })
   ].map((e, id) => {
     if (e instanceof Challenge) {
