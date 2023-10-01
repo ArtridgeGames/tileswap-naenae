@@ -25,6 +25,7 @@ import Tile from "./Tile.vue";
             solution:
               devMode && solution && solution[rowIndex][tileIndex] >= 1,
             'color-blind': settings.colorBlind === 1,
+            hover: shouldHover(rowIndex, tileIndex)
           }"
           :style="{
             outline: target
@@ -39,6 +40,8 @@ import Tile from "./Tile.vue";
               : ''
           "
           @click="onTileClick(rowIndex, tileIndex)"
+          @mouseover="tile !== -1 && mouseOver(rowIndex, tileIndex)"
+          @mouseleave="tile !== -1 && mouseLeave(rowIndex, tileIndex)"
         />
       </div>
     </div>
@@ -50,8 +53,14 @@ import Tile from "./Tile.vue";
   white-space: nowrap;
 }
 .tile {
-  transition: outline 0.2s ease;
+  transition: outline 0.2s ease,
+              box-shadow 0.2s ease,
+              background 0.2s ease;
   position: relative;
+}
+.tile.hover {
+  box-shadow: 0px 0px 0 5px var(--puzzle-white);
+  background: var(--puzzle-white);
 }
 .solution {
   outline: 5px solid red !important;
@@ -80,8 +89,7 @@ import Tile from "./Tile.vue";
 <script>
 import { useStore } from "../store/store";
 import { devMode } from "../assets/js/solve/solve";
-import { gradient } from "../assets/js/Layout.js";
-import { modulo } from "../assets/js/Layout.js";
+import { gradient, tilesToFlip, modulo } from "../assets/js/Layout.js";
 
 export default {
   props: ["modelValue", "small", "disabled", "solution", "target"],
@@ -92,6 +100,7 @@ export default {
       currentChallenge,
       settings,
       gradient,
+      hoveredTile: null
     };
   },
   methods: {
@@ -115,6 +124,20 @@ export default {
         );
       }
     },
+    shouldHover(row, tile) {
+      if (this.hoveredTile === null) return false;
+      return tilesToFlip.value.map(([dx, dy]) => [dx + this.hoveredTile.tile, dy + this.hoveredTile.row]).some(
+        ([x, y]) => x === tile && y === row
+      );
+    },
+    mouseOver(row, tile) {
+      this.hoveredTile = {
+        row, tile
+      }
+    },
+    mouseLeave(row, tile) {
+      this.hoveredTile = null;
+    }
   },
 };
 </script>

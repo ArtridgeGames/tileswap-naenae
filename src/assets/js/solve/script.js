@@ -1,4 +1,5 @@
-import { generateMoveMatrix, solve } from './solve.js'
+import { solve } from './solve.js'
+import { generateMoveMatrix } from './moveMatrix.js'
 
 const str = (M) => {
   return M
@@ -104,7 +105,7 @@ function calculateDeterminants() {
   for (let height = 3; height <= 13; height++) {
     let str = `${height.toString().padStart(2, ' ')}: `;
     for (let width = 3; width <= 13; width++) {
-      const M = generateMoveMatrix(width, height);
+      const M = generateMoveMatrix({ width, height });
       const det = determinant(M);
       str += `${det.toString().padStart(2, ' ')} `;
     }

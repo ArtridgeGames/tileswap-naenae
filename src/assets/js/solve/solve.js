@@ -2,6 +2,7 @@ import { Layout, modulo } from '../Layout.js';
 import { computed, ref } from 'vue';
 import { FiniteField, FiniteFieldMatrix } from './FiniteField.js';
 import { tilesToFlip } from '../Layout.js';
+import { generateMoveMatrix } from './moveMatrix.js';
 
 const active = ref(
   false
@@ -98,7 +99,7 @@ function solvePattern(state) {
   let result = [];
   let zerows = 0;
 
-  const M = generateMoveMatrix(width, height, state);
+  const M = generateMoveMatrix({ width, height, state });
 
   let det;
   if (determinants.has(key)) {
@@ -164,51 +165,4 @@ function solvePattern(state) {
     determinant: det,
     zerows
   }
-}
-
-const swapMatrix = (row, column, M) => {
-  for (const delta of tilesToFlip.value) {
-    const x = column + delta[0];
-    const y = row + delta[1];
-    if (x >= 0 && x < M[0].length
-      && y >= 0 && y < M.length
-      && M[y][x] !== -1) {
-      M[y][x] = modulo.value - 1;
-    }
-  }
-}
-
-/**
- * Generates a move matrix
- * @param {Number} width width of the layout
- * @param {Number} height height of the layout
- * @param {Number[][]} [state] Optional 2D array to exclude cells from the resulting matrix 
- * @returns 
- */
-export const generateMoveMatrix = (width, height, state) => {
-  const moves = [];
-
-  for (let row = 0; row < height; row++) {
-    for (let column = 0; column < width; column++) {
-
-      if (state && state[row][column] === -1) continue;
-
-      const M =
-        Array(height).fill().map((_, row) => Array(width).fill().map(
-          (e, i) => state && state[row][i] === -1 ? -1 : 0
-        ));
-
-      swapMatrix(row, column, M);
-
-      moves.push(M);
-    }
-  }
-
-  const field = FiniteField.fromOrder(modulo.value);
-
-  const result = field.matrix(
-    moves.map(M => M.flat().filter(e => e !== -1))
-  ).transpose();
-
-  return result;
 }

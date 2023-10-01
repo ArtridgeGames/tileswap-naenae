@@ -60,7 +60,7 @@ export const SETTINGS_DATA = {
   tilesSVG: {
     name: 'Tiles Shape',
     options: ['Round', 'SpikeTile', 'Squircle'],
-    selected: 2,
+    selected: 0,
     get value() {
       const { settings } = useStore();
       return this.options[settings.tilesSVG];

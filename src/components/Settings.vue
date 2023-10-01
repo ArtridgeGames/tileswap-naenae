@@ -2,7 +2,7 @@
 import lockURL from '/images/svg/lock.svg';
 import SpikeTile from './SpikeTileSVG.vue';
 import Round from './RoundSVG.vue';
-import Squircle from './SquircleSVG.vue';
+// import Squircle from './SquircleSVG.vue';
 </script>
 
 <template>
@@ -28,9 +28,10 @@ import Squircle from './SquircleSVG.vue';
         :key="value + ' ' + j"
         @click="changeSetting(key, j)"
       >
+        <!-- Refactor to <component :is="setting.options[j]"> -->
         <SpikeTile v-if="setting.options[j]==='SpikeTile'" :color="'#666'"></SpikeTile>
         <Round v-else-if="setting.options[j]==='Round'" :color="'#666'"></Round>
-        <Squircle v-else-if="setting.options[j]==='Squircle'" :color="'#666'"></Squircle>
+        <!-- <Squircle v-else-if="setting.options[j]==='Squircle'" :color="'#666'"></Squircle> -->
         <img v-if="j > setting.unlocked" :src="lockURL" />
     </div>
     </li>

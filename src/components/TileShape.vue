@@ -1,7 +1,7 @@
 <script setup>
 import SpikeTile from './SpikeTileSVG.vue'
 import Round from './RoundSVG.vue';
-import Squircle from './SquircleSVG.vue';
+// import Squircle from './SquircleSVG.vue';
 </script>
 
 <template>
@@ -9,7 +9,7 @@ import Squircle from './SquircleSVG.vue';
   <div>
     <SpikeTile v-if="shape==='SpikeTile'" :color="color"></SpikeTile>
     <Round v-else-if="shape==='Round'" :color="color"></Round>
-    <Squircle v-else :color="color"></Squircle>
+    <!-- <Squircle v-else :color="color"></Squircle> -->
   </div>
 </template>
 

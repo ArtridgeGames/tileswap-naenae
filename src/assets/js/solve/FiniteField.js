@@ -1017,6 +1017,23 @@ export class FiniteFieldMatrix {
     return new FiniteFieldMatrix(matrix, this.field);
   }
 
+  toColumnVector() {
+    const matrix = new Array(this.width * this.height).fill().map((e, i) => [this.matrix[Math.floor(i / this.height)][i % this.height]]);
+    return new FiniteFieldMatrix(matrix, this.field);
+  }
+
+  toSquareMatrix(width) {
+    if (this.height !== width * width || this.width !== 1) {
+      throw new Error('Cannot convert matrix to square matrix');
+    }
+    const matrix = new Array(width)
+      .fill()
+      .map((_, row) => new Array(width)
+        .fill()
+        .map((_, el) => this.matrix[row * width + el][0]));
+    return new FiniteFieldMatrix(matrix, this.field);
+  }
+
   /**
    * Returns the identity matrix of the specified size
    * @param {Number} size
