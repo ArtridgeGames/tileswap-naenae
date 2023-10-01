@@ -99,7 +99,7 @@ function solvePattern(state) {
   let result = [];
   let zerows = 0;
 
-  const M = generateMoveMatrix({ width, height, state });
+  const M = generateMoveMatrix({ width, height, state, tilesToFlip: tilesToFlip.value, modulo: modulo.value });
 
   let det;
   if (determinants.has(key)) {

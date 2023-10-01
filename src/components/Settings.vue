@@ -19,8 +19,10 @@ import Round from './RoundSVG.vue';
               : `--value: ${formatBR(value, 0.4)};`
             : `--value: ${value};`
         } 
-        --selected: ${j === setting.selected ? '2px' : '0px'}
+        --selected: ${j === setting.selected ? '2px' : '0px'};
+        ${setting.repr ? `--repr: ${setting.repr(j)};` : ''}
         `"
+        :data-repr="setting.repr ? setting.repr(j) : ''"
         :data-value="value"
         :data-locked="j > setting.unlocked"
         :class="key"
@@ -100,6 +102,24 @@ ul > li {
   transform: translate(-50%, -50%);
 }
 
+.hoverTiles {
+  background-color: white;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  display: inline-block;
+  border-radius: 5px;
+  margin-left: 5px;
+  transform: translateY(10%);
+}
+.hoverTiles::after {
+  content: attr(data-value);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .tilesShape {
   border-radius: var(--value);
   width: 50px;
@@ -117,7 +137,6 @@ img {
   position: absolute;
   background: white;
 }
-
 .tilesSVG {
   width: 50px;
   height: 50px;
@@ -125,6 +144,22 @@ img {
   border-radius: 5px;
   cursor: pointer;
   display: inline-block;
+}
+.spread {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  display: inline-block;
+  border-radius: 5px;
+  margin-left: 5px;
+  transform: translateY(10%);
+}
+.spread::after {
+  content: attr(data-repr);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 
