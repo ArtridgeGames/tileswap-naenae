@@ -395,7 +395,7 @@ export class Layout {
         14,
         15
       ],
-      unlockCategory: -1,
+      unlockCategory: 0,
       id: 31
     },
     {
