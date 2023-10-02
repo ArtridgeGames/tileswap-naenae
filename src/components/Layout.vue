@@ -90,20 +90,18 @@ import Tile from "./Tile.vue";
 import { useStore } from "../store/store";
 import { devMode } from "../assets/js/solve/solve";
 import { gradient, tilesToFlip, modulo } from "../assets/js/Layout.js";
-import { useWindow } from '../assets/js/window.js';
 
 export default {
   props: ["modelValue", "small", "disabled", "solution", "target"],
   emits: ["update:modelValue", "swap"],
   data() {
     const { currentChallenge, settings } = useStore();
-    const { width } = useWindow();
     return {
       currentChallenge,
       settings,
       gradient,
       hoveredTile: null,
-      clickEvent: width.value < 600 ? "touchstart" : "click",
+      clickEvent: "ontouchstart" in window ? "touchstart" : "click",
     };
   },
   methods: {
