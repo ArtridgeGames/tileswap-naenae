@@ -1,5 +1,5 @@
 <template>
-  <main class="container" @click="handleClick">
+  <main class="icon-container" @click="handleClick">
     <div>
       <img :src="icon" />
     </div>
@@ -20,7 +20,7 @@ div {
 img {
   height: 90%;
 }
-main.container {
+main.icon-container {
   display: inline-block;
   width: 100px;
   height: 100px;

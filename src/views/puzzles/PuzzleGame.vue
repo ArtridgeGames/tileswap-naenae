@@ -6,12 +6,15 @@ import Tile from "../../components/Tile.vue";
 import Layout from '../../components/Layout.vue';
 import Modal from "../../components/Modal.vue";
 import { useWindow } from "../../assets/js/window.js";
+import tutorialUrl from '/images/svg/tutorial.svg';
+import IconButton from "../../components/buttons/IconButton.vue";
 </script>
 
 <template>
   <div>
     <LinkButton class="top right" text="back" to="/puzzleSelection" />
-
+    <IconButton class="top left" :icon="tutorialUrl" @click="showExplanationModal = true" />
+    
     <div class="info center" :class="{
         top: windowWidth > 600,
         bottom: windowWidth <= 600
@@ -22,10 +25,8 @@ import { useWindow } from "../../assets/js/window.js";
       <Button text="retry" @click="reset" />
     </div>
 
-    <main>
-
+    <main class="puzzle-container">
       <Layout v-model="layout" :target="puzzle.target.matrix" @swap="handleClick" />
-  
     </main>
 
     <!-- <div class="target" :class="{
@@ -49,11 +50,26 @@ import { useWindow } from "../../assets/js/window.js";
       <Button black text="retry" @click="reset" />
       <LinkButton black text="back" to="/puzzleSelection" />
     </Modal>
+
+    <Modal v-model="showExplanationModal">
+      <h1>you gotta do what do be do</h1>
+
+      <div class="explanation">
+        <Layout v-model="puzzle.base" disabled />
+        <p>
+          →
+        </p>
+        <Layout v-model="puzzle.target" disabled />
+      </div>
+
+
+      <Button black text="close" @click="showExplanationModal = false" />
+    </Modal>
   </div>
 </template>
 
 <style scoped>
-main{
+main.puzzle-container {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -67,6 +83,21 @@ main{
 .info {
   text-align: center;
 }
+
+.explanation {
+  display: flex;
+  align-items: center;
+}
+.explanation > p {
+  font-size: 32px;
+}
+.explanation > div {
+  padding: 20px;
+  margin: 20px;
+  border-radius: 10px;
+  background: var(--root-bg-color);
+}
+
 @media screen and (max-width: 600px) {
   .target {
     margin-left: 0;
@@ -94,7 +125,8 @@ export default {
       remainingMoves: puzzle.moves,
       maxMoves: puzzle.moves,
       showWinModal: false,
-      showLostModal: false
+      showLostModal: false,
+      showExplanationModal: true
     }
   },
   computed: {

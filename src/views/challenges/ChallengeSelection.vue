@@ -6,7 +6,7 @@ import ChallengeCategoryButton from '../../components/challenges/ChallengeCatego
 </script>
 
 <template>
-  <div>
+  <div class="challenge-selection-container">
     <h1 class="title">Select a challenge</h1>
     <LinkButton v-if="!categoryName" class="top right" text="back" to="/" />
     <Button v-else class="top right" text="back" @click="categoryName = ''; challenges = Challenge.CHALLENGES" />
@@ -31,6 +31,10 @@ import ChallengeCategoryButton from '../../components/challenges/ChallengeCatego
 <style scoped>
 div.container {
   text-align: center;
+}
+div.challenge-selection-container {
+  height: 100%;
+  overflow-y: scroll;
 }
 h3.name {
   text-align: center;

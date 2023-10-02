@@ -44,7 +44,7 @@ export const SETTINGS_DATA = {
   },
   hoverTiles: {
     name: 'Hover on Tiles',
-    options: ['On', 'Off'],
+    options: ['Off', 'On'],
     get value() {
       const { settings } = useStore();
       return this.options[settings.hoverTiles];
@@ -96,6 +96,12 @@ export const SETTINGS_DATA = {
       ],
       [
         [-1,0], [0,-1],[1,0],[0,0],[0,1]
+      ],
+      [[0,0]],
+      [
+        [0,0],[0,-1],[0,-2],[1,-2],[2,-2],
+        [1,0],[2,0],[2,1],[2,2],[0,1],[0,2],[-1,2],[-2,2],
+        [-1,0],[-2,0],[-2,-1],[-2,-2]
       ]
     ],
     get value() {
@@ -106,11 +112,13 @@ export const SETTINGS_DATA = {
       if (index === 0) return '□';
       if (index === 1) return '✖';
       if (index === 2) return '+';
+      if (index === 3) return 'alexei';
+      if (index === 4) return 'aaaaa';
     },
     onChange(index) {
       tilesToFlip.value = this.options[index];
     },
-    unlocked: 3
+    unlocked: 4
   }
 }
 

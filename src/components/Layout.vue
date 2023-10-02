@@ -25,7 +25,7 @@ import Tile from "./Tile.vue";
             solution:
               devMode && solution && solution[rowIndex][tileIndex] >= 1,
             'color-blind': settings.colorBlind === 1,
-            hover: shouldHover(rowIndex, tileIndex) && settings.hoverTiles === 0,
+            hover: shouldHover(rowIndex, tileIndex) && settings.hoverTiles === 1 && disabled !== '',
           }"
           :style="{
             outline: target
@@ -39,7 +39,7 @@ import Tile from "./Tile.vue";
                 : ''
               : ''
           "
-          @click="onTileClick(rowIndex, tileIndex)"
+          @[clickEvent]="onTileClick(rowIndex, tileIndex)"
           @mouseover="tile !== -1 && mouseOver(rowIndex, tileIndex)"
           @mouseleave="tile !== -1 && mouseLeave(rowIndex, tileIndex)"
         />
@@ -90,17 +90,20 @@ import Tile from "./Tile.vue";
 import { useStore } from "../store/store";
 import { devMode } from "../assets/js/solve/solve";
 import { gradient, tilesToFlip, modulo } from "../assets/js/Layout.js";
+import { useWindow } from '../assets/js/window.js';
 
 export default {
   props: ["modelValue", "small", "disabled", "solution", "target"],
   emits: ["update:modelValue", "swap"],
   data() {
     const { currentChallenge, settings } = useStore();
+    const { width } = useWindow();
     return {
       currentChallenge,
       settings,
       gradient,
-      hoveredTile: null
+      hoveredTile: null,
+      clickEvent: width.value < 600 ? "touchstart" : "click",
     };
   },
   methods: {
