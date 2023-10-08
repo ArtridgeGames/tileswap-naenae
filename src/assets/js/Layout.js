@@ -384,18 +384,11 @@ export class Layout {
       id: 30
     },
     {
-      dimensions: "4x4",
+      dimensions: "5x5",
       "exclude": [
-        0,
-        1,
-        4,
-        5,
-        10,
-        11,
-        14,
-        15
+        0,1,5,6,18,19,23,24
       ],
-      unlockCategory: 0,
+      unlockCategory: 5,
       id: 31
     },
     {
@@ -416,7 +409,7 @@ export class Layout {
         5,
         9
       ],
-      unlockCategory: -1,
+      unlockCategory: 0,
       id: 34
     },
     {
