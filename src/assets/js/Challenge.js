@@ -254,6 +254,58 @@ export class Challenge {
       hasSpecificPatterns: true,
       randomPatterns: true,
       name: "Category 3"
+    }),
+    new Challenge({
+      timeLimit: 60,
+      moveLimit: -1,
+      totalClicks: 92,
+      patterns: [26, 30, 33, 62, 85, 100, 128],
+      nPatterns: 12,
+      bigLayoutAdapt: false,
+      moveLimitPer: -1,
+      timeLimitPer: -1,
+      hasSpecificPatterns: true,
+      randomPatterns: true,
+      name: "Category 4"
+    }),
+    new Challenge({
+      timeLimit: -1,
+      moveLimit: -1,
+      totalClicks: 48,
+      patterns: [29],
+      nPatterns: 8,
+      bigLayoutAdapt: false,
+      moveLimitPer: 20,
+      timeLimitPer: 30,
+      hasSpecificPatterns: true,
+      randomPatterns: true,
+      name: "Unconventional"
+    }),
+    new Challenge({
+      timeLimit: 60,
+      moveLimit: -1,
+      totalClicks: 95,
+      patterns: [5,5],
+      nPatterns: 10,
+      bigLayoutAdapt: false,
+      moveLimitPer: -1,
+      timeLimitPer: -1,
+      hasSpecificPatterns: false,
+      randomPatterns: true,
+      name: "Category 5"
+    }),
+    new Challenge({
+      timeLimit: 60,
+      moveLimit: -1,
+      totalClicks: 95,
+      patterns: [36, 48, 49, 70, 84, 102, 103, 106],
+      nPatterns: 12,
+      bigLayoutAdapt: false,
+      moveLimitPer: -1,
+      timeLimitPer: -1,
+      hasSpecificPatterns: true,
+      randomPatterns: true,
+      name: "Category 6"
     })
   ].map((e, id) => {
     if (e instanceof Challenge) {
