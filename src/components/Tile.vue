@@ -41,7 +41,7 @@ export default {
   data() {
     return {
       tileSize: "30px",
-      borderRadius: "15px",
+      borderRadius: this.small === '' ? "7px" : "15px",
       flipped: false,
       frontColor: gradient.value[this.tile],
       backColor: gradient.value[this.mod(this.tile + 1)],

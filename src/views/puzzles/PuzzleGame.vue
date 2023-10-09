@@ -55,11 +55,11 @@ import IconButton from "../../components/buttons/IconButton.vue";
       <h1>you gotta do what do be do</h1>
 
       <div class="explanation">
-        <Layout v-model="puzzle.base" disabled />
+        <Layout small v-model="puzzle.base" disabled />
         <p>
           →
         </p>
-        <Layout v-model="puzzle.target" disabled />
+        <Layout small v-model="puzzle.target" disabled />
       </div>
 
 
@@ -87,6 +87,7 @@ main.puzzle-container {
 .explanation {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 .explanation > p {
   font-size: 32px;

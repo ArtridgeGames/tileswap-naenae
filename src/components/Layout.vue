@@ -25,7 +25,7 @@ import Tile from "./Tile.vue";
             solution:
               devMode && solution && solution[rowIndex][tileIndex] >= 1,
             'color-blind': settings.colorBlind === 1,
-            hover: shouldHover(rowIndex, tileIndex) && settings.hoverTiles === 1 && disabled !== '',
+            hover: (shouldHover(rowIndex, tileIndex) && settings.hoverTiles === 1 && disabled !== '') || forcedHover?.some(([x, y]) => x === tileIndex && y === rowIndex)
           }"
           :style="{
             outline: target
@@ -92,7 +92,7 @@ import { devMode } from "../assets/js/solve/solve";
 import { gradient, tilesToFlip, modulo } from "../assets/js/Layout.js";
 
 export default {
-  props: ["modelValue", "small", "disabled", "solution", "target"],
+  props: ["modelValue", "small", "disabled", "solution", "target", "forcedHover"],
   emits: ["update:modelValue", "swap"],
   data() {
     const { currentChallenge, settings } = useStore();
