@@ -12,7 +12,7 @@ export const SETTINGS_DATA = {
     onChange(index) {
       document.documentElement.style.setProperty('--root-bg-color', this.options[index]);
     },
-    unlocked: 2
+    unlocked: 5
   },
   tilesColor: {
     name: 'Tiles Color',
@@ -54,25 +54,9 @@ export const SETTINGS_DATA = {
     },
     unlocked: 2
   },
-  tilesShape: {
-    name: 'Tiles Border Radius',
-    options: [[30], [30, 60], [0], [100]],
-    get value() {
-      const { settings } = useStore();
-      return this.options[settings.tilesShape]
-    },
-    onChange(index) {
-      let border = '';
-      for (let i = 0; i<this.options[index].length; i++) {
-        border += `${this.options[index][i]}px `
-      }
-      document.documentElement.style.setProperty('--root-tile-border-radius', border);
-    },
-    unlocked: 2
-  },
   tilesSVG: {
     name: 'Tiles Shape',
-    options: ['Round', 'SpikeTile', 'Squircle'],
+    options: ['Squircle', 'Square', 'Round', 'SpikeTile'],
     selected: 0,
     get value() {
       const { settings } = useStore();
@@ -81,7 +65,7 @@ export const SETTINGS_DATA = {
     onChange(index) {
       return;
     },
-    unlocked: 2
+    unlocked: 3
   },
   spread: {
     name: 'Spread',

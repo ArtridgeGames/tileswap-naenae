@@ -13,8 +13,7 @@ import TileShape from "./TileShape.vue";
           background: 'rgba(0,0,0,0)',
         }"
       >
-      <TileShape :color="frontColor" :shape="tileSVG"></TileShape>
-        <!-- <TileSVG :outline="frontOutline" :highlight="frontHighlight" :borderRadius="borderRadiusSetting/3"/> -->
+        <TileShape :color="frontColor" :shape="tileSVG"></TileShape>
       </div>
 
       <div
@@ -23,8 +22,7 @@ import TileShape from "./TileShape.vue";
           background: 'rgba(0,0,0,0)',
         }"
       >
-      <TileShape :color="backColor" :shape="tileSVG"></TileShape>
-        <!-- <TileSVG :outline="backOutline" :highlight="backHighlight" :borderRadius="borderRadiusSetting/3"/> -->
+        <TileShape :color="backColor" :shape="tileSVG"></TileShape>
       </div>
     </div>
   </div>
@@ -58,12 +56,6 @@ export default {
       highlightGradient,
     };
   },
-  computed: {
-    borderRadiusSetting() {
-      return Math.max(...SETTINGS_DATA.tilesShape.value);
-    }
-
-  },
   watch: {
     tile(newVal) {
       this.flipped = !this.flipped;
@@ -85,7 +77,6 @@ export default {
   },
   mounted() {
     const store = useStore();
-    const tileShape = SETTINGS_DATA.tilesShape.value;
     const resize = () => {
       const { width, height } = store.currentLayout;
 
@@ -95,17 +86,12 @@ export default {
             (window.innerWidth > 600 ? 0.5 : 0.8))) *
         300 *
         (this.$props.small !== undefined ? 0.5 : 1);
-      this.borderRadius = ''
-      for (let i = 0; i<tileShape.length; i++) {
-        this.borderRadius += `${tileShape[i] * size * 0.2/30}px `
-      }
       this.tileSize = size + "px";
     };
 
     watch(() => store.currentLayout, resize, { deep: true, immediate: false });
     resize();
     window.addEventListener("resize", resize);
-
 
     this.$nextTick(resize);
     window.addEventListener("orientationchange", resize);
@@ -123,7 +109,7 @@ export default {
   display: inline-block;
   cursor: v-bind('visible ? "pointer" : "default"');
   /* overflow: hidden; */
-  outline: solid 5px  v-bind("frontOutline");
+  outline: solid 5px v-bind("frontOutline");
 }
 
 .tile > .inner-tile {

@@ -1,13 +1,10 @@
 <script setup>
 import lockURL from '/images/svg/lock.svg';
-import SpikeTile from './SpikeTileSVG.vue';
-import Round from './RoundSVG.vue';
-// import Squircle from './SquircleSVG.vue';
 </script>
 
 <template>
   <ul>
-    <li v-for="(setting, key) in settingsList" :key="key">
+    <li v-for="(setting, key) in settingsList" :key="key" :title="key">
       {{ setting.name }} :
       <div
         :style="`${
@@ -29,12 +26,13 @@ import Round from './RoundSVG.vue';
         v-for="(value, j) in setting.options"
         :key="value + ' ' + j"
         @click="changeSetting(key, j)"
+        :title="JSON.stringify(value)"
       >
-        <!-- Refactor to <component :is="setting.options[j]"> -->
-        <SpikeTile v-if="setting.options[j]==='SpikeTile'" :color="'#666'"></SpikeTile>
-        <Round v-else-if="setting.options[j]==='Round'" :color="'#666'"></Round>
-        <!-- <Squircle v-else-if="setting.options[j]==='Squircle'" :color="'#666'"></Squircle> -->
         <img v-if="j > setting.unlocked" :src="lockURL" />
+        
+        <div v-else-if="key === 'tilesSVG'">
+          <component :title="value" :is="value" :color="'#666'"></component>
+        </div>
     </div>
     </li>
   </ul>
@@ -169,7 +167,18 @@ img {
 import { useStore } from "../store/store";
 import { SETTINGS_DATA } from "../assets/js/Settings.js";
 
+import SpikeTile from './tiles/Spike.vue';
+import Round from './tiles/Round.vue';
+import Squircle from './Tiles/Squircle.vue';
+import Square from './Tiles/Square.vue';
+
 export default {
+  components: {
+    SpikeTile,
+    Round,
+    Squircle,
+    Square
+  },
   methods: {
     changeSetting(key, index) {
       if (index > SETTINGS_DATA[key].unlocked) return;

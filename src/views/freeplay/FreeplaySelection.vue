@@ -3,7 +3,6 @@ import LayoutSelectionButton from "../../components/freeplay/LayoutSelectionButt
 import LinkButton from "../../components/buttons/LinkButton.vue";
 import IconButton from "../../components/buttons/IconButton.vue";
 import randomUrl from "/images/svg/random.svg";
-import { Layout } from "../../assets/js/Layout.js";
 </script>
 
 <template>
@@ -15,7 +14,7 @@ import { Layout } from "../../assets/js/Layout.js";
       <div class="text-center">
         <IconButton :icon="randomUrl" @click="startRandomFreeplay" />
       </div>
-      <div class="layouts" v-for="(category, i) in layouts" :key="i">
+      <div class="layouts" v-for="(category, i) in categories" :key="i">
         <LayoutSelectionButton
           v-for="(layout, index) in category"
           :layout="layout"
@@ -55,16 +54,13 @@ div.text-center {
 
 <script>
 import { useStore } from '../../store/store.js';
+import { Layout } from "../../assets/js/Layout.js";
 
 export default {
   data() {
-    const categories = new Set(Layout.FILTERED_LAYOUTS.map(e => e.unlockCategory)).size;
-    const lowest = Math.min(...Layout.FILTERED_LAYOUTS.map(e => e.unlockCategory));
-    const layouts = new Array(categories).fill(0).map((_, i) => {
-      return Layout.FILTERED_LAYOUTS.filter(e => e.unlockCategory === i + lowest);
-    });
+    const { CATEGORIES } = Layout;
     return {
-      layouts,
+      categories: CATEGORIES,
     }
   },
   methods: {
