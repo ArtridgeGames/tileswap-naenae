@@ -1,20 +1,27 @@
 <script setup>
-import Progress from './Progress.vue';
+import Progress from "./Progress.vue";
 </script>
 
 
 <template>
   <div class="container">
     <TransitionGroup name="slide">
-      <div v-for="task in tasks" 
-            @click="claimTask(task)" 
-            class="task"
-            :class="{'completed-task':task.completed}" 
-            :key="task.id">
+      <div
+        v-for="task in tasks"
+        @click="claimTask(task)"
+        class="task"
+        :class="{ 'completed-task': task.completed }"
+        :key="task.id"
+      >
         <p>
           {{ task.text }}
         </p>
-        <Progress :barColor="task.completed ? 'var(--hl-color)' : null" :value="task.progress.value" :text="task.progress.text" max="1"></Progress>
+        <Progress
+          :barColor="task.completed ? 'var(--hl-color)' : null"
+          :value="task.progress.value"
+          :text="task.progress.text"
+          max="1"
+        ></Progress>
       </div>
     </TransitionGroup>
   </div>
@@ -39,26 +46,27 @@ progress {
   background-color: var(--bg-color);
   cursor: pointer;
 }
-
 </style>
 
 <script>
-import { Task } from '../assets/js/Task.js';
-import { useStore } from '@/store/store.js';
+import { Task } from "../assets/js/Task.js";
+import { useStore } from "@/store/store.js";
 export default {
   methods: {
     claimTask(task) {
       if (!task.completed) return;
       task.claim();
-    }
+    },
   },
   computed: {
     tasks() {
       const { currentTasks } = useStore();
-      return currentTasks.filter(index => index !== -1).map(index => {
-        return Task.TASKS[index]
-      })
-    }
-  }
-}
+      return currentTasks
+        .filter((index) => index !== -1)
+        .map((index) => {
+          return Task.TASKS[index];
+        });
+    },
+  },
+};
 </script>

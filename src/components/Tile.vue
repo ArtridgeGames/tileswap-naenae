@@ -1,6 +1,5 @@
 <script setup>
 import { useStore } from "@/store/store.js";
-import TileSVG from "./TileSVG.vue";
 import TileShape from "./TileShape.vue";
 </script>
 
