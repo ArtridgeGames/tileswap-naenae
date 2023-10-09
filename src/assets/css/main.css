@@ -32,9 +32,9 @@
   --button-default-w: 210px;
   --sb-size: 100px;
 
-  --fade-time: 0.2s;
+  --fade-time: 0.3s;
   --zoom-time: 0.2s;
-  --tile-swap-time: 0.3s;
+  --tile-swap-time: 0.5s;
 
   --popup-bg-trans: rgba(0, 0, 0, 0.5);
   --popup-width: 50%;
@@ -107,6 +107,65 @@ h1.title {
 .zoom-enter-from,
 .zoom-leave-to {
   scale: 0;
+}
+
+
+.flip-enter-active {
+  transition: transform 0.15s cubic-bezier(0.28, 0.28, 0.35, 0.96);
+}
+.flip-leave-active {
+  transition: transform 0.15s cubic-bezier(0.56, 0.18, 0.79, 0.64);
+}
+
+.flip-leave-from {
+  transform: rotateX(0deg) rotateZ(0deg);
+}
+.flip-leave-to {
+  transform: rotateX(90deg) rotateZ(90deg);
+}
+.flip-enter-to {
+  transform: rotateX(0deg) rotateZ(0deg);
+}
+.flip-enter-from {
+  transform: rotateX(-90deg) rotateZ(-90deg);
+}
+
+.spin-enter-active {
+  transition: transform 0.15s cubic-bezier(0.28, 0.28, 0.35, 0.96);
+}
+.spin-leave-active {
+  transition: transform 0.15s cubic-bezier(0.56, 0.18, 0.79, 0.64);
+}
+
+.spin-leave-from {
+  transform: rotateX(0deg) rotateZ(0deg);
+}
+.spin-leave-to {
+  transform: rotateX(90deg) rotateZ(90deg);
+}
+.spin-enter-to {
+  transform: rotateX(0deg) rotateZ(0deg);
+}
+.spin-enter-from {
+  transform: rotateX(-90deg) rotateZ(-90deg);
+}
+
+.bounce-enter-active {
+  animation: bounce-in 0.3s;
+}
+.bounce-leave-active {
+  animation: bounce-in 0.3s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .slide-move,

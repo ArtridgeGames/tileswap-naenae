@@ -160,6 +160,24 @@ img {
   transform: translate(-50%, -50%);
 }
 
+.tileAnimation {
+  width: 100px;
+  height: 50px;
+  cursor: pointer;
+  display: inline-block;
+  border-radius: 5px;
+  margin-left: 5px;
+  transform: translateY(10%);
+}
+.tileAnimation::after {
+  content: attr(data-repr);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
 
 </style>
 

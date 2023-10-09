@@ -103,7 +103,42 @@ export const SETTINGS_DATA = {
       tilesToFlip.value = this.options[index];
     },
     unlocked: 4
-  }
+  },
+  tileAnimation: {
+    name: 'Tile Animation',
+    options: [{
+      name: 'flip',
+      mode: 'out-in'
+     },
+     {
+      name: 'fade',
+      mode: 'default'
+     },
+     {
+      name: 'bounce',
+      mode: 'out-in'
+     },
+     {
+      name: 'spin',
+      mode: 'out-in'
+     },
+     {
+      name: 'none',
+      mode: 'out-in'
+     }
+    ],
+    get value() {
+      const { settings } = useStore();
+      return this.options[settings.tileAnimation];
+    },
+    onChange(index) {
+      return;
+    },
+    repr(index) {
+      return this.options[index].name;
+    },
+    unlocked: 4
+  },
 }
 
 export const INITIAL_SETTINGS = Object.fromEntries(

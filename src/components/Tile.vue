@@ -4,28 +4,37 @@ import TileShape from "./TileShape.vue";
 </script>
 
 <template>
-  <div class="tile" :class="{ 'flipped-tile': flipped }">
-    <div class="inner-tile">
-      <div
-        class="front"
-        :style="{
-          background: 'rgba(0,0,0,0)',
-        }"
-      >
-        <TileShape :color="frontColor" :shape="tileSVG"></TileShape>
+  <div style="display: inline-block; position: relative">
+    <Transition :name="animation.name" :mode="animation.mode">
+      <div :key="tile" style="position: absolute">
+        <TileShape :color="gradient[tile]" :shape="tileSVG"></TileShape>
       </div>
+    </Transition>
 
-      <div
-        class="back"
-        :style="{
-          background: 'rgba(0,0,0,0)',
-        }"
-      >
-        <TileShape :color="backColor" :shape="tileSVG"></TileShape>
-      </div>
-    </div>
+    <div class="flip-enter-active"></div>
+    <div class="flip-leave-active"></div>
   </div>
 </template>
+
+<!-- <div class="inner-tile">
+  <div
+    class="front"
+    :style="{
+      background: 'rgba(0,0,0,0)',
+    }"
+  >
+    <TileShape :color="frontColor" :shape="tileSVG"></TileShape>
+  </div>
+
+  <div
+    class="back"
+    :style="{
+      background: 'rgba(0,0,0,0)',
+    }"
+  >
+    <TileShape :color="backColor" :shape="tileSVG"></TileShape>
+  </div>
+</div> -->
 
 <script>
 import { watch } from "vue";
@@ -50,6 +59,7 @@ export default {
       frontHighlight: highlightGradient.value[this.tile],
       backHighlight: highlightGradient.value[this.mod(this.tile + 1)],
       tileSVG: SETTINGS_DATA.tilesSVG.value,
+      animation: SETTINGS_DATA.tileAnimation.value,
       gradient,
       outlineGradient,
       highlightGradient,
