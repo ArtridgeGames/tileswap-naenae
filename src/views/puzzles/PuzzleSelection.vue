@@ -1,7 +1,6 @@
 <script setup>
 import LinkButton from '@/components/buttons/LinkButton.vue';
 import PuzzleSelectionButton from '@/components/puzzles/PuzzleSelectionButton.vue';
-import { Puzzle } from '../../assets/js/Puzzle.js';
 </script>
 
 <template>
@@ -9,9 +8,9 @@ import { Puzzle } from '../../assets/js/Puzzle.js';
     <h1 class="title">Select a puzzle</h1>
     <LinkButton class="top right" text="back" to="/" />
     
-    <div class="layouts">
+    <div class="layouts" v-for="(category, i) in categories" :key="i">
       <PuzzleSelectionButton
-        v-for="(puzzle, index) in puzzles"
+        v-for="(puzzle, index) in category"
         :puzzle="puzzle"
         :key="index"
       ></PuzzleSelectionButton>
@@ -31,6 +30,7 @@ main {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+  margin-bottom: 20px;
 }
 @media screen and (max-width: 600px) {
   h1 {
@@ -40,10 +40,12 @@ main {
 </style>
 
 <script>
+import { Puzzle } from '../../assets/js/Puzzle.js';
+
 export default {
   data() {
     return {
-      puzzles: Puzzle.FILTERED_PUZZLES
+      categories: Puzzle.CATEGORIES,
     }
   }
 }
