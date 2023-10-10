@@ -703,6 +703,31 @@ export class FiniteFieldMatrix {
     return result;
   }
 
+  /**
+   * Returns the opposite of the matrix
+   * @returns {FiniteFieldMatrix} The opposite of the matrix
+   */
+  opposite() {
+    return new FiniteFieldMatrix(
+      this.matrix.map(row => row.map(e => e.opposite())),
+      this.field
+    );
+  }
+
+  /**
+   * Subtract a matrix from the matrix
+   */
+  subtract(other) {
+    if (other instanceof FiniteFieldMatrix) {
+      if (this.width !== other.width || this.height !== other.height) {
+        throw new Error('Cannot subtract matrices with incompatible dimensions');
+      }
+      return this.add(other.opposite());
+    }
+
+    throw new Error('Cannot subtract non-matrix from matrix');
+  }
+
   static #detMap = new Map();
 
   /**

@@ -1,28 +1,15 @@
-import { Layout, modulo } from '../Layout.js';
-import { computed, ref } from 'vue';
-import { FiniteField, FiniteFieldMatrix } from './FiniteField.js';
-import { tilesToFlip } from '../Layout.js';
 import { generateMoveMatrix } from './moveMatrix.js';
+import { FiniteField, FiniteFieldMatrix } from './FiniteField.js';
 
-const active = ref(
-  false
-);
-if (globalThis.window && !window.hasOwnProperty('devMode')) {
-  Object.defineProperty(window, 'devMode', {
-    get: () => active.value,
-    set: (value) => {
-      if (typeof value !== 'boolean') throw new Error('devMode value must be a boolean');
-      active.value = value
-    }
-  });
-}
-export const devMode = computed(() => active.value);
-export const setDevMode = val => {
-  active.value = val
-}
 
 const inverses = new Map();
 const determinants = new Map();
+
+function getExcludeFromMatrix(matrix) {
+  const width = matrix[0].length;
+    return matrix
+      .map((row, y) => row.map((cell, x) => cell === -1 ? y * width + x : null)).flat().filter(e => e || e === 0);
+}
 
 const rotateMatrix = (state) => {
   const result = [];
@@ -43,6 +30,7 @@ const rotateNTimes = (state, n) => {
   return state;
 }
 
+
 class Solution {
   constructor(matrix, determinant, moves) {
     this.matrix = matrix;
@@ -51,8 +39,20 @@ class Solution {
   }
 }
 
-export const solve = (state) => {
-
+/**
+ * Solves the pattern 4 times (rotated 0, 90, 180, 270 degrees) and returns the shortest solution.
+ * @param {Number[][]} state
+ * @param {Number[][]} target
+ * @param {Number[][]} tilesToFlip
+ * @param {Number} modulo
+ * @returns {{
+ *  solutions: Solution[],
+ *  zerows: Number,
+ *  shortest: Number,
+ *  determinant: Number,
+ * }}
+ */
+export function solveWithRotation({ state, target, tilesToFlip, modulo }) {
   const states = [
     state,
     rotateMatrix(state),
@@ -65,7 +65,12 @@ export const solve = (state) => {
   let i = 0;
   let zerows = 0;
   for (const state of states) {
-    const { matrix, determinant, zerows: z } = solvePattern(state);
+    const { matrix, determinant, zerows: z } = solvePattern({
+      state,
+      target,
+      modulo,
+      tilesToFlip,
+    });
     zerows = z;
     const count = matrix.flat().filter(e => e !== -1).reduce((acc, v) => acc + v, 0);
     counts.push(count);
@@ -82,24 +87,44 @@ export const solve = (state) => {
   }
 }
 
-function solvePattern(state) {
+export function solvePattern({ state, target, tilesToFlip, modulo }) {
 
-  const field = FiniteField.fromOrder(modulo.value);
+  modulo = modulo ?? 2;
+  tilesToFlip = tilesToFlip ?? [
+    [-1, -1], [0, -1], [1, -1],
+    [-1, 0], [0, 0], [1, 0],
+    [-1, 1], [0, 1], [1, 1],
+  ];
+
+  const field = FiniteField.fromOrder(modulo);
 
   const height = state.length;
   const width = state[0].length;
 
+  const excluded = state.flat().filter(e => e === -1).length;
+
+  target = target ?
+    field.matrix(
+      target.flat()
+        .filter(e => e !== -1) // Remove excluded cells
+        .map(e => [e]) // Wrap the cells
+    )
+  : field.matrix(
+    new Array(width * height - excluded).fill().map(e => [modulo - 1])
+  );
+
   const P = field.matrix(
     state.flat()
       .filter(e => e !== -1) // Remove excluded cells
-      .map(e => [(e + 1) % modulo.value])); // Invert the cells
+      .map(e => [e]) // Wrap the cells
+  ).subtract(target);
 
-  const key = `${width}x${height},${Layout.getExcludeFromMatrix(state)},${tilesToFlip.value},${modulo.value}}`;
+  const key = `${width}x${height},${getExcludeFromMatrix(state)},${tilesToFlip},${modulo}}`;
 
   let result = [];
   let zerows = 0;
 
-  const M = generateMoveMatrix({ width, height, state, tilesToFlip: tilesToFlip.value, modulo: modulo.value });
+  const M = generateMoveMatrix({ width, height, state, tilesToFlip, modulo });
 
   let det;
   if (determinants.has(key)) {

@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue';
 import { useStore } from '../../store/store.js';
-import { solve } from './solve/solve.js';
+import { solve } from './solve/devmode.js';
 import { SETTINGS_DATA } from './Settings.js';
 
 export const tilesToFlip = ref(
@@ -158,6 +158,7 @@ export class Layout {
    * Swaps the tile at the specified position with its neighbors
    * @param {Number} row the row of the tile to swap
    * @param {Number} column the column of the tile to swap
+   * @param {Number} direction the direction to swap the tiles in
    * @returns {Number} the number of tiles swapped
    */
   swapTiles(row, column, direction = 1) {
@@ -186,6 +187,26 @@ export class Layout {
       for (let j = 0; j < this.matrix[0].length; j++)
         if (this.matrix[i][j] !== -1)
           this.matrix[i][j] = value;
+  }
+
+  /**
+   * Sets the tile at the specified position to the specified value
+   * @param {Number} row 
+   * @param {Number} column 
+   * @param {Number} value
+   */
+  setTile(row, column, value) {
+    this.matrix[row][column] = value;
+  }
+
+  /**
+   * Gets the tile at the specified position
+   * @param {Number} row
+   * @param {Number} column
+   * @returns {Number} the value of the tile at the specified position
+   */
+  getTile(row, column) {
+    return this.matrix[row][column];
   }
 
   /**

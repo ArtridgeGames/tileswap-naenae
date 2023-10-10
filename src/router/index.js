@@ -8,6 +8,7 @@ import PuzzleGame from '../views/puzzles/PuzzleGame.vue'
 import ChallengeGame from '../views/challenges/ChallengeGame.vue'
 import TutorialView from '../views/TutorialView.vue';
 import TestView from '../views/TestView.vue';
+import EditorView from '../views/EditorView.vue';
 
 const router = createRouter({
   history: createMemoryHistory(import.meta.env.BASE_URL),
@@ -56,6 +57,11 @@ const router = createRouter({
       path: '/test',
       name: 'test',
       component: TestView
+    },
+    {
+      path: '/editor',
+      name: 'editor',
+      component: EditorView
     }
   ]
 });

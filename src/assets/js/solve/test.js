@@ -1,8 +1,26 @@
-import { FiniteField, FiniteFieldElement, FiniteFieldPolynomialAsElement, FiniteFieldValue, FiniteFieldMatrix, FiniteFieldPolynomial } from './FiniteField.js';
+import { solvePattern, solveWithRotation } from './solve.js';
 
-const field = FiniteField.fromOrder(9);
-const a = new FiniteFieldPolynomial([2], field);
+const base = [
+  [0,0,0],
+  [0,0,0],
+  [0,0,0]
+]
 
-console.log(a);
+const target = [
+  [2,2,2],
+  [2,2,2],
+  [2,2,2]
+]
 
-console.log(a.multiply(a));
+// Ax = b
+// Mx = P
+
+// const { matrix, determinant, zerows } = solvePattern({
+//   state: base, target, modulo: 5
+// });
+
+const { solutions, shortest } = solveWithRotation({
+  state: base, target, modulo: 3
+});
+
+console.log(solutions[shortest].matrix);

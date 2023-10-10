@@ -6,7 +6,7 @@ import DifficultySlider from "../../components/DifficultySlider.vue";
 import ModuloSlider from "../../components/ModuloSlider.vue";
 import Modal from "../../components/Modal.vue";
 import LinkButton from "../../components/buttons/LinkButton.vue";
-import { useWindow } from "@/assets/js/window.js";
+import DevMode from "../../components/DevMode.vue";
 </script>
 
 <template>
@@ -50,46 +50,25 @@ import { useWindow } from "@/assets/js/window.js";
         />
       </Transition>
     </main>
-    <div class="open-dev left bottom" @click="setDevMode(true)" v-if="!devMode">v</div>
 
-    <Transition name="fade" >
-      <div
-        class="devmode middle"
-        :class="{
-          left: windowWidth >= 600,
-          center: windowWidth < 600,
-        }"
-        v-if="devMode && (windowWidth < 600 ? showDevMode : true)"
-      >
-        <div class="close-dev" @click="setDevMode(false)">x</div>
-        <h1>DevMode</h1>
-  
-        <div class="input">
-          <input type="checkbox" v-model="solveOnClick" /> re-solve on click
-        </div>
-        <p>Det: {{ determinant }}</p>
-  
-        <hr />
-  
-        <div v-if="determinant !== 0">
-          <p>Only one solution found:</p>
-          <p>{{ solutions[0].moves }} moves</p>
-        </div>
-  
-        <div v-else>
-          <p>Multiple solutions found:</p>
-          <p
-            v-for="(solution, i) in solutions"
-            class="cursor"
-            :class="{ selected: solutionIndex === i }"
-            :key="i"
-            @click="solutionIndex = i"
-          >
-            {{ solution.moves }} moves
-          </p>
-        </div>
-      </div>
-    </Transition>
+    <div
+      class="open-dev left bottom"
+      @click="
+        setDevMode(true);
+        showDevMode = true;
+      "
+      v-if="!devMode"
+    >
+      v
+    </div>
+
+    <DevMode
+      v-model:show="showDevMode"
+      v-model:solution-index="solutionIndex"
+      v-model:solve-on-click="solveOnClick"
+      :solutions="solutions"
+      :determinant="determinant"
+    />
 
     <Modal v-model="showModal">
       <h1>you won in {{ moves }} move{{ moves > 1 ? "s" : "" }}!</h1>
@@ -112,49 +91,6 @@ main {
 .move-counter {
   font-size: 30px;
 }
-.devmode {
-  color: var(--devmode-color);
-  background-color: black;
-  padding: 20px;
-  font-size: var(--font-size-sm);
-  margin-left: 10px;
-  width: max-content;
-}
-.devmode hr {
-  background-color: var(--devmode-color);
-  height: 2px;
-}
-.devmode p,
-.devmode h1,
-.devmode span {
-  font-family: monospace;
-  margin: 10px;
-}
-.devmode:has(span) {
-  padding: 5px;
-  margin: 0 auto;
-}
-.devmode h1 {
-  text-align: center;
-}
-.devmode .input {
-  float: right;
-}
-.devmode p.selected {
-  outline: 2px solid var(--devmode-color);
-}
-
-.close-dev {
-  float: right;
-  background-color: black;
-  color: var(--devmode-color);
-  outline: 2px solid var(--devmode-color);
-  border-radius: 2px;
-  cursor: pointer;
-  width: 25px;
-  height: 25px;
-  text-align: center;
-}
 
 .open-dev {
   background-color: black;
@@ -165,11 +101,23 @@ main {
   height: 25px;
   text-align: center;
   cursor: pointer;
-  padding-top:3px;
+  padding-top: 3px;
   margin-left: 10px;
   margin-bottom: 10px;
 }
 
+.top-menu .devmode span {
+  font-family: monospace;
+  margin: 10px;
+}
+.top-menu .devmode:has(span) {
+  padding: 5px;
+  margin: 0 auto;
+  color: var(--devmode-color);
+  background-color: #000;
+  font-size: var(--font-size-sm);
+  width: max-content;
+}
 .cursor {
   cursor: pointer;
 }
@@ -191,10 +139,11 @@ main {
 }
 </style>
 <script>
-import { solve, devMode, setDevMode } from "../../assets/js/solve/solve";
+import { solve, devMode, setDevMode } from "../../assets/js/solve/devmode";
 import { modulo, setModulo, Layout } from "../../assets/js/Layout.js";
 import { watch } from "vue";
-import { Task } from '../../assets/js/Task';
+import { Task } from "../../assets/js/Task";
+import { useWindow } from "@/assets/js/window.js";
 
 export default {
   data() {
@@ -210,7 +159,7 @@ export default {
       difficulty: store.difficulty,
       internalModulo: modulo.value,
       showModal: false,
-      showDevMode: false,
+      showDevMode: devMode.value,
       solutions: [],
       solutionIndex: 0,
       determinant: 0,
@@ -263,12 +212,18 @@ export default {
       if (this.layout.isSolved()) {
         this.store.stats.layoutsSolved++;
         this.showModal = true;
-        Task.advanceTasks(this.layout.id, Task.TASK_TYPES.FREEPLAY, this.store.difficulty);
+        Task.advanceTasks(
+          this.layout.id,
+          Task.TASK_TYPES.FREEPLAY,
+          this.store.difficulty
+        );
       }
     },
     randomize() {
       this.moves = 0;
-      this.layout = this.layout.generatePosition(this.difficulty+Math.round(Math.random()*(modulo.value-1)));
+      this.layout = this.layout.generatePosition(
+        this.difficulty + Math.round(Math.random() * (modulo.value - 1))
+      );
       this.$nextTick(() => {
         try {
           if (devMode.value) {

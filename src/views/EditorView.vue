@@ -1,0 +1,104 @@
+<script setup>
+import DevMode from '../components/DevMode.vue';
+import Layout from '../components/Layout.vue';
+import ModuloSlider from '../components/ModuloSlider.vue';
+import LinkButton from '../components/buttons/LinkButton.vue';
+</script>
+
+
+<template>
+  <div>
+    <DevMode
+      v-model:show="showDevMode"
+      v-model:solution-index="solutionIndex"
+      v-model:solve-on-click="solveOnClick"
+      :solutions="solutions"
+      :determinant="determinant"
+    />
+
+    <main>
+      <Layout @swap="handleSwap(base, $event)" v-model="base" :solution="solution" />
+      <Layout @swap="handleSwap(target, $event)" v-model="target" />
+    </main>
+
+    <div class="top right">
+      <LinkButton text="back" to="/freeplayGame" />
+      <ModuloSlider v-model="internalModulo" />
+    </div>
+  </div>
+</template>
+
+<style scoped>
+main {
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  flex-direction: row;
+  gap: 200px;
+}
+</style>
+
+<script>
+import { useStore } from '../store/store.js';
+import { modulo, setModulo } from '../assets/js/Layout.js';
+import { solveWithRotation } from '../assets/js/solve/solve.js';
+
+export default {
+  data() {
+
+    const store = useStore();
+    const layout = store.currentLayout;
+
+    return {
+      internalModulo: modulo.value,
+      showDevMode: true,
+      solutionIndex: 0,
+      solveOnClick: false,
+      solutions: [],
+      determinant: 0,
+      base: layout.copy(),
+      target: (() => {
+        const l = layout.copy();
+        l.setAllTiles(1);
+        return l;
+      })(),
+    }
+  },
+  computed: {
+    solution() {
+      if (this.solutions.length === 0) return null;
+      return this.solutions[this.solutionIndex].matrix;
+    }
+  },
+  watch: {
+    internalModulo(newVal) {
+      setModulo(newVal);
+      this.solve();
+    }
+  },
+  methods: {
+    handleSwap(layout, tile) {
+      const x = Math.floor(tile / layout.width);
+      const y = tile % layout.width;
+      layout.swapTiles(x, y, -1);
+      layout.setTile(x, y, (layout.getTile(x, y) + 1) % modulo.value);
+      this.solve();
+    },
+    solve() {
+      const { solutions, zerows, shortest, determinant } = solveWithRotation({
+        state: this.base.matrix,
+        target: this.target.matrix,
+        modulo: modulo.value,
+      });
+      this.solutions = solutions;
+      this.determinant = determinant;
+      this.solutionIndex = shortest;
+    }
+  },
+  mounted() {
+    this.solve();
+  }
+}
+</script>

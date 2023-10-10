@@ -88,7 +88,7 @@ import Tile from "./Tile.vue";
 
 <script>
 import { useStore } from "../store/store";
-import { devMode } from "../assets/js/solve/solve";
+import { devMode } from "../assets/js/solve/devmode";
 import { gradient, tilesToFlip, modulo } from "../assets/js/Layout.js";
 
 export default {
