@@ -28,13 +28,7 @@ export const rotateMatrix = (state) => {
   return result;
 }
 
-/**
- * Rotates a matrix n times 90 degrees clockwise.
- * @param {Array[]} state
- * @param {Number} n
- * @returns {Array[]}
- */
-export const rotateNTimes = (state, n) => {
+const rotateNTimes = (state, n) => {
   for (let i = 0; i < n; i++) {
     state = rotateMatrix(state);
   }
