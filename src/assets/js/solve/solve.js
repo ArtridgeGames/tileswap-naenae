@@ -11,7 +11,7 @@ function getExcludeFromMatrix(matrix) {
       .map((row, y) => row.map((cell, x) => cell === -1 ? y * width + x : null)).flat().filter(e => e || e === 0);
 }
 
-const rotateMatrix = (state) => {
+export const rotateMatrix = (state) => {
   const result = [];
   for (let column = 0; column < state[0].length; column++) {
     const row = [];
@@ -23,7 +23,7 @@ const rotateMatrix = (state) => {
   return result;
 }
 
-const rotateNTimes = (state, n) => {
+export const rotateNTimes = (state, n) => {
   for (let i = 0; i < n; i++) {
     state = rotateMatrix(state);
   }

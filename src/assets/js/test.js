@@ -1,9 +1,92 @@
-import { ref } from 'vue';
+import { rotateMatrix, rotateNTimes } from "./solve/solve.js"
+const target = [
+  [
+    -1,
+    -1,
+    -1,
+    1
+  ],
+  [
+    -1,
+    -1,
+    1,
+    1
+  ],
+  [
+    -1,
+    1,
+    0,
+    1
+  ],
+  [
+    1,
+    1,
+    0,
+    0
+  ],
+  [
+    -1,
+    1,
+    0,
+    1
+  ],
+  [
+    -1,
+    -1,
+    1,
+    1
+  ],
+  [
+    -1,
+    -1,
+    -1,
+    1
+  ]
+]
 
-const x = ref({});
+const base = [
+  [
+    -1,
+    -1,
+    -1,
+    1
+  ],
+  [
+    -1,
+    -1,
+    1,
+    0
+  ],
+  [
+    -1,
+    1,
+    0,
+    0
+  ],
+  [
+    1,
+    0,
+    0,
+    0
+  ],
+  [
+    -1,
+    1,
+    0,
+    0
+  ],
+  [
+    -1,
+    -1,
+    1,
+    0
+  ],
+  [
+    -1,
+    -1,
+    -1,
+    1
+  ]
+]
 
-console.log(x.value);
-
-x.value.prop = 5;
-
-console.log(x.value);
+console.log("base: ",rotateMatrix(base), ",", "target: ", rotateMatrix(target))
