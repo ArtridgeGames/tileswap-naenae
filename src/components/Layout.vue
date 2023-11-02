@@ -25,6 +25,9 @@ import Tile from "./Tile.vue";
             solution:
               devMode && solution && solution[rowIndex][tileIndex] >= 1,
             'color-blind': settings.colorBlind === 1,
+            highlight: highlightedTiles?.some(
+              ([x, y]) => x === tileIndex && y === rowIndex
+            ),
             hover: (shouldHover(rowIndex, tileIndex) && settings.hoverTiles === 1 && disabled !== '') || forcedHover?.some(([x, y]) => x === tileIndex && y === rowIndex)
           }"
           :style="{
@@ -62,6 +65,25 @@ import Tile from "./Tile.vue";
   box-shadow: 0px 0px 0 5px var(--puzzle-white);
   background: var(--puzzle-white);
 }
+.tile.highlight:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--success-color);
+  border-radius: var(--button-border-radius);
+  animation: highlight 2s ease infinite;
+}
+@keyframes highlight {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
 .solution {
   outline: 5px solid red !important;
 }
@@ -92,7 +114,7 @@ import { devMode } from "../assets/js/solve/devmode";
 import { gradient, tilesToFlip, modulo } from "../assets/js/Layout.js";
 
 export default {
-  props: ["modelValue", "small", "disabled", "solution", "target", "forcedHover"],
+  props: ["modelValue", "small", "disabled", "solution", "target", "forcedHover", "highlightedTiles"],
   emits: ["update:modelValue", "swap"],
   data() {
     const { currentChallenge, settings } = useStore();

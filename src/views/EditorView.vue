@@ -3,6 +3,8 @@ import DevMode from '../components/DevMode.vue';
 import Layout from '../components/Layout.vue';
 import ModuloSlider from '../components/ModuloSlider.vue';
 import LinkButton from '../components/buttons/LinkButton.vue';
+import Button from '../components/buttons/Button.vue';
+import Modal from '../components/Modal.vue';
 </script>
 
 
@@ -16,15 +18,23 @@ import LinkButton from '../components/buttons/LinkButton.vue';
       :determinant="determinant"
     />
 
+    
     <main>
       <Layout @swap="handleSwap(base, $event)" v-model="base" :solution="solution" />
       <Layout @swap="handleSwap(target, $event)" v-model="target" />
     </main>
-
+    
     <div class="top right">
       <LinkButton text="back" to="/freeplayGame" />
       <ModuloSlider v-model="internalModulo" />
+      <Button @click="showModal = true" text="export" />
     </div>
+
+    <Modal v-model="showModal">
+      <h1>Export</h1>
+      <textarea class="export" readonly v-model="formatted"></textarea>
+      <Button text="close" @click="showModal = false" />
+    </Modal>
   </div>
 </template>
 
@@ -37,6 +47,11 @@ main {
   transform: translate(-50%, -50%);
   flex-direction: row;
   gap: 200px;
+}
+textarea {
+  display: block;
+  width: 100%;
+  height: 500px;
 }
 </style>
 
@@ -58,6 +73,7 @@ export default {
       solveOnClick: false,
       solutions: [],
       determinant: 0,
+      showModal: false,
       base: layout.copy(),
       target: (() => {
         const l = layout.copy();
@@ -70,6 +86,16 @@ export default {
     solution() {
       if (this.solutions.length === 0) return null;
       return this.solutions[this.solutionIndex].matrix;
+    },
+    formatted() {
+      console.log(this.solutions[this.solutionIndex]);
+      return  JSON.stringify({
+        moves: this.solutions[this.solutionIndex]?.moves,
+        base: this.base.matrix,
+        target: this.target.matrix,
+        solution: this.solution?.flat().map((x, i) => [x, i]).filter(([x,i]) => x === this.internalModulo - 1).map(([x,i]) => i),
+        unlockCategory: 0
+      }, null, 2);
     }
   },
   watch: {

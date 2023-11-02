@@ -10,8 +10,8 @@ import Button from '../components/buttons/Button.vue';
       <div v-if="stage === -1">
         <h1>Welcome to TileSwap</h1>
         <h1>To win the game, turn all the tiles white</h1>
-        <h1>Clicking on a tile swaps the color of this tile and all its neighbors</h1>
-        <LayoutVue class="example-layout" small disabled v-model="exampleLayout" :forcedHover="[[2,2],[1,1],[3,3],[1,2],[2,1],[1,3],[3,1],[2,3],[3,2]]" />
+        <h1>Clicking on a tile swaps the color of <span style="color: var(--success-color)">this tile</span> and all its neighbors</h1>
+        <LayoutVue class="example-layout" small disabled v-model="exampleLayout" :highlightedTiles="[[2,2]]" />
         <Button black text="ok!" @click="showModal = false" />
       </div>
       <div v-else-if="stage === 0">
@@ -48,7 +48,7 @@ import Button from '../components/buttons/Button.vue';
     <h1 class="text-center" :class="{ shake }" v-if="showWrong">Wrong tile!</h1>
     <Button v-if="stage === 6" text="retry" class="center" @click="reset" />
 
-    <LayoutVue :class="{ shake }" class="center middle" v-model="layout" @swap="handleClick" />
+    <LayoutVue :class="{ shake }" :disabled="disabled" class="center middle" v-model="layout" @swap="handleClick" />
 
   </div>
 </template>
@@ -153,6 +153,7 @@ export default {
       stage: -1,
       text: 'Try it here!',
       showWrong: false,
+      disabled: undefined,
       exampleLayout: (() => {
         const layout =  new Layout({
           width: 5,
@@ -189,10 +190,12 @@ export default {
     handleClick(tileIndex, row, tile) {
       if (this.examples[this.stage].solution) {
         if (!this.examples[this.stage].solution.includes(tileIndex)) {
+          this.disabled = true;
           setTimeout(() => {
             this.layout.swapTiles(row, tile);
             this.shake = true
             this.showWrong = true;
+            this.disabled = undefined;
             setTimeout(() => {
               this.showWrong = false;
             }, 2e3);
