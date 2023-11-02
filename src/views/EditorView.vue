@@ -88,14 +88,13 @@ export default {
       return this.solutions[this.solutionIndex].matrix;
     },
     formatted() {
-      console.log(this.solutions[this.solutionIndex]);
       return  JSON.stringify({
         moves: this.solutions[this.solutionIndex]?.moves,
         base: this.base.matrix,
         target: this.target.matrix,
         solution: this.solution?.flat().map((x, i) => [x, i]).filter(([x,i]) => x === this.internalModulo - 1).map(([x,i]) => i),
         unlockCategory: 0
-      }, null, 2);
+      }, null, 2).replace(/"([^"]+)":/g, '$1:');
     }
   },
   watch: {

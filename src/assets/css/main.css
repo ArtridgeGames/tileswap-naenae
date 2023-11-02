@@ -12,6 +12,7 @@
   --title-font-size: 120px;
 
   --bg-color: var(--root-bg-color); /* #bbb2ea */ /* #adad85 */
+  --bg-darker-color: #988fd1;
   --hl-text-color: #fff;
   --shadow-text-color: #000;
   --hl-color: #fff;
@@ -78,6 +79,20 @@ body,
 img {
   touch-action: manipulation;
   -webkit-user-drag: none;
+}
+
+h1.main-title {
+  text-align: center;
+  font-size: var(--title-font-size);
+  margin: 0;
+  margin-bottom: 50px;
+  padding-top: 50px;
+}
+
+@media screen and (max-width: 600px) {
+  h1.main-title {
+    font-size: var(--font-size-lg);
+  }
 }
 
 h1.title {

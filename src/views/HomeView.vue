@@ -21,7 +21,7 @@ import SplashScreen from '../components/SplashScreen.vue';
   <div class="container">
     <h1 class="main-title">Tile<span>Swap</span></h1>
   
-      <main class="buttons">
+    <main class="buttons">
       <ModeButton name="Freeplay" :image="freeplayUrl" path="/freeplaySelection" />
       <ModeButton name="Puzzles" :image="puzzlesUrl" path="/puzzleSelection" />
       <ModeButton name="Challenges" :image="challengesUrl" path="/challengeSelection" />
@@ -87,19 +87,9 @@ import SplashScreen from '../components/SplashScreen.vue';
     justify-content: space-evenly;
     align-items: center;
   }
-  h1.main-title {
-    text-align: center;
-    font-size: var(--title-font-size);
-    margin: 0;
-    margin-bottom: 50px;
-    padding-top: 50px;
-  }
   .container > div > p {
     margin: 10px;
     cursor: pointer;
-  }
-  h1 > span {
-    color:black;
   }
   .container {
     height: 100%;
@@ -107,9 +97,6 @@ import SplashScreen from '../components/SplashScreen.vue';
   }
 
   @media screen and (max-width: 600px) {
-    h1.main-title {
-      font-size: var(--font-size-lg);
-    }
     main.buttons {
       flex-direction: column;
     }

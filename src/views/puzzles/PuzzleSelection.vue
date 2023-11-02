@@ -6,7 +6,7 @@ import PuzzleSelectionButton from '@/components/puzzles/PuzzleSelectionButton.vu
 <template>
   <main>
     <h1 class="title">Select a puzzle</h1>
-    <LinkButton class="top right" text="back" to="/" />
+    <LinkButton class="top right" text="back" to="/home" />
     
     <div class="layouts" v-for="(category, i) in categories" :key="i">
       <PuzzleSelectionButton

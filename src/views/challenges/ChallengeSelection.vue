@@ -8,7 +8,7 @@ import ChallengeCategoryButton from '../../components/challenges/ChallengeCatego
 <template>
   <div class="challenge-selection-container">
     <h1 class="title">Select a challenge</h1>
-    <LinkButton v-if="!categoryName" class="top right" text="back" to="/" />
+    <LinkButton v-if="!categoryName" class="top right" text="back" to="/home" />
     <Button v-else class="top right" text="back" @click="categoryName = ''; challenges = Challenge.CHALLENGES" />
 
     <h3 class="name">
@@ -18,12 +18,11 @@ import ChallengeCategoryButton from '../../components/challenges/ChallengeCatego
     <Transition name="fade" mode="out-in">
       <div class="container" :key="categoryName">
         <div v-for="challenge in challenges" :key="challenge.id">
-          <CSB v-if="(challenge instanceof Challenge)" :title="`id: ${challenge.id}`" @click="selectChallenge(challenge)" :challenge="challenge" :locked="!isUnlocked(challenge)" />
+          <CSB v-if="(challenge instanceof Challenge)" @click="selectChallenge(challenge)" :challenge="challenge" :locked="!isUnlocked(challenge)" />
           <ChallengeCategoryButton v-else @click="selectCategory(challenge)" :category="challenge" :locked="!isUnlocked(challenge)" />
         </div>
       </div>
     </Transition>
-
 
   </div>
 </template>

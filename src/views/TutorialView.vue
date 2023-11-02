@@ -35,8 +35,16 @@ import Button from '../components/buttons/Button.vue';
         <Button black text="of course!" @click="showModal = false" />
       </div>
       <div v-else-if="stage === 5">
-        <h1>last one! we're not helping you on this one</h1>
-        <Button black text="let's go" @click="showModal = false" />
+        <h1>we're not helping you on this one</h1>
+        <Button black text="roger that!" @click="showModal = false" />
+      </div>
+      <div v-else-if="stage === 6">
+        <h1>You're getting the hang of it! Let's make it a bit harder</h1>
+        <Button black text="you bet!" @click="showModal = false" />
+      </div>
+      <div v-else-if="stage === 7">
+        <h1>last one!</h1>
+        <Button black text="Let's embark on this endeavor posthaste, shall we?" @click="showModal = false" />
       </div>
       <div v-else>
         <h1>You're ready to go!</h1>
@@ -46,7 +54,7 @@ import Button from '../components/buttons/Button.vue';
 
     <h1 class="text-center">{{ text }}</h1>
     <h1 class="text-center" :class="{ shake }" v-if="showWrong">Wrong tile!</h1>
-    <Button v-if="stage === 6" text="retry" class="center" @click="reset" />
+    <Button v-if="stage >= 6" text="retry" class="center" @click="reset" />
 
     <LayoutVue :class="{ shake }" :disabled="disabled" class="center middle" v-model="layout" @swap="handleClick" />
 
@@ -129,7 +137,19 @@ export default {
         matrix: [[0,1,1],
                  [1,0,0],
                  [0,1,1]],
-        text: 'last one! we\'re not helping you on this one'
+        text: 'we\'re not helping you on this one'
+      },
+      {
+        matrix: [[1,0,1],
+                 [1,1,0],
+                 [0,1,1]],
+        text: 'you\'re getting the hang of it! let\'s make it a bit harder'
+      },
+      {
+        matrix: [[1,1,1],
+                 [1,0,1],
+                 [0,1,0]],
+        text: 'one last!'
       }
     ].map(obj => {
       const { matrix, solution, text } = obj;

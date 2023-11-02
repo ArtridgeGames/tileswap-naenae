@@ -18,7 +18,8 @@ export class Challenge {
           timeLimitPer: -1,
           hasSpecificPatterns: true,
           randomPatterns: true,
-          name: "Expert"
+          name: "Expert",
+          id: 0
         }),
         new Challenge({
           timeLimit: 60,
@@ -31,7 +32,8 @@ export class Challenge {
           timeLimitPer: -1,
           hasSpecificPatterns: true,
           randomPatterns: true,
-          name: "Hard"
+          name: "Hard",
+          id: 1
         }),
         new Challenge({
           timeLimit: 60,
@@ -44,7 +46,8 @@ export class Challenge {
           timeLimitPer: -1,
           hasSpecificPatterns: true,
           randomPatterns: true,
-          name: "Medium"
+          name: "Medium",
+          id: 2
         }),
         new Challenge({
           timeLimit: 60,
@@ -57,7 +60,8 @@ export class Challenge {
           timeLimitPer: -1,
           hasSpecificPatterns: true,
           randomPatterns: true,
-          name: "Easy"
+          name: "Easy",
+          id: 3
         }),
         new Challenge({
           timeLimit: 60,
@@ -70,7 +74,8 @@ export class Challenge {
           timeLimitPer: -1,
           hasSpecificPatterns: true,
           randomPatterns: true,
-          name: "Think a bit less fast but still fast enough to be fast enough, you know?"
+          name: "Think a bit less fast but still fast enough to be fast enough, you know?",
+          id: 4
         })
       ]
     },
@@ -89,7 +94,8 @@ export class Challenge {
           timeLimitPer: -1,
           hasSpecificPatterns: false,
           randomPatterns: true,
-          name: "Easy"
+          name: "Easy",
+          id: 5
         }),
         new Challenge({
           timeLimit: 60,
@@ -102,7 +108,8 @@ export class Challenge {
           timeLimitPer: -1,
           hasSpecificPatterns: false,
           randomPatterns: true,
-          name: "Medium"
+          name: "Medium",
+          id: 6
         }),
         new Challenge({
           timeLimit: 60,
@@ -115,7 +122,8 @@ export class Challenge {
           timeLimitPer: -1,
           hasSpecificPatterns: false,
           randomPatterns: true,
-          name: "Hard"
+          name: "Hard",
+          id: 7
         }),
         new Challenge({
           timeLimit: 60,
@@ -128,7 +136,8 @@ export class Challenge {
           timeLimitPer: -1,
           hasSpecificPatterns: false,
           randomPatterns: true,
-          name: "Expert"
+          name: "Expert",
+          id: 8
         }),
       ]
     },
@@ -143,7 +152,8 @@ export class Challenge {
       timeLimitPer: -1,
       hasSpecificPatterns: true,
       randomPatterns: true,
-      name: "OG"
+      name: "OG",
+      id: 9
     }),
     new Challenge({
       timeLimit: -1, //should be no limit
@@ -156,7 +166,8 @@ export class Challenge {
       timeLimitPer: 10,
       hasSpecificPatterns: true,
       randomPatterns: false,
-      name: "Count"
+      name: "Count",
+      id: 10
     })
     ,
     new Challenge({
@@ -173,7 +184,8 @@ export class Challenge {
       timeLimitPer: 10,
       hasSpecificPatterns: true,
       randomPatterns: false,
-      name: "Read"
+      name: "Read",
+      id: 11
     }),
     new Challenge({
       timeLimit: 90,
@@ -186,7 +198,8 @@ export class Challenge {
       timeLimitPer: -1,
       hasSpecificPatterns: true,
       randomPatterns: false,
-      name: "Growing Square"
+      name: "Growing Square",
+      id: 12
     }),
     new Challenge({
       timeLimit: 120,
@@ -199,7 +212,8 @@ export class Challenge {
       timeLimitPer: -1,
       hasSpecificPatterns: true,
       randomPatterns: false,
-      name: "Shrinking Circle"
+      name: "Shrinking Circle",
+      id: 13
     }),
     new Challenge({
       timeLimit: -1,
@@ -214,7 +228,8 @@ export class Challenge {
       timeLimitPer: -1,
       hasSpecificPatterns: true,
       randomPatterns: true,
-      name: "Game of Life"
+      name: "Game of Life",
+      id: 14
     }),
     new Challenge({
       timeLimit: 40,
@@ -227,7 +242,8 @@ export class Challenge {
       timeLimitPer: -1,
       hasSpecificPatterns: true,
       randomPatterns: true,
-      name: "Snake"
+      name: "Snake",
+      id: 15
     }),
     new Challenge({
       timeLimit: 50,
@@ -240,7 +256,8 @@ export class Challenge {
       timeLimitPer: -1,
       hasSpecificPatterns: true,
       randomPatterns: false,
-      name: "Tile Centipede"
+      name: "Tile Centipede",
+      id: 16
     }),
     new Challenge({
       timeLimit: 60,
@@ -253,7 +270,8 @@ export class Challenge {
       timeLimitPer: -1,
       hasSpecificPatterns: true,
       randomPatterns: true,
-      name: "Category 3"
+      name: "Category 3",
+      id: 17
     }),
     new Challenge({
       timeLimit: 60,
@@ -266,7 +284,8 @@ export class Challenge {
       timeLimitPer: -1,
       hasSpecificPatterns: true,
       randomPatterns: true,
-      name: "Category 4"
+      name: "Category 4",
+      id: 18
     }),
     new Challenge({
       timeLimit: -1,
@@ -279,7 +298,8 @@ export class Challenge {
       timeLimitPer: 30,
       hasSpecificPatterns: true,
       randomPatterns: true,
-      name: "Unconventional"
+      name: "Unconventional",
+      id: 19
     }),
     new Challenge({
       timeLimit: 60,
@@ -292,7 +312,8 @@ export class Challenge {
       timeLimitPer: -1,
       hasSpecificPatterns: false,
       randomPatterns: true,
-      name: "Category 5"
+      name: "Category 5",
+      id: 20
     }),
     new Challenge({
       timeLimit: 60,
@@ -305,25 +326,16 @@ export class Challenge {
       timeLimitPer: -1,
       hasSpecificPatterns: true,
       randomPatterns: true,
-      name: "Category 6"
+      name: "Category 6",
+      id: 21
     })
-  ].map((e, id) => {
-    if (e instanceof Challenge) {
-      e.id = id * 100;
-      return e;
-    }
-    e.challenges = e.challenges.map((e, index) => {
-      e.id = id * 100 + index;
-      return e;
-    });
-    return e;
-  });
+  ];
 
   static THRESHOLD = 60;
 
   constructor({ timeLimit, moveLimit, totalClicks, patterns, nPatterns,
                 bigLayoutAdapt,timeLimitPer, moveLimitPer, hasSpecificPatterns, modulo, 
-                randomPatterns, name }) {
+                randomPatterns, name, id }) {
     this.timeLimit = timeLimit;
     this.moveLimit = moveLimit;
     this.totalClicks = totalClicks;
@@ -344,7 +356,7 @@ export class Challenge {
     this.nMoves = 0;
     this.modulo = modulo ?? 2;
     this.name = name;
-    this.id = -1;
+    this.id = id ?? -1;
     this.generateLayouts();
   }
 
@@ -464,7 +476,7 @@ export class Challenge {
   nextLayout() {
     const store = useStore()
     this.currentPattern += 1
-    store.setLayout(this.getCurrentLayout())
+    store.setLayout(this.getCurrentLayout());
   }
   reset() {
     this.generateLayouts();

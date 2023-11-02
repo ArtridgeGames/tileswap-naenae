@@ -8,19 +8,23 @@ import randomUrl from "/images/svg/random.svg";
 <template>
   <main>
     <h1 class="title">Select a layout</h1>
-    <LinkButton class="top right" text="back" to="/" />
+    <LinkButton class="top right" text="back" to="/home" />
     <br>
     <div>
       <div class="text-center">
         <IconButton :icon="randomUrl" @click="startRandomFreeplay" />
       </div>
-      <div class="layouts" v-for="(category, i) in categories" :key="i">
-        <LayoutSelectionButton
-          v-for="(layout, index) in category"
-          :layout="layout"
-          :completion="layout.id"
-          :key="index"
-        ></LayoutSelectionButton>
+      <hr>
+      <div v-for="(category, i) in categories" :key="i">
+        <div class="layouts">
+          <LayoutSelectionButton
+            v-for="(layout, index) in category"
+            :layout="layout"
+            :completion="layout.id"
+            :key="index"
+          ></LayoutSelectionButton>
+        </div>
+        <hr>
       </div>
 
     </div>
@@ -34,16 +38,19 @@ main {
   overflow-y: scroll;
   position: relative;
 }
-div.text-center {
-  margin-bottom: 20px;
+hr {
+  width: 88%;
+  border-color: var(--bg-darker-color);
+  background: var(--bg-darker-color);
+  border-style: solid;
+  height: 6px;
+  border-radius: 5px;
 }
-
 .layouts {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 20px;
 }
 @media screen and (max-width: 600px) {
   h1 {
