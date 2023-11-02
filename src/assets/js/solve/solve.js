@@ -59,6 +59,16 @@ export function solveWithRotation({ state, target, tilesToFlip, modulo }) {
     rotateNTimes(state, 2),
     rotateNTimes(state, 3),
   ]
+
+  target = target ??
+    states[0].map(row => row.map(e => e === -1 ? -1 : modulo - 1));
+
+  const targets = [
+    target,
+    rotateMatrix(target),
+    rotateNTimes(target, 2),
+    rotateNTimes(target, 3),
+  ]
   
   const counts = [];
   const solutions = [];
@@ -67,7 +77,7 @@ export function solveWithRotation({ state, target, tilesToFlip, modulo }) {
   for (const state of states) {
     const { matrix, determinant, zerows: z } = solvePattern({
       state,
-      target,
+      target: targets[i],
       modulo,
       tilesToFlip,
     });

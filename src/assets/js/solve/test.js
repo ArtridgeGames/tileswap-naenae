@@ -1,26 +1,29 @@
 import { solvePattern, solveWithRotation } from './solve.js';
 
 const base = [
-  [0,0,0],
-  [0,0,0],
-  [0,0,0]
+  [-1, 1, 1, -1],
+  [1,  0, 1,  1],
+  [1,  1, 0,  1],
+  [-1, 1, 1, -1],
 ]
 
 const target = [
-  [2,2,2],
-  [2,2,2],
-  [2,2,2]
+  [-1, 0, 0, -1],
+  [0,  1, 0,  0],
+  [0,  0, 1,  0],
+  [-1, 0, 0, -1],
 ]
 
 // Ax = b
 // Mx = P
 
-// const { matrix, determinant, zerows } = solvePattern({
-//   state: base, target, modulo: 5
+const { matrix, determinant, zerows } = solvePattern({
+  state: base, target, modulo: 2
+});
+console.log(matrix);
+
+// const { solutions, shortest } = solveWithRotation({
+//   state: base, target, modulo: 2
 // });
 
-const { solutions, shortest } = solveWithRotation({
-  state: base, target, modulo: 3
-});
-
-console.log(solutions[shortest].matrix);
+// console.log(solutions.map(s => s.matrix));
