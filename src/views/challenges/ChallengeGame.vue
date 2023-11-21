@@ -153,10 +153,10 @@ export default {
   },
   computed: {
     formattedTime() {
-      return this.currentChallenge.timeLimit!==-1?formatTime(this.time)+"- ":'';
+      return this.currentChallenge.timeLimit !== -1 ? formatTime(this.time) + "- " : '';
     },
     formattedTimePer() {
-      return this.currentChallenge.timeLimitPer!==-1? formatTime(this.timePer).toString():'';
+      return this.currentChallenge.timeLimitPer !== -1 ? formatTime(this.timePer) :'';
     },
     percentageCompleted() {
       return Math.floor(this.currentChallenge.currentPattern / this.currentChallenge.nPatterns * 100);

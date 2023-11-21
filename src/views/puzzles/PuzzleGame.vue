@@ -1,32 +1,42 @@
 <script setup>
-import { useStore } from '../../store/store';
+import { useStore } from "../../store/store";
 import LinkButton from "../../components/buttons/LinkButton.vue";
 import Button from "../../components/buttons/Button.vue";
 import Tile from "../../components/Tile.vue";
-import Layout from '../../components/Layout.vue';
+import Layout from "../../components/Layout.vue";
 import Modal from "../../components/Modal.vue";
 import { useWindow } from "../../assets/js/window.js";
-import tutorialUrl from '/images/svg/tutorial.svg';
+import tutorialUrl from "/images/svg/tutorial.svg";
 import IconButton from "../../components/buttons/IconButton.vue";
 </script>
 
 <template>
   <div>
     <LinkButton class="top right" text="back" to="/puzzleSelection" />
-    <IconButton class="top left" :icon="tutorialUrl" @click="showExplanationModal = true" />
-    
-    <div class="info center" :class="{
+    <IconButton
+      class="top left"
+      :icon="tutorialUrl"
+      @click="showExplanationModal = true"
+    />
+
+    <div
+      class="info center"
+      :class="{
         top: windowWidth > 600,
-        bottom: windowWidth <= 600
-      }">
-      <h1>{{ remainingMoves }} move{{ remainingMoves > 1 ? 's' : '' }} remaining</h1>
+        bottom: windowWidth <= 600,
+      }"
+    >
       <h1>{{ completionMoves }}</h1>
       <h1>{{ nextMedal }}</h1>
       <Button text="retry" @click="reset" />
     </div>
 
     <main class="puzzle-container">
-      <Layout v-model="layout" :target="puzzle.target.matrix" @swap="handleClick" />
+      <Layout
+        v-model="layout"
+        :target="puzzle.target.matrix"
+        @swap="handleClick"
+      />
     </main>
 
     <!-- <div class="target" :class="{
@@ -41,14 +51,8 @@ import IconButton from "../../components/buttons/IconButton.vue";
     </div> -->
 
     <Modal v-model="showWinModal">
-      <h1>you won in {{ moves }} move{{ moves > 1 ? 's' : '' }}!</h1>
+      <h1>you won in {{ moves }} move{{ moves > 1 ? "s" : "" }}!</h1>
       <Button black text="yay!" @click="showWinModal = false" />
-    </Modal>
-
-    <Modal v-model="showLostModal">
-      <h1>no moves remaining!</h1>
-      <Button black text="retry" @click="reset" />
-      <LinkButton black text="back" to="/puzzleSelection" />
     </Modal>
 
     <Modal v-model="showExplanationModal">
@@ -56,12 +60,9 @@ import IconButton from "../../components/buttons/IconButton.vue";
 
       <div class="explanation">
         <Layout small v-model="puzzle.base" disabled />
-        <p>
-          →
-        </p>
+        <p>→</p>
         <Layout small v-model="puzzle.target" disabled />
       </div>
-
 
       <Button black text="close" @click="showExplanationModal = false" />
     </Modal>
@@ -73,7 +74,7 @@ main.puzzle-container {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   z-index: 1;
   margin-top: 30px;
 }
@@ -111,7 +112,7 @@ main.puzzle-container {
 </style>
 
 <script>
-import { Task } from '../../assets/js/Task';
+import { Task } from "../../assets/js/Task";
 export default {
   data() {
     const store = useStore();
@@ -123,61 +124,49 @@ export default {
       windowWidth,
       layout,
       puzzle,
-      remainingMoves: puzzle.moves,
+      moves: 0,
       maxMoves: puzzle.moves,
       showWinModal: false,
-      showLostModal: false,
-      showExplanationModal: true
-    }
+      showExplanationModal: true,
+    };
   },
   computed: {
-    moves() {
-      return this.maxMoves - this.remainingMoves;
-    },
     completionMoves() {
-      return this.puzzle.completionMoves===-1?'':
-      `current best: ${this.puzzle.completionMoves} moves`;
+      return this.puzzle.completionMoves === -1
+        ? ""
+        : `current best: ${this.puzzle.completionMoves} moves`;
     },
     nextMedal() {
-      if (this.puzzle.completionMoves===-1) return 'next medal: finish the puzzle';
-      return this.puzzle.completionMoves<=this.puzzle.solution.length?''
-        :(`next medal: ${this.puzzle.completionMoves<=this.puzzle.solution.length*1.2?this.puzzle.solution.length
-        :Math.floor(this.puzzle.solution.length*1.2)} moves`)
-    }
+      if (this.puzzle.completionMoves === -1) return "next medal: finish the puzzle";
+      return this.puzzle.completionMoves <= this.puzzle.solution.length
+        ? ""
+        : `next medal: ${
+            this.puzzle.completionMoves <= this.puzzle.solution.length * 1.2
+              ? this.puzzle.solution.length
+              : Math.floor(this.puzzle.solution.length * 1.2)
+          } moves`;
+    },
   },
   watch: {
     showWinModal() {
       if (!this.showWinModal) {
-        this.$router.push('/puzzleSelection');
+        this.$router.push("/puzzleSelection");
       }
     },
-    showLostModal() {
-      if (!this.showLostModal) {
-        this.reset();
-      }
-    }
   },
   methods: {
     reset() {
-      this.showLostModal = false;
-      this.remainingMoves = this.maxMoves;
+      this.moves = 0;
       this.layout.setMatrix(this.puzzle.base.matrix);
     },
     handleClick() {
-      if (this.remainingMoves > 0) {
-        const store = useStore();
-        
-        this.remainingMoves--;
-        if (this.puzzle.isSolvedWith(this.layout)) {
-          this.showWinModal = true;
-          this.puzzle.completionMoves = this.moves;
-          Task.advanceTasks(this.puzzle.id, Task.TASK_TYPES.PUZZLE, this.moves);
-
-        } else if (this.remainingMoves === 0) {
-          this.showLostModal = true;
-        }
+      this.moves++;
+      if (this.puzzle.isSolvedWith(this.layout)) {
+        this.showWinModal = true;
+        this.puzzle.completionMoves = this.moves;
+        Task.advanceTasks(this.puzzle.id, Task.TASK_TYPES.PUZZLE, this.moves);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>

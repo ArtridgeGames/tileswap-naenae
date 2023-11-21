@@ -95,6 +95,15 @@ h1.main-title {
   }
 }
 
+hr.separator {
+  width: 88%;
+  border-color: var(--bg-darker-color);
+  background: var(--bg-darker-color);
+  border-style: solid;
+  height: 6px;
+  border-radius: 5px;
+}
+
 h1.title {
   font-size: var(--font-size-lg);
   text-align: center;

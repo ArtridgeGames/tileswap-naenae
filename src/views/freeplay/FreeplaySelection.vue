@@ -24,7 +24,7 @@ import randomUrl from "/images/svg/random.svg";
             :key="index"
           ></LayoutSelectionButton>
         </div>
-        <hr>
+        <hr class="separator">
       </div>
 
     </div>
@@ -37,14 +37,6 @@ main {
   height: 100%;
   overflow-y: scroll;
   position: relative;
-}
-hr {
-  width: 88%;
-  border-color: var(--bg-darker-color);
-  background: var(--bg-darker-color);
-  border-style: solid;
-  height: 6px;
-  border-radius: 5px;
 }
 .layouts {
   display: flex;

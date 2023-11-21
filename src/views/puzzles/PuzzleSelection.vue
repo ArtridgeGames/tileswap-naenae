@@ -8,12 +8,15 @@ import PuzzleSelectionButton from '@/components/puzzles/PuzzleSelectionButton.vu
     <h1 class="title">Select a puzzle</h1>
     <LinkButton class="top right" text="back" to="/home" />
     
-    <div class="layouts" v-for="(category, i) in categories" :key="i">
-      <PuzzleSelectionButton
-        v-for="(puzzle, index) in category"
-        :puzzle="puzzle"
-        :key="index"
-      ></PuzzleSelectionButton>
+    <div v-for="(category, i) in categories" :key="i">
+      <div class="layouts">
+        <PuzzleSelectionButton
+          v-for="(puzzle, index) in category"
+          :puzzle="puzzle"
+          :key="index"
+        ></PuzzleSelectionButton>
+      </div>
+      <hr class="separator">
     </div>
 
   </main>
