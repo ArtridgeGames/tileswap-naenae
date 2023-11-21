@@ -5,17 +5,18 @@ import LinkButton from "../components/buttons/LinkButton.vue";
 <template>
   <main class="text-center center middle">
     <h1 class="main-title">Tile<br><span>Swap</span></h1>
-    <LinkButton text="play" to="/home" />
+    <LinkButton v-if="authLoaded" text="play" to="/home" />
+    <p v-else>Loading...</p>
   </main>
 </template>
 
-<style scoped>
-h1.main-title > span {
-  color: black;
+<script>
+import { authLoaded } from '../firebase/auth.js';
+export default {
+  data() {
+    return {
+      authLoaded
+    }
+  }
 }
-h1.main-title {
-  line-height: 0.65;
-  margin-bottom: 50px;
-  font-size: 140px;
-}
-</style>
+</script>

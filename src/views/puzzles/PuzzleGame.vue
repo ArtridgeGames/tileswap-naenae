@@ -12,7 +12,7 @@ import IconButton from "../../components/buttons/IconButton.vue";
 
 <template>
   <div>
-    <LinkButton class="top right" text="back" to="/puzzleSelection" />
+    <LinkButton class="top right" text="back" to="/home" />
     <IconButton
       class="top left"
       :icon="tutorialUrl"
@@ -150,7 +150,7 @@ export default {
   watch: {
     showWinModal() {
       if (!this.showWinModal) {
-        this.$router.push("/puzzleSelection");
+        this.$router.push("/home");
       }
     },
   },

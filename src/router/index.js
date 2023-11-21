@@ -10,6 +10,7 @@ import TutorialView from '../views/TutorialView.vue';
 import TestView from '../views/TestView.vue';
 import EditorView from '../views/EditorView.vue';
 import IntroView from '../views/IntroView.vue';
+import SwipeView from '../views/SwipeView.vue'
 
 const router = createRouter({
   history: createMemoryHistory(import.meta.env.BASE_URL),
@@ -22,7 +23,7 @@ const router = createRouter({
     {
       path: '/home',
       name: 'home',
-      component: HomeView
+      component: SwipeView
     },
     {
       path: '/tutorial',

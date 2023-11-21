@@ -15,6 +15,7 @@ export const useStore = defineStore('store', () => {
   const currentTasks = ref([0,1,2]);
   const maxTask = ref(2);
   const isRandomFreeplay = ref(false);
+  const menuViewIndex = ref(0);
   
   function setTask(index, task) {
     currentTasks.value.splice(index, 1);
@@ -69,6 +70,7 @@ export const useStore = defineStore('store', () => {
     setMaxTask,
     unlockedCategoriesFP,
     unlockedCategoriesPZ,
-    settings
+    settings,
+    menuViewIndex
   };
 });

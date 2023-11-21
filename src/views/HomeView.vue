@@ -57,9 +57,9 @@ import SplashScreen from '../components/SplashScreen.vue';
       <h1>Stats</h1>
       
       <Stats />
-
       <Button black text="close" @click="showStats = false" />
     </Modal>
+
     <Modal v-model="showSettings">
       <h1>Settings</h1>
       <Settings />
@@ -70,13 +70,6 @@ import SplashScreen from '../components/SplashScreen.vue';
       <TaskContainer />
       <Button black text="close" @click="showTasks = false" />
     </Modal>
-
-
-    <Transition name="fade">
-      <SplashScreen v-if="showSplash" />
-    </Transition>
-
-
   </div>
 </template>
 
@@ -107,7 +100,7 @@ import SplashScreen from '../components/SplashScreen.vue';
 </style>
 
 <script>
-import { user, isSignedIn, signOut, signIn, authLoaded } from '../firebase/auth.js';
+import { user, isSignedIn, signOut, signIn } from '../firebase/auth.js';
 import { useWindow } from '../assets/js/window.js';
 import { watch } from 'vue';
 
@@ -120,7 +113,6 @@ export default {
       showStats: false,
       showTasks: false,
       showSettings: false,
-      showSplash: !authLoaded.value,
     };
   },
   methods: {
@@ -129,10 +121,5 @@ export default {
       signIn(prompt('Email'), prompt('Password'));
     },
   },
-  mounted() {
-    watch(authLoaded, val => {
-      this.showSplash = false;
-    });
-  }
 }
 </script>

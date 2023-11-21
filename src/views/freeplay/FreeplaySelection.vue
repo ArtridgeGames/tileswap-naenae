@@ -7,14 +7,14 @@ import randomUrl from "/images/svg/random.svg";
 
 <template>
   <main>
-    <h1 class="title">Select a layout</h1>
-    <LinkButton class="top right" text="back" to="/home" />
+    <h1 class="title">FreePlay</h1>
+    <!-- <LinkButton class="top right" text="back" to="/home" /> -->
     <br>
     <div>
       <div class="text-center">
         <IconButton :icon="randomUrl" @click="startRandomFreeplay" />
       </div>
-      <hr>
+      <hr class="separator">
       <div v-for="(category, i) in categories" :key="i">
         <div class="layouts">
           <LayoutSelectionButton
@@ -44,11 +44,6 @@ main {
   flex-wrap: wrap;
   justify-content: center;
 }
-@media screen and (max-width: 600px) {
-  h1 {
-    padding-top: 60px;
-  }
-}
 </style>
 
 <script>
@@ -58,8 +53,13 @@ import { Layout } from "../../assets/js/Layout.js";
 export default {
   data() {
     const { CATEGORIES } = Layout;
+    const negativeCategories = CATEGORIES.reduce((acc, cat) => {
+      return cat.some(layout => layout.unlockCategory < 0) ? acc + 1 : acc;
+    }, 0);
     return {
-      categories: CATEGORIES,
+      categories: CATEGORIES
+        .slice(negativeCategories + 1, CATEGORIES.length)
+        .concat(CATEGORIES.slice(0, negativeCategories + 1))
     }
   },
   methods: {

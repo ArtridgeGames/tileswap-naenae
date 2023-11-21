@@ -36,7 +36,7 @@ import DevMode from "../../components/DevMode.vue";
     </p>
 
     <div class="top right">
-      <LinkButton text="back" to="/freeplaySelection" />
+      <LinkButton text="back" to="/home" />
       <ModuloSlider v-model="internalModulo" />
     </div>
 
@@ -212,6 +212,8 @@ export default {
       if (this.layout.isSolved()) {
         this.store.stats.layoutsSolved++;
         this.showModal = true;
+        // setTimeout(() => {
+        // }, 100);
         Task.advanceTasks(
           this.layout.id,
           Task.TASK_TYPES.FREEPLAY,

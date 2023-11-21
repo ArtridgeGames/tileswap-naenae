@@ -87,7 +87,7 @@ export class Challenge {
           timeLimit: 60,
           moveLimit: -1,
           totalClicks: 17,
-          patterns: [1,1],
+          patterns: [1, 1],
           nPatterns: 5,
           bigLayoutAdapt: false,
           moveLimitPer: -1,
@@ -101,7 +101,7 @@ export class Challenge {
           timeLimit: 60,
           moveLimit: -1,
           totalClicks: 30,
-          patterns: [1,1],
+          patterns: [1, 1],
           nPatterns: 10,
           bigLayoutAdapt: false,
           moveLimitPer: -1,
@@ -115,7 +115,7 @@ export class Challenge {
           timeLimit: 60,
           moveLimit: -1,
           totalClicks: 55,
-          patterns: [1,1],
+          patterns: [1, 1],
           nPatterns: 14,
           bigLayoutAdapt: false,
           moveLimitPer: -1,
@@ -129,7 +129,7 @@ export class Challenge {
           timeLimit: 60,
           moveLimit: -1,
           totalClicks: 92,
-          patterns: [1,1],
+          patterns: [1, 1],
           nPatterns: 22,
           bigLayoutAdapt: false,
           moveLimitPer: -1,
@@ -159,7 +159,7 @@ export class Challenge {
       timeLimit: -1, //should be no limit
       moveLimit: 45,
       totalClicks: 35,
-      patterns: [156,157,158,159,160,161,162,163,164,165],
+      patterns: [156, 157, 158, 159, 160, 161, 162, 163, 164, 165],
       nPatterns: 10,
       bigLayoutAdapt: false,
       moveLimitPer: -1,
@@ -174,9 +174,9 @@ export class Challenge {
       timeLimit: -1,
       moveLimit: -1,
       totalClicks: 78,
-      patterns: [119, 109, 110, 111, 142, 
-        143, 144, 145, 131, 166, 146, 130, 
-        132, 133, 156, 167, 168, 169, 161, 
+      patterns: [119, 109, 110, 111, 142,
+        143, 144, 145, 131, 166, 146, 130,
+        132, 133, 156, 167, 168, 169, 161,
         170, 171, 172, 173, 174, 175, 176],
       nPatterns: 26,
       bigLayoutAdapt: false,
@@ -191,7 +191,7 @@ export class Challenge {
       timeLimit: 90,
       moveLimit: -1,
       totalClicks: 80,
-      patterns: [0,1,2,3,4,5,6,7,8,9],
+      patterns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
       nPatterns: 10,
       bigLayoutAdapt: false,
       moveLimitPer: -1,
@@ -220,7 +220,7 @@ export class Challenge {
       moveLimit: -1,
       totalClicks: 60,
       patterns: [83, 84, 85, 86,
-        104, 93, 94, 95, 96, 97, 
+        104, 93, 94, 95, 96, 97,
         98, 99, 117, 103, 30, 152],
       nPatterns: 10,
       bigLayoutAdapt: false,
@@ -305,7 +305,7 @@ export class Challenge {
       timeLimit: 60,
       moveLimit: -1,
       totalClicks: 95,
-      patterns: [5,5],
+      patterns: [5, 5],
       nPatterns: 10,
       bigLayoutAdapt: false,
       moveLimitPer: -1,
@@ -334,8 +334,8 @@ export class Challenge {
   static THRESHOLD = 60;
 
   constructor({ timeLimit, moveLimit, totalClicks, patterns, nPatterns,
-                bigLayoutAdapt,timeLimitPer, moveLimitPer, hasSpecificPatterns, modulo, 
-                randomPatterns, name, id }) {
+    bigLayoutAdapt, timeLimitPer, moveLimitPer, hasSpecificPatterns, modulo,
+    randomPatterns, name, id }) {
     this.timeLimit = timeLimit;
     this.moveLimit = moveLimit;
     this.totalClicks = totalClicks;
@@ -345,7 +345,7 @@ export class Challenge {
     } else {
       this.patterns = patterns;
     }
-    
+
     this.nPatterns = nPatterns;
     this.currentPattern = 0;
     this.timeLimitPer = timeLimitPer;
@@ -357,7 +357,7 @@ export class Challenge {
     this.modulo = modulo ?? 2;
     this.name = name;
     this.id = id ?? -1;
-    this.generateLayouts();
+    // this.generateLayouts();
   }
 
   get maxPercent() {
@@ -407,7 +407,7 @@ export class Challenge {
   }
 
   set minMoves(val) {
-    if (this.timeLimit === -1){
+    if (this.timeLimit === -1) {
       const store = useStore();
       for (let i = 0; i < store.stats.challengesCompleted.length; i++) {
         const data = store.stats.challengesCompleted[i];
@@ -440,12 +440,12 @@ export class Challenge {
       possibleLayouts = Layout.LAYOUTS.filter(e => this.patterns.includes(e.id))
     }
     const challengeLayouts = []
-    if (this.randomPatterns){
+    if (this.randomPatterns) {
       for (let i = 0; i < this.nPatterns; i++) {
         challengeLayouts.push(possibleLayouts[Math.floor(Math.random() * possibleLayouts.length)])
       }
     } else {
-      for (let j = 0; j < this.patterns.length; j++){
+      for (let j = 0; j < this.patterns.length; j++) {
         let pattern = this.patterns[j];
         for (let i = 0; i < Layout.LAYOUTS.length; i++) {
           if (pattern === Layout.LAYOUTS[i].id) challengeLayouts.push(Layout.LAYOUTS[i]);

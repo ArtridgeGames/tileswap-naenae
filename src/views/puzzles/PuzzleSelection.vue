@@ -5,8 +5,8 @@ import PuzzleSelectionButton from '@/components/puzzles/PuzzleSelectionButton.vu
 
 <template>
   <main>
-    <h1 class="title">Select a puzzle</h1>
-    <LinkButton class="top right" text="back" to="/home" />
+    <h1 class="title">Puzzles</h1>
+    <!-- <LinkButton class="top right" text="back" to="/home" /> -->
     
     <div v-for="(category, i) in categories" :key="i">
       <div class="layouts">
@@ -34,11 +34,6 @@ main {
   flex-wrap: wrap;
   justify-content: center;
   margin-bottom: 20px;
-}
-@media screen and (max-width: 600px) {
-  h1 {
-    padding-top: 60px;
-  }
 }
 </style>
 

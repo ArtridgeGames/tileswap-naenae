@@ -7,9 +7,9 @@ import ChallengeCategoryButton from '../../components/challenges/ChallengeCatego
 
 <template>
   <div class="challenge-selection-container">
-    <h1 class="title">Select a challenge</h1>
-    <LinkButton v-if="!categoryName" class="top right" text="back" to="/home" />
-    <Button v-else class="top right" text="back" @click="categoryName = ''; challenges = Challenge.CHALLENGES" />
+    <h1 class="title">Challenges</h1>
+    <!-- <LinkButton v-if="!categoryName" class="top right" text="back" to="/home" /> -->
+    <Button v-if="categoryName" class="top right" text="back" @click="categoryName = ''; challenges = Challenge.CHALLENGES" />
 
     <h3 class="name">
       {{ categoryName }}
@@ -58,6 +58,9 @@ export default {
       if (!this.isUnlocked(challenge)) return;
 
       const store = useStore();
+
+      challenge.generateLayouts();
+
       store.setChallenge(challenge);
       store.setLayout(challenge.getCurrentLayout())
 

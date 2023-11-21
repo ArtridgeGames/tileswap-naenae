@@ -134,19 +134,19 @@ export default {
       this.showPauseModal = false;
       window.clearInterval(this.timerId);
       this.currentChallenge.reset();
-      this.$router.push('/challengeSelection');
+      this.$router.push('/home');
     }
   },
   watch: {
     showWinModal() {
       if (!this.showWinModal) {
-        this.$router.push('/challengeSelection');
+        this.$router.push('/home');
         this.currentChallenge.reset();
       }
     },
     showLostModal() {
       if (!this.showLostModal) {
-        this.$router.push('/challengeSelection');
+        this.$router.push('/home');
         this.currentChallenge.reset();
       }
     }

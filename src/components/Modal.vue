@@ -2,7 +2,7 @@
   <div>
     
     <Transition name="fade">
-      <div v-show="modelValue" class="background" @click="close"></div>
+      <div v-show="modelValue" class="background" @[clickEvent]="close"></div>
     </Transition>
 
     <Transition name="zoom">
@@ -46,6 +46,11 @@
 export default {
   props: ['modelValue'],
   emits: ['update:modelValue'],
+  data() {
+    return {
+      clickEvent: "ontouchstart" in window ? "touchstart" : "click",
+    }
+  },
   methods: {
     close() {
       this.$emit('update:modelValue', false);
