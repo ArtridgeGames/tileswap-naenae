@@ -10,7 +10,7 @@
     </main>
   
     <div class="position">
-      
+      <div v-for="(view, i) in views" :class="{ selected: i === index }" :key="i"></div>
     </div>
   </div>
 </template>
@@ -47,6 +47,32 @@ main.carousell > div {
   border-radius: 10px;
   overflow-y: scroll;
 }
+
+.position {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  padding: 10px;
+  border-radius: 15px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.position > div {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  margin: 0 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+.position > div.selected {
+  background-color: rgba(255, 255, 255, 1);
+}
 </style>
 
 <script>
@@ -64,11 +90,15 @@ export default {
     AdditionalSelection
   },
   data() {
-    const store = useStore();
     return {
-      index: store.menuViewIndex,
       views: ["FreeplaySelection", "PuzzleSelection", "ChallengeSelection", "AdditionalSelection"]
     };
+  },
+  computed: {
+    index() {
+      const store = useStore();
+      return store.menuViewIndex;
+    }
   },
   mounted() {
     const { menuViewIndex } = useStore();

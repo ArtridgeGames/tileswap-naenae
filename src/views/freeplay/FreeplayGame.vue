@@ -212,8 +212,6 @@ export default {
       if (this.layout.isSolved()) {
         this.store.stats.layoutsSolved++;
         this.showModal = true;
-        // setTimeout(() => {
-        // }, 100);
         Task.advanceTasks(
           this.layout.id,
           Task.TASK_TYPES.FREEPLAY,
