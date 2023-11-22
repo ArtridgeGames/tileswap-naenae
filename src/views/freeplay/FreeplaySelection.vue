@@ -14,9 +14,9 @@ import randomUrl from "/images/svg/random.svg";
       <div class="text-center">
         <IconButton :icon="randomUrl" @click="startRandomFreeplay" />
       </div>
-      <hr class="separator">
       <div v-for="(category, i) in categories" :key="i">
         <div class="layouts">
+          <hr class="separator">
           <LayoutSelectionButton
             v-for="(layout, index) in category"
             :layout="layout"
@@ -24,7 +24,6 @@ import randomUrl from "/images/svg/random.svg";
             :key="index"
           ></LayoutSelectionButton>
         </div>
-        <hr class="separator">
       </div>
 
     </div>

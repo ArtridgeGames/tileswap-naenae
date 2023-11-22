@@ -1,17 +1,21 @@
 <script setup>
+import BottomBar from '../components/BottomBar.vue';
 </script>
 
 <template>
   <div class="main-container">
     <main class="carousell" @scroll="handleScroll">
-      <div v-for="(view, i) in views" :key="i" :data-key="i" ref="viewsComponents">
-        <component :is="view"></component>
+      <div
+        v-for="(view, i) in views"
+        :key="i"
+        :data-key="i"
+        ref="viewsComponents"
+      >
+        <component @scroll="handleVerticalScroll" :is="view"></component>
       </div>
     </main>
   
-    <div class="position">
-      <div v-for="(view, i) in views" :class="{ selected: i === index }" :key="i"></div>
-    </div>
+    <BottomBar :views="views" />
   </div>
 </template>
 
@@ -24,6 +28,7 @@ div.main-container {
 main.carousell {
    /* snap mandatory on horizontal axis  */
   scroll-snap-type: x mandatory;
+  scroll-snap-stop: always;
 
   overflow-x: scroll;
   overflow-y: hidden;
@@ -45,33 +50,10 @@ main.carousell > div {
   height: 100%;
   width: 100%;
   border-radius: 10px;
-  overflow-y: scroll;
+  overflow-y: hidden;
 }
-
-.position {
-  position: fixed;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-  padding: 10px;
-  border-radius: 15px;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-.position > div {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.5);
-  margin: 0 5px;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-}
-.position > div.selected {
-  background-color: rgba(255, 255, 255, 1);
+main.carousell > div > * {
+  padding-bottom: 100px;
 }
 </style>
 
@@ -94,21 +76,16 @@ export default {
       views: ["FreeplaySelection", "PuzzleSelection", "ChallengeSelection", "AdditionalSelection"]
     };
   },
-  computed: {
-    index() {
-      const store = useStore();
-      return store.menuViewIndex;
-    }
-  },
   mounted() {
-    const { menuViewIndex } = useStore();
+    const { menuViewIndex, savedMenuScroll } = useStore();
     const el = this.$el.querySelector(`main.carousell > div:nth-child(${menuViewIndex + 1})`);
     el.scrollIntoView();
+    el.firstChild.scrollTop = savedMenuScroll;
   },
   methods: {
     handleScroll() {
       const docViewLeft = window.scrollX;
-      const docViewBottom = docViewLeft + window.innerWidth;
+      const docViewRight = docViewLeft + window.innerWidth;
 
       let i = 0;
       for (const el of this.$refs.viewsComponents) {
@@ -116,13 +93,16 @@ export default {
         const elemLeft = rect.left;
         const elemRight = elemLeft + rect.width;
   
-        if ((elemRight <= docViewBottom) && (elemLeft >= docViewLeft)) {
+        if ((elemLeft >= docViewLeft - window.innerWidth / 2) && (elemRight <= docViewRight + window.innerWidth / 2)) {
           useStore().menuViewIndex = parseInt(el.getAttribute("data-key"));
           break;
         }
         i++;
       }
-
+    },
+    handleVerticalScroll(e) {
+      const store = useStore();
+      store.savedMenuScroll = e.target.scrollTop;
     }
   }
 }

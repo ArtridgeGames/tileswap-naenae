@@ -16,7 +16,7 @@ import PuzzleSelectionButton from '@/components/puzzles/PuzzleSelectionButton.vu
           :key="index"
         ></PuzzleSelectionButton>
       </div>
-      <hr class="separator">
+      <hr v-if="i !== categories.length - 1" class="separator">
     </div>
 
   </main>

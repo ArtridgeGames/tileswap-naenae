@@ -5,7 +5,7 @@
 .default {
   --font-family: TileSwap;
 
-  --font-size-xs: 12px;
+  --font-size-xs: 24px;
   --font-size-sm: 24px;
   --font-size-md: 48px;
   --font-size-lg: 64px;
@@ -105,7 +105,7 @@ hr.separator {
 h1.title {
   font-size: var(--font-size-lg);
   text-align: center;
-  margin-top: 75px;
+  margin: 50px 0;
 }
 
 .is-task-target {

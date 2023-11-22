@@ -12,42 +12,44 @@ import TaskContainer from "../components/TaskContainer.vue";
 </script>
 
 <template>
-  <main class="center middle">
-    <div
-      :class="{
-        bottom: windowWidth > 600,
-        right: windowWidth > 600,
-        'text-center': windowWidth <= 600,
-      }"
-    >
-      <p v-if="isSignedIn" @click="signOut">
-        You are logged in as {{ user.displayName }}
-      </p>
-      <p v-else @click="signInForm">You are not logged in</p>
-    </div>
-    <IconButton :icon="taskUrl" @click="showTasks = true" />
-    <IconButton :icon="statsUrl" @click="showStats = true" />
-    <IconButton :icon="settingsUrl" @click="showSettings = true" />
-    <IconButton :icon="tutorialUrl" to="/tutorial" />
-  </main>
-
-  <Modal v-model="showStats">
-    <h1>Stats</h1>
-
-    <Stats />
-    <Button black text="close" @click="showStats = false" />
-  </Modal>
-
-  <Modal v-model="showSettings">
-    <h1>Settings</h1>
-    <Settings />
-  </Modal>
-
-  <Modal v-model="showTasks">
-    <h1>Tasks</h1>
-    <TaskContainer />
-    <Button black text="close" @click="showTasks = false" />
-  </Modal>
+  <div>
+    <main class="center middle">
+      <div
+        :class="{
+          bottom: windowWidth > 600,
+          right: windowWidth > 600,
+          'text-center': windowWidth <= 600,
+        }"
+      >
+        <p v-if="isSignedIn" @click="signOut">
+          You are logged in as {{ user.displayName }}
+        </p>
+        <p v-else @click="signInForm">You are not logged in</p>
+      </div>
+      <IconButton :icon="taskUrl" @click="showTasks = true" />
+      <IconButton :icon="statsUrl" @click="showStats = true" />
+      <IconButton :icon="settingsUrl" @click="showSettings = true" />
+      <IconButton :icon="tutorialUrl" to="/tutorial" />
+    </main>
+  
+    <Modal v-model="showStats">
+      <h1>Stats</h1>
+  
+      <Stats />
+      <Button black text="close" @click="showStats = false" />
+    </Modal>
+  
+    <Modal v-model="showSettings">
+      <h1>Settings</h1>
+      <Settings />
+    </Modal>
+  
+    <Modal v-model="showTasks">
+      <h1>Tasks</h1>
+      <TaskContainer />
+      <Button black text="close" @click="showTasks = false" />
+    </Modal>
+  </div>
 </template>
 
 <style scoped>

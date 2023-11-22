@@ -9,10 +9,10 @@
 .container {
   position: relative;
   width: 100%;
-  height: 20px;
+  height: 30px;
   background: var(--hl-color);
-  border: 1px solid var(--shadow-color);
-  border-radius: 5px;
+  /* border: 1px solid var(--shadow-color); */
+  border-radius: 20px;
   overflow: hidden;
 }
 .progress {
@@ -24,7 +24,7 @@
 .container > .text {
   position: absolute;
   top: 50%;
-  right: 2px;
+  right: 7px;
   transform: translateY(-50%);
   font-size: var(--font-size-xs);
   color: var(--shadow-text-color);

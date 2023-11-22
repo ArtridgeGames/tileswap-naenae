@@ -48,6 +48,14 @@ Property level: 2
 
 The pattern list order defines how patterns are chosen from the pattern list. If the value is `linear`, the patterns will be played in the order they are defined in the pattern list. If the value is `random`, the patterns will be played in a random order, until the number of pattern property is reached.
 
+#### Difficulty
+Type: `function`
+Global default: error (must be defined)
+Property level: 2
+
+The difficulty function provides an array of difficulties for each individual pattern to be played. It is given the list of patterns to be played, from which it can extract several properties to calculate a difficulty. It is expected that the sum of all difficulties is always equal to a specific number of clicks.
+If the number of patterns is infinite, the extracted difficulties will simply loop in this array.
+
 ### Level 3 properties
 
 #### Pattern ID
@@ -80,10 +88,3 @@ Global default: 2
 Property level: 3
 
 The modulo defines which modulo will be used when playing a specific pattern.
-
-#### Difficulty
-Types: `number` | `range`
-Global default: 2
-Property level: 3
-
-The difficulty defines the theorical number of moves required to finish a specific pattern. If it is a `range`, the sum of all ranges inside the pattern list must add up to the total 

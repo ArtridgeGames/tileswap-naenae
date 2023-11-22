@@ -2,7 +2,6 @@
 import { useStore } from "../../store/store";
 import LinkButton from "../../components/buttons/LinkButton.vue";
 import Button from "../../components/buttons/Button.vue";
-import Tile from "../../components/Tile.vue";
 import Layout from "../../components/Layout.vue";
 import Modal from "../../components/Modal.vue";
 import { useWindow } from "../../assets/js/window.js";

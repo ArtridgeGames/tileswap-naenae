@@ -16,6 +16,8 @@ export const useStore = defineStore('store', () => {
   const maxTask = ref(2);
   const isRandomFreeplay = ref(false);
   const menuViewIndex = ref(0);
+  const savedMenuScroll = ref(0);
+  const score = ref(222);
   
   function setTask(index, task) {
     currentTasks.value.splice(index, 1);
@@ -71,6 +73,8 @@ export const useStore = defineStore('store', () => {
     unlockedCategoriesFP,
     unlockedCategoriesPZ,
     settings,
-    menuViewIndex
+    menuViewIndex,
+    savedMenuScroll,
+    score,
   };
 });
