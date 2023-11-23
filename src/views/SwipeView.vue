@@ -43,6 +43,7 @@ main.carousell {
 }
 
 main.carousell > div {
+  scroll-snap-stop: always;
   scroll-snap-align: center;
   position: relative;
   min-width: 100%;
