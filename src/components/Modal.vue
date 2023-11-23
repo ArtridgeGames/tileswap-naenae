@@ -5,7 +5,7 @@
       <div v-show="modelValue" class="background" @[clickEvent]="close"></div>
     </Transition>
 
-    <Transition name="zoom">
+    <Transition name="fade">
       <div class="modal" v-show="modelValue">
         <slot></slot>
       </div>
@@ -19,7 +19,7 @@
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background-color: var(--popup-bg-trans);
+  background-color: white;  /* var(--popup-bg-trans); */
   z-index: 999;
 }
 .modal {
