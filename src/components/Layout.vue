@@ -42,7 +42,7 @@ import Tile from "./Tile.vue";
                 : ''
               : ''
           "
-          @[clickEvent]="onTileClick(rowIndex, tileIndex)"
+          @[EVENTS.TOUCHSTART]="onTileClick(rowIndex, tileIndex)"
           @mouseover="tile !== -1 && mouseOver(rowIndex, tileIndex)"
           @mouseleave="tile !== -1 && mouseLeave(rowIndex, tileIndex)"
         />
@@ -112,6 +112,7 @@ import Tile from "./Tile.vue";
 import { useStore } from "../store/store";
 import { devMode } from "../assets/js/solve/devmode";
 import { gradient, tilesToFlip, modulo } from "../assets/js/Layout.js";
+import { EVENTS } from '../assets/js/events.js';
 
 export default {
   props: ["modelValue", "small", "disabled", "solution", "target", "forcedHover", "highlightedTiles"],
@@ -123,7 +124,6 @@ export default {
       settings,
       gradient,
       hoveredTile: null,
-      clickEvent: "ontouchstart" in window ? "touchstart" : "click",
     };
   },
   methods: {

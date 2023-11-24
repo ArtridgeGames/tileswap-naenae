@@ -1,5 +1,5 @@
 <template>
-  <main class="icon-container" @click="handleClick">
+  <main class="icon-container" @[EVENTS.TOUCHEND]="handleClick">
     <div>
       <img :src="icon" />
     </div>
@@ -34,13 +34,16 @@ main.icon-container {
 </style>
 
 <script>
+import { EVENTS } from '../../assets/js/events.js';
 export default {
-  props: ['icon', 'to'],
+  props: ['icon'],
+  emits: ['pressed'],
+  data() {
+    return { EVENTS }
+  },
   methods: {
     handleClick() {
-      if (this.to) {
-        this.$router.push(this.to);
-      }
+      this.$emit('pressed');
     }
   }
 }

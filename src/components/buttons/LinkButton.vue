@@ -3,7 +3,7 @@ import Button from './Button.vue';
 </script>
 
 <template>
-  <Button :black="black" :text="text" @click="onClick" />
+  <Button :black="black" :text="text" @pressed="onClick" />
 </template>
 
 <script>

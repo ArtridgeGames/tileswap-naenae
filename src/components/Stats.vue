@@ -9,7 +9,7 @@ import Button from './buttons/Button.vue';
     </li>
   </ul>
 
-  <Button v-if="isSignedIn" @click="erase" text="Reset stats" black />
+  <Button v-if="isSignedIn" @pressed="erase" text="Reset stats" black />
 </template>
 
 <style scoped>
@@ -17,12 +17,6 @@ li {
   font-size: var(--font-size-sm);
   text-align: left;
 }
-
-@media screen and (max-width: 600px) {
-  li {
-    font-size: var(--font-size-md);
-  }
-} 
 </style>
 
 <script>

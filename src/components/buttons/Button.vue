@@ -1,5 +1,5 @@
 <template>
-  <button>
+  <button @[clickEvent]="handleClick">
     {{ text }}
   </button>
 </template>
@@ -23,14 +23,25 @@ button:focus {
 </style>
 
 <script>
+import { EVENTS } from '../../assets/js/events.js';
+
 export default {
-  props: ['text', 'black'],
+  props: ['text', 'black', 'event', 'trigger'],
+  emits: ['pressed'],
   computed: {
     backgroundColor() {
       return this.black !== undefined ? 'var(--shadow-color)' : 'var(--hl-color)';
     },
     color() {
       return this.black !== undefined ? 'var(--hl-text-color)' : 'var(--shadow-text-color)';
+    },
+    clickEvent() {
+      return this.trigger !== undefined ? this.trigger : EVENTS.TOUCHEND;
+    }
+  },
+  methods: {
+    handleClick() {
+      this.$emit('pressed');
     }
   }
 }

@@ -20,7 +20,7 @@ import DevMode from "../../components/DevMode.vue";
         <span> DEV </span>
       </div>
 
-      <Button text="randomize" @click="randomize" />
+      <Button text="randomize" @pressed="randomize" />
       <DifficultySlider v-model="difficulty" />
     </div>
 
@@ -72,7 +72,7 @@ import DevMode from "../../components/DevMode.vue";
 
     <Modal v-model="showModal">
       <h1>you won in {{ moves }} move{{ moves > 1 ? "s" : "" }}!</h1>
-      <Button black text="yay!" @click="showModal = false" />
+      <Button black text="yay!" @pressed="showModal = false" />
     </Modal>
   </div>
 </template>

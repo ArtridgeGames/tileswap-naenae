@@ -12,7 +12,7 @@ import randomUrl from "/images/svg/random.svg";
     <br>
     <div>
       <div class="text-center">
-        <IconButton :icon="randomUrl" @click="startRandomFreeplay" />
+        <IconButton :icon="randomUrl" @pressed="startRandomFreeplay" />
       </div>
       <div v-for="(category, i) in categories" :key="i">
         <div class="layouts">

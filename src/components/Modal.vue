@@ -1,13 +1,15 @@
 <template>
   <div>
     
-    <Transition name="fade">
+    <!-- <Transition name="fade">
       <div v-show="modelValue" class="background" @[clickEvent]="close"></div>
-    </Transition>
+    </Transition> -->
 
     <Transition name="fade">
       <div class="modal" v-show="modelValue">
-        <slot></slot>
+        <div>
+          <slot></slot>
+        </div>
       </div>
     </Transition>
 
@@ -24,8 +26,7 @@
 }
 .modal {
   position: absolute;
-  top: 50%; left: 50%;
-  translate: -50% -50%;
+  top: 0; left: 0;
   background-color: var(--hl-color);
   padding: 20px;
   text-align: center;
@@ -33,8 +34,19 @@
   z-index: 1000;
   color: var(--shadow-text-color);
   min-width: var(--popup-width);
+  width: 100%;
+  height: 100%;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+.modal > div {
+  width: 100%;
+  max-height: 100%;
+  overflow-y: scroll;
+}
+
 @media screen and (max-width: 600px) {
   .modal {
     min-width: 95%;
@@ -46,11 +58,6 @@
 export default {
   props: ['modelValue'],
   emits: ['update:modelValue'],
-  data() {
-    return {
-      clickEvent: "ontouchstart" in window ? "touchstart" : "click",
-    }
-  },
   methods: {
     close() {
       this.$emit('update:modelValue', false);

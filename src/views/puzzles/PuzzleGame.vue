@@ -15,7 +15,7 @@ import IconButton from "../../components/buttons/IconButton.vue";
     <IconButton
       class="top left"
       :icon="tutorialUrl"
-      @click="showExplanationModal = true"
+      @pressed="showExplanationModal = true"
     />
 
     <div
@@ -27,7 +27,7 @@ import IconButton from "../../components/buttons/IconButton.vue";
     >
       <h1>{{ completionMoves }}</h1>
       <h1>{{ nextMedal }}</h1>
-      <Button text="retry" @click="reset" />
+      <Button text="retry" @pressed="reset" />
     </div>
 
     <main class="puzzle-container">
@@ -51,7 +51,7 @@ import IconButton from "../../components/buttons/IconButton.vue";
 
     <Modal v-model="showWinModal">
       <h1>you won in {{ moves }} move{{ moves > 1 ? "s" : "" }}!</h1>
-      <Button black text="yay!" @click="showWinModal = false" />
+      <Button black text="yay!" @pressed="showWinModal = false" />
     </Modal>
 
     <Modal v-model="showExplanationModal">
@@ -63,7 +63,7 @@ import IconButton from "../../components/buttons/IconButton.vue";
         <Layout small v-model="puzzle.target" disabled />
       </div>
 
-      <Button black text="close" @click="showExplanationModal = false" />
+      <Button black text="close" @pressed="showExplanationModal = false" />
     </Modal>
   </div>
 </template>

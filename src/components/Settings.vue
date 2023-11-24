@@ -1,56 +1,80 @@
 <script setup>
-import lockURL from '/images/svg/lock.svg';
+import lockURL from "/images/svg/lock.svg";
 </script>
 
 <template>
-  <ul>
-    <li v-for="(setting, key) in settingsList" :key="key" :title="key">
-      {{ setting.name }} :
-      <div
-        :style="`${
-          value instanceof Array
-            ? value[0] instanceof Object
-              ? value
-                  .map((e, i) => `--value-${i + 1}: ` + formatRgb(e) + ';')
-                  .join(' ')
-              : `--value: ${formatBR(value, 0.4)};`
-            : `--value: ${value};`
-        } 
-        --selected: ${j === setting.selected ? '2px' : '0px'};
-        ${setting.repr ? `--repr: ${setting.repr(j)};` : ''}
-        `"
-        :data-repr="setting.repr ? setting.repr(j) : ''"
-        :data-value="value"
-        :data-locked="j > setting.unlocked"
-        :class="key"
-        v-for="(value, j) in setting.options"
-        :key="value + ' ' + j"
-        @click="changeSetting(key, j)"
-        :title="JSON.stringify(value)"
-      >
-        <img v-if="j > setting.unlocked" :src="lockURL" />
-        
-        <div v-else-if="key === 'tilesSVG'">
-          <component :title="value" :is="value" :color="'#666'"></component>
+  <div class="list">
+    <div
+      class="element"
+      v-for="(setting, key) in settingsList"
+      :key="key"
+      :title="key"
+    >
+      <p>{{ setting.name }}</p>
+      <div class="options">
+        <div
+          :style="`${
+            value instanceof Array
+              ? value[0] instanceof Object
+                ? value
+                    .map((e, i) => `--value-${i + 1}: ` + formatRgb(e) + ';')
+                    .join(' ')
+                : `--value: ${formatBR(value, 0.4)};`
+              : `--value: ${value};`
+          } 
+          --selected: ${j === setting.selected ? '2px' : '0px'};
+          ${setting.repr ? `--repr: ${setting.repr(j)};` : ''}
+          `"
+          :data-repr="setting.repr ? setting.repr(j) : ''"
+          :data-value="value"
+          :data-locked="j > setting.unlocked"
+          :class="key"
+          v-for="(value, j) in setting.options"
+          :key="value + ' ' + j"
+          @click="changeSetting(key, j)"
+          :title="JSON.stringify(value)"
+        >
+          <img v-if="j > setting.unlocked" :src="lockURL" />
+
+          <div v-else-if="key === 'tilesSVG'">
+            <component :title="value" :is="value" :color="'#666'"></component>
+          </div>
         </div>
+      </div>
     </div>
-    </li>
-  </ul>
+  </div>
 </template>
 
 <style scoped>
-ul {
+.list {
   text-align: left;
   font-size: 24px;
 }
-ul > li > div {
+.list > .element {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--silver-color);
+  border-radius: 10px;
+  padding: 20px 0;
+  margin: 20px 0;
+}
+.list > .element > p {
+  margin: 0;
+  margin-bottom: 10px;
+}
+.list > .element > .options > div {
   outline: var(--selected) solid black;
   position: relative;
 }
-ul > li {
+.list > .element > .options {
   margin-bottom: 10px;
-  display: flex;
   align-items: center;
+  display: flex;
+  width: 100%;
+  overflow-x: scroll;
+  padding: 10px 0;
+  justify-content: center;
 }
 .backgroundColor {
   background-color: var(--value);
@@ -176,26 +200,23 @@ img {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
-
-
 </style>
 
 <script>
 import { useStore } from "../store/store";
 import { SETTINGS_DATA } from "../assets/js/Settings.js";
 
-import SpikeTile from './tiles/Spike.vue';
-import Round from './tiles/Round.vue';
-import Squircle from './Tiles/Squircle.vue';
-import Square from './Tiles/Square.vue';
+import SpikeTile from "./tiles/Spike.vue";
+import Round from "./tiles/Round.vue";
+import Squircle from "./Tiles/Squircle.vue";
+import Square from "./Tiles/Square.vue";
 
 export default {
   components: {
     SpikeTile,
     Round,
     Squircle,
-    Square
+    Square,
   },
   methods: {
     changeSetting(key, index) {

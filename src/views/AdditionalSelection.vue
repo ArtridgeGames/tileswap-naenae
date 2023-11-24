@@ -26,28 +26,29 @@ import TaskContainer from "../components/TaskContainer.vue";
         </p>
         <p v-else @click="signInForm">You are not logged in</p>
       </div>
-      <IconButton :icon="taskUrl" @click="showTasks = true" />
-      <IconButton :icon="statsUrl" @click="showStats = true" />
-      <IconButton :icon="settingsUrl" @click="showSettings = true" />
-      <IconButton :icon="tutorialUrl" to="/tutorial" />
+      <IconButton :icon="taskUrl" @pressed="showTasks = true" />
+      <IconButton :icon="statsUrl" @pressed="showStats = true" />
+      <IconButton :icon="settingsUrl" @pressed="showSettings = true" />
+      <IconButton :icon="tutorialUrl" @pressed="$router.push('/tutorial')" />
     </main>
   
     <Modal v-model="showStats">
       <h1>Stats</h1>
   
       <Stats />
-      <Button black text="close" @click="showStats = false" />
+      <Button black text="close" @pressed="showStats = false" />
     </Modal>
   
     <Modal v-model="showSettings">
       <h1>Settings</h1>
       <Settings />
+      <Button black text="close" @pressed="showSettings = false" />
     </Modal>
   
     <Modal v-model="showTasks">
       <h1>Tasks</h1>
       <TaskContainer />
-      <Button black text="close" @click="showTasks = false" />
+      <Button black text="close" @pressed="showTasks = false" />
     </Modal>
   </div>
 </template>

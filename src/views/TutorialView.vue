@@ -12,49 +12,49 @@ import Button from '../components/buttons/Button.vue';
         <h1>To win the game, turn all the tiles white</h1>
         <h1>Clicking on a tile swaps the color of <span style="color: var(--success-color)">this tile</span> and all its neighbors</h1>
         <LayoutVue class="example-layout" small disabled v-model="exampleLayout" :highlightedTiles="[[2,2]]" />
-        <Button black text="ok!" @click="showModal = false" />
+        <Button black text="ok!" @pressed="showModal = false" />
       </div>
       <div v-else-if="stage === 0">
         <h1>Nice! Try it again!</h1>
-        <Button black text="gotcha!" @click="showModal = false" />
+        <Button black text="gotcha!" @pressed="showModal = false" />
       </div>
       <div v-else-if="stage === 1">
         <h1>Great! Now see what happens in the sides</h1>
-        <Button black text="sure!" @click="showModal = false" />
+        <Button black text="sure!" @pressed="showModal = false" />
       </div>
       <div v-else-if="stage === 2">
         <h1>Or when tiles are missing</h1>
-        <Button black text="yeah!" @click="showModal = false" />
+        <Button black text="yeah!" @pressed="showModal = false" />
       </div>
       <div v-else-if="stage === 3">
         <h1>And can you figure this next one out?</h1>
-        <Button black text="obviously!" @click="showModal = false" />
+        <Button black text="obviously!" @pressed="showModal = false" />
       </div>
       <div v-else-if="stage === 4">
         <h1>What about this one?</h1>
-        <Button black text="of course!" @click="showModal = false" />
+        <Button black text="of course!" @pressed="showModal = false" />
       </div>
       <div v-else-if="stage === 5">
         <h1>we're not helping you on this one</h1>
-        <Button black text="roger that!" @click="showModal = false" />
+        <Button black text="roger that!" @pressed="showModal = false" />
       </div>
       <div v-else-if="stage === 6">
         <h1>You're getting the hang of it! Let's make it a bit harder</h1>
-        <Button black text="you bet!" @click="showModal = false" />
+        <Button black text="you bet!" @pressed="showModal = false" />
       </div>
       <div v-else-if="stage === 7">
         <h1>last one!</h1>
-        <Button black text="Let's embark on this endeavor posthaste, shall we?" @click="showModal = false" />
+        <Button black text="Let's embark on this endeavor posthaste, shall we?" @pressed="showModal = false" />
       </div>
       <div v-else>
         <h1>You're ready to go!</h1>
-        <Button black text="go to freeplay" @click="showModal = false" />
+        <Button black text="go to freeplay" @pressed="showModal = false" />
       </div>
     </Modal>
 
     <h1 class="text-center">{{ text }}</h1>
     <h1 class="text-center" :class="{ shake }" v-if="showWrong">Wrong tile!</h1>
-    <Button v-if="stage >= 6" text="retry" class="center" @click="reset" />
+    <Button v-if="stage >= 6" text="retry" class="center" @pressed="reset" />
 
     <LayoutVue :class="{ shake }" :disabled="disabled" class="center middle" v-model="layout" @swap="handleClick" />
 
@@ -230,7 +230,11 @@ export default {
       }
 
       if (this.layout.isSolved()) {
-        this.showModal = true;
+        this.disabled = true;
+        setTimeout(() => {
+          this.showModal = true;
+          this.disabled = undefined;
+        }, 500);
       }
     },
     reset() {

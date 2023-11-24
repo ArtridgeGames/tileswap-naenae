@@ -27,13 +27,13 @@ import Modal from '../components/Modal.vue';
     <div class="top right">
       <LinkButton text="back" to="/freeplayGame" />
       <ModuloSlider v-model="internalModulo" />
-      <Button @click="showModal = true" text="export" />
+      <Button @pressed="showModal = true" text="export" />
     </div>
 
     <Modal v-model="showModal">
       <h1>Export</h1>
       <textarea class="export" readonly v-model="formatted"></textarea>
-      <Button text="close" @click="showModal = false" />
+      <Button text="close" @pressed="showModal = false" />
     </Modal>
   </div>
 </template>

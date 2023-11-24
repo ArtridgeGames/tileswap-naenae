@@ -9,7 +9,7 @@ import ChallengeCategoryButton from '../../components/challenges/ChallengeCatego
   <div class="challenge-selection-container">
     <h1 class="title">Challenges</h1>
     <!-- <LinkButton v-if="!categoryName" class="top right" text="back" to="/home" /> -->
-    <Button v-if="categoryName" class="top right" text="back" @click="categoryName = ''; challenges = Challenge.CHALLENGES" />
+    <Button v-if="categoryName" class="top right" text="back" @pressed="categoryName = ''; challenges = Challenge.CHALLENGES" />
 
     <h3 class="name">
       {{ categoryName }}

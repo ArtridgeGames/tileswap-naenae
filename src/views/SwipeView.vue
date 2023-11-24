@@ -22,7 +22,7 @@ import BottomBar from '../components/BottomBar.vue';
 <style scoped>
 div.main-container {
   height: 100%;
-  padding: 0 10px;
+  /* padding: 0 10px; */
 }
 
 main.carousell {

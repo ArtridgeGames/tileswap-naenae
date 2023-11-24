@@ -34,10 +34,10 @@ import SplashScreen from '../components/SplashScreen.vue';
       center: windowWidth > 600,
       'text-center': windowWidth <= 600,
     }" style="width: max-content">
-      <IconButton :icon="taskUrl" @click="showTasks = true" />
-      <IconButton :icon="statsUrl" @click="showStats = true" />
-      <IconButton :icon="settingsUrl" @click="showSettings = true" />
-      <IconButton :icon="tutorialUrl" to="/tutorial" />
+      <IconButton :icon="taskUrl" @pressed="showTasks = true" />
+      <IconButton :icon="statsUrl" @pressed="showStats = true" />
+      <IconButton :icon="settingsUrl" @pressed="showSettings = true" />
+      <IconButton :icon="tutorialUrl" @pressed="$router.push('/tutorial')" />
     </div>
 
     <div :class="{
@@ -57,7 +57,7 @@ import SplashScreen from '../components/SplashScreen.vue';
       <h1>Stats</h1>
       
       <Stats />
-      <Button black text="close" @click="showStats = false" />
+      <Button black text="close" @pressed="showStats = false" />
     </Modal>
 
     <Modal v-model="showSettings">
@@ -68,7 +68,7 @@ import SplashScreen from '../components/SplashScreen.vue';
     <Modal v-model="showTasks">
       <h1>Tasks</h1>
       <TaskContainer />
-      <Button black text="close" @click="showTasks = false" />
+      <Button black text="close" @pressed="showTasks = false" />
     </Modal>
   </div>
 </template>

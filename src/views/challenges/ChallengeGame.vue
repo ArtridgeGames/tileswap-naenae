@@ -8,7 +8,7 @@ import Progress from '../../components/Progress.vue';
 <template>
   <div>
 
-    <Button class="top right" text="back" @click="showPauseModal = true" />
+    <Button class="top right" text="back" @pressed="showPauseModal = true" />
 
     <div v-if="hasStarted">
       <h2 class="info center"> {{ formattedTime }} {{ moves }} {{ percentageCompleted + '%' }}</h2>
@@ -24,18 +24,18 @@ import Progress from '../../components/Progress.vue';
 
     <Modal v-model="showWinModal">
       <h1>you won the challenge!</h1>
-      <Button black text="yay!" @click="showWinModal = false" />
+      <Button black text="yay!" @pressed="showWinModal = false" />
     </Modal>
 
     <Modal v-model="showLostModal">
       <h1>{{ modalText }}</h1>
-      <Button black text="adnwkhu!" @click="showLostModal = false" />
+      <Button black text="adnwkhu!" @pressed="showLostModal = false" />
     </Modal>
 
     <Modal v-model="showPauseModal">
       <h1>Are you sure you want to go back?</h1>
-      <Button black text="resume" @click="resume" />
-      <Button black text="quit" @click="quit" />
+      <Button black text="resume" @pressed="resume" />
+      <Button black text="quit" @pressed="quit" />
     </Modal>
   </div>
 </template>
@@ -131,7 +131,6 @@ export default {
       this.showPauseModal = false;
     },
     quit() {
-      this.showPauseModal = false;
       window.clearInterval(this.timerId);
       this.currentChallenge.reset();
       this.$router.push('/home');
