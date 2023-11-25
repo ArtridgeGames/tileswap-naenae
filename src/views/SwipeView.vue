@@ -15,7 +15,7 @@ import BottomBar from '../components/BottomBar.vue';
       </div>
     </main>
   
-    <BottomBar :views="views" />
+    <BottomBar @swipe="handleSwipe" :views="views" />
   </div>
 </template>
 
@@ -54,7 +54,7 @@ main.carousell > div {
   overflow-y: hidden;
 }
 main.carousell > div > * {
-  padding-bottom: 100px;
+  padding-bottom: 150px;
 }
 </style>
 
@@ -104,6 +104,14 @@ export default {
     handleVerticalScroll(e) {
       const store = useStore();
       store.savedMenuScroll = e.target.scrollTop;
+    },
+    handleSwipe(e) {
+      const { menuViewIndex } = useStore();
+      const next = Math.min(Math.max(e.delta ? menuViewIndex + e.delta : e.page, 0), this.views.length - 1);
+      const el = this.$el.querySelector(`main.carousell > div:nth-child(${next + 1})`);
+      el.scrollIntoView({
+        behavior: "smooth",
+      });
     }
   }
 }

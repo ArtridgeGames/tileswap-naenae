@@ -1,6 +1,7 @@
 <script setup>
 import LinkButton from '@/components/buttons/LinkButton.vue';
 import PuzzleSelectionButton from '@/components/puzzles/PuzzleSelectionButton.vue';
+import Separator from '@/components/Separator.vue';
 </script>
 
 <template>
@@ -16,7 +17,7 @@ import PuzzleSelectionButton from '@/components/puzzles/PuzzleSelectionButton.vu
           :key="index"
         ></PuzzleSelectionButton>
       </div>
-      <hr v-if="i !== categories.length - 1" class="separator">
+      <Separator v-if="i !== categories.length - 1" />
     </div>
 
   </main>

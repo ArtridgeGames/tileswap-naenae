@@ -2,6 +2,7 @@
 import LayoutSelectionButton from "../../components/freeplay/LayoutSelectionButton.vue";
 import LinkButton from "../../components/buttons/LinkButton.vue";
 import IconButton from "../../components/buttons/IconButton.vue";
+import Separator from "../../components/Separator.vue";
 import randomUrl from "/images/svg/random.svg";
 </script>
 
@@ -16,7 +17,7 @@ import randomUrl from "/images/svg/random.svg";
       </div>
       <div v-for="(category, i) in categories" :key="i">
         <div class="layouts">
-          <hr class="separator">
+          <Separator />
           <LayoutSelectionButton
             v-for="(layout, index) in category"
             :layout="layout"

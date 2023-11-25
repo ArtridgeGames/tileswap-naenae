@@ -13,10 +13,14 @@ import Progress from "./Progress.vue";
       />
     </div>
     <div class="position">
+      <!-- <div class="left-click" @[EVENTS.TOUCHSTART]="$emit('swipe', { delta: -1 })"></div>
+      <div class="right-click" @[EVENTS.TOUCHSTART]="$emit('swipe', { delta: 1 })"></div> -->
       <div
         v-for="(view, i) in views"
+        class="dot"
         :class="{ selected: i === index }"
         :key="i"
+        @[EVENTS.TOUCHSTART]="$emit('swipe', { page: i })"
       ></div>
     </div>
   </main>
@@ -28,14 +32,16 @@ main {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 100px;
+  height: 125px;
   text-align: center;
   background: var(--root-bg-color);
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: flex-start;
+  gap: 15px;
+  padding-top: 15px;
 }
 
 main::before {
@@ -65,9 +71,10 @@ main > div.progress {
   z-index: 100;
   padding: 10px;
   border-radius: 15px;
+  position: relative;
   background-color: rgba(0, 0, 0, 0.5);
 }
-.position > div {
+.position > .dot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
@@ -76,13 +83,25 @@ main > div.progress {
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
 }
-.position > div.selected {
+.position > .dot.selected {
   background-color: rgba(255, 255, 255, 1);
+}
+.position > .left-click, .position > .right-click {
+  position: absolute;
+  height: 100%;
+  width: 50%;
+}
+.position > .left-click {
+  left: 0;
+}
+.position > .right-click {
+  right: 0;
 }
 </style>
 
 <script>
 import { useStore } from "../store/store.js";
+import { EVENTS } from '../assets/js/events.js';
 
 export default {
   name: "BottomBar",
@@ -92,6 +111,7 @@ export default {
       required: true,
     },
   },
+  emits: ['swipe'],
   computed: {
     index() {
       const store = useStore();
