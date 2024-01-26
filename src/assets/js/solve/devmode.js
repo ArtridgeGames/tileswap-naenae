@@ -1,9 +1,7 @@
-import { Layout, modulo } from '../Layout.js';
+import { modulo } from '../LayoutShared.js';
 import { computed, ref } from 'vue';
-import { FiniteField, FiniteFieldMatrix } from './FiniteField.js';
-import { tilesToFlip } from '../Layout.js';
-import { generateMoveMatrix } from './moveMatrix.js';
-import { solvePattern, solveWithRotation } from './solve.js';
+import { tilesToFlip } from '../LayoutShared.js';
+import { solveWithRotation } from './solve.js';
 
 const active = ref(
   false

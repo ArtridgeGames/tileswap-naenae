@@ -77,7 +77,7 @@ img {
 </style>
 
 <script>
-import { setModulo } from "../../assets/js/Layout";
+import { setModulo } from "../../assets/js/LayoutShared.js";
 import { Task } from "../../assets/js/Task";
 export default {
   props: ["puzzle"],

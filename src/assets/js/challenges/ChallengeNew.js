@@ -1,5 +1,5 @@
 import { require } from '../utils.js';
-
+import { Layout } from '../Layout.js';
 
 
 export class Challenge {
@@ -152,6 +152,14 @@ class ChallengePattern {
     this.moveLimit = moveLimitPerPattern;
     this.bonusTime = bonusTimePerPattern;
     this.modulo = moduloPerPattern;
+  }
+
+  /**
+   * Creates a Layout from this Challenge Pattern
+   * @returns {Layout} The layout
+   */
+  toLayout() {
+    return Layout.LAYOUTS[this.id].copy();
   }
 }
 

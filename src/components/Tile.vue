@@ -43,7 +43,7 @@ import {
   gradient,
   outlineGradient,
   highlightGradient,
-} from "../assets/js/Layout.js";
+} from "../assets/js/LayoutShared.js";
 import { SETTINGS_DATA } from "../assets/js/Settings";
 export default {
   props: ["tile", "visible", "small", "position"],

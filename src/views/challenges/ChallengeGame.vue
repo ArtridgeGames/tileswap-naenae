@@ -103,7 +103,7 @@ export default {
       this.nMoves -= 1
       this.nMovesPer -= 1
       this.hasStarted = true;
-      if (this.layout.isSolved()) {
+      if (this.layout.isSolved(modulo.value)) {
         store.stats.layoutsSolved++;
         this.nMovesPer = this.currentChallenge.moveLimitPer;
         this.timePer = this.currentChallenge.timeLimitPer;

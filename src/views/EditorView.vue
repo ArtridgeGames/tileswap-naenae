@@ -57,7 +57,7 @@ textarea {
 
 <script>
 import { useStore } from '../store/store.js';
-import { modulo, setModulo } from '../assets/js/Layout.js';
+import { modulo, setModulo, tilesToFlip } from '../assets/js/LayoutShared.js';
 import { solveWithRotation } from '../assets/js/solve/solve.js';
 
 export default {
@@ -107,7 +107,7 @@ export default {
     handleSwap(layout, tile) {
       const x = Math.floor(tile / layout.width);
       const y = tile % layout.width;
-      layout.swapTiles(x, y, -1);
+      layout.swapTiles(x, y, -1, modulo.value, tilesToFlip.value);
       layout.setTile(x, y, (layout.getTile(x, y) + 1) % modulo.value);
       this.solve();
     },

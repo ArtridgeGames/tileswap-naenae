@@ -1,73 +1,15 @@
-import { ref, computed } from 'vue';
-import { useStore } from '../../store/store.js';
-import { solve } from './solve/devmode.js';
-import { SETTINGS_DATA } from './Settings.js';
-
-export const tilesToFlip = ref(
-  [
-    [-1, -1], [0, -1], [1, -1],
-    [-1, 0], [0, 0], [1, 0],
-    [-1, 1], [0, 1], [1, 1],
-  ]
-);
-if (globalThis.window && !window.hasOwnProperty('tilesToFlip')) {
-  Object.defineProperty(window, 'tilesToFlip', {
-    get: () => tilesToFlip.value,
-    set: (value) => {
-      tilesToFlip.value = value
-    }
-  });
-}
-
-export const modulo = ref(2);
-if (globalThis.window && !window.hasOwnProperty('modulo')) {
-  Object.defineProperty(window, 'modulo', {
-    get: () => modulo.value,
-    set: (value) => {
-      if (typeof value !== 'number') throw new Error('Modulo must be a number');
-      if (value < 2) throw new Error('Modulo must be greater than 1');
-      modulo.value = value
-    }
-  });
-}
-
-export const setModulo = (value) => {
-  if (value < 2) throw new Error('Modulo must be greater than 1');
-  modulo.value = value
-}
-
-export const gradient = computed(() => {
-  const backColor = SETTINGS_DATA.tilesColor.value[0];
-  const frontColor = SETTINGS_DATA.tilesColor.value[1];
-  const difference = { r: frontColor.r - backColor.r, g: frontColor.g - backColor.g, b: frontColor.b - backColor.b }
-  return new Array(modulo.value).fill().map((e, i) => {
-    return `rgb(${difference.r * (i / (modulo.value - 1)) + backColor.r},${difference.g * (i / (modulo.value - 1)) + backColor.g},${difference.b * (i / (modulo.value - 1)) + backColor.b})`
-  });
-})
-
-export const outlineGradient = computed(() => {
-  const backColor = SETTINGS_DATA.tilesColor.value[0];
-  const frontColor = SETTINGS_DATA.tilesColor.value[1];
-  const difference = { r: frontColor.r - backColor.r, g: frontColor.g - backColor.g, b: frontColor.b - backColor.b }
-  return new Array(modulo.value).fill().map((e, i) => {
-    return `rgb(${difference.r * 0.4 * (i / (modulo.value - 1)) + backColor.r + 36},${difference.g * 0.4 * (i / (modulo.value - 1)) + backColor.g + 36},${difference.b * 0.4 * (i / (modulo.value - 1)) + backColor.b + 36})`
-  });
-})
-
-export const highlightGradient = computed(() => {
-  const backColor = SETTINGS_DATA.tilesColor.value[0];
-  const frontColor = SETTINGS_DATA.tilesColor.value[1];
-  const difference = { r: frontColor.r - backColor.r, g: frontColor.g - backColor.g, b: frontColor.b - backColor.b }
-  return new Array(modulo.value).fill().map((e, i) => {
-    return `rgb(${difference.r * 0.75 * (i / (modulo.value - 1)) + backColor.r + 50},${difference.g * 0.75 * (i / (modulo.value - 1)) + backColor.g + 50},${difference.b * 0.75 * (i / (modulo.value - 1)) + backColor.b + 50})`
-  });
-})
+import { solveWithRotation } from './solve/solve.js';
 
 /**
  * A class representing a layout of tiles
  * The tiles are represented by a matrix of 0s, 1s and -1s for excluded tiles
  */
 export class Layout {
+  static TILES_TO_FLIP = [
+    [-1, -1], [0, -1], [1, -1],
+    [-1, 0], [0, 0], [1, 0],
+    [-1, 1], [0, 1], [1, 1],
+  ]
   static LAYOUTS = [{ dimensions: "3x3", unlockCategory: 1, id: 0 }, { dimensions: "4x4", unlockCategory: 3, id: 1 }, { dimensions: "5x5", unlockCategory: 5, id: 2 }, { dimensions: "6x6", unlockCategory: 9, id: 3 }, { dimensions: "7x7", unlockCategory: 11, id: 4 }, { dimensions: "8x8", unlockCategory: 15, id: 5 }, { dimensions: "9x9", unlockCategory: 15, id: 6 }, { dimensions: "10x10", unlockCategory: 15, id: 7 }, { dimensions: "11x11", unlockCategory: 15, id: 8 }, { dimensions: "12x12", unlockCategory: 15, id: 9 },
   { dimensions: "3x4", unlockCategory: 3, id: 10 }, { dimensions: "3x5", unlockCategory: 3, id: 11 }, { dimensions: "3x6", unlockCategory: 9, id: 12 }, { dimensions: "3x7", unlockCategory: 9, id: 13 }, { dimensions: "3x3", exclude: [0, 2, 6, 8], unlockCategory: 1, id: 14 }, { dimensions: "5x5", exclude: [0, 1, 3, 4, 5, 9, 15, 19, 20, 21, 23, 24], unlockCategory: 7, id: 15 }, { dimensions: "7x7", exclude: [0, 1, 2, 4, 5, 6, 7, 8, 12, 13, 14, 20, 28, 34, 35, 36, 40, 41, 42, 43, 44, 46, 47, 48], unlockCategory: 11, id: 16 }, { dimensions: "6x6", exclude: [0, 1, 4, 5, 6, 11, 24, 29, 30, 31, 34, 35], unlockCategory: 9, id: 17 }, { dimensions: "7x7", exclude: [0, 1, 5, 6, 7, 13, 35, 41, 42, 43, 47, 48], unlockCategory: 11, id: 18 }, { dimensions: "8x8", exclude: [0, 1, 6, 7, 8, 15, 48, 55, 56, 57, 62, 63], unlockCategory: 16, id: 19 }, { dimensions: "3x3", exclude: [3, 5, 6, 8], unlockCategory: 1, id: 20 }, { dimensions: "3x3", exclude: [4], unlockCategory: 1, id: 21 }, { dimensions: "3x3", exclude: [1, 3, 5, 7], unlockCategory: 1, id: 22 }, { dimensions: "3x3", exclude: [4, 7], unlockCategory: 1, id: 23 }, { dimensions: "4x4", exclude: [5, 10], unlockCategory: 3, id: 24 },
   { dimensions: "4x4", exclude: [3, 12], unlockCategory: 3, id: 25 }, { dimensions: "4x4", exclude: [3, 6, 9, 12], unlockCategory: 4, id: 26 }, { dimensions: "4x4", exclude: [0, 3, 12, 15], unlockCategory: 3, id: 27 }, { dimensions: "4x4", exclude: [2, 3, 7, 8, 12, 13], unlockCategory: 3, id: 28 }, { dimensions: "4x4", exclude: [0, 3, 6, 8, 12, 13, 15], unlockCategory: 4, id: 29 }, { dimensions: "4x4", exclude: [0, 3, 5, 6, 9, 10, 12, 15], unlockCategory: 4, id: 30 }, { dimensions: "3x5", exclude: [0, 2, 12, 14], unlockCategory: 4, id: 33 }, { dimensions: "5x5", exclude: [0, 2, 4, 10, 14, 20, 22, 24], unlockCategory: 6, id: 36 }, { dimensions: "5x5", exclude: [0, 2, 4, 10, 12, 14, 20, 22, 24], unlockCategory: 5, id: 37 }, { dimensions: "5x5", exclude: [6, 8, 16, 18], unlockCategory: 5, id: 38 }, { dimensions: "5x5", exclude: [2, 4, 6, 8, 10, 12, 16, 19, 20, 23, 24], unlockCategory: 7, id: 44 }, { dimensions: "5x5", exclude: [0, 1, 5, 6, 7, 9, 10, 14, 15, 17, 18, 19, 23, 24], unlockCategory: 2, id: 45 }, { dimensions: "3x3", exclude: [2, 4, 6], unlockCategory: 1, id: 46 }, { dimensions: "5x5", exclude: [0, 4, 20, 24], unlockCategory: 7, id: 47 }, { dimensions: "5x5", exclude: [0, 4, 20, 24, 7, 11, 12, 13, 17], unlockCategory: 6, id: 48 }, { dimensions: "5x5", exclude: [2, 10, 14, 22], unlockCategory: 6, id: 49 },
@@ -147,7 +89,7 @@ export class Layout {
     this.height = height;
     this.exclude = exclude ?? [];
     this.unlockCategory = unlockCategory ?? 0;
-    this.matrix = new Array(height).fill(0).map(() => new Array(width).fill().map(e => modulo.value - 1));
+    this.matrix = new Array(height).fill(0).map(() => new Array(width).fill().map(e => 0));
     this.id = id;
     for (const e of this.exclude) {
       this.matrix[Math.floor(e / width)][e % width] = -1;
@@ -161,16 +103,16 @@ export class Layout {
    * @param {Number} direction the direction to swap the tiles in
    * @returns {Number} the number of tiles swapped
    */
-  swapTiles(row, column, direction = 1) {
+  swapTiles(row, column, direction = 1, modulo = 2, tilesToFlip = Layout.TILES_TO_FLIP) {
     let count = 0;
 
-    for (const delta of tilesToFlip.value) {
+    for (const delta of tilesToFlip) {
       const x = column + delta[0];
       const y = row + delta[1];
       if (x >= 0 && x < this.matrix[0].length
         && y >= 0 && y < this.matrix.length
         && this.matrix[y][x] !== -1) {
-        this.matrix[y][x] = Layout.modulo(this.matrix[y][x] + direction);
+        this.matrix[y][x] = Layout.modulo(this.matrix[y][x] + direction, modulo);
         count++;
       }
     }
@@ -221,9 +163,9 @@ export class Layout {
   /**
    * Checks if the matrix is solved
    */
-  isSolved() {
-    return this.matrix.every(row => row.every(tile => tile === modulo.value - 1 || tile === -1));
-  }
+  isSolved(modulo = 2) {
+    return this.matrix.every(row => row.every(tile => tile === modulo - 1 || tile === -1));
+  }w
 
   /**
    * Checks if the tile at the specified position is a tile
@@ -241,9 +183,9 @@ export class Layout {
    * @param {Number} column the column of the tile
    * @returns {Boolean} true if the tile is white, false otherwise
    */
-  isWhite(row, column) {
-    if (column === undefined) return this.matrix[Math.floor(row / this.width)][row % this.width] === modulo.value - 1;
-    return this.matrix[row][column] === modulo.value - 1;
+  isWhite(row, column, modulo = 2) {
+    if (column === undefined) return this.matrix[Math.floor(row / this.width)][row % this.width] === modulo - 1;
+    return this.matrix[row][column] === modulo - 1;
   }
 
   nTiles() {
@@ -266,10 +208,10 @@ export class Layout {
    * @param {Number} iterations number of iterations to generate the pattern
    * @returns {Layout} a Layout object with a random pattern
    */
-  generatePosition(iterations) {
+  generatePosition(iterations, modulo = 2, tilesToFlip = Layout.TILES_TO_FLIP) {
 
     const copy = this.copy();
-    copy.setAllTiles(modulo.value - 1);
+    copy.setAllTiles(modulo - 1);
 
     for (let i = 0; i < iterations; i++) {
 
@@ -281,23 +223,27 @@ export class Layout {
         tile = Math.floor(Math.random() * copy.width);
       } while (!copy.isTile(row, tile));
 
-      copy.swapTiles(row, tile, -1);
+      copy.swapTiles(row, tile, -1, modulo, tilesToFlip);
     }
 
     // Regenerate if the matrix is already solved
-    if (copy.matrix.every(row => row.every(tile => tile === modulo.value || tile === -1))) {
-      return this.generatePosition(iterations);
+    if (copy.matrix.every(row => row.every(tile => tile === modulo || tile === -1))) {
+      return this.generatePosition(iterations, modulo);
     }
 
     if (copy.nTiles() < 50) {
-      const { solutions, shortest, zerows, } = solve(copy.matrix);
+      const { solutions, shortest, zerows, } = solveWithRotation({
+        state: copy.matrix,
+        modulo,
+        tilesToFlip
+      });
 
       const solution = solutions[shortest];
       const threshold = zerows !== 1 ?
         (iterations > zerows ? zerows : iterations) :
-        Math.floor(iterations - modulo.value * (iterations / 3) + 2);
+        Math.floor(iterations - modulo * (iterations / 3) + 2);
       if (solution.moves < threshold) {
-        return this.generatePosition(iterations);
+        return this.generatePosition(iterations, modulo);
       }
     }
 
@@ -343,8 +289,8 @@ export class Layout {
     return JSON.stringify(layout);
   }
 
-  static modulo(n) {
-    return ((n % modulo.value) + modulo.value) % modulo.value;
+  static modulo(n, m) {
+    return ((n % m) + m) % m;
   }
 }
 

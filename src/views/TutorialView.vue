@@ -75,6 +75,7 @@ div > h1.text-center {
 
 <script>
 import { useStore } from '../store/store.js';
+import { tilesToFlip } from '../assets/js/LayoutShared.js';
 import { Layout } from '../assets/js/Layout.js';
 export default {
   data() {
@@ -212,7 +213,7 @@ export default {
         if (!this.examples[this.stage].solution.includes(tileIndex)) {
           this.disabled = true;
           setTimeout(() => {
-            this.layout.swapTiles(row, tile);
+            this.layout.swapTiles(row, tile, 1, modulo.value, tilesToFlip.value);
             this.shake = true
             this.showWrong = true;
             this.disabled = undefined;
@@ -229,7 +230,7 @@ export default {
         }
       }
 
-      if (this.layout.isSolved()) {
+      if (this.layout.isSolved(modulo.value)) {
         this.disabled = true;
         setTimeout(() => {
           this.showModal = true;
@@ -246,7 +247,7 @@ export default {
   },
   mounted() {
     window.setInterval(() => {
-      this.exampleLayout.swapTiles(2, 2);
+      this.exampleLayout.swapTiles(2, 2, 1, modulo.value, tilesToFlip.value);
     }, 2e3);
   }
 }

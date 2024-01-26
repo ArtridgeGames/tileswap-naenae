@@ -15,7 +15,7 @@
 
 <script>
 import { useStore } from '@/store/store.js'
-import { modulo } from '../assets/js/Layout.js';
+import { modulo } from '../assets/js/LayoutShared.js';
 export default {
   props: ['modelValue'],
   emits: ['update:modelValue'],

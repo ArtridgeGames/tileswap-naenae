@@ -1,5 +1,5 @@
 import { useStore } from '../../store/store.js';
-import { tilesToFlip } from './Layout.js';
+import { tilesToFlip } from './LayoutShared.js';
 
 export const SETTINGS_DATA = {
   backgroundColor: {

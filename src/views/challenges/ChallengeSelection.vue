@@ -42,7 +42,7 @@ h3.name {
 
 <script>
 import { useStore } from '../../store/store.js';
-import { setModulo } from '../../assets/js/Layout';
+import { setModulo } from '../../assets/js/LayoutShared.js';
 import { Challenge } from '../../assets/js/challenges/Challenge';
 
 export default {

@@ -461,7 +461,8 @@ export class Challenge {
       challengeLayouts[i] = challengeLayouts[i].generatePosition(
         this.bigLayoutAdapt ? (
           challengeLayouts[i].nTiles() >= Challenge.THRESHOLD ? nMovesPer * 2 : nMovesPer)
-          : nMovesPer
+          : nMovesPer,
+        this.modulo
       )
     }
     if (this.randomPatterns) challengeLayouts.sort(() => Math.random() - 0.5);

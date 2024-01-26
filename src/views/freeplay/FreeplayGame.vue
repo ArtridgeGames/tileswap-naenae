@@ -140,7 +140,8 @@ main {
 </style>
 <script>
 import { solve, devMode, setDevMode } from "../../assets/js/solve/devmode";
-import { modulo, setModulo, Layout } from "../../assets/js/Layout.js";
+import { modulo, setModulo } from "../../assets/js/LayoutShared.js";
+import { Layout } from "../../assets/js/Layout.js";
 import { watch } from "vue";
 import { Task } from "../../assets/js/Task";
 import { useWindow } from "@/assets/js/window.js";
@@ -209,7 +210,8 @@ export default {
         }
       }
 
-      if (this.layout.isSolved()) {
+      console.log(this.layout.matrix);
+      if (this.layout.isSolved(modulo.value)) {
         this.store.stats.layoutsSolved++;
         this.showModal = true;
         Task.advanceTasks(
@@ -222,7 +224,8 @@ export default {
     randomize() {
       this.moves = 0;
       this.layout = this.layout.generatePosition(
-        this.difficulty + Math.round(Math.random() * (modulo.value - 1))
+        this.difficulty + Math.round(Math.random() * (modulo.value - 1)),
+        modulo.value
       );
       this.$nextTick(() => {
         try {

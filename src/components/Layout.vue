@@ -111,7 +111,7 @@ import Tile from "./Tile.vue";
 <script>
 import { useStore } from "../store/store";
 import { devMode } from "../assets/js/solve/devmode";
-import { gradient, tilesToFlip, modulo } from "../assets/js/Layout.js";
+import { gradient, tilesToFlip, modulo } from "../assets/js/LayoutShared.js";
 import { EVENTS } from '../assets/js/events.js';
 
 export default {
@@ -135,7 +135,7 @@ export default {
         const store = useStore();
 
         const copy = this.modelValue.copy();
-        const count = copy.swapTiles(row, tile);
+        const count = copy.swapTiles(row, tile, 1, modulo.value, tilesToFlip.value);
         store.stats.tilesSwapped += count;
 
         this.$emit("update:modelValue", copy);
