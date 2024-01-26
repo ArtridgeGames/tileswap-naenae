@@ -577,4 +577,175 @@ export const CHALLENGES = [
       defaults: {}
     })
   }),
+  new Challenge({
+    id: 7,
+    title: 'Growing Square',
+    settings: new ChallengeProperties({
+      timeLimit: 120,
+      patternList: [
+        new ChallengePattern({
+          id: 0
+        }),
+        new ChallengePattern({
+          id: 1
+        }),
+        new ChallengePattern({
+          id: 2
+        }),
+        new ChallengePattern({
+          id: 3
+        }),
+        new ChallengePattern({
+          id: 4
+        }),
+        new ChallengePattern({
+          id: 5
+        }),
+        new ChallengePattern({
+          id: 6
+        }),
+        new ChallengePattern({
+          id: 7
+        }),
+        new ChallengePattern({
+          id: 8
+        }),
+        new ChallengePattern({
+          id: 9
+        }),
+      ],
+      patternCount: 10,
+      patternListOrder: 'linear',
+      difficulty:  () => sumInRanges([[4,7], [7,11], [8,12], [14,20], [20,25], [20,25], [30,36], [35, 40]], 150),
+      defaults: {}
+    })
+  }),
+  new Challenge({
+    id: 8,
+    title: 'Shrinking Circle',
+    settings: new ChallengeProperties({
+      timeLimit: 120,
+      patternList: [
+        new ChallengePattern({
+          id: 136
+        }),
+        new ChallengePattern({
+          id: 19
+        }),
+        new ChallengePattern({
+          id: 18
+        }),
+        new ChallengePattern({
+          id: 17
+        }),
+        new ChallengePattern({
+          id: 47
+        }),
+        new ChallengePattern({
+          id: 177
+        }),
+        new ChallengePattern({
+          id: 14
+        })
+      ],
+      patternCount: 7,
+      patternListOrder: 'linear',
+      difficulty:  () => sumInRanges([[30,36], [18,25], [15,19], [9, 12], [6,10], [3,5], [3,5]], 97),
+      defaults: {}
+    })
+  }),
+  new Challenge({
+    id: 9,
+    title: 'Game of Life',
+    settings: new ChallengeProperties({
+      patternList: [
+        new ChallengePattern({
+          id: 83
+        }),
+        new ChallengePattern({
+          id: 84
+        }),
+        new ChallengePattern({
+          id: 85
+        }),
+        new ChallengePattern({
+          id: 104
+        }),
+        new ChallengePattern({
+          id: 93
+        }),
+        new ChallengePattern({
+          id: 94
+        }),
+        new ChallengePattern({
+          id: 96
+        }),
+        new ChallengePattern({
+          id: 97
+        }),
+        new ChallengePattern({
+          id: 98
+        }),
+        new ChallengePattern({
+          id: 99
+        }),
+        new ChallengePattern({
+          id: 117
+        }),
+        new ChallengePattern({
+          id: 103
+        }),
+        new ChallengePattern({
+          id: 30
+        }),
+        new ChallengePattern({
+          id: 152
+        })
+      ],
+      patternCount: 10,
+      timeLimit: 80,
+      patternListOrder: 'random',
+      difficulty:  () => sumInRanges([[4,8], [6,9], [5,7], [10,18], [7,10], [3,7], [3,6], [6,8], [6,9], [9,14], [6,8], [5,8], [5,8], [13,20]], 96),
+      defaults: {
+        bonusTimePerPattern: 5,
+      }
+    })
+  }),
+  new Challenge({
+    id: 10,
+    title: 'Snake',
+    settings: new ChallengeProperties({
+      timeLimit: 40,
+      patternList: [
+        new ChallengePattern({
+          id: 69
+        }),
+        new ChallengePattern({
+          id: 45
+        }),
+        new ChallengePattern({
+          id: 66
+        }),
+        new ChallengePattern({
+          id: 130
+        }),
+        new ChallengePattern({
+          id: 178
+        }),
+        new ChallengePattern({
+          id: 179
+        }),
+        new ChallengePattern({
+          id: 180
+        }),
+        new ChallengePattern({
+          id: 182
+        })
+      ],
+      patternCount: 7,
+      patternListOrder: 'random',
+      difficulty:  () => sumInRanges([[6,10], [5,9], [6,13], [2,4], [13,20], [10,15], [4,9], [7,17]], 70),
+      defaults: {}
+    })
+  }),
 ]
