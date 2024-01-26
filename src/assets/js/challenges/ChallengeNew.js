@@ -205,3 +205,38 @@ const challenge = Challenge({
     }
   })
 });
+
+function randomSolutionOptimized(ranges, targetSum, maxAttempts = 1000) {
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+      let remainingSum = targetSum;
+      let combination = [];
+      for (let i = 0; i < ranges.length; i++) {
+          let [start, end] = ranges[i];
+          let maxPossible = calculateMaxPossible(remainingSum, ranges, i);
+          if (maxPossible < start) {
+              break; // No valid value can be chosen for this object
+          }
+
+          let selectedValue = randomValueInRange(start, Math.min(end, maxPossible));
+          combination.push(selectedValue);
+          remainingSum -= selectedValue;
+      }
+
+      if (remainingSum === 0) {
+          return combination; // Valid solution found
+      }
+  }
+  return null; // No solution found within the given number of attempts
+}
+
+function calculateMaxPossible(remainingSum, ranges, currentIndex) {
+  let maxPossible = remainingSum;
+  for (let i = currentIndex + 1; i < ranges.length; i++) {
+      maxPossible -= ranges[i][0]; // Subtract the start value of each remaining range
+  }
+  return maxPossible;
+}
+
+function randomValueInRange(start, end) {
+  return Math.floor(Math.random() * (end - start + 1)) + start;
+}
