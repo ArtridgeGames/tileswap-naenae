@@ -100,12 +100,13 @@ export default {
     }
   },
   methods: {
+    /*
     handleClick() {
       const store = useStore()
       this.nMoves -= 1
       this.nMovesPer -= 1
       this.hasStarted = true;
-      console.log(modulo.value)
+
       if (this.layout.isSolved(modulo.value)) {
         store.stats.layoutsSolved++;
         this.nMovesPer = this.currentChallenge.moveLimitPer;
@@ -129,13 +130,13 @@ export default {
         this.showLostModal = true;
         window.clearInterval(this.timerId);
       }
-    },
+    },*/
     resume() {
       this.showPauseModal = false;
     },
     quit() {
-      window.clearInterval(this.timerId);
-      this.currentChallenge.reset();
+      // window.clearInterval(this.timerId);
+      // this.currentChallenge.reset();
       this.$router.push('/home');
     }
   },
@@ -143,13 +144,13 @@ export default {
     showWinModal() {
       if (!this.showWinModal) {
         this.$router.push('/home');
-        this.currentChallenge.reset();
+        // this.currentChallenge.reset();
       }
     },
     showLostModal() {
       if (!this.showLostModal) {
         this.$router.push('/home');
-        this.currentChallenge.reset();
+        // this.currentChallenge.reset();
       }
     }
   },
@@ -171,25 +172,25 @@ export default {
     }
   },
   mounted() {
-    this.timerId = window.setInterval(()=>{
-      if (this.currentChallenge.timeLimit !== -1){
-        this.time -= 1 * this.hasStarted * !this.showPauseModal;
-        if (this.time <= 0) {
-          this.modalText = "no time left!";
-          this.currentChallenge.maxPercent = Math.max(this.percentageCompleted, this.currentChallenge.maxPercent);
-          this.showLostModal = true;
-          window.clearInterval(this.timerId);
-        }
-      } if (this.currentChallenge.timeLimitPer !== -1) {
-        this.timePer -= 1 * this.hasStarted * !this.showPauseModal;
-        if (this.timePer <= 0) {
-          this.modalText = "no time left!";
-          this.currentChallenge.maxPercent = Math.max(this.percentageCompleted, this.currentChallenge.maxPercent);
-          this.showLostModal = true;
-          window.clearInterval(this.timerId);
-        }
-      }
-    }, 1000);
+    // this.timerId = window.setInterval(()=>{
+    //   if (this.currentChallenge.timeLimit !== -1){
+    //     this.time -= 1 * this.hasStarted * !this.showPauseModal;
+    //     if (this.time <= 0) {
+    //       this.modalText = "no time left!";
+    //       this.currentChallenge.maxPercent = Math.max(this.percentageCompleted, this.currentChallenge.maxPercent);
+    //       this.showLostModal = true;
+    //       window.clearInterval(this.timerId);
+    //     }
+    //   } if (this.currentChallenge.timeLimitPer !== -1) {
+    //     this.timePer -= 1 * this.hasStarted * !this.showPauseModal;
+    //     if (this.timePer <= 0) {
+    //       this.modalText = "no time left!";
+    //       this.currentChallenge.maxPercent = Math.max(this.percentageCompleted, this.currentChallenge.maxPercent);
+    //       this.showLostModal = true;
+    //       window.clearInterval(this.timerId);
+    //     }
+    //   }
+    // }, 1000);
   }
 }
 </script>

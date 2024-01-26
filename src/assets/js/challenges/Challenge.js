@@ -330,6 +330,7 @@ export class Challenge {
       id: 21
     })
   ];
+  
 
   static THRESHOLD = 60;
 

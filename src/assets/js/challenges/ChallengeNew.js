@@ -138,31 +138,104 @@ class ChallengeProcess {
     this.challenge = challenge;
     this.patternIndex = 0;
     this.done = false;
-    this.patternGenerator = this.nextPattern();
+    this.patternGenerator = this.createPatternGenerator();
     this.difficulties = this.challenge.settings.difficulty();
+
+    this.totalClicks = challenge.settings.moveLimit;
+    this.currentTime = challenge.settings.timeLimit;
+    this.currentPatternTime = null;
+
+    this.timerId = null;
+  }
+
+  handleClick() {
+    if (this.done) return;
+
+    if (this.currentLayout.isSolved()) {
+      this.currentLayout = this.next();
+      if (this.currentLayout === null) {
+        this.won();
+        return;
+      }
+    }
+
+    if (this.challenge.settings.moveLimit !== -1) {
+      this.totalClicks--;
+      if (this.totalClicks <= 0) {
+        this.lost();
+        return;
+      }
+    }
+
+    if (this.patternClicks !== -1) {
+      this.patternClicks--;
+      if (this.patternClicks <= 0) {
+        this.lost();
+        return;
+      }
+    }
   }
 
   next() {
-    const { value: pattern, done } = this.patternGenerator.next();
+    const { value: pattern, done } = this.createPatternGenerator.next();
     if (!done) {
       this.patternIndex++;
-      pattern.toLayout().generatePosition(this.difficulties[this.patternIndex], pattern.modulo);
-      return pattern;
+      const layout = pattern.toLayout()
+      layout.generatePosition(this.difficulties[this.patternIndex], pattern.modulo);
+      this.patternClicks = pattern.moveLimit;
+      this.currentPatternTime = pattern.timeLimit;
+      return layout;
     } else {
       return null;
     }
   }
 
+  start() {
+    this.reset();
+    this.currentLayout = this.next();
+
+    if (this.challenge.settings.timeLimit !== -1) {
+      this.timerId = setInterval(() => {
+        this.currentTime--;
+        if (this.currentTime <= 0) {
+          this.lost();
+          return;
+        }
+        if (this.currentPatternTime !== null) {
+          this.currentPatternTime--;
+          if (this.currentPatternTime <= 0) {
+            this.lost();
+            return;
+          }
+        }
+      }, 1000);
+    }
+  }
+
   reset() {
+    this.done = false;
     this.patternIndex = 0;
-    this.patternGenerator = this.nextPattern();
+    this.totalClicks = this.challenge.settings.moveLimit;
+    this.currentTime = this.challenge.settings.timeLimit;
+    this.currentPatternTime = null;
+    this.patternGenerator = this.createPatternGenerator();
+    this.difficulties = this.challenge.settings.difficulty();
+    clearInterval(this.timerId);
+  }
+
+  won() {
+    this.done = true;
+  }
+
+  lost() {
+    this.done = true;
   }
 
   /**
    * Gets the next pattern of the challenge
    * @returns {Generator<ChallengePattern, ChallengePattern>} The next pattern
    */
-  *nextPattern() {
+  *createPatternGenerator() {
     const { patternCount, patternListOrder } = this.settings;
     if (patternCount === -1) {
       if (patternListOrder === 'linear') {
@@ -201,49 +274,6 @@ class ChallengeProcess {
   }
 }
 
-
-const challenge = Challenge({
-  id: 1,
-  title: 'Challenge 1',
-  settings: ChallengeProperties({
-    timeLimit: 60,
-    moveLimit: 10,
-    patternList: [
-      ChallengePattern({
-        id: 1,
-        timeLimitPerPattern: 10,
-        moveLimitPerPattern: 2,
-      }),
-      ChallengePattern({
-        id: 2,
-        bonusTimePerPattern: 5,
-        moduloPerPattern: 2,
-      }),
-      ChallengePattern({
-        id: 3,
-        timeLimitPerPattern: 10,
-        moveLimitPerPattern: 2,
-        moduloPerPattern: 2,
-      }),
-      ChallengePattern({
-        id: 4,
-        timeLimitPerPattern: 10,
-        moveLimitPerPattern: 2,
-        bonusTimePerPattern: 5,
-      }),
-    ],
-    patternCount: 8,
-    patternListOrder: 'random',
-    difficulty: () => {},
-    defaults: {
-      timeLimitPerPattern: 10,
-      moveLimitPerPattern: 2,
-      bonusTimePerPattern: 5,
-      moduloPerPattern: 2,
-    }
-  })
-});
-
 function randomSolutionOptimized(ranges, targetSum, maxAttempts = 1000) {
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
       let remainingSum = targetSum;
@@ -278,3 +308,48 @@ function calculateMaxPossible(remainingSum, ranges, currentIndex) {
 function randomValueInRange(start, end) {
   return Math.floor(Math.random() * (end - start + 1)) + start;
 }
+
+
+export const CHALLENGES = [
+  new Challenge({
+    id: 1,
+    title: 'Challenge 1',
+    settings: new ChallengeProperties({
+      timeLimit: 60,
+      moveLimit: 10,
+      patternList: [
+        new ChallengePattern({
+          id: 1,
+          timeLimitPerPattern: 10,
+          moveLimitPerPattern: 2,
+        }),
+        new ChallengePattern({
+          id: 2,
+          bonusTimePerPattern: 5,
+          moduloPerPattern: 2,
+        }),
+        new ChallengePattern({
+          id: 3,
+          timeLimitPerPattern: 10,
+          moveLimitPerPattern: 2,
+          moduloPerPattern: 2,
+        }),
+        new ChallengePattern({
+          id: 4,
+          timeLimitPerPattern: 10,
+          moveLimitPerPattern: 2,
+          bonusTimePerPattern: 5,
+        }),
+      ],
+      patternCount: 8,
+      patternListOrder: 'random',
+      difficulty: () => {},
+      defaults: {
+        timeLimitPerPattern: 10,
+        moveLimitPerPattern: 2,
+        bonusTimePerPattern: 5,
+        moduloPerPattern: 2,
+      }
+    })
+  })
+]

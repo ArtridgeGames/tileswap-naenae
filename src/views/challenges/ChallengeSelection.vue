@@ -43,12 +43,13 @@ h3.name {
 <script>
 import { useStore } from '../../store/store.js';
 import { setModulo } from '../../assets/js/LayoutShared.js';
-import { Challenge } from '../../assets/js/challenges/Challenge';
+// import { Challenge } from '../../assets/js/challenges/Challenge';
+import { CHALLENGES, Challenge } from '../../assets/js/challenges/ChallengeNew.js';
 
 export default {
   data() {
     return {
-      challenges: Challenge.CHALLENGES,
+      challenges: CHALLENGES,
       categoryName: ''
     }
   },

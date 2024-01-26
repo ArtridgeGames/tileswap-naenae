@@ -46,8 +46,8 @@ export default {
   props: ["challenge", "locked"],
   computed: {
     formattedChall() {
-      const maxMoves = this.challenge.moveLimit.toString();
-      const nPatterns = this.challenge.nPatterns.toString();
+      const maxMoves = this.challenge.settings.moveLimit.toString();
+      const nPatterns = this.challenge.settings.patternCount.toString();
 
       const score =
         this.challenge.maxPercent !== 0
