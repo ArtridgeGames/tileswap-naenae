@@ -164,6 +164,7 @@ export class ChallengeProcess {
     if (this.done) return;
 
     if (this.currentLayout.isSolved()) {
+      this.currentTime += this.patternBonusTime;
       this.currentLayout = this.next();
       if (this.currentLayout === null) {
         this.won();
@@ -484,6 +485,24 @@ export const CHALLENGES = [
       difficulty: uniform(26, 3),
       defaults: {
         timeLimitPerPattern: 10
+      }
+    })
+  }),
+  new Challenge({
+    id: 4,
+    title: 'Survival',
+    settings: new ChallengeProperties({
+      timeLimit: 10,
+      patternList: [
+        new ChallengePattern({
+          id: 0
+        })
+      ],
+      patternCount: -1,
+      patternListOrder: 'linear',
+      difficulty: uniform(1, 3),
+      defaults: {
+        bonusTimePerPattern: 2
       }
     })
   })
