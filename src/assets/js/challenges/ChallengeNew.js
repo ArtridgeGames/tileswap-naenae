@@ -5,6 +5,7 @@ import { Layout } from '../Layout.js';
 export class Challenge {
   /**
    * Constructs a new Challenge
+   * A Challenge is a collection of patterns that the player has to solve in a given order
    * @param {Object} config - The configuration object
    * @param {Number} config.id - The id of the challenge
    * @param {String} config.title - The title of the challenge
@@ -39,14 +40,16 @@ class ChallengeProperties {
 
   /**
    * Constructs Challenge Properties
+   * Challenge Properties are the settings of a challenge. They define the time limit, the move limit, the patterns, etc.
+   * The specific definition is given in challenge_specification.md
    * @param {Object} config - The configuration object
-   * @param {Number} config.timeLimit - The time limit of the challenge
-   * @param {Number} config.moveLimit - The move limit of the challenge
+   * @param {Number} [config.timeLimit] - The time limit of the challenge
+   * @param {Number} [config.moveLimit] - The move limit of the challenge
    * @param {ChallengePattern[]} config.patternList - The list of patterns of the challenge
-   * @param {Number} config.patternCount - The number of patterns of the challenge
-   * @param {"linear"|"random"} config.patternListOrder - The order of the pattern list of the challenge
+   * @param {Number} [config.patternCount] - The number of patterns of the challenge
+   * @param {"linear"|"random"} [config.patternListOrder] - The order of the pattern list of the challenge
    * @param {Function} config.difficulty - The difficulty of the challenge
-   * @param {Object} config.defaults - The default values for each pattern of the challenge
+   * @param {Object} [config.defaults] - The default values for each pattern of the challenge. Can be left empty, but not removed
    */
   constructor({
     timeLimit,
@@ -80,6 +83,11 @@ class ChallengeProperties {
     this.applyDefaults();
   }
 
+  /**
+   * Applies default values to each pattern of the pattern list.
+   * Default values are given according to the hierarchy going from pattern specific,
+   * to challenge specific, to global.
+   */
   applyDefaults() {
     for (const pattern of this.patternList) {
       pattern.timeLimitPerPattern
@@ -98,12 +106,13 @@ class ChallengeProperties {
 class ChallengePattern {
   /**
    * Constructs a new Challenge Pattern
+   * A Challenge pattern represents a single pattern that is to be played during a challenge
    * @param {Object} config - The configuration object
    * @param {Number} config.id - The id of the pattern
-   * @param {Number} config.timeLimitPerPattern - The time limit for this pattern
-   * @param {Number} config.moveLimitPerPattern - The move limit for this pattern
-   * @param {Number} config.bonusTimePerPattern - The bonus time for this pattern
-   * @param {Number} config.moduloPerPattern - The modulo for this pattern
+   * @param {Number} [config.timeLimitPerPattern] - The time limit for this pattern
+   * @param {Number} [config.moveLimitPerPattern] - The move limit for this pattern
+   * @param {Number} [config.bonusTimePerPattern] - The bonus time for this pattern
+   * @param {Number} [config.moduloPerPattern] - The modulo for this pattern
    */
   constructor({
     id,
@@ -113,6 +122,7 @@ class ChallengePattern {
     moduloPerPattern
   }) {
     require(id);
+
     this.id = id;
     this.timeLimitPerPattern = timeLimitPerPattern;
     this.moveLimitPerPattern = moveLimitPerPattern;
@@ -141,6 +151,8 @@ export class ChallengeProcess {
 
   /**
    * Constructs a new Challenge Process
+   * A Challenge Process manages the ongoing state when
+   * a challenge is being played
    * @param {Challenge} challenge 
    */
   constructor(challenge) {
@@ -160,18 +172,25 @@ export class ChallengeProcess {
     this.state = ChallengeProcess.STATE.NOT_STARTED;
   }
 
+  /**
+   * This function listens for click events and manages the challenge state accordingly.
+   */
   handleClick() {
     if (this.done) return;
 
+    // The pattern is solved
     if (this.currentLayout.isSolved()) {
       this.currentTime += this.patternBonusTime;
       this.currentLayout = this.next();
+
+      // No patterns remaining, the player won
       if (this.currentLayout === null) {
         this.won();
         return;
       }
     }
 
+    // Check if a move limit is enabled and if no moves are remaining
     if (this.challenge.settings.moveLimit !== -1) {
       this.totalClicks--;
       if (this.totalClicks <= 0) {
@@ -180,6 +199,7 @@ export class ChallengeProcess {
       }
     }
 
+    // Check if pattern move limit is enabled and if no moves are remaining
     if (this.patternClicks !== -1) {
       this.patternClicks--;
       if (this.patternClicks <= 0) {
@@ -189,16 +209,23 @@ export class ChallengeProcess {
     }
   }
 
+  /**
+   * Computes the next layout of the Challenge
+   * Layouts are provided by the pattern generating function below {@link createPatternGenerator}
+   * @returns {Layout|null} the layout or null if the challenge is finished
+   */
   next() {
     const { value: pattern, done } = this.patternGenerator.next();
     if (!done) {
       this.patternIndex++;
 
+      // Extract values specific to the current pattern
       this.currentPatternTime = pattern.timeLimitPerPattern;
       this.patternModulo = pattern.moduloPerPattern;
       this.patternClicks = pattern.moveLimitPerPattern;
       this.patternBonusTime = pattern.bonusTimePerPattern;
 
+      // Compute a layout with a random position, from the given difficulty array
       return pattern.toLayout().generatePosition(this.difficulties[
         this.challenge.settings.patternList.findIndex(e => e.id === pattern.id)
       ], pattern.moduloPerPattern);
@@ -207,6 +234,9 @@ export class ChallengeProcess {
     }
   }
 
+  /**
+   * Starts the Challenge timers and marks the Challenge as IN_PROGRESS.
+   */
   start() {
     this.state = ChallengeProcess.STATE.IN_PROGRESS;
 
@@ -228,6 +258,10 @@ export class ChallengeProcess {
     }, 1000);
   }
 
+  /**
+   * Resets the Challenge Process to default values, so it can be played again.
+   * @todo check if everything to be reset is indeed reset
+   */
   reset() {
     this.state = ChallengeProcess.STATE.NOT_STARTED;
     this.done = false;
@@ -241,12 +275,19 @@ export class ChallengeProcess {
     clearInterval(this.timerId);
   }
 
+  /**
+   * Method to be called when the challenge is won
+   */
   won() {
     this.state = ChallengeProcess.STATE.WON;
     this.done = true;
     clearInterval(this.timerId);
   }
 
+  /**
+   * Method to be called when the challenge is over because the player lost
+   * @param {ChallengeProcess.STATE.LOST_MOVES|ChallengeProcess.STATE.LOST_TIMES} reason the reason for the loss
+   */
   lost(reason) {
     this.state = reason;
     this.done = true;
@@ -254,19 +295,25 @@ export class ChallengeProcess {
   }
 
   /**
-   * Gets the next pattern of the challenge
-   * @returns {Generator<ChallengePattern, ChallengePattern>} The next pattern
+   * Gets the next pattern of the challenge. This works as a generating function,
+   * meaning the function can resume generating patterns even after having yielded one,
+   * in contrast of needing to keep track of an index, or some other cluttered code that Pierre would write.
+   * @yields {Generator<ChallengePattern, ChallengePattern>} The next pattern
    */
   *createPatternGenerator() {
     const { patternCount, patternListOrder } = this.challenge.settings;
+
+    // Infinite patterns
     if (patternCount === -1) {
       if (patternListOrder === 'linear') {
+        // Continuously loops through the pattern list, yielding each pattern in a linear manner
         while (true) {
           for (const pattern of this.challenge.settings.patternList) {
             yield pattern;
           }
         }
       } else if (patternListOrder === 'random') {
+        // Continously selects a random pattern without repeating
         while (true) {
           const patternList = [...this.challenge.settings.patternList];
           while (patternList.length) {
@@ -277,11 +324,13 @@ export class ChallengeProcess {
       }
     } else {
       if (patternListOrder === 'linear') {
+        // Selects patterns in order and returns when the end is reached
         for (let i = 0; i < patternCount - 1; i++) {
           yield this.challenge.settings.patternList[i % this.challenge.settings.patternList.length];
         }
         return this.challenge.settings.patternList[(patternCount - 1) % this.challenge.settings.patternList.length]
       } else if (patternListOrder === 'random') {
+        // Selects the patterns in a random order until the end is reached
         const patternList = [...this.challenge.settings.patternList];
         for (let i = 0; i < patternCount - 1; i++) {
           const index = Math.floor(Math.random() * patternList.length);
@@ -370,7 +419,7 @@ export const CHALLENGES = [
     })
   }),
   new Challenge({
-    id: 1,
+    id: 2,
     title: 'Think Fast - Hard',
     settings: new ChallengeProperties({
       timeLimit: 60,
@@ -388,7 +437,7 @@ export const CHALLENGES = [
     })
   }),
   new Challenge({
-    id: 2,
+    id: 3,
     title: 'Count',
     settings: new ChallengeProperties({
       moveLimit: 45,
@@ -422,7 +471,7 @@ export const CHALLENGES = [
     })
   }),
   new Challenge({
-    id: 3,
+    id: 4,
     title: 'Read',
     settings: new ChallengeProperties({
       patternList: [
@@ -489,7 +538,7 @@ export const CHALLENGES = [
     })
   }),
   new Challenge({
-    id: 4,
+    id: 5,
     title: 'Survival',
     settings: new ChallengeProperties({
       timeLimit: 10,
@@ -505,5 +554,27 @@ export const CHALLENGES = [
         bonusTimePerPattern: 2
       }
     })
-  })
+  }),
+  new Challenge({
+    id: 6,
+    title: 'Tile Centipede',
+    settings: new ChallengeProperties({
+      timeLimit: 50,
+      patternList: [
+        new ChallengePattern({
+          id: 86
+        }),new ChallengePattern({
+          id: 183
+        }),new ChallengePattern({
+          id: 184
+        }),new ChallengePattern({
+          id: 185
+        }),
+      ],
+      patternCount: 4,
+      patternListOrder: 'linear',
+      difficulty: () => sumInRanges([[4,5], [5,7], [9,13], [13,18]], 40),
+      defaults: {}
+    })
+  }),
 ]
