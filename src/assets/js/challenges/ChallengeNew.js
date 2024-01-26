@@ -335,28 +335,53 @@ function randomValueInRange(start, end) {
 export const CHALLENGES = [
   new Challenge({
     id: 1,
-    title: 'Challenge 1',
+    title: 'Category 1 - Hard',
     settings: new ChallengeProperties({
       timeLimit: 60,
-      moveLimit: 5,
       patternList: [
         new ChallengePattern({
-          id: 0,
+          id: 0
         }),
         new ChallengePattern({
-          id: 2,
+          id: 14
         }),
         new ChallengePattern({
-          id: 3,
+          id: 20
         }),
         new ChallengePattern({
-          id: 4,
+          id: 21
+        }),
+        new ChallengePattern({
+          id: 22
+        }),
+        new ChallengePattern({
+          id: 23
+        }),
+        new ChallengePattern({
+          id: 46
         }),
       ],
-      defaults: {},
-      patternCount: 8,
-      patternListOrder: 'linear',
-      difficulty: () => new Array(8).fill(4)
+      patternCount: 14,
+      patternListOrder: 'random',
+      difficulty: () => 4
+    })
+  }),
+  new Challenge({
+    id: 1,
+    title: 'Think Fast - Hard',
+    settings: new ChallengeProperties({
+      timeLimit: 60,
+      patternList: [
+        new ChallengePattern({
+          id: 0
+        }),
+      ],
+      patternCount: 15,
+      patternListOrder: 'random',
+      difficulty: () => 3,
+      default: {
+        moveLimitPerPattern: 5
+      }
     })
   })
 ]
