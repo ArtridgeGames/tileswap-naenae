@@ -2,7 +2,6 @@ import { ref, computed } from 'vue';
 import { Layout } from './Layout.js';
 import { SETTINGS_DATA } from './Settings.js';
 
-console.trace();
 export const tilesToFlip = ref(Layout.TILES_TO_FLIP);
 if (globalThis.window && !window.hasOwnProperty('tilesToFlip')) {
   Object.defineProperty(window, 'tilesToFlip', {

@@ -210,9 +210,10 @@ export class Layout {
    */
   generatePosition(iterations, modulo = 2, tilesToFlip = Layout.TILES_TO_FLIP) {
 
+    
     const copy = this.copy();
     copy.setAllTiles(modulo - 1);
-
+    
     for (let i = 0; i < iterations; i++) {
 
       let row;

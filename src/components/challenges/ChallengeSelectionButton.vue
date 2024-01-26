@@ -49,20 +49,20 @@ export default {
       const maxMoves = this.challenge.settings.moveLimit.toString();
       const nPatterns = this.challenge.settings.patternCount.toString();
 
-      const score =
-        this.challenge.maxPercent !== 0
-          ? this.challenge.maxPercent !== 100
-            ? this.challenge.maxPercent + "%"
-            : this.challenge.timeLimit !== -1
-            ? formatTime(this.challenge.minTime)
-            : this.challenge.moveLimit !== -1
-            ? this.challenge.minMoves + " moves"
-            : ""
-          : "";
+      const score = "0";
+        // this.challenge.maxPercent !== 0
+        //   ? this.challenge.maxPercent !== 100
+        //     ? this.challenge.maxPercent + "%"
+        //     : this.challenge.timeLimit !== -1
+        //     ? formatTime(this.challenge.minTime)
+        //     : this.challenge.moveLimit !== -1
+        //     ? this.challenge.minMoves + " moves"
+        //     : ""
+        //   : "";
 
       return (
         (!this.challenge.name
-          ? formatTime(challenge.timeLimit) +
+          ? formatTime(this.challenge.settings.timeLimit) +
             "<br>" +
             (maxMoves > 0 ? maxMoves + " moves<br>" : "no move limit<br>") +
             nPatterns +

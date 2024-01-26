@@ -210,7 +210,6 @@ export default {
         }
       }
 
-      console.log(this.layout.matrix);
       if (this.layout.isSolved(modulo.value)) {
         this.store.stats.layoutsSolved++;
         this.showModal = true;

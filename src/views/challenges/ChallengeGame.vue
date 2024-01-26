@@ -13,12 +13,12 @@ import Progress from '../../components/Progress.vue';
     <div v-if="hasStarted">
       <h2 class="info center"> {{ formattedTime }} {{ moves }} {{ percentageCompleted + '%' }}</h2>
       <h2 class="per center">{{ movesPer }} {{ formattedTimePer }}</h2>
+      <Progress class="center progress" :value="percentageCompleted" :max="100" />
     </div>
     <h2 class="info center" v-else>Click To Start The Challenge !</h2>
-    <Progress class="center progress" :value="percentageCompleted" :max="100" />
     <main>
       <Transition name="fade" mode="out-in">
-        <Layout :key="currentChallenge.currentPattern" v-model="layout" @swap="handleClick" />
+        <Layout :key="currentChallenge.process.currentLayout.id" v-model="currentChallenge.process.currentLayout" @swap="handleClick" />
       </Transition>
     </main>
 
@@ -79,27 +79,51 @@ main {
 import { useStore } from '../../store/store.js'
 import { Task } from '../../assets/js/Task';
 import { formatTime } from '../../assets/js/Format';
-import { modulo } from '../../assets/js/LayoutShared.js';
+import { modulo, setModulo } from '../../assets/js/LayoutShared.js';
+import { ChallengeProcess } from '../../assets/js/challenges/ChallengeNew';
 
 export default {
   data() {
     const { currentChallenge } = useStore();
     return {
       currentChallenge,
-      time: currentChallenge.timeLimit,
-      timePer: currentChallenge.timeLimitPer,
-      nMoves: currentChallenge.moveLimit,
-      nMovesPer: currentChallenge.moveLimitPer,
-      layout: currentChallenge.getCurrentLayout(),
       showWinModal: false,
       showLostModal: false,
       showPauseModal: false,
       modalText: "",
-      timerId: 0,
       hasStarted: false
     }
   },
   methods: {
+    handleClick() {
+
+      if (!this.hasStarted) {
+        this.currentChallenge.process.start();
+      }
+      this.hasStarted = true;
+
+      this.currentChallenge.process.handleClick();
+
+      if (this.currentChallenge.process.state === ChallengeProcess.STATE.WON) {
+        this.showWinModal = true;
+        Task.advanceTasks(this.currentChallenge.id, Task.TASK_TYPES.CHALLENGE, this.currentChallenge.settings.timeLimit - this.currentChallenge.process.currentTime);
+        this.currentChallenge.process.reset();
+        return;
+      }
+
+      if (this.currentChallenge.process.state === ChallengeProcess.STATE.LOST) {
+        this.modalText = "no moves left!";
+        this.showLostModal = true;
+        this.currentChallenge.process.reset();
+        return;
+      }
+
+      setModulo(this.currentChallenge.process.patternModulo);
+      
+      const store = useStore()
+      store.setLayout(this.currentChallenge.process.currentLayout);
+
+    },
     /*
     handleClick() {
       const store = useStore()
@@ -156,19 +180,22 @@ export default {
   },
   computed: {
     formattedTime() {
-      return this.currentChallenge.timeLimit !== -1 ? formatTime(this.time) + "- " : '';
+      return this.currentChallenge.process.currentTime !== -1 
+        ? formatTime(this.currentChallenge.process.currentTime) + "- " : '';
     },
     formattedTimePer() {
-      return this.currentChallenge.timeLimitPer !== -1 ? formatTime(this.timePer) :'';
+      return this.currentChallenge.process.currentPatternTime !== -1
+        ? formatTime(this.currentChallenge.process.currentPatternTime) :'';
     },
     percentageCompleted() {
-      return Math.floor(this.currentChallenge.currentPattern / this.currentChallenge.nPatterns * 100);
+      console.log(this.currentChallenge.process.patternIndex, this.currentChallenge.settings.patternCount)
+      return Math.floor(this.currentChallenge.process.patternIndex / this.currentChallenge.settings.patternCount * 100);
     },
     moves() {
-      return this.nMoves <= -1?"":this.nMoves+" -"
+      return this.currentChallenge.process.totalClicks === -1?"":this.currentChallenge.process.totalClicks+" -"
     },
     movesPer() {
-      return this.nMovesPer <= -1?"":(this.nMovesPer + (this.currentChallenge.timeLimitPer===-1?"":" - "))
+      return this.currentChallenge.process.patternClicks <= -1?"":(this.currentChallenge.process.patternClicks + (this.currentChallenge.process.currentPatternTime===-1?"":" - "))
     }
   },
   mounted() {

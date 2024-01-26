@@ -60,12 +60,12 @@ export default {
 
       const store = useStore();
 
-      challenge.generateLayouts();
-
       store.setChallenge(challenge);
-      store.setLayout(challenge.getCurrentLayout())
 
-      setModulo(challenge.modulo);
+      challenge.process.reset();
+      setModulo(challenge.process.patternModulo);
+      store.setLayout(challenge.process.currentLayout)
+
 
       this.$router.push('/challengeGame');
     },
