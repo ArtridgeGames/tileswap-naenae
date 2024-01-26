@@ -197,10 +197,9 @@ export class ChallengeProcess {
       this.patternClicks = pattern.moveLimitPerPattern;
       this.patternBonusTime = pattern.bonusTimePerPattern;
       
-      const layout = pattern.toLayout()
-      layout.generatePosition(this.difficulties[this.patternIndex], pattern.moduloPerPattern);
-      
-      return layout;
+      return pattern.toLayout().generatePosition(this.difficulties[
+        this.challenge.settings.patternList.findIndex(e => e.id === pattern.id)
+      ], pattern.moduloPerPattern);
     } else {
       return null;
     }
@@ -212,7 +211,6 @@ export class ChallengeProcess {
     if (this.challenge.settings.timeLimit !== -1) {
       this.timerId = setInterval(() => {
         this.currentTime--;
-        console.log(this.currentTime);
         if (this.currentTime <= 0) {
           this.lost();
           return;
@@ -331,6 +329,7 @@ function randomValueInRange(start, end) {
   return Math.floor(Math.random() * (end - start + 1)) + start;
 }
 
+const uniform = (size, value) => () => new Array(size).fill(value);
 
 export const CHALLENGES = [
   new Challenge({
@@ -363,7 +362,8 @@ export const CHALLENGES = [
       ],
       patternCount: 14,
       patternListOrder: 'random',
-      difficulty: () => 4
+      defaults: {},
+      difficulty: uniform(14, 3)
     })
   }),
   new Challenge({
@@ -378,8 +378,8 @@ export const CHALLENGES = [
       ],
       patternCount: 15,
       patternListOrder: 'random',
-      difficulty: () => 3,
-      default: {
+      difficulty: uniform(15, 3),
+      defaults: {
         moveLimitPerPattern: 5
       }
     })

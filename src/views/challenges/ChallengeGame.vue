@@ -18,7 +18,7 @@ import Progress from '../../components/Progress.vue';
     <h2 class="info center" v-else>Click To Start The Challenge !</h2>
     <main>
       <Transition name="fade" mode="out-in">
-        <Layout :key="currentChallenge.process.currentLayout.id" v-model="currentChallenge.process.currentLayout" @swap="handleClick" />
+        <Layout :key="currentChallenge.process.patternIndex" v-model="currentChallenge.process.currentLayout" @swap="handleClick" />
       </Transition>
     </main>
 
