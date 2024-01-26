@@ -158,42 +158,33 @@ class ChallengePattern {
 
 const challenge = Challenge({
   id: 1,
-  title: 'Challenge 1',
+  title: 'Category 1',
   settings: ChallengeProperties({
     timeLimit: 60,
-    moveLimit: 10,
     patternList: [
       ChallengePattern({
-        id: 1,
-        timeLimitPerPattern: 10,
-        moveLimitPerPattern: 2,
+        id: 0,
       }),
       ChallengePattern({
-        id: 2,
-        bonusTimePerPattern: 5,
-        moduloPerPattern: 2,
+        id: 14,
       }),
       ChallengePattern({
-        id: 3,
-        timeLimitPerPattern: 10,
-        moveLimitPerPattern: 2,
-        moduloPerPattern: 2,
+        id: 20,
       }),
       ChallengePattern({
-        id: 4,
-        timeLimitPerPattern: 10,
-        moveLimitPerPattern: 2,
-        bonusTimePerPattern: 5,
+        id: 21,
+      }),
+      ChallengePattern({
+        id: 22,
+      }),
+      ChallengePattern({
+        id: 23,
+      }),
+      ChallengePattern({
+        id: 46,
       }),
     ],
-    patternCount: 8,
-    patternListOrder: 'random',
-    difficulty: () => {},
-    defaults: {
-      timeLimitPerPattern: 10,
-      moveLimitPerPattern: 2,
-      bonusTimePerPattern: 5,
-      moduloPerPattern: 2,
-    }
+    patternCount: 14,
+    difficulty: () => new Array(14).fill(4)
   })
 });
