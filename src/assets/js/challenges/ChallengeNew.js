@@ -125,7 +125,7 @@ class ChallengePattern {
    * @returns {Layout} The layout
    */
   toLayout() {
-    return Layout.LAYOUTS.find(e => e.id === this.id).copy();
+    return Layout.FILTERED_LAYOUTS.find(e => e.id === this.id).copy();
   }
 }
 
@@ -381,6 +381,107 @@ export const CHALLENGES = [
       difficulty: uniform(15, 3),
       defaults: {
         moveLimitPerPattern: 5
+      }
+    })
+  }),
+  new Challenge({
+    id: 2,
+    title: 'Count',
+    settings: new ChallengeProperties({
+      moveLimit: 45,
+      patternList: [
+        new ChallengePattern({
+          id: 156
+        }),new ChallengePattern({
+          id: 157
+        }),new ChallengePattern({
+          id: 158
+        }),new ChallengePattern({
+          id: 159
+        }),new ChallengePattern({
+          id: 160
+        }),new ChallengePattern({
+          id: 161
+        }),new ChallengePattern({
+          id: 162
+        }),new ChallengePattern({
+          id: 163
+        }),new ChallengePattern({
+          id: 164
+        }),new ChallengePattern({
+          id: 165
+        }),
+      ],
+      patternCount: 10,
+      patternListOrder: 'linear',
+      difficulty: uniform(10, 3),
+      defaults: {}
+    })
+  }),
+  new Challenge({
+    id: 3,
+    title: 'Read',
+    settings: new ChallengeProperties({
+      patternList: [
+        new ChallengePattern({
+          id: 119
+        }),new ChallengePattern({
+          id: 109
+        }),new ChallengePattern({
+          id: 110
+        }),new ChallengePattern({
+          id: 111
+        }),new ChallengePattern({
+          id: 142
+        }),new ChallengePattern({
+          id: 143
+        }),new ChallengePattern({
+          id: 144
+        }),new ChallengePattern({
+          id: 145
+        }),new ChallengePattern({
+          id: 131
+        }),new ChallengePattern({
+          id: 166
+        }),new ChallengePattern({
+          id: 146
+        }),new ChallengePattern({
+          id: 130
+        }),new ChallengePattern({
+          id: 132
+        }),new ChallengePattern({
+          id: 133
+        }),new ChallengePattern({
+          id: 156
+        }),new ChallengePattern({
+          id: 167
+        }),new ChallengePattern({
+          id: 168
+        }),new ChallengePattern({
+          id: 169
+        }),new ChallengePattern({
+          id: 161
+        }),new ChallengePattern({
+          id: 170
+        }),new ChallengePattern({
+          id: 171
+        }),new ChallengePattern({
+          id: 172
+        }),new ChallengePattern({
+          id: 173
+        }),new ChallengePattern({
+          id: 174
+        }),new ChallengePattern({
+          id: 175
+        }),new ChallengePattern({
+          id: 176
+        }),
+      ],
+      patternCount: 26,
+      patternListOrder: 'linear',
+      difficulty: uniform(26, 3),
+      defaults: {
+        timeLimitPerPattern: 10
       }
     })
   })
