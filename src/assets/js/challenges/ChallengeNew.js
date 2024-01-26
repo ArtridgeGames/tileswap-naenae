@@ -15,47 +15,12 @@ export class Challenge {
     title,
     settings,
   }) {
+    require(id, title, settings);
+
     this.id = id;
     this.title = title;
     this.settings = settings;
-  }
-
-  *nextPattern() {
-    const { patternCount, patternListOrder } = this.settings;
-    if (patternCount === -1) {
-      if (patternListOrder === 'linear') {
-        while (true) {
-          for (const pattern of this.settings.patternList) {
-            yield pattern;
-          }
-        }
-      } else if (patternListOrder === 'random') {
-        while (true) {
-          const patternList = [...this.settings.patternList];
-          while (patternList.length) {
-            const index = Math.floor(Math.random() * patternList.length);
-            yield patternList.splice(index, 1)[0];
-          }
-        }
-      }
-    } else {
-      if (patternListOrder === 'linear') {
-        for (let i = 0; i < patternCount - 1; i++) {
-          yield this.settings.patternList[i % this.settings.patternList.length];
-        }
-        return this.settings.patternList[(patternCount - 1) % this.settings.patternList.length]
-      } else if (patternListOrder === 'random') {
-        const patternList = [...this.settings.patternList];
-        for (let i = 0; i < patternCount - 1; i++) {
-          const index = Math.floor(Math.random() * patternList.length);
-          yield patternList.splice(index, 1)[0];
-          if (patternList.length === 0) {
-            patternList.push(...this.settings.patternList);
-          }
-        }
-        return patternList[0];
-      }
-    }
+    this.process = new ChallengeProcess(this);
   }
 }
 
@@ -98,6 +63,7 @@ class ChallengeProperties {
     }
   }) {
     require(patternList, difficulty)
+
     this.timeLimit = timeLimit ?? ChallengeProperties.GLOBAL_DEFAULTS.timeLimit;
     this.moveLimit = moveLimit ?? ChallengeProperties.GLOBAL_DEFAULTS.moveLimit;
     this.patternList = patternList;
@@ -160,6 +126,78 @@ class ChallengePattern {
    */
   toLayout() {
     return Layout.LAYOUTS[this.id].copy();
+  }
+}
+
+class ChallengeProcess {
+  /**
+   * Constructs a new Challenge Process
+   * @param {Challenge} challenge 
+   */
+  constructor(challenge) {
+    this.challenge = challenge;
+    this.patternIndex = 0;
+    this.done = false;
+    this.patternGenerator = this.nextPattern();
+    this.difficulties = this.challenge.settings.difficulty();
+  }
+
+  next() {
+    const { value: pattern, done } = this.patternGenerator.next();
+    if (!done) {
+      this.patternIndex++;
+      pattern.toLayout().generatePosition(this.difficulties[this.patternIndex], pattern.modulo);
+      return pattern;
+    } else {
+      return null;
+    }
+  }
+
+  reset() {
+    this.patternIndex = 0;
+    this.patternGenerator = this.nextPattern();
+  }
+
+  /**
+   * Gets the next pattern of the challenge
+   * @returns {Generator<ChallengePattern, ChallengePattern>} The next pattern
+   */
+  *nextPattern() {
+    const { patternCount, patternListOrder } = this.settings;
+    if (patternCount === -1) {
+      if (patternListOrder === 'linear') {
+        while (true) {
+          for (const pattern of this.settings.patternList) {
+            yield pattern;
+          }
+        }
+      } else if (patternListOrder === 'random') {
+        while (true) {
+          const patternList = [...this.settings.patternList];
+          while (patternList.length) {
+            const index = Math.floor(Math.random() * patternList.length);
+            yield patternList.splice(index, 1)[0];
+          }
+        }
+      }
+    } else {
+      if (patternListOrder === 'linear') {
+        for (let i = 0; i < patternCount - 1; i++) {
+          yield this.settings.patternList[i % this.settings.patternList.length];
+        }
+        return this.settings.patternList[(patternCount - 1) % this.settings.patternList.length]
+      } else if (patternListOrder === 'random') {
+        const patternList = [...this.settings.patternList];
+        for (let i = 0; i < patternCount - 1; i++) {
+          const index = Math.floor(Math.random() * patternList.length);
+          yield patternList.splice(index, 1)[0];
+          if (patternList.length === 0) {
+            patternList.push(...this.settings.patternList);
+          }
+        }
+        return patternList[0];
+      }
+    }
   }
 }
 
