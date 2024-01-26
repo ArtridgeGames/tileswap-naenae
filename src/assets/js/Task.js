@@ -1,7 +1,6 @@
 import { useStore } from '../../store/store';
 import { Layout } from './Layout';
 import { Puzzle } from './Puzzle';
-import { Challenge } from './Challenge';
 
 const TASK_TARGET_NAMES = {
   FREEPLAY: 'freeplay layout',

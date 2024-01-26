@@ -1,5 +1,5 @@
-import { Layout } from './Layout.js';
-import { useStore } from '../../store/store.js';
+import { Layout } from '../Layout.js';
+import { useStore } from '../../../store/store.js';
 
 export class Challenge {
   static CHALLENGES = [

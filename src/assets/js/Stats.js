@@ -1,5 +1,5 @@
 import { Puzzle } from './Puzzle.js';
-import { Challenge } from './Challenge.js';
+import { Challenge } from './challenges/Challenge.js';
 
 const str = (val) => `${val}`;
 

@@ -43,7 +43,7 @@ h3.name {
 <script>
 import { useStore } from '../../store/store.js';
 import { setModulo } from '../../assets/js/Layout';
-import { Challenge } from '../../assets/js/Challenge';
+import { Challenge } from '../../assets/js/challenges/Challenge';
 
 export default {
   data() {
