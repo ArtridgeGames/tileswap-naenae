@@ -125,7 +125,7 @@ class ChallengePattern {
    * @returns {Layout} The layout
    */
   toLayout() {
-    return Layout.LAYOUTS.find(e => e.id === this.id).copy();
+    return Layout.FILTERED_LAYOUTS.find(e => e.id === this.id).copy();
   }
 }
 
@@ -196,7 +196,7 @@ export class ChallengeProcess {
       this.patternModulo = pattern.moduloPerPattern;
       this.patternClicks = pattern.moveLimitPerPattern;
       this.patternBonusTime = pattern.bonusTimePerPattern;
-      
+
       return pattern.toLayout().generatePosition(this.difficulties[
         this.challenge.settings.patternList.findIndex(e => e.id === pattern.id)
       ], pattern.moduloPerPattern);
@@ -294,7 +294,7 @@ export class ChallengeProcess {
   }
 }
 
-function randomSolutionOptimized(ranges, targetSum, maxAttempts = 1000) {
+function sumInRanges(ranges, targetSum, maxAttempts = 1000) {
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
       let remainingSum = targetSum;
       let combination = [];
@@ -330,6 +330,7 @@ function randomValueInRange(start, end) {
 }
 
 const uniform = (size, value) => () => new Array(size).fill(value);
+const uniformSumInRanges = (range, size, targetSum) => () => sumInRanges(new Array(size).fill(range), targetSum);
 
 export const CHALLENGES = [
   new Challenge({
@@ -363,7 +364,7 @@ export const CHALLENGES = [
       patternCount: 14,
       patternListOrder: 'random',
       defaults: {},
-      difficulty: uniform(14, 3)
+      difficulty: uniformSumInRanges([3,5], 7, 30)
     })
   }),
   new Challenge({

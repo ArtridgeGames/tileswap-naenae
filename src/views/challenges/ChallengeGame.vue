@@ -184,6 +184,7 @@ export default {
         ? formatTime(this.currentChallenge.process.currentTime) + "- " : '';
     },
     formattedTimePer() {
+      console.log(this.currentChallenge.process.currentPatternTime);
       return this.currentChallenge.process.currentPatternTime !== -1
         ? formatTime(this.currentChallenge.process.currentPatternTime) :'';
     },
