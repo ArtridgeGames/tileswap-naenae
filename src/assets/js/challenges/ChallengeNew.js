@@ -135,7 +135,8 @@ export class ChallengeProcess {
     NOT_STARTED: 0,
     IN_PROGRESS: 1,
     WON: 2,
-    LOST: 3,
+    LOST_TIME: 3,
+    LOST_MOVES: 4,
   }
 
   /**
@@ -173,7 +174,7 @@ export class ChallengeProcess {
     if (this.challenge.settings.moveLimit !== -1) {
       this.totalClicks--;
       if (this.totalClicks <= 0) {
-        this.lost();
+        this.lost(ChallengeProcess.STATE.LOST_MOVES);
         return;
       }
     }
@@ -181,7 +182,7 @@ export class ChallengeProcess {
     if (this.patternClicks !== -1) {
       this.patternClicks--;
       if (this.patternClicks <= 0) {
-        this.lost();
+        this.lost(ChallengeProcess.STATE.LOST_MOVES);
         return;
       }
     }
@@ -208,22 +209,22 @@ export class ChallengeProcess {
   start() {
     this.state = ChallengeProcess.STATE.IN_PROGRESS;
 
-    if (this.challenge.settings.timeLimit !== -1) {
-      this.timerId = setInterval(() => {
+    this.timerId = setInterval(() => {
+      if (this.challenge.settings.timeLimit !== -1) {
         this.currentTime--;
         if (this.currentTime <= 0) {
-          this.lost();
+          this.lost(ChallengeProcess.STATE.LOST_TIME);
           return;
         }
-        if (this.currentPatternTime !== -1) {
-          this.currentPatternTime--;
-          if (this.currentPatternTime <= 0) {
-            this.lost();
-            return;
-          }
+      }
+      if (this.currentPatternTime !== -1) {
+        this.currentPatternTime--;
+        if (this.currentPatternTime <= 0) {
+          this.lost(ChallengeProcess.STATE.LOST_TIME);
+          return;
         }
-      }, 1000);
-    }
+      }
+    }, 1000);
   }
 
   reset() {
@@ -245,8 +246,8 @@ export class ChallengeProcess {
     clearInterval(this.timerId);
   }
 
-  lost() {
-    this.state = ChallengeProcess.STATE.LOST;
+  lost(reason) {
+    this.state = reason;
     this.done = true;
     clearInterval(this.timerId);
   }
@@ -296,23 +297,23 @@ export class ChallengeProcess {
 
 function sumInRanges(ranges, targetSum, maxAttempts = 1000) {
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
-      let remainingSum = targetSum;
-      let combination = [];
-      for (let i = 0; i < ranges.length; i++) {
-          let [start, end] = ranges[i];
-          let maxPossible = calculateMaxPossible(remainingSum, ranges, i);
-          if (maxPossible < start) {
-              break; // No valid value can be chosen for this object
-          }
-
-          let selectedValue = randomValueInRange(start, Math.min(end, maxPossible));
-          combination.push(selectedValue);
-          remainingSum -= selectedValue;
+    let remainingSum = targetSum;
+    let combination = [];
+    for (let i = 0; i < ranges.length; i++) {
+      let [start, end] = ranges[i];
+      let maxPossible = calculateMaxPossible(remainingSum, ranges, i);
+      if (maxPossible < start) {
+        break; // No valid value can be chosen for this object
       }
 
-      if (remainingSum === 0) {
-          return combination; // Valid solution found
-      }
+      let selectedValue = randomValueInRange(start, Math.min(end, maxPossible));
+      combination.push(selectedValue);
+      remainingSum -= selectedValue;
+    }
+
+    if (remainingSum === 0) {
+      return combination; // Valid solution found
+    }
   }
   return null; // No solution found within the given number of attempts
 }
@@ -320,7 +321,7 @@ function sumInRanges(ranges, targetSum, maxAttempts = 1000) {
 function calculateMaxPossible(remainingSum, ranges, currentIndex) {
   let maxPossible = remainingSum;
   for (let i = currentIndex + 1; i < ranges.length; i++) {
-      maxPossible -= ranges[i][0]; // Subtract the start value of each remaining range
+    maxPossible -= ranges[i][0]; // Subtract the start value of each remaining range
   }
   return maxPossible;
 }
@@ -364,7 +365,7 @@ export const CHALLENGES = [
       patternCount: 14,
       patternListOrder: 'random',
       defaults: {},
-      difficulty: uniformSumInRanges([3,5], 7, 30)
+      difficulty: uniformSumInRanges([3, 5], 7, 30)
     })
   }),
   new Challenge({
@@ -393,23 +394,23 @@ export const CHALLENGES = [
       patternList: [
         new ChallengePattern({
           id: 156
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 157
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 158
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 159
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 160
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 161
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 162
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 163
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 164
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 165
         }),
       ],
@@ -426,55 +427,55 @@ export const CHALLENGES = [
       patternList: [
         new ChallengePattern({
           id: 119
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 109
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 110
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 111
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 142
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 143
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 144
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 145
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 131
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 166
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 146
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 130
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 132
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 133
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 156
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 167
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 168
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 169
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 161
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 170
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 171
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 172
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 173
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 174
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 175
-        }),new ChallengePattern({
+        }), new ChallengePattern({
           id: 176
         }),
       ],

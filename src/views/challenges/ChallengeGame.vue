@@ -104,20 +104,6 @@ export default {
 
       this.currentChallenge.process.handleClick();
 
-      if (this.currentChallenge.process.state === ChallengeProcess.STATE.WON) {
-        this.showWinModal = true;
-        Task.advanceTasks(this.currentChallenge.id, Task.TASK_TYPES.CHALLENGE, this.currentChallenge.settings.timeLimit - this.currentChallenge.process.currentTime);
-        this.currentChallenge.process.reset();
-        return;
-      }
-
-      if (this.currentChallenge.process.state === ChallengeProcess.STATE.LOST) {
-        this.modalText = "no moves left!";
-        this.showLostModal = true;
-        this.currentChallenge.process.reset();
-        return;
-      }
-
       setModulo(this.currentChallenge.process.patternModulo);
       
       const store = useStore()
@@ -176,6 +162,28 @@ export default {
         this.$router.push('/home');
         // this.currentChallenge.reset();
       }
+    },
+    "currentChallenge.process.state"(newVal) {
+      if (newVal === ChallengeProcess.STATE.WON) {
+        this.showWinModal = true;
+        Task.advanceTasks(this.currentChallenge.id, Task.TASK_TYPES.CHALLENGE, this.currentChallenge.settings.timeLimit - this.currentChallenge.process.currentTime);
+        this.currentChallenge.process.reset();
+        return;
+      }
+
+      if (newVal === ChallengeProcess.STATE.LOST_TIME) {
+        this.modalText = "no time left!";
+        this.showLostModal = true;
+        this.currentChallenge.process.reset();
+        return;
+      }
+
+      if (newVal === ChallengeProcess.STATE.LOST_MOVES) {
+        this.modalText = "no moves left!";
+        this.showLostModal = true;
+        this.currentChallenge.process.reset();
+        return;
+      }
     }
   },
   computed: {
@@ -184,12 +192,10 @@ export default {
         ? formatTime(this.currentChallenge.process.currentTime) + "- " : '';
     },
     formattedTimePer() {
-      console.log(this.currentChallenge.process.currentPatternTime);
       return this.currentChallenge.process.currentPatternTime !== -1
         ? formatTime(this.currentChallenge.process.currentPatternTime) :'';
     },
     percentageCompleted() {
-      console.log(this.currentChallenge.process.patternIndex, this.currentChallenge.settings.patternCount)
       return Math.floor(this.currentChallenge.process.patternIndex / this.currentChallenge.settings.patternCount * 100);
     },
     moves() {
