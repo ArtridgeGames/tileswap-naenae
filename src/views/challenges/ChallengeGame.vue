@@ -79,6 +79,8 @@ main {
 import { useStore } from '../../store/store.js'
 import { Task } from '../../assets/js/Task';
 import { formatTime } from '../../assets/js/Format';
+import { modulo } from '../../assets/js/LayoutShared.js';
+
 export default {
   data() {
     const { currentChallenge } = useStore();
@@ -103,6 +105,7 @@ export default {
       this.nMoves -= 1
       this.nMovesPer -= 1
       this.hasStarted = true;
+      console.log(modulo.value)
       if (this.layout.isSolved(modulo.value)) {
         store.stats.layoutsSolved++;
         this.nMovesPer = this.currentChallenge.moveLimitPer;
