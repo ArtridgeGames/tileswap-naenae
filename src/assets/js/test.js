@@ -100,15 +100,22 @@ const sequence = new PatternSequence(
   new ChallengePattern({
     id: 0,
     layout: new Layout({
-      width: 7,
-      height: 7,
+      width: 3,
+      height: 3,
       exclude: []
     }),
   }),
   corrupted
 )
 
-console.log(sequence.next().layout.matrix);
-console.log(sequence.next().layout.matrix);
-console.log(sequence.next().layout.matrix);
-console.log(sequence.next().layout.matrix);
+sequence.next().layout.matrix;
+sequence.next().layout.matrix;
+sequence.next().layout.matrix;
+
+
+sequence.reset();
+console.log(sequence.state.layout.matrix);
+
+sequence.next().layout.matrix;
+sequence.next().layout.matrix;
+sequence.next().layout.matrix;

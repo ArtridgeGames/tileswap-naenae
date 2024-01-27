@@ -93,6 +93,15 @@ export class ChallengeProperties {
    */
   applyDefaults() {
     if (this.isSequence) {
+      this.patternList.initialState.timeLimitPerPattern
+        ??= (this.defaults.timeLimitPerPattern ?? ChallengeProperties.GLOBAL_DEFAULTS.timeLimitPerPattern);
+      this.patternList.initialState.moveLimitPerPattern
+        ??= (this.defaults.moveLimitPerPattern ?? ChallengeProperties.GLOBAL_DEFAULTS.moveLimitPerPattern);
+      this.patternList.initialState.bonusTimePerPattern
+        ??= (this.defaults.bonusTimePerPattern ?? ChallengeProperties.GLOBAL_DEFAULTS.bonusTimePerPattern);
+      this.patternList.initialState.moduloPerPattern
+        ??= (this.defaults.moduloPerPattern ?? ChallengeProperties.GLOBAL_DEFAULTS.moduloPerPattern);
+      
       this.patternList.state.timeLimitPerPattern
         ??= (this.defaults.timeLimitPerPattern ?? ChallengeProperties.GLOBAL_DEFAULTS.timeLimitPerPattern);
       this.patternList.state.moveLimitPerPattern
@@ -101,6 +110,7 @@ export class ChallengeProperties {
         ??= (this.defaults.bonusTimePerPattern ?? ChallengeProperties.GLOBAL_DEFAULTS.bonusTimePerPattern);
       this.patternList.state.moduloPerPattern
         ??= (this.defaults.moduloPerPattern ?? ChallengeProperties.GLOBAL_DEFAULTS.moduloPerPattern);
+
     } else {
       for (const pattern of this.patternList) {
         pattern.timeLimitPerPattern
@@ -219,7 +229,9 @@ export class ChallengeProcess {
 
     // The pattern is solved
     if (this.currentLayout.isSolved()) {
-      this.currentTime += this.patternBonusTime;
+      if (this.patternBonusTime !== -1)
+        this.currentTime += this.patternBonusTime;
+      
       this.currentLayout = this.next();
 
       // No patterns remaining, the player won
@@ -307,6 +319,10 @@ export class ChallengeProcess {
    * @todo check if everything to be reset is indeed reset
    */
   reset() {
+    if (this.challenge.settings.isSequence) {
+      this.challenge.settings.patternList.reset();
+    }
+
     this.patternIndex = -1;
     this.done = false;
     this.patternGenerator = this.createPatternGenerator();
@@ -358,7 +374,7 @@ export class ChallengeProcess {
         if (this.patternIndex === this.challenge.settings.patternCount - 1) {
           return null;
         }
-        yield patternList.next();
+        yield this.challenge.settings.patternList.next();
       }
 
     } else {
@@ -418,26 +434,25 @@ export class PatternSequence {
    * @param {(pattern: ChallengePattern) => ChallengePattern} transition 
    */
   constructor(initialState, transition) {
-    this.state = initialState;
-    this.initialState = initialState;
+    this.state = initialState.copy();
+    this.initialState = initialState.copy();
     this.transition = transition;
-    this.generator = this.createGenerator();
+    // this.generator = this.createGenerator();
+
+    this.isFirst = true;
   }
 
   next() {
-    const state = this.state.copy();
-    this.state = this.generator.next().value;
-    return state;
-  }
-
-  * createGenerator() {
-    while (true) {
-      yield this.transition(this.state);
+    if (this.isFirst) {
+      this.isFirst = false;
+      return this.state.copy();
     }
+    this.state = this.transition(this.state.copy());
+    return this.state.copy();
   }
 
   reset() {
-    this.state = this.initialState;
-    this.generator = this.createGenerator();
+    this.state = this.initialState.copy();
+    this.isFirst = true;
   }
 }
