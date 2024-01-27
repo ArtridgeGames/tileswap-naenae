@@ -1,5 +1,5 @@
 import { Puzzle } from './Puzzle.js';
-import { Challenge } from './challenges/Challenge.js';
+import { CHALLENGES } from './challenges/ChallengeData.js';
 
 const str = (val) => `${val}`;
 
@@ -33,7 +33,7 @@ export const STATS_DATA = {
     initialValue: [],
     name: "Challenges Completed",
     display: (val) => {
-      return `${val.length} / ${Challenge.CHALLENGES.length}`
+      return `${val.length} / ${CHALLENGES.length}`
     }
   },
 }

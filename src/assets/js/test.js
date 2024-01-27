@@ -1,4 +1,4 @@
-import { ChallengePattern, PatternSequence } from './challenges/ChallengeNew.js'
+import { ChallengePattern, PatternSequence } from './challenges/Challenge.js'
 import { corrupted } from './challenges/ChallengeData.js';
 import { Layout } from './Layout.js';
 

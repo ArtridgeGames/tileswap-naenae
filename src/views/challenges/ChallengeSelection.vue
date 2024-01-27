@@ -44,7 +44,7 @@ h3.name {
 import { useStore } from '../../store/store.js';
 import { setModulo } from '../../assets/js/LayoutShared.js';
 // import { Challenge } from '../../assets/js/challenges/Challenge';
-import { Challenge } from '../../assets/js/challenges/ChallengeNew.js';
+import { Challenge } from '../../assets/js/challenges/Challenge.js';
 import { CHALLENGES } from '../../assets/js/challenges/ChallengeData.js';
 
 export default {

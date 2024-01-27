@@ -91,8 +91,9 @@ export class Layout {
     this.exclude = exclude ?? [];
     this.unlockCategory = unlockCategory ?? 0;
     this.matrix = new Array(height).fill(0).map(() => new Array(width).fill().map(e => 0));
-    this.id = id;
+    this.id = id ?? 0;
     for (const e of this.exclude) {
+      if (e < 0 || e >= width * height) throw new Error(`Invalid index ${e} for layout of size ${width}x${height}`);
       this.matrix[Math.floor(e / width)][e % width] = -1;
     }
   }
@@ -211,7 +212,6 @@ export class Layout {
    * @returns {Layout} a Layout object with a random pattern
    */
   generatePosition(iterations, modulo = 2, tilesToFlip = Layout.TILES_TO_FLIP) {
-
     
     const copy = this.copy();
     copy.setAllTiles(modulo - 1);
@@ -246,7 +246,7 @@ export class Layout {
         (iterations > zerows ? zerows : iterations) :
         Math.floor(iterations - modulo * (iterations / 3) + 2);
       if (solution.moves < threshold) {
-        return this.generatePosition(iterations, modulo);
+        // return this.generatePosition(iterations, modulo);
       }
     }
 

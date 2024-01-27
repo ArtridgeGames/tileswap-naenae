@@ -80,7 +80,7 @@ import { useStore } from '../../store/store.js'
 import { Task } from '../../assets/js/Task';
 import { formatTime } from '../../assets/js/Format';
 import { modulo, setModulo } from '../../assets/js/LayoutShared.js';
-import { ChallengeProcess } from '../../assets/js/challenges/ChallengeNew';
+import { ChallengeProcess } from '../../assets/js/challenges/Challenge';
 
 export default {
   data() {
