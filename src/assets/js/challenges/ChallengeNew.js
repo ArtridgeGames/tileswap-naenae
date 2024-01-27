@@ -322,6 +322,7 @@ export class ChallengeProcess {
           }
         }
       }
+      throw new Error('Invalid pattern list order');
     } else {
       if (patternListOrder === 'linear') {
         // Selects patterns in order and returns when the end is reached
@@ -341,6 +342,7 @@ export class ChallengeProcess {
         }
         return patternList[0];
       }
+      throw new Error('Invalid pattern list order');
     }
   }
 }
