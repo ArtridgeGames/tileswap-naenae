@@ -201,6 +201,7 @@ export class Layout {
     const { width, height, exclude, unlockCategory, id } = this;
     const copy = new Layout({ width, height, exclude, unlockCategory, id });
     copy.matrix = this.matrix.map(row => row.slice());
+    copy.exclude = this.exclude.slice();
     return copy;
   }
 

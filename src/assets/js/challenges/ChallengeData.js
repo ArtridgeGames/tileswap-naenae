@@ -53,9 +53,11 @@ export const corrupted = pattern => {
     return corrupted(pattern.copy());
   }
   exclude.push(selected);
+
+  const newLayout = new Layout({ ...layout, exclude });
   return new ChallengePattern({
     ...pattern,
-    layout: new Layout({ ...layout, exclude })
+    layout: newLayout
   });
 }
 
