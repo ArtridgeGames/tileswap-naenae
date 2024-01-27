@@ -1,4 +1,5 @@
-import { Challenge, ChallengePattern, ChallengeProperties } from './ChallengeNew.js';
+import { Layout } from '../Layout.js';
+import { Challenge, ChallengePattern, ChallengeProperties, PatternSequence } from './ChallengeNew.js';
 
 function sumInRanges(ranges, targetSum, maxAttempts = 1000) {
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
@@ -37,7 +38,26 @@ function randomValueInRange(start, end) {
 
 const uniform = (size, value) => () => new Array(size).fill(value);
 const uniformSumInRanges = (range, size, targetSum) => () => sumInRanges(new Array(size).fill(range), targetSum);
-const patternList = (patternList) => patternList.map(id => new ChallengePattern({ id }));
+const patternList = (patternList) => patternList.map((layoutId, index)  => ChallengePattern.fromId(layoutId, { id: index }));
+
+/**
+ * Moves a tile from the excluded tiles 
+ * @param {ChallengePattern} pattern 
+ */
+export const corrupted = pattern => {
+  const layout = pattern.layout.copy();
+  const { exclude } = layout;
+  const tiles = layout.width * layout.height;
+  const selected = Math.floor(Math.random() * tiles);
+  if (exclude.includes(selected)) {
+    return corrupted(pattern.copy());
+  }
+  exclude.push(selected);
+  return new ChallengePattern({
+    ...pattern,
+    layout: new Layout({ ...layout, exclude })
+  });
+}
 
 export const CHALLENGES = [
   new Challenge({
@@ -96,14 +116,10 @@ export const CHALLENGES = [
     title: 'Survival',
     settings: new ChallengeProperties({
       timeLimit: 10,
-      patternList: [
-        new ChallengePattern({
-          id: 0
-        })
-      ],
+      patternList: patternList([0]),
       patternCount: -1,
       patternListOrder: 'linear',
-      difficulty: uniform(1, 3),
+      difficulty: n => Math.floor(7 * Math.log10(n) + 3),
       defaults: {
         bonusTimePerPattern: 2
       }
@@ -114,17 +130,7 @@ export const CHALLENGES = [
     title: 'Tile Centipede',
     settings: new ChallengeProperties({
       timeLimit: 50,
-      patternList: [
-        new ChallengePattern({
-          id: 86
-        }),new ChallengePattern({
-          id: 183
-        }),new ChallengePattern({
-          id: 184
-        }),new ChallengePattern({
-          id: 185
-        }),
-      ],
+      patternList: patternList([86, 183, 184, 185]),
       patternCount: 4,
       patternListOrder: 'linear',
       difficulty: () => sumInRanges([[4,5], [5,7], [9,13], [13,18]], 40),
@@ -136,38 +142,7 @@ export const CHALLENGES = [
     title: 'Growing Square',
     settings: new ChallengeProperties({
       timeLimit: 120,
-      patternList: [
-        new ChallengePattern({
-          id: 0
-        }),
-        new ChallengePattern({
-          id: 1
-        }),
-        new ChallengePattern({
-          id: 2
-        }),
-        new ChallengePattern({
-          id: 3
-        }),
-        new ChallengePattern({
-          id: 4
-        }),
-        new ChallengePattern({
-          id: 5
-        }),
-        new ChallengePattern({
-          id: 6
-        }),
-        new ChallengePattern({
-          id: 7
-        }),
-        new ChallengePattern({
-          id: 8
-        }),
-        new ChallengePattern({
-          id: 9
-        }),
-      ],
+      patternList: patternList([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]),
       patternCount: 10,
       patternListOrder: 'linear',
       difficulty:  () => sumInRanges([[4,7], [7,11], [8,12], [14,20], [20,25], [20,25], [30,36], [35, 40]], 150),
@@ -179,29 +154,7 @@ export const CHALLENGES = [
     title: 'Shrinking Circle',
     settings: new ChallengeProperties({
       timeLimit: 120,
-      patternList: [
-        new ChallengePattern({
-          id: 136
-        }),
-        new ChallengePattern({
-          id: 19
-        }),
-        new ChallengePattern({
-          id: 18
-        }),
-        new ChallengePattern({
-          id: 17
-        }),
-        new ChallengePattern({
-          id: 47
-        }),
-        new ChallengePattern({
-          id: 177
-        }),
-        new ChallengePattern({
-          id: 14
-        })
-      ],
+      patternList: patternList([136, 19, 18, 17, 47, 177, 14]),
       patternCount: 7,
       patternListOrder: 'linear',
       difficulty:  () => sumInRanges([[30,36], [18,25], [15,19], [9, 12], [6,10], [3,5], [3,5]], 97),
@@ -212,50 +165,7 @@ export const CHALLENGES = [
     id: 9,
     title: 'Game of Life',
     settings: new ChallengeProperties({
-      patternList: [
-        new ChallengePattern({
-          id: 83
-        }),
-        new ChallengePattern({
-          id: 84
-        }),
-        new ChallengePattern({
-          id: 85
-        }),
-        new ChallengePattern({
-          id: 104
-        }),
-        new ChallengePattern({
-          id: 93
-        }),
-        new ChallengePattern({
-          id: 94
-        }),
-        new ChallengePattern({
-          id: 96
-        }),
-        new ChallengePattern({
-          id: 97
-        }),
-        new ChallengePattern({
-          id: 98
-        }),
-        new ChallengePattern({
-          id: 99
-        }),
-        new ChallengePattern({
-          id: 117
-        }),
-        new ChallengePattern({
-          id: 103
-        }),
-        new ChallengePattern({
-          id: 30
-        }),
-        new ChallengePattern({
-          id: 152
-        })
-      ],
+      patternList: patternList([83, 84, 85, 104, 93, 94, 96, 97, 98, 99, 117, 103, 30, 152]),
       patternCount: 10,
       timeLimit: 80,
       patternListOrder: 'random',
@@ -270,36 +180,69 @@ export const CHALLENGES = [
     title: 'Snake',
     settings: new ChallengeProperties({
       timeLimit: 40,
-      patternList: [
-        new ChallengePattern({
-          id: 69
-        }),
-        new ChallengePattern({
-          id: 45
-        }),
-        new ChallengePattern({
-          id: 66
-        }),
-        new ChallengePattern({
-          id: 130
-        }),
-        new ChallengePattern({
-          id: 178
-        }),
-        new ChallengePattern({
-          id: 179
-        }),
-        new ChallengePattern({
-          id: 180
-        }),
-        new ChallengePattern({
-          id: 182
-        })
-      ],
+      patternList: patternList([69, 45, 66, 130, 178, 179, 180, 182]),
       patternCount: 7,
       patternListOrder: 'random',
       difficulty:  () => sumInRanges([[6,10], [5,9], [6,13], [2,4], [13,20], [10,15], [4,9], [7,17]], 70),
       defaults: {}
     })
   }),
+  new Challenge({
+    id: 11,
+    title: 'Corrupted',
+    settings: new ChallengeProperties({
+      timeLimit: 120,
+      patternCount: 3,
+      patternList: new PatternSequence(
+        new ChallengePattern({
+          id: 0,
+          layout: new Layout({
+            width: 7,
+            height: 7,
+            exclude: [0, 1, 2, 3, 4, 5, 6, 7, 13, 14, 20, 21, 27, 28, 34, 35, 41, 42, 43, 44, 45, 46, 47, 48]
+          }),
+        }),
+        corrupted
+      ),
+      difficulty: () => [3, 5, 8],
+      defaults: {}
+    })
+  }),/*
+  new Challenge({
+    id: 12,
+    title: 'Test',
+    settings: new ChallengeProperties({
+      timeLimit: 120,
+      patternCount: 3,
+      patternList: [
+        new ChallengePattern({
+          id: 0,
+          layout: new Layout({
+            width: 7,
+            height: 7,
+            exclude: [0, 1, 2, 3, 4, 5, 6, 7, 13, 14, 20, 21, 27, 28, 34, 35, 41, 42, 43, 44, 45, 46, 47, 48]
+          }),
+        }),
+        corrupted(new ChallengePattern({
+          id: 0,
+          layout: new Layout({
+            width: 7,
+            height: 7,
+            exclude: [0, 1, 2, 3, 4, 5, 6, 7, 13, 14, 20, 21, 27, 28, 34, 35, 41, 42, 43, 44, 45, 46, 47, 48]
+          }),
+        })),
+        corrupted(corrupted(new ChallengePattern({
+          id: 0,
+          layout: new Layout({
+            width: 7,
+            height: 7,
+            exclude: [0, 1, 2, 3, 4, 5, 6, 7, 13, 14, 20, 21, 27, 28, 34, 35, 41, 42, 43, 44, 45, 46, 47, 48]
+          }),
+        }))),
+      ],
+      patternListOrder: 'linear',
+      difficulty: uniform(3, 3),
+      defaults: {}
+    })
+  })*/
 ]

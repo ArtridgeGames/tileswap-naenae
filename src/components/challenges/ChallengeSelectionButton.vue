@@ -61,13 +61,13 @@ export default {
         //   : "";
 
       return (
-        (!this.challenge.name
+        (!this.challenge.title
           ? formatTime(this.challenge.settings.timeLimit) +
             "<br>" +
             (maxMoves > 0 ? maxMoves + " moves<br>" : "no move limit<br>") +
             nPatterns +
             " layouts"
-          : this.challenge.name) +
+          : this.challenge.title) +
         ` ${(score && "<br>(") + score + (score && ")")}`
       );
     },

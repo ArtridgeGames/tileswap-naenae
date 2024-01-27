@@ -79,10 +79,11 @@ export class Layout {
 
   /**
    * Creates a new Layout object
-   * @param {Number} width the width of the layout
-   * @param {Number} height the height of the layout 
-   * @param {Number[]} exclude the indices of the tiles to exclude from the layout
-   * @param {Number} unlockCategory the level at which this layout is unlocked
+   * @param {Object} config
+   * @param {Number} config.width the width of the layout
+   * @param {Number} config.height the height of the layout 
+   * @param {Number[]} config.exclude the indices of the tiles to exclude from the layout
+   * @param {Number} config.unlockCategory the level at which this layout is unlocked
    */
   constructor({ width, height, exclude, unlockCategory, id }) {
     this.width = width;
@@ -296,4 +297,4 @@ export class Layout {
 }
 
 
-window.layouts = Layout.LAYOUTS;
+// window.layouts = Layout.LAYOUTS;

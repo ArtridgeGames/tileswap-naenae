@@ -104,10 +104,13 @@ export default {
 
       this.currentChallenge.process.handleClick();
 
-      setModulo(this.currentChallenge.process.patternModulo);
-      
-      const store = useStore()
-      store.setLayout(this.currentChallenge.process.currentLayout);
+      if (this.currentChallenge.process.state === ChallengeProcess.STATE.IN_PROGRESS) {
+        setModulo(this.currentChallenge.process.patternModulo);
+        
+        const store = useStore()
+        store.setLayout(this.currentChallenge.process.currentLayout);
+      }
+
 
     },
     /*
