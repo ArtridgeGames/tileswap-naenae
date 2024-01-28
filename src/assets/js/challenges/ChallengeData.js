@@ -284,6 +284,28 @@ export const CHALLENGES = [
         })
       }),
     ]
+  },
+  {
+    title: "Game of Life",
+    unlockCategory: 2,
+    challenges: [
+      new Challenge({
+        id: 8,
+        title: 'Q survival',
+        settings: new ChallengeProperties({
+          timeLimit: 60,
+          patternList: new PatternSequence(
+            getPatternFromIdWithPadding(168, 6),
+            gameOfLife
+          ),
+          patternCount: -1,
+          difficulty: n => Math.floor(7 * Math.log10(n + 1) + 3),
+          defaults: {
+            bonusTimePerPattern: 5,
+          }
+        })
+      }),
+    ]
   }
   /*
   new Challenge({
