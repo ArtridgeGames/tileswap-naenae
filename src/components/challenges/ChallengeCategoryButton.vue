@@ -4,7 +4,7 @@
 </script>
 
 <template>
-  <Button :text="category.name" v-if="!locked"></Button>
+  <Button class="category-button" :text="category.title" v-if="!locked"></Button>
   <div class="locked" v-else>
     <img :src="lockURL"/>
   </div>
@@ -22,12 +22,17 @@
     transform: translateX(-50%);
   }
 
+  .category-button {
+    width: 60%;
+  }
+
   div.locked {
     height: 55px;
-    width: var(--button-default-w);
+    width: 60%;
     border-radius: var(--button-border-radius);
     display: inline-block;
     position: relative;
+    margin: 5px 10px;
   }
 </style>
 

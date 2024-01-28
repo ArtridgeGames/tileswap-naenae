@@ -171,6 +171,121 @@ const getPatternFromIdWithPadding = (id, padding) => {
 }
 
 export const CHALLENGES = [
+  {
+    title: "Category 1",
+    unlockCategory: 0,
+    challenges: [
+      new Challenge({
+        id: 0,
+        title: 'Normal',
+        settings: new ChallengeProperties({
+          timeLimit: 60,
+          patternList: patternList([0, 14, 20, 21, 22, 23, 46]),
+          patternCount: 10,
+          patternListOrder: 'random',
+          difficulty: uniformSumInRanges([3, 5], 7, 25)
+        })
+      }),
+      new Challenge({
+        id: 1,
+        title: 'Hard',
+        settings: new ChallengeProperties({
+          timeLimit: 60,
+          patternList: patternList([0, 14, 20, 21, 22, 23, 46]),
+          patternCount: 14,
+          patternListOrder: 'random',
+          difficulty: uniformSumInRanges([3, 5], 7, 30)
+        })
+      }),
+      new Challenge({
+        id: 2,
+        title: 'Expert',
+        settings: new ChallengeProperties({
+          timeLimit: 60,
+          patternList: patternList([0, 14, 20, 21, 22, 23, 46]),
+          patternCount: 16,
+          patternListOrder: 'random',
+          difficulty: uniformSumInRanges([3, 6], 7, 35)
+        })
+      })
+    ]
+  },
+  {
+    title: "Think Fast",
+    unlockCategory: 0,
+    challenges: [
+      new Challenge({
+        id: 3,
+        title: 'Normal',
+        settings: new ChallengeProperties({
+          timeLimit: 60,
+          patternList: patternList([0, 14, 20, 21, 22, 23, 46]),
+          patternCount: 10,
+          patternListOrder: 'random',
+          difficulty: uniformSumInRanges([3, 5], 7, 25)
+        })
+      }),
+      new Challenge({
+        id: 4,
+        title: 'Hard',
+        settings: new ChallengeProperties({
+          timeLimit: 60,
+          patternList: patternList([0, 14, 20, 21, 22, 23, 46]),
+          patternCount: 14,
+          patternListOrder: 'random',
+          difficulty: uniformSumInRanges([3, 5], 7, 30)
+        })
+      }),
+      new Challenge({
+        id: 5,
+        title: 'Expert',
+        settings: new ChallengeProperties({
+          timeLimit: 60,
+          patternList: patternList([0, 14, 20, 21, 22, 23, 46]),
+          patternCount: 16,
+          patternListOrder: 'random',
+          difficulty: uniformSumInRanges([3, 6], 7, 35)
+        })
+      })
+    ]
+  },
+  {
+    title: "Read",
+    unlockCategory: 1,
+    challenges: [
+      new Challenge({
+        id: 6,
+        title: 'Normal',
+        settings: new ChallengeProperties({
+          patternList: patternList([119, 109, 110, 111, 142, 143, 144, 145, 131, 166, 146, 130, 132, 133, 156, 167, 168, 169, 161, 170, 171, 172, 173, 174, 175, 176]),
+          patternCount: 26,
+          patternListOrder: 'linear',
+          difficulty: uniform(26, 3),
+          defaults: {
+            timeLimitPerPattern: 10
+          }
+        })
+      })
+    ]
+  },
+  {
+    title: "Count",
+    unlockCategory: 1,
+    challenges: [
+      new Challenge({
+        id: 7,
+        title: 'Count',
+        settings: new ChallengeProperties({
+          moveLimit: 45,
+          patternList: patternList([156, 157, 158, 159, 160, 161, 162, 163, 164, 165]),
+          patternCount: 10,
+          patternListOrder: 'linear',
+          difficulty: uniform(10, 3)
+        })
+      }),
+    ]
+  }
+  /*
   new Challenge({
     id: 0,
     title: 'Game of life',
@@ -183,17 +298,6 @@ export const CHALLENGES = [
       patternCount: 14,
       patternListOrder: 'random',
       difficulty: uniform(14, 1)
-    })
-  }),
-  new Challenge({
-    id: 1,
-    title: 'Category 1 - Hard',
-    settings: new ChallengeProperties({
-      timeLimit: 60,
-      patternList: patternList([0, 14, 20, 21, 22, 23, 46]),
-      patternCount: 14,
-      patternListOrder: 'random',
-      difficulty: uniformSumInRanges([3, 5], 7, 30)
     })
   }),
   new Challenge({
@@ -325,7 +429,7 @@ export const CHALLENGES = [
       ),
       difficulty: () => [3, 4, 5, 6, 7, 8, 9, 10, 11 ,12]
     })
-  })
+  })*/
 ]
 
 /*

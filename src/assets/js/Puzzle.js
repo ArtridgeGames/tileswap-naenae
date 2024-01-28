@@ -22,8 +22,8 @@ export class Puzzle {
         [1, 0, 1, 1],
         [0, 1, 1, 1]
       ],
-      solution: [0, 1, 2, 3, 7, 11, 15, 14, 13, 12, 8, 4]
-      , unlockCategory: 2
+      solution: [0, 1, 2, 3, 7, 11, 15, 14, 13, 12, 8, 4],
+      unlockCategory: 2
     },
     {
       //solution : (all tiles) 1,2,7,11,14,13,8,4
@@ -2270,7 +2270,7 @@ export class Puzzle {
         15,
         18
       ],
-      
+
       modulo: 3,
       unlockCategory: 10
     },
@@ -2761,7 +2761,7 @@ export class Puzzle {
     .map((e, id) => {
 
       const { base: baseMatrix, target: targetMatrix, moves, solution, modulo, unlockCategory } = e;
-      e.target.modulo = modulo ?? 2; 
+      e.target.modulo = modulo ?? 2;
       baseMatrix.forEach((row, y) => row.forEach((cell, x) => {
         if (cell === 2 && e.target.modulo === 2) {
           baseMatrix[y][x] = -1;

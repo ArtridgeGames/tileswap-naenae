@@ -304,16 +304,16 @@ export class FiniteFieldValue extends FiniteFieldElement {
     return this.#applyOperation(other, (a, b) => a.value + b.value);
   }
 
-  subtract(other) {
-    return this.#applyOperation(other, (a, b) => a.value - b.value);
-  }
-
   multiply(other) {
     return this.#applyOperation(other, (a, b) => a.value * b.value);
   }
 
+  subtract(other) {
+    return this.add(other.opposite());
+  }
+
   divide(other) {
-    return this.#applyOperation(other, (a, b) => a.multiply(b.inverse()).value);
+    return this.multiply(other.inverse());
   }
 
   pow(n) {
@@ -739,7 +739,7 @@ export class FiniteFieldMatrix {
       throw new Error('Cannot calculate determinant of non-square matrix');
     }
 
-    const key = `${this.width},${this.matrix.map(row => row.map(e => e.value).join('')).join('')}`;
+    const key = `${this.field.order},${this.width},${this.matrix.map(row => row.map(e => e.value).join(',')).join('|')}`;
     if (FiniteFieldMatrix.#detMap.has(key)) {
       return FiniteFieldMatrix.#detMap.get(key);
     }
@@ -1057,6 +1057,10 @@ export class FiniteFieldMatrix {
         .fill()
         .map((_, el) => this.matrix[row * width + el][0]));
     return new FiniteFieldMatrix(matrix, this.field);
+  }
+
+  toRawMatrix() {
+    return this.matrix.map(row => row.map(e => e.value));
   }
 
   /**

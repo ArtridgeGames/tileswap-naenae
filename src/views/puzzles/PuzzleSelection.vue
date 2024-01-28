@@ -10,6 +10,7 @@ import Separator from '@/components/Separator.vue';
     <!-- <LinkButton class="top right" text="back" to="/home" /> -->
     
     <div v-for="(category, i) in categories" :key="i">
+      <Separator :text="i + 1" />
       <div class="layouts">
         <PuzzleSelectionButton
           v-for="(puzzle, index) in category"
@@ -17,7 +18,6 @@ import Separator from '@/components/Separator.vue';
           :key="index"
         ></PuzzleSelectionButton>
       </div>
-      <Separator v-if="i !== categories.length - 1" />
     </div>
 
   </main>
@@ -34,7 +34,6 @@ main {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 20px;
 }
 </style>
 

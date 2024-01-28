@@ -17,7 +17,7 @@ import randomUrl from "/images/svg/random.svg";
       </div>
       <div v-for="(category, i) in categories" :key="i">
         <div class="layouts">
-          <Separator />
+          <Separator :text="i + 1" />
           <LayoutSelectionButton
             v-for="(layout, index) in category"
             :layout="layout"

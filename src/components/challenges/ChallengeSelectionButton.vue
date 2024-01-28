@@ -10,6 +10,7 @@ import lockURL from "/images/svg/lock.svg";
     }"
     v-html="formattedChall"
     :title="`id: ${challenge.id}`"
+    class="challenge-button"
     v-if="!locked"
   ></div>
   <div class="locked" v-else :title="`id: ${challenge.id}`">
@@ -32,10 +33,11 @@ img {
 
 div.locked {
   height: 55px;
-  width: var(--button-default-w);
+  width: 60%;
   border-radius: var(--button-border-radius);
   display: inline-block;
   position: relative;
+  margin: 5px 10px;
 }
 </style>
 
@@ -80,7 +82,7 @@ export default {
 
 <style scoped>
 div {
-  width: var(--button-default-w);
+  width: 60%;
   padding: var(--button-padding);
   border: none;
   border-radius: var(--button-border-radius);
@@ -88,7 +90,7 @@ div {
   color: v-bind(color);
   font-size: var(--font-size-sm);
   cursor: pointer;
-  margin: 10px;
+  margin: 5px 10px;
   display: inline-block;
   color: var(--shadow-text-color);
   text-align: center;

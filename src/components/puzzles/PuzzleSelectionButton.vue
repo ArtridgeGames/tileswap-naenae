@@ -119,7 +119,7 @@ export default {
     },
     unlocked() {
       const store = useStore()
-      return store.unlockedCategoriesPZ >= this.puzzle.id;
+      return this.puzzle.unlockCategory <= store.unlockedCategoriesPZ;
 
     }
   },

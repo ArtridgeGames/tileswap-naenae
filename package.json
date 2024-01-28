@@ -8,7 +8,7 @@
     "add": "vite add typescript",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "jest",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "deploy": "vite build && gh-pages -d dist -m \"Deploying to gh-pages\""
   },
   "dependencies": {
