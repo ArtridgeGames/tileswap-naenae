@@ -2795,16 +2795,10 @@ export class Puzzle {
       });
     });
 
-  static get FILTERED_PUZZLES() {
-    const store = useStore();
-    return this.PUZZLES.filter(e => e.unlockCategory <= store.unlockedCategoriesPZ);
-  }
-
   static get CATEGORIES() {
-    const categories = new Set(Puzzle.FILTERED_PUZZLES.map(e => e.unlockCategory)).size;
-    const lowest = Math.min(...Puzzle.FILTERED_PUZZLES.map(e => e.unlockCategory));
+    const categories = new Set(Puzzle.PUZZLES.map(e => e.unlockCategory)).size;
     return new Array(categories).fill(0).map((_, i) => {
-      return Puzzle.FILTERED_PUZZLES.filter(e => e.unlockCategory === i + lowest);
+      return Puzzle.PUZZLES.filter(e => e.unlockCategory === i);
     });
   }
 

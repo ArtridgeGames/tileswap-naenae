@@ -165,7 +165,7 @@ export class ChallengePattern {
    * @returns {ChallengePattern} The ChallengePattern
    */
   static fromId(layoutId, config) {
-    const layout = Layout.FILTERED_LAYOUTS.find(e => e.id === layoutId);
+    const layout = Layout.ALL_LAYOUTS.find(e => e.id === layoutId);
     return new ChallengePattern({
       layout,
       ...config

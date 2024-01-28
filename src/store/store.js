@@ -3,14 +3,18 @@ import { ref, watch } from 'vue';
 import { register } from '../firebase/database.js';
 import { INITIAL_STATS } from '../assets/js/Stats.js';
 import { INITIAL_SETTINGS, SETTINGS_DATA } from '../assets/js/Settings.js';
+import { Layout } from '../assets/js/Layout.js';
+import { Puzzle } from '../assets/js/Puzzle.js';
+import { Challenge } from '../assets/js/challenges/Challenge.js';
+import { CHALLENGES } from '../assets/js/challenges/ChallengeData.js';
 
 export const useStore = defineStore('store', () => {
   const currentLayout = ref({});
   const currentPuzzle = ref({});
   const currentChallenge = ref({});
   const difficulty = ref(5);
-  const unlockedCategoriesFP = ref(17);
-  const unlockedCategoriesPZ = ref(17);
+  const unlockedCategoriesFP = ref(0);
+  const unlockedCategoriesPZ = ref(0);
   const unlockedChallenges = ref([0, 3]); // ref([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21])
   const currentTasks = ref([0,1,2]);
   const maxTask = ref(2);
@@ -19,6 +23,12 @@ export const useStore = defineStore('store', () => {
   const savedMenuScroll = ref(0);
   const score = ref(222);
   
+  function unlockAll() {
+    unlockedCategoriesFP.value = Math.max(...Layout.ALL_LAYOUTS.map(e => e.unlockCategory));
+    unlockedCategoriesPZ.value = Math.max(...Puzzle.PUZZLES.map(e => e.unlockCategory));
+    unlockedChallenges.value = CHALLENGES.flatMap(e => e.challenges.map(e => e.id));
+  }
+
   function setTask(index, task) {
     currentTasks.value.splice(index, 1);
     currentTasks.value.push(task);
@@ -76,5 +86,6 @@ export const useStore = defineStore('store', () => {
     menuViewIndex,
     savedMenuScroll,
     score,
+    unlockAll,
   };
 });

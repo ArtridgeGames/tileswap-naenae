@@ -30,6 +30,8 @@ import TaskContainer from "../components/TaskContainer.vue";
       <IconButton :icon="statsUrl" @pressed="showStats = true" />
       <IconButton :icon="settingsUrl" @pressed="showSettings = true" />
       <IconButton :icon="tutorialUrl" @pressed="$router.push('/tutorial')" />
+
+      <p class="text-center" @click="unlock">unlock all</p>
     </main>
   
     <Modal v-model="showStats">
@@ -63,6 +65,7 @@ main {
 <script>
 import { user, isSignedIn, signIn, signOut } from "../firebase/auth.js";
 import { useWindow } from "../assets/js/window.js";
+import { useStore } from "../store/store.js";
 export default {
   data() {
     const { width: windowWidth } = useWindow();
@@ -78,6 +81,10 @@ export default {
     signInForm() {
       signIn(prompt("Email"), prompt("Password"));
     },
+    unlock() {
+      const store = useStore();
+      store.unlockAll();
+    }
   },
 };
 </script>

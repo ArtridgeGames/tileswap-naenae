@@ -58,8 +58,8 @@ export default {
     }, 0);
     return {
       categories: CATEGORIES
-        .slice(negativeCategories + 1, CATEGORIES.length)
-        .concat(CATEGORIES.slice(0, negativeCategories + 1))
+        // .slice(negativeCategories + 1, CATEGORIES.length)
+        // .concat(CATEGORIES.slice(0, negativeCategories + 1))
     }
   },
   methods: {

@@ -109,7 +109,7 @@ export default {
     },
     unlocked() {
       const store = useStore();
-      return store.unlockedCategoriesFP >= this.layout.unlockCategory;
+      return this.layout.unlockCategory <= store.unlockedCategoriesFP;
     }
   },
   methods: {
