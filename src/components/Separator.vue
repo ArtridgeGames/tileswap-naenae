@@ -12,8 +12,13 @@ div {
   margin: v-bind(margin);
 }
 
+div {
+  position: relative;
+}
+
 hr::after {
   content: attr(data-text);
+  color: var(--hl-text-color);
   display: v-bind(display);
   position: absolute;
   background: var(--bg-darker-color);
