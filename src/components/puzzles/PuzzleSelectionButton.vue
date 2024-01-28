@@ -19,7 +19,7 @@ import lockURL from '/images/svg/lock.svg';
       class="tile"
       :style="{
         backgroundColor: (
-          solved ? puzzle.targetIsWhite(tile) : puzzle.baseIsWhite(tile)
+          puzzle.solved ? puzzle.targetIsWhite(tile) : puzzle.baseIsWhite(tile)
         )
           ? 'var(--puzzle-white)'
           : 'var(--shadow-color)',
@@ -91,12 +91,6 @@ export default {
     layout() {
       return this.puzzle.target;
     },
-    solved() {
-      const store = useStore();
-      return store.stats.puzzlesCompleted.some(({ id }) => {
-        return id === this.puzzle.id;
-      });
-    },
     includedTiles() {
       return new Array(this.layout.width * this.layout.height)
         .fill(0)
@@ -109,7 +103,7 @@ export default {
     buttonColor() {
       const solutionL = this.puzzle.solution.length;
       const completionMoves = this.puzzle.completionMoves;
-      return !this.solved
+      return !this.puzzle.solved
         ? "var(--hl-color)"
         : (completionMoves <= solutionL
         ? "var(--success-color)"

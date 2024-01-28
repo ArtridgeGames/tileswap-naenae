@@ -2802,6 +2802,13 @@ export class Puzzle {
     });
   }
 
+  static MEDALS = {
+    NOT_COMPLETED: -1,
+    BRONZE: 0,
+    SILVER: 1,
+    GOLD: 2
+  }
+
   /**
    * Creates a new puzzle.
    * @param {Layout} base 
@@ -2840,6 +2847,22 @@ export class Puzzle {
     return this.base.matrix[row][column] === this.modulo - 1;
   }
 
+  medalFromMoves(moves) {
+    return !this.solved ? Puzzle.MEDALS.NOT_COMPLETED :
+      (moves <= this.solution.length
+        ? Puzzle.MEDALS.GOLD
+        : moves <= this.solution.length * 1.2
+          ? Puzzle.MEDALS.SILVER
+          : Puzzle.MEDALS.BRONZE);
+  }
+
+  get solved() {
+    const store = useStore();
+    return store.stats.puzzlesCompleted.some(({ id }) => {
+      return id === this.id;
+    });
+  }
+
   get completionMoves() {
     const store = useStore();
     for (let i = 0; i < store.stats.puzzlesCompleted.length; i++) {
@@ -2861,5 +2884,9 @@ export class Puzzle {
       }
     }
     store.stats.puzzlesCompleted.push({ id: this.id, completionMoves: val })
+  }
+
+  computeScore() {
+
   }
 }

@@ -5,7 +5,6 @@ import { INITIAL_STATS } from '../assets/js/Stats.js';
 import { INITIAL_SETTINGS, SETTINGS_DATA } from '../assets/js/Settings.js';
 import { Layout } from '../assets/js/Layout.js';
 import { Puzzle } from '../assets/js/Puzzle.js';
-import { Challenge } from '../assets/js/challenges/Challenge.js';
 import { CHALLENGES } from '../assets/js/challenges/ChallengeData.js';
 
 export const useStore = defineStore('store', () => {

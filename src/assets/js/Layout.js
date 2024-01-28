@@ -253,6 +253,15 @@ export class Layout {
   }
 
   /**
+   * Computes the score to be awarded for solving the layout
+   * @param {Number} iterations the number of iterations to generate the layout
+   * @returns {Number} the score to be awarded for solving the layout
+   */
+  computeScore(iterations) {
+    return iterations * (iterations / (this.nTiles() * 0.8 + 10) + 1.1);
+  }
+
+  /**
    * Calculate the array of exclusion indices from a layout matrix
    * @param {Number[][]} matrix
    * @returns {Number[]} the array of exclusion indices
