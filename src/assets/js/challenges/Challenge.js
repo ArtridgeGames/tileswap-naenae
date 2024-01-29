@@ -21,7 +21,7 @@ export class Challenge {
     this.id = id;
     this.title = title;
     this.settings = settings;
-    this.process = new ChallengeProcess(this);
+    this.process = new ChallengeProcess(this.settings);
   }
 }
 
@@ -45,16 +45,22 @@ export class ChallengeProperties {
    * @param {Object} config - The configuration object
    * @param {Number} [config.timeLimit] - The time limit of the challenge
    * @param {Number} [config.moveLimit] - The move limit of the challenge
-   * @param {ChallengePattern[]|PatternSequence} config.patternList - The list of patterns of the challenge
+   * @param {ChallengePattern[]} config.patternList - The list of patterns available during the challenge
+   * @param {PatternSequence} config.patternSequence - The pattern sequence of the challenge
    * @param {Number} [config.patternCount] - The number of patterns of the challenge
    * @param {"linear"|"random"} [config.patternListOrder] - The order of the pattern list of the challenge
    * @param {Function} config.difficulty - The difficulty of the challenge
-   * @param {Object} [config.defaults] - The default values for each pattern of the challenge. Can be left empty, but not removed
+   * @param {Object} [config.defaults] - The default values for each pattern of the challenge.
+   * @param {Number} [config.defaults.timeLimitPerPattern] - The default time limit for each pattern of the challenge
+   * @param {Number} [config.defaults.moveLimitPerPattern] - The default move limit for each pattern of the challenge
+   * @param {Number} [config.defaults.bonusTimePerPattern] - The default bonus time for each pattern of the challenge
+   * @param {Number} [config.defaults.moduloPerPattern] - The default modulo for each pattern of the challenge
    */
   constructor({
     timeLimit,
     moveLimit,
     patternList,
+    patternSequence,
     patternCount,
     patternListOrder,
     difficulty,
@@ -65,11 +71,16 @@ export class ChallengeProperties {
       moduloPerPattern,
     } = {}
   }) {
-    require(patternList, difficulty)
+    require(difficulty);
+    if (!(patternList instanceof Array) && !(patternSequence instanceof PatternSequence)
+      || (patternList instanceof Array) && (patternSequence instanceof PatternSequence)) {
+      throw new Error('Please provide either a pattern list or a pattern sequence.');
+    }
 
     this.timeLimit = timeLimit ?? ChallengeProperties.GLOBAL_DEFAULTS.timeLimit;
     this.moveLimit = moveLimit ?? ChallengeProperties.GLOBAL_DEFAULTS.moveLimit;
     this.patternList = patternList;
+    this.patternSequence = patternSequence;
     this.patternCount = patternCount ?? ChallengeProperties.GLOBAL_DEFAULTS.patternCount;
     this.patternListOrder = patternListOrder ?? ChallengeProperties.GLOBAL_DEFAULTS.patternListOrder;
     this.difficulty = difficulty;
@@ -80,7 +91,7 @@ export class ChallengeProperties {
       moduloPerPattern,
     };
 
-    this.isSequence = this.patternList instanceof PatternSequence;
+    this.isSequence = this.patternSequence !== undefined;
     this.isInfinite = this.patternCount === -1;
 
     this.applyDefaults();
@@ -93,24 +104,14 @@ export class ChallengeProperties {
    */
   applyDefaults() {
     if (this.isSequence) {
-      this.patternList.initialState.timeLimitPerPattern
+      this.patternSequence.initialState.timeLimitPerPattern
         ??= (this.defaults.timeLimitPerPattern ?? ChallengeProperties.GLOBAL_DEFAULTS.timeLimitPerPattern);
-      this.patternList.initialState.moveLimitPerPattern
+      this.patternSequence.initialState.moveLimitPerPattern
         ??= (this.defaults.moveLimitPerPattern ?? ChallengeProperties.GLOBAL_DEFAULTS.moveLimitPerPattern);
-      this.patternList.initialState.bonusTimePerPattern
+      this.patternSequence.initialState.bonusTimePerPattern
         ??= (this.defaults.bonusTimePerPattern ?? ChallengeProperties.GLOBAL_DEFAULTS.bonusTimePerPattern);
-      this.patternList.initialState.moduloPerPattern
+      this.patternSequence.initialState.moduloPerPattern
         ??= (this.defaults.moduloPerPattern ?? ChallengeProperties.GLOBAL_DEFAULTS.moduloPerPattern);
-      
-      this.patternList.state.timeLimitPerPattern
-        ??= (this.defaults.timeLimitPerPattern ?? ChallengeProperties.GLOBAL_DEFAULTS.timeLimitPerPattern);
-      this.patternList.state.moveLimitPerPattern
-        ??= (this.defaults.moveLimitPerPattern ?? ChallengeProperties.GLOBAL_DEFAULTS.moveLimitPerPattern);
-      this.patternList.state.bonusTimePerPattern
-        ??= (this.defaults.bonusTimePerPattern ?? ChallengeProperties.GLOBAL_DEFAULTS.bonusTimePerPattern);
-      this.patternList.state.moduloPerPattern
-        ??= (this.defaults.moduloPerPattern ?? ChallengeProperties.GLOBAL_DEFAULTS.moduloPerPattern);
-
     } else {
       for (const pattern of this.patternList) {
         pattern.timeLimitPerPattern
@@ -180,6 +181,7 @@ export class ChallengePattern {
   }
 }
 
+
 export class ChallengeProcess {
 
   static STATE = {
@@ -191,124 +193,65 @@ export class ChallengeProcess {
   }
 
   /**
-   * Constructs a new Challenge Process
+   * Constructs a new Challenge Process.
    * A Challenge Process manages the ongoing state when
-   * a challenge is being played
-   * @param {Challenge} challenge 
+   * a challenge is being played.
+   * @param {ChallengeProperties} settings
    */
-  constructor(challenge) {
-    require(
-      challenge,
-      challenge.settings,
-      challenge.settings.patternList,
-      challenge.settings.difficulty
-    )
+  constructor(settings) {
+    this.settings = settings;
+  }
 
+  /**
+   * Initializes the challenge process. This method 
+   * should be called every time a the challenge is started.
+   */
+  init() {
+    this.state = ChallengeProcess.STATE.NOT_STARTED;
+    this.patternIndex = 0;
+    
+    this.timeRemaining = this.settings.timeLimit;
+    this.movesRemaining = this.settings.moveLimit;
+    
+    
+    if (this.settings.isInfinite) {
+      this.patternGenerator = this.createPatternGenerator();
+      this.currentPattern = this.patternGenerator.next().value;
+    } else {
+      this.patternsToBePlayed = this.generatePatternsToBePlayed();
+      const difficulties = this.settings.difficulty(this.patternsToBePlayed);
+      if (difficulties.length !== this.patternsToBePlayed.length)
+        throw new Error(`Invalid difficulty array. Expected ${this.patternsToBePlayed.length} elements, got ${difficulties.length}.`);
+      this.randomizePatterns(difficulties);
 
-    this.challenge = challenge;
-    this.patternIndex = -1;
-    this.done = false;
-    this.patternGenerator = this.createPatternGenerator();
-    if (this.challenge.settings.patternCount !== -1)
-      this.difficulties = this.challenge.settings.difficulty();
+      this.currentPattern = this.patternsToBePlayed[0];
+    }
 
-    this.totalClicks = challenge.settings.moveLimit;
-    this.currentTime = challenge.settings.timeLimit;
-    this.currentPatternTime = null;
+    this.patternTime = this.currentPattern.timeLimitPerPattern;
+    this.patternMoves = this.currentPattern.moveLimitPerPattern;
+    this.patternModulo = this.currentPattern.moduloPerPattern;
+    this.patternBonusTime = this.currentPattern.bonusTimePerPattern;
 
     this.timerId = null;
-
-    this.state = ChallengeProcess.STATE.NOT_STARTED;
   }
 
   /**
-   * This function listens for click events and manages the challenge state accordingly.
-   */
-  handleClick() {
-    if (this.done) return;
-
-    // The pattern is solved
-    if (this.currentLayout.isSolved()) {
-      if (this.patternBonusTime !== -1)
-        this.currentTime += this.patternBonusTime;
-      
-      this.currentLayout = this.next();
-
-      // No patterns remaining, the player won
-      if (this.currentLayout === null) {
-        this.won();
-        return;
-      }
-    }
-
-    // Check if a move limit is enabled and if no moves are remaining
-    if (this.challenge.settings.moveLimit !== -1) {
-      this.totalClicks--;
-      if (this.totalClicks <= 0) {
-        this.lost(ChallengeProcess.STATE.LOST_MOVES);
-        return;
-      }
-    }
-
-    // Check if pattern move limit is enabled and if no moves are remaining
-    if (this.patternClicks !== -1) {
-      this.patternClicks--;
-      if (this.patternClicks <= 0) {
-        this.lost(ChallengeProcess.STATE.LOST_MOVES);
-        return;
-      }
-    }
-  }
-
-  /**
-   * Computes the next layout of the Challenge
-   * Layouts are provided by the pattern generating function below {@link createPatternGenerator}
-   * @returns {Layout|null} the layout or null if the challenge is finished
-   */
-  next() {
-    const { value: pattern, done } = this.patternGenerator.next();
-    if (!done) {
-      this.patternIndex++;
-
-      // Extract values specific to the current pattern
-      this.currentPatternTime = pattern.timeLimitPerPattern;
-      this.patternModulo = pattern.moduloPerPattern;
-      this.patternClicks = pattern.moveLimitPerPattern;
-      this.patternBonusTime = pattern.bonusTimePerPattern;
-
-      // Compute a layout with a random position, from the given difficulty array
-      const result = pattern.layout.generatePosition(this.challenge.settings.isInfinite ? 
-        this.challenge.settings.difficulty(this.patternIndex)
-        : this.difficulties[
-          this.challenge.settings.isSequence ? this.patternIndex :
-          this.challenge.settings.patternList.findIndex(e => e.id === pattern.id)
-        ],
-      pattern.moduloPerPattern);
-
-      return result;
-    } else {
-      return null;
-    }
-  }
-
-  /**
-   * Starts the Challenge timers and marks the Challenge as IN_PROGRESS.
+   * Starts the challenge process. This method should be called
+   * when the player starts playing the challenge.
    */
   start() {
-
     this.state = ChallengeProcess.STATE.IN_PROGRESS;
-
     this.timerId = setInterval(() => {
-      if (this.challenge.settings.timeLimit !== -1) {
-        this.currentTime--;
-        if (this.currentTime <= 0) {
+      if (this.settings.timeLimit !== -1) {
+        this.timeRemaining--;
+        if (this.timeRemaining <= 0) {
           this.lost(ChallengeProcess.STATE.LOST_TIME);
           return;
         }
       }
-      if (this.currentPatternTime !== -1) {
-        this.currentPatternTime--;
-        if (this.currentPatternTime <= 0) {
+      if (this.patternTime !== -1) {
+        this.patternTime--;
+        if (this.patternTime <= 0) {
           this.lost(ChallengeProcess.STATE.LOST_TIME);
           return;
         }
@@ -317,419 +260,177 @@ export class ChallengeProcess {
   }
 
   /**
-   * Resets the Challenge Process to default values, so it can be played again.
-   * @todo check if everything to be reset is indeed reset
+   * Updates the challenge process according to the player input.
    */
-  reset() {
-    if (this.challenge.settings.isSequence) {
-      this.challenge.settings.patternList.reset();
+  handleClick() {
+    if (this.state !== ChallengeProcess.STATE.IN_PROGRESS) return;
+
+    if (this.currentPattern.layout.isSolved(this.patternModulo)) {
+      if (this.patternBonusTime !== -1)
+        this.timeRemaining += this.patternBonusTime;
+      
+      this.patternIndex++;
+      if (this.settings.isInfinite) {
+        this.currentPattern = this.patternGenerator.next().value;
+      } else {
+        if (this.patternIndex === this.settings.patternCount) {
+          this.won();
+          return;
+        }
+        this.currentPattern = this.patternsToBePlayed[this.patternIndex];
+      }
+
+      this.patternTime = this.currentPattern.timeLimitPerPattern;
+      this.patternMoves = this.currentPattern.moveLimitPerPattern;
+      this.patternModulo = this.currentPattern.moduloPerPattern;
+      this.patternBonusTime = this.currentPattern.bonusTimePerPattern;
     }
 
-    this.patternIndex = -1;
-    this.done = false;
-    this.patternGenerator = this.createPatternGenerator();
-    if (this.challenge.settings.patternCount !== -1)
-      this.difficulties = this.challenge.settings.difficulty();
+    if (this.settings.moveLimit !== -1) {
+      this.movesRemaining--;
+      if (this.movesRemaining <= 0) {
+        this.lost(ChallengeProcess.STATE.LOST_MOVES);
+        return;
+      }
+    }
 
-    this.currentLayout = this.next();
-
-    this.totalClicks = this.challenge.settings.moveLimit;
-    this.currentTime = this.challenge.settings.timeLimit;
-    this.currentPatternTime = -1;
-
-    this.timerId = null;
-
-    this.state = ChallengeProcess.STATE.NOT_STARTED;
-
+    if (this.patternMoves !== -1) {
+      this.patternMoves--;
+      if (this.patternMoves <= 0) {
+        this.lost(ChallengeProcess.STATE.LOST_MOVES);
+        return;
+      }
+    }
   }
 
   /**
-   * Method to be called when the challenge is won
+   * Generates the patterns to be played during the challenge.
+   * This method should only be called for finite challenges.
+   * @returns {ChallengePattern[]} The patterns to be played during the challenge.
+   */
+  generatePatternsToBePlayed() {
+    if (this.settings.isSequence) {
+      const patterns = [];
+      for (let i = 0; i < this.settings.patternCount; i++) {
+        patterns.push(this.settings.patternSequence.transition(patterns[i - 1]));
+      }
+      return patterns;
+    } else {
+      if (this.settings.patternListOrder === 'linear') {
+        const patterns = [];
+        for (let i = 0; i < this.settings.patternCount; i++) {
+          patterns.push(this.settings.patternList[i % this.settings.patternList.length].copy());
+        }
+        return patterns;
+      } else if (this.settings.patternListOrder === 'random') {
+        const patterns = [];
+        const patternList = [...this.settings.patternList];
+        for (let i = 0; i < this.settings.patternCount; i++) {
+          const index = Math.floor(Math.random() * patternList.length);
+          patterns.push(patternList.splice(index, 1)[0].copy());
+          if (patternList.length === 0) {
+            patternList.push(...this.settings.patternList);
+          }
+        }
+        return patterns;
+      } else {
+        throw new Error(`Invalid pattern list order '${this.settings.patternListOrder}'`);
+      }
+    }
+  }
+
+  /**
+   * Randomizes the positions of the patterns to be played
+   * @param {Number[]} difficulties The difficulties of the patterns to be played.
+   */
+  randomizePatterns(difficulties) {
+    let i = 0;
+    for (const pattern of this.patternsToBePlayed) {
+      const difficulty = difficulties[i++];
+      if (difficulty === undefined || difficulty === null)
+        throw new Error('Invalid difficulty array.');
+
+      pattern.layout = pattern.layout.generatePosition(
+        difficulty, pattern.moduloPerPattern
+      );
+    }
+  }
+
+  /**
+   * Ends the challenge process and marks it as won.
    */
   won() {
     this.state = ChallengeProcess.STATE.WON;
-    this.done = true;
     clearInterval(this.timerId);
   }
 
   /**
-   * Method to be called when the challenge is over because the player lost
-   * @param {ChallengeProcess.STATE.LOST_MOVES|ChallengeProcess.STATE.LOST_TIMES} reason the reason for the loss
+   * Ends the challenge process and marks it as lost.
+   * @param {ChallengeProcess.STATE} reason
    */
   lost(reason) {
     this.state = reason;
-    this.done = true;
     clearInterval(this.timerId);
   }
 
   /**
-   * Gets the next pattern of the challenge. This works as a generating function,
-   * meaning the function can resume generating patterns even after having yielded one,
-   * in contrast of needing to keep track of an index, or some other cluttered code that Pierre would write.
-   * @yields {Generator<ChallengePattern, ChallengePattern>} The next pattern
+   * Creates a pattern generator that generates patterns.
+   * This method should only be called for infinite challenges.
    */
-  *createPatternGenerator() {
-    const { patternCount, patternListOrder, patternList } = this.challenge.settings;
-    if (this.challenge.settings.isSequence) {
-
+  * createPatternGenerator() {
+    if (this.settings.isSequence) {
+      const initialPattern = this.settings.patternSequence.initialState.copy();
+      initialPattern.layout = initialPattern.layout.generatePosition(
+        this.settings.difficulty(this.patternIndex), initialPattern.moduloPerPattern
+      );
+      yield initialPattern;
       while (true) {
-        if (this.patternIndex === this.challenge.settings.patternCount - 1) {
-          return null;
-        }
-        yield this.challenge.settings.patternList.next();
+        const pattern = this.settings.patternSequence.transition(this.currentPattern);
+        pattern.layout = pattern.layout.generatePosition( 
+          this.settings.difficulty(this.patternIndex), pattern.moduloPerPattern
+        );
+        yield pattern.copy();
       }
-
     } else {
-
-      // Infinite patterns
-      if (patternCount === -1) {
-        if (patternListOrder === 'linear') {
-          // Continuously loops through the pattern list, yielding each pattern in a linear manner
-          while (true) {
-            for (const pattern of patternList) {
-              yield pattern;
-            }
-          }
-        } else if (patternListOrder === 'random') {
-          // Continously selects a random pattern without repeating
-          while (true) {
-            const patternList = [...patternList];
-            while (patternList.length) {
-              const index = Math.floor(Math.random() * patternList.length);
-              yield patternList.splice(index, 1)[0];
-            }
+      if (this.settings.patternListOrder === 'linear') {
+        while (true) {
+          for (const pattern of this.settings.patternList) {
+            const newPattern = pattern.copy();
+            newPattern.layout = newPattern.layout.generatePosition(
+              this.settings.difficulty(this.patternIndex), newPattern.moduloPerPattern
+            );
+            yield newPattern;
           }
         }
-        throw new Error('Invalid pattern list order');
+      } else if (this.settings.patternListOrder === 'random') {
+        while (true) {
+          const patternList = [...this.settings.patternList];
+          while (patternList.length) {
+            const index = Math.floor(Math.random() * patternList.length);
+            const pattern = patternList.splice(index, 1)[0].copy();
+            pattern.layout = pattern.layout.generatePosition(
+              this.settings.difficulty(this.patternIndex), pattern.moduloPerPattern
+            );
+            yield pattern;
+          }
+        }
       } else {
-        if (patternListOrder === 'linear') {
-          // Selects patterns in order and returns when the end is reached
-          for (let i = 0; i < patternCount - 1; i++) {
-            yield patternList[i % patternList.length];
-          }
-          return patternList[(patternCount - 1) % patternList.length]
-        } else if (patternListOrder === 'random') {
-          // Selects the patterns in a random order until the end is reached
-          const patternListNew = [...patternList];
-          for (let i = 0; i < patternCount - 1; i++) {
-            const index = Math.floor(Math.random() * patternListNew.length);
-            yield patternListNew.splice(index, 1)[0];
-            if (patternListNew.length === 0) {
-              patternListNew.push(...patternList);
-            }
-          }
-          return patternListNew[0];
-        }
-        throw new Error('Invalid pattern list order ' + patternListOrder);
+        throw new Error(`Invalid pattern list order '${this.settings.patternListOrder}'`);
       }
     }
   }
-
 }
-
-// export class ChallengeProcess {
-
-//   static STATE = {
-//     NOT_STARTED: 0,
-//     IN_PROGRESS: 1,
-//     WON: 2,
-//     LOST_TIME: 3,
-//     LOST_MOVES: 4,
-//   }
-
-//   /**
-//    * Constructs a new Challenge Process
-//    * A Challenge Process manages the ongoing state when
-//    * a challenge is being played
-//    * @param {Challenge} challenge 
-//    */
-//   constructor(challenge) {
-//     require(
-//       challenge,
-//       challenge.settings,
-//       challenge.settings.patternList,
-//       challenge.settings.difficulty
-//     )
-
-//     this.challenge = challenge;
-//     this.patternIndex = -1;
-//     this.done = false;
-//     this.patternGenerator = this.createPatternGenerator();
-
-//     this.totalClicks = challenge.settings.moveLimit;
-//     this.currentTime = challenge.settings.timeLimit;
-//     this.currentPatternTime = null;
-
-//     this.timerId = null;
-
-//     this.state = ChallengeProcess.STATE.NOT_STARTED;
-
-//     if (!this.challenge.settings.isInfinite) {
-//       this.patternsToBePlayed = new Array(this.challenge.settings.patternCount).fill().map(() => this.patternGenerator.next().value);
-//       this.difficulties = this.challenge.settings.difficulty(this.patternsToBePlayed);
-//       this.patternsToBePlayed = this.patternsToBePlayed.map(pattern => {
-//         pattern.layout = pattern.layout.generatePosition(this.difficulties[this.patternsToBePlayed.findIndex(e => e.id === pattern.id)], pattern.moduloPerPattern);
-//         return pattern;
-//       });
-//       this.patternIndex = 0;
-//     }
-
-//   }
-
-//   /**
-//    * This function listens for click events and manages the challenge state accordingly.
-//    */
-//   handleClick() {
-//     if (this.done) return;
-
-//     // The pattern is solved
-//     if (this.currentLayout.isSolved()) {
-//       if (this.patternBonusTime !== -1)
-//         this.currentTime += this.patternBonusTime;
-      
-//       if (this.challenge.settings.isInfinite) {
-//         this.currentLayout = this.next();
-//         // No patterns remaining, the player won
-//         if (this.currentLayout === null) {
-//           this.won();
-//           return;
-//         }
-//       } else {
-//         this.patternIndex++;
-//         // No patterns remaining, the player won
-//         if (this.patternIndex === this.challenge.settings.patternCount) {
-//           this.won();
-//           return;
-//         }
-//         this.currentLayout = this.patternsToBePlayed[this.patternIndex];
-//       }
-
-//     }
-
-//     // Check if a move limit is enabled and if no moves are remaining
-//     if (this.challenge.settings.moveLimit !== -1) {
-//       this.totalClicks--;
-//       if (this.totalClicks <= 0) {
-//         this.lost(ChallengeProcess.STATE.LOST_MOVES);
-//         return;
-//       }
-//     }
-
-//     // Check if pattern move limit is enabled and if no moves are remaining
-//     if (this.patternClicks !== -1) {
-//       this.patternClicks--;
-//       if (this.patternClicks <= 0) {
-//         this.lost(ChallengeProcess.STATE.LOST_MOVES);
-//         return;
-//       }
-//     }
-//   }
-
-//   /**
-//    * Computes the next layout of the Challenge
-//    * Layouts are provided by the pattern generating function below {@link createPatternGenerator}
-//    * @returns {ChallengePattern|null} the layout or null if the challenge is finished
-//    */
-//   next() {
-//     const { value: pattern, done } = this.patternGenerator.next();
-//     if (!done) {
-//       this.patternIndex++;
-
-//       // Extract values specific to the current pattern
-//       this.currentPatternTime = pattern.timeLimitPerPattern;
-//       this.patternModulo = pattern.moduloPerPattern;
-//       this.patternClicks = pattern.moveLimitPerPattern;
-//       this.patternBonusTime = pattern.bonusTimePerPattern;
-
-//       // Compute a layout with a random position, from the given difficulty array
-//       pattern.layout = pattern.layout.generatePosition(this.challenge.settings.isInfinite ? 
-//         this.challenge.settings.difficulty(this.patternIndex)
-//         : this.difficulties[
-//           this.challenge.settings.isSequence ? this.patternIndex :
-//           this.challenge.settings.patternList.findIndex(e => e.id === pattern.id)
-//         ],
-//       pattern.moduloPerPattern);
-//       return pattern.copy();
-//     } else {
-//       return null;
-//     }
-//   }
-
-//   /**
-//    * Starts the Challenge timers and marks the Challenge as IN_PROGRESS.
-//    */
-//   start() {
-
-//     this.state = ChallengeProcess.STATE.IN_PROGRESS;
-
-//     this.timerId = setInterval(() => {
-//       if (this.challenge.settings.timeLimit !== -1) {
-//         this.currentTime--;
-//         if (this.currentTime <= 0) {
-//           this.lost(ChallengeProcess.STATE.LOST_TIME);
-//           return;
-//         }
-//       }
-//       if (this.currentPatternTime !== -1) {
-//         this.currentPatternTime--;
-//         if (this.currentPatternTime <= 0) {
-//           this.lost(ChallengeProcess.STATE.LOST_TIME);
-//           return;
-//         }
-//       }
-//     }, 1000);
-//   }
-
-//   /**
-//    * Resets the Challenge Process to default values, so it can be played again.
-//    * @todo check if everything to be reset is indeed reset
-//    */
-//   reset() {
-//     if (this.challenge.settings.isSequence) {
-//       this.challenge.settings.patternList.reset();
-//     }
-
-//     this.patternIndex = -1;
-//     this.done = false;
-//     this.patternGenerator = this.createPatternGenerator();
-      
-
-//     if(this.challenge.settings.isInfinite) this.currentLayout = this.next().layout;
-
-//     this.totalClicks = this.challenge.settings.moveLimit;
-//     this.currentTime = this.challenge.settings.timeLimit;
-//     this.currentPatternTime = -1;
-
-//     this.timerId = null;
-
-//     this.state = ChallengeProcess.STATE.NOT_STARTED;
-
-//     if (!this.challenge.settings.isInfinite) {
-//       this.patternsToBePlayed = new Array(this.challenge.settings.patternCount).fill().map(() => this.patternGenerator.next().value);
-//       this.difficulties = this.challenge.settings.difficulty(this.patternsToBePlayed);
-//       console.log(this.difficulties);
-//       this.patternsToBePlayed = this.patternsToBePlayed.map(pattern => {
-//         pattern.layout = pattern.layout.generatePosition(this.difficulties[this.patternsToBePlayed.findIndex(e => e.id === pattern.id)], pattern.moduloPerPattern);
-//         return pattern;
-//       });
-//       this.patternIndex = 0;
-//       console.log(this.patternsToBePlayed);
-//       this.currentLayout = this.patternsToBePlayed[this.patternIndex].layout;
-//     }
-
-//   }
-
-//   /**
-//    * Method to be called when the challenge is won
-//    */
-//   won() {
-//     this.state = ChallengeProcess.STATE.WON;
-//     this.done = true;
-//     clearInterval(this.timerId);
-//   }
-
-//   /**
-//    * Method to be called when the challenge is over because the player lost
-//    * @param {ChallengeProcess.STATE.LOST_MOVES|ChallengeProcess.STATE.LOST_TIMES} reason the reason for the loss
-//    */
-//   lost(reason) {
-//     this.state = reason;
-//     this.done = true;
-//     clearInterval(this.timerId);
-//   }
-
-//   /**
-//    * Gets the next pattern of the challenge. This works as a generating function,
-//    * meaning the function can resume generating patterns even after having yielded one,
-//    * in contrast of needing to keep track of an index, or some other cluttered code that Pierre would write.
-//    * @yields {Generator<ChallengePattern, ChallengePattern>} The next pattern
-//    */
-//   *createPatternGenerator() {
-//     const { patternCount, patternListOrder, patternList } = this.challenge.settings;
-//     if (this.challenge.settings.isSequence) {
-
-//       while (true) {
-//         if (this.patternIndex === this.challenge.settings.patternCount - 1) {
-//           return null;
-//         }
-//         yield this.challenge.settings.patternList.next();
-//       }
-
-//     } else {
-
-//       // Infinite patterns
-//       if (patternCount === -1) {
-//         if (patternListOrder === 'linear') {
-//           // Continuously loops through the pattern list, yielding each pattern in a linear manner
-//           while (true) {
-//             for (const pattern of patternList) {
-//               yield pattern;
-//             }
-//           }
-//         } else if (patternListOrder === 'random') {
-//           // Continously selects a random pattern without repeating
-//           while (true) {
-//             const patternList = [...patternList];
-//             while (patternList.length) {
-//               const index = Math.floor(Math.random() * patternList.length);
-//               yield patternList.splice(index, 1)[0];
-//             }
-//           }
-//         }
-//         throw new Error('Invalid pattern list order');
-//       } else {
-//         if (patternListOrder === 'linear') {
-//           // Selects patterns in order and returns when the end is reached
-//           for (let i = 0; i < patternCount - 1; i++) {
-//             yield patternList[i % patternList.length];
-//           }
-//           return patternList[(patternCount - 1) % patternList.length]
-//         } else if (patternListOrder === 'random') {
-//           // Selects the patterns in a random order until the end is reached
-//           const patternListNew = [...patternList];
-//           for (let i = 0; i < patternCount - 1; i++) {
-//             const index = Math.floor(Math.random() * patternListNew.length);
-//             yield patternListNew.splice(index, 1)[0];
-//             if (patternListNew.length === 0) {
-//               patternListNew.push(...patternList);
-//             }
-//           }
-//           return patternListNew[0];
-//         }
-//         throw new Error('Invalid pattern list order ' + patternListOrder);
-//       }
-//     }
-//   }
-
-// }
 
 export class PatternSequence {
   /**
-   * Constructs a Pattern Sequence.
+   * Represents a Pattern Sequence.
    * A pattern sequence consists of an initial state,
    * and a function that computes the next state from the current one.
    * @param {ChallengePattern} initialState  
    * @param {(pattern: ChallengePattern) => ChallengePattern} transition 
    */
   constructor(initialState, transition) {
-    this.state = initialState.copy();
     this.initialState = initialState.copy();
     this.transition = transition;
-
-    this.isFirst = true;
-  }
-
-  next() {
-    if (this.isFirst) {
-      this.isFirst = false;
-      return this.state.copy();
-    }
-    this.state = this.transition(this.state.copy());
-    return this.state.copy();
-  }
-
-  reset() {
-    this.state = this.initialState.copy();
-    this.isFirst = true;
   }
 }

@@ -74,13 +74,13 @@ export default {
       
       if (!this.isUnlocked(challenge)) return;
 
-      const store = useStore();
+      challenge.process.init();
 
+      const store = useStore();
       store.setChallenge(challenge);
 
-      challenge.process.reset();
       setModulo(challenge.process.patternModulo);
-      store.setLayout(challenge.process.currentLayout)
+      store.setLayout(challenge.process.currentPattern.layout)
 
       this.$router.push('/challengeGame');
     },

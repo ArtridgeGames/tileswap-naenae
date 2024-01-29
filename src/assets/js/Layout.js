@@ -166,7 +166,7 @@ export class Layout {
    */
   isSolved(modulo = 2) {
     return this.matrix.every(row => row.every(tile => tile === modulo - 1 || tile === -1));
-  }w
+  }
 
   /**
    * Checks if the tile at the specified position is a tile
@@ -229,8 +229,8 @@ export class Layout {
     }
 
     // Regenerate if the matrix is already solved
-    if (copy.matrix.every(row => row.every(tile => tile === modulo || tile === -1))) {
-      return this.generatePosition(iterations, modulo);
+    if (copy.isSolved(modulo)) {
+      return this.generatePosition(iterations, modulo, tilesToFlip);
     }
 
     if (copy.nTiles() < 50) {
@@ -245,7 +245,7 @@ export class Layout {
         (iterations > zerows ? zerows : iterations) :
         Math.floor(iterations - modulo * (iterations / 3) + 2);
       if (solution.moves < threshold) {
-        // return this.generatePosition(iterations, modulo);
+        // return this.generatePosition(iterations, modulo, tilesToFlip);
       }
     }
 

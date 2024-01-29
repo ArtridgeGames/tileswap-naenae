@@ -1,24 +1,33 @@
 <script setup>
-import Layout from '../../components/Layout.vue';
+import Layout from "../../components/Layout.vue";
 import Modal from "../../components/Modal.vue";
-import Button from '../../components/buttons/Button.vue';
-import Progress from '../../components/Progress.vue';
+import Button from "../../components/buttons/Button.vue";
+import Progress from "../../components/Progress.vue";
 </script>
 
 <template>
   <div>
-
     <Button class="top right" text="back" @pressed="showPauseModal = true" />
 
     <div v-if="hasStarted">
-      <h2 class="info center"> {{ formattedTime }} {{ moves }} {{ percentageCompleted + '%' }}</h2>
-      <h2 class="per center">{{ movesPer }} {{ formattedTimePer }}</h2>
-      <Progress class="center progress" :value="percentageCompleted" :max="100" />
+      <h2 class="info center">
+        {{  [formattedTime, moves, percentageCompleted].filter(e => e).join(' - ')  }}
+      </h2>
+      <h2 class="per center">{{  [movesPer, formattedTimePer].filter(e => e).join(' - ')  }}</h2>
+      <Progress
+        class="center progress"
+        :value="percentageCompleted"
+        :max="100"
+      />
     </div>
     <h2 class="info center" v-else>Click To Start The Challenge !</h2>
     <main>
       <Transition name="fade" mode="out-in">
-        <Layout :key="currentChallenge.process.patternIndex" v-model="currentChallenge.process.currentLayout" @swap="handleClick" />
+        <Layout
+          :key="currentChallenge.process.patternIndex"
+          v-model="currentChallenge.process.currentPattern.layout"
+          @swap="handleClick"
+        />
       </Transition>
     </main>
 
@@ -45,7 +54,7 @@ main {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
 }
 .info {
   position: absolute;
@@ -54,7 +63,7 @@ main {
   white-space: nowrap;
 }
 .per {
-  position:absolute;
+  position: absolute;
   bottom: 5%;
   font-size: var(--font-size-lg);
   pointer-events: none;
@@ -67,7 +76,7 @@ main {
   background-color: var(--hl-color);
 }
 
-@media screen and (max-width: 600px)  {
+@media screen and (max-width: 600px) {
   .progress {
     width: 90%;
   }
@@ -75,12 +84,11 @@ main {
 </style>
 
 <script>
-
-import { useStore } from '../../store/store.js'
-import { Task } from '../../assets/js/Task';
-import { formatTime } from '../../assets/js/Format';
-import { modulo, setModulo } from '../../assets/js/LayoutShared.js';
-import { ChallengeProcess } from '../../assets/js/challenges/Challenge';
+import { useStore } from "../../store/store.js";
+import { Task } from "../../assets/js/Task";
+import { formatTime } from "../../assets/js/Format";
+import { modulo, setModulo } from "../../assets/js/LayoutShared.js";
+import { ChallengeProcess } from "../../assets/js/challenges/Challenge";
 
 export default {
   data() {
@@ -91,12 +99,11 @@ export default {
       showLostModal: false,
       showPauseModal: false,
       modalText: "",
-      hasStarted: false
-    }
+      hasStarted: false,
+    };
   },
   methods: {
     handleClick() {
-
       if (!this.hasStarted) {
         this.currentChallenge.process.start();
       }
@@ -104,14 +111,15 @@ export default {
 
       this.currentChallenge.process.handleClick();
 
-      if (this.currentChallenge.process.state === ChallengeProcess.STATE.IN_PROGRESS) {
+      if (
+        this.currentChallenge.process.state ===
+        ChallengeProcess.STATE.IN_PROGRESS
+      ) {
         setModulo(this.currentChallenge.process.patternModulo);
-        
-        const store = useStore()
-        store.setLayout(this.currentChallenge.process.currentLayout);
+
+        const store = useStore();
+        store.setLayout(this.currentChallenge.process.currentPattern.layout);
       }
-
-
     },
     /*
     handleClick() {
@@ -150,63 +158,80 @@ export default {
     quit() {
       // window.clearInterval(this.timerId);
       // this.currentChallenge.reset();
-      this.$router.push('/home');
-    }
+      this.$router.push("/home");
+    },
   },
   watch: {
     showWinModal() {
       if (!this.showWinModal) {
-        this.$router.push('/home');
+        this.$router.push("/home");
         // this.currentChallenge.reset();
       }
     },
     showLostModal() {
       if (!this.showLostModal) {
-        this.$router.push('/home');
+        this.$router.push("/home");
         // this.currentChallenge.reset();
       }
     },
     "currentChallenge.process.state"(newVal) {
       if (newVal === ChallengeProcess.STATE.WON) {
         this.showWinModal = true;
-        Task.advanceTasks(this.currentChallenge.id, Task.TASK_TYPES.CHALLENGE, this.currentChallenge.settings.timeLimit - this.currentChallenge.process.currentTime);
-        this.currentChallenge.process.reset();
+        Task.advanceTasks(
+          this.currentChallenge.id,
+          Task.TASK_TYPES.CHALLENGE,
+          this.currentChallenge.settings.timeLimit -
+            this.currentChallenge.process.currentTime
+        );
+        this.currentChallenge.process.init();
         return;
       }
 
       if (newVal === ChallengeProcess.STATE.LOST_TIME) {
         this.modalText = "no time left!";
         this.showLostModal = true;
-        this.currentChallenge.process.reset();
+        this.currentChallenge.process.init();
         return;
       }
 
       if (newVal === ChallengeProcess.STATE.LOST_MOVES) {
         this.modalText = "no moves left!";
         this.showLostModal = true;
-        this.currentChallenge.process.reset();
+        this.currentChallenge.process.init();
         return;
       }
-    }
+    },
   },
   computed: {
     formattedTime() {
-      return this.currentChallenge.process.currentTime !== -1 
-        ? formatTime(this.currentChallenge.process.currentTime) + "- " : '';
+      return this.currentChallenge.process.timeRemaining !== -1
+        ? formatTime(this.currentChallenge.process.timeRemaining)
+        : "";
     },
     formattedTimePer() {
-      return this.currentChallenge.process.currentPatternTime !== -1
-        ? formatTime(this.currentChallenge.process.currentPatternTime) :'';
+      return this.currentChallenge.process.patternTime !== -1
+        ? formatTime(this.currentChallenge.process.patternTime)
+        : "";
     },
     percentageCompleted() {
-      return Math.floor(this.currentChallenge.process.patternIndex / this.currentChallenge.settings.patternCount * 100);
+      return this.currentChallenge.settings.isInfinite
+        ? ""
+        : Math.floor(
+            (this.currentChallenge.process.patternIndex /
+              this.currentChallenge.settings.patternCount) *
+              100
+          ) + "%";
     },
     moves() {
-      return this.currentChallenge.process.totalClicks === -1?"":this.currentChallenge.process.totalClicks+" -"
+      return this.currentChallenge.process.movesRemaining === -1
+        ? ""
+        : this.currentChallenge.process.movesRemaining
     },
     movesPer() {
-      return this.currentChallenge.process.patternClicks <= -1?"":(this.currentChallenge.process.patternClicks + (this.currentChallenge.process.currentPatternTime===-1?"":" - "))
-    }
+      return this.currentChallenge.process.patternMoves === -1
+        ? ""
+        : this.currentChallenge.process.patternMoves
+    },
   },
   mounted() {
     // this.timerId = window.setInterval(()=>{
@@ -228,6 +253,6 @@ export default {
     //     }
     //   }
     // }, 1000);
-  }
-}
+  },
+};
 </script>

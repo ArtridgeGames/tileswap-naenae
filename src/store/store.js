@@ -28,6 +28,10 @@ export const useStore = defineStore('store', () => {
     unlockedChallenges.value = CHALLENGES.flatMap(e => e.challenges.map(e => e.id));
   }
 
+  if (process.env.NODE_ENV === 'development') {
+    unlockAll();
+  }
+
   function setTask(index, task) {
     currentTasks.value.splice(index, 1);
     currentTasks.value.push(task);
