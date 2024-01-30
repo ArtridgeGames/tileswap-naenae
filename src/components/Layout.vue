@@ -17,6 +17,7 @@ import Tile from "./Tile.vue";
           :tile="tile"
           :data-tile="`${tile + 1}`"
           :visible="tile !== -1"
+          :layout="modelValue"
           :position="[rowIndex, tileIndex]"
           :key="
             rowIndex + '' + tileIndex + '' + currentChallenge?.currentPattern + modelValue.id

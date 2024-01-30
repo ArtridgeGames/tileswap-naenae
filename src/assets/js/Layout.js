@@ -1,4 +1,5 @@
 import { solveWithRotation } from './solve/solve.js';
+import { expect, require } from './utils.js';
 
 /**
  * A class representing a layout of tiles
@@ -85,6 +86,9 @@ export class Layout {
    * @param {Number} config.unlockCategory the level at which this layout is unlocked
    */
   constructor({ width, height, exclude, unlockCategory, id }) {
+    require(width, height);
+    expect(width > 0 && height > 0);
+
     this.width = width;
     this.height = height;
     this.exclude = exclude ?? [];
@@ -101,10 +105,15 @@ export class Layout {
    * Swaps the tile at the specified position with its neighbors
    * @param {Number} row the row of the tile to swap
    * @param {Number} column the column of the tile to swap
-   * @param {Number} direction the direction to swap the tiles in
+   * @param {Number} [direction] the direction to swap the tiles in
+   * @param {Number} [modulo] the modulo of the tiles
+   * @param {Number[][]} [tilesToFlip] the tiles to swap
    * @returns {Number} the number of tiles swapped
    */
   swapTiles(row, column, direction = 1, modulo = 2, tilesToFlip = Layout.TILES_TO_FLIP) {
+    require(row, column);
+    expect(row >= 0 && row < this.matrix.length && column >= 0 && column < this.matrix[0].length);
+
     let count = 0;
 
     for (const delta of tilesToFlip) {
@@ -211,7 +220,9 @@ export class Layout {
    * @returns {Layout} a Layout object with a random pattern
    */
   generatePosition(iterations, modulo = 2, tilesToFlip = Layout.TILES_TO_FLIP) {
-    
+    require(iterations);
+    expect(iterations > 0);
+
     const copy = this.copy();
     copy.setAllTiles(modulo - 1);
     
@@ -242,14 +253,32 @@ export class Layout {
 
       const solution = solutions[shortest];
       const threshold = zerows !== 1 ?
-        (iterations > zerows ? zerows : iterations) :
+        Math.min(zerows, iterations) :
         Math.floor(iterations - modulo * (iterations / 3) + 2);
       if (solution.moves < threshold) {
-        // return this.generatePosition(iterations, modulo, tilesToFlip);
+        return this.generatePosition(iterations, modulo, tilesToFlip);
       }
     }
 
     return copy;
+  }
+
+  /**
+   * Computes the actual size of the layout, excluding padding
+   * added around the layout
+   */
+  actualSize() {
+    if (this.actualSizeCache) return this.actualSizeCache;
+    const matrix = this.matrix.map(row => row.slice());
+    while (matrix[0].every(e => e === -1)) matrix.shift();
+    while (matrix[matrix.length - 1].every(e => e === -1)) matrix.pop();
+    while (matrix.every(row => row[0] === -1)) matrix.forEach(row => row.shift());
+    while (matrix.every(row => row[row.length - 1] === -1)) matrix.forEach(row => row.pop());
+    this.actualSizeCache = {
+      width: matrix[0].length,
+      height: matrix.length
+    };
+    return this.actualSizeCache;
   }
 
   /**

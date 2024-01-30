@@ -116,48 +116,12 @@ export default {
         ChallengeProcess.STATE.IN_PROGRESS
       ) {
         setModulo(this.currentChallenge.process.patternModulo);
-
-        const store = useStore();
-        store.setLayout(this.currentChallenge.process.currentPattern.layout);
       }
     },
-    /*
-    handleClick() {
-      const store = useStore()
-      this.nMoves -= 1
-      this.nMovesPer -= 1
-      this.hasStarted = true;
-
-      if (this.layout.isSolved(modulo.value)) {
-        store.stats.layoutsSolved++;
-        this.nMovesPer = this.currentChallenge.moveLimitPer;
-        this.timePer = this.currentChallenge.timeLimitPer;
-        if (this.currentChallenge.currentPattern === this.currentChallenge.nPatterns - 1) {
-          this.showWinModal = true;
-          this.currentChallenge.minTime = Math.min(this.currentChallenge.timeLimit - this.time, this.currentChallenge.minTime);
-          this.currentChallenge.maxPercent = 100;
-          this.currentChallenge.minMoves = Math.min(this.currentChallenge.moveLimit - this.nMoves, this.currentChallenge.minMoves)
-          Task.advanceTasks(this.currentChallenge.id, Task.TASK_TYPES.CHALLENGE, this.currentChallenge.timeLimit - this.time);
-          window.clearInterval(this.timerId);
-          return;
-        }
-        
-        this.currentChallenge.nextLayout();
-        this.layout = this.currentChallenge.getCurrentLayout()
-      }
-      if (this.nMoves == 0 || this.nMovesPer == 0) {
-        this.modalText = "no moves left!";
-        this.currentChallenge.maxPercent = Math.max(this.percentageCompleted, this.currentChallenge.maxPercent);
-        this.showLostModal = true;
-        window.clearInterval(this.timerId);
-      }
-    },*/
     resume() {
       this.showPauseModal = false;
     },
     quit() {
-      // window.clearInterval(this.timerId);
-      // this.currentChallenge.reset();
       this.$router.push("/home");
     },
   },
@@ -165,13 +129,11 @@ export default {
     showWinModal() {
       if (!this.showWinModal) {
         this.$router.push("/home");
-        // this.currentChallenge.reset();
       }
     },
     showLostModal() {
       if (!this.showLostModal) {
         this.$router.push("/home");
-        // this.currentChallenge.reset();
       }
     },
     "currentChallenge.process.state"(newVal) {

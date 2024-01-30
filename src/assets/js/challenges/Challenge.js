@@ -1,6 +1,5 @@
-import { require } from '../utils.js';
+import { expect, require } from '../utils.js';
 import { Layout } from '../Layout.js';
-
 
 export class Challenge {
   /**
@@ -27,11 +26,16 @@ export class Challenge {
 
 export class ChallengeProperties {
 
+  static LIST_ORDERS = {
+    LINEAR: "linear",
+    RANDOM: "random",
+  }
+
   static GLOBAL_DEFAULTS = {
     timeLimit: -1,
     moveLimit: -1,
     patternCount: -1,
-    patternListOrder: 'random',
+    patternListOrder: ChallengeProperties.LIST_ORDERS.RANDOM,
     timeLimitPerPattern: -1,
     moveLimitPerPattern: -1,
     bonusTimePerPattern: 0,
@@ -48,7 +52,7 @@ export class ChallengeProperties {
    * @param {ChallengePattern[]} config.patternList - The list of patterns available during the challenge
    * @param {PatternSequence} config.patternSequence - The pattern sequence of the challenge
    * @param {Number} [config.patternCount] - The number of patterns of the challenge
-   * @param {"linear"|"random"} [config.patternListOrder] - The order of the pattern list of the challenge
+   * @param {ChallengeProperties.LIST_ORDERS.LINEAR|ChallengeProperties.LIST_ORDERS.RANDOM} [config.patternListOrder] - The order of the pattern list of the challenge
    * @param {Function} config.difficulty - The difficulty of the challenge
    * @param {Object} [config.defaults] - The default values for each pattern of the challenge.
    * @param {Number} [config.defaults.timeLimitPerPattern] - The default time limit for each pattern of the challenge
@@ -72,10 +76,8 @@ export class ChallengeProperties {
     } = {}
   }) {
     require(difficulty);
-    if (!(patternList instanceof Array) && !(patternSequence instanceof PatternSequence)
-      || (patternList instanceof Array) && (patternSequence instanceof PatternSequence)) {
-      throw new Error('Please provide either a pattern list or a pattern sequence.');
-    }
+    expect((patternList instanceof Array) !== (patternSequence instanceof PatternSequence));
+
 
     this.timeLimit = timeLimit ?? ChallengeProperties.GLOBAL_DEFAULTS.timeLimit;
     this.moveLimit = moveLimit ?? ChallengeProperties.GLOBAL_DEFAULTS.moveLimit;
@@ -199,6 +201,7 @@ export class ChallengeProcess {
    * @param {ChallengeProperties} settings
    */
   constructor(settings) {
+    require(settings);
     this.settings = settings;
   }
 
@@ -316,13 +319,13 @@ export class ChallengeProcess {
       }
       return patterns;
     } else {
-      if (this.settings.patternListOrder === 'linear') {
+      if (this.settings.patternListOrder === ChallengeProperties.LIST_ORDERS.LINEAR) {
         const patterns = [];
         for (let i = 0; i < this.settings.patternCount; i++) {
           patterns.push(this.settings.patternList[i % this.settings.patternList.length].copy());
         }
         return patterns;
-      } else if (this.settings.patternListOrder === 'random') {
+      } else if (this.settings.patternListOrder === ChallengeProperties.LIST_ORDERS.RANDOM) {
         const patterns = [];
         const patternList = [...this.settings.patternList];
         for (let i = 0; i < this.settings.patternCount; i++) {
@@ -392,7 +395,7 @@ export class ChallengeProcess {
         yield pattern.copy();
       }
     } else {
-      if (this.settings.patternListOrder === 'linear') {
+      if (this.settings.patternListOrder === ChallengeProperties.LIST_ORDERS.LINEAR) {
         while (true) {
           for (const pattern of this.settings.patternList) {
             const newPattern = pattern.copy();
@@ -402,7 +405,7 @@ export class ChallengeProcess {
             yield newPattern;
           }
         }
-      } else if (this.settings.patternListOrder === 'random') {
+      } else if (this.settings.patternListOrder === ChallengeProperties.LIST_ORDERS.RANDOM) {
         while (true) {
           const patternList = [...this.settings.patternList];
           while (patternList.length) {

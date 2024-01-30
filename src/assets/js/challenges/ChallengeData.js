@@ -1,6 +1,8 @@
 import { Layout } from '../Layout.js';
 import { Challenge, ChallengePattern, ChallengeProperties, PatternSequence } from './Challenge.js';
 
+const { LINEAR, RANDOM } = ChallengeProperties.LIST_ORDERS;
+
 function sumInRanges(ranges, targetSum, maxAttempts = 1000) {
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     let remainingSum = targetSum;
@@ -235,7 +237,7 @@ export const CHALLENGES = [
           timeLimit: 60,
           patternList: patternList([0, 14, 20, 21, 22, 23, 46]),
           patternCount: 10,
-          patternListOrder: 'random',
+          patternListOrder: RANDOM,
           difficulty: uniformSumInRanges([3, 5], 10, 45)
         })
       }),
@@ -246,7 +248,7 @@ export const CHALLENGES = [
           timeLimit: 60,
           patternList: patternList([0, 14, 20, 21, 22, 23, 46]),
           patternCount: 14,
-          patternListOrder: 'random',
+          patternListOrder: RANDOM,
           difficulty: uniformSumInRanges([3, 5], 14, 60)
         })
       }),
@@ -257,7 +259,7 @@ export const CHALLENGES = [
           timeLimit: 60,
           patternList: patternList([0, 14, 20, 21, 22, 23, 46]),
           patternCount: 16,
-          patternListOrder: 'random',
+          patternListOrder: RANDOM,
           difficulty: uniformSumInRanges([3, 6], 16, 70)
         })
       })
@@ -273,7 +275,7 @@ export const CHALLENGES = [
         settings: new ChallengeProperties({
           patternList: patternList([119, 109, 110, 111, 142, 143, 144, 145, 131, 166, 146, 130, 132, 133, 156, 167, 168, 169, 161, 170, 171, 172, 173, 174, 175, 176]),
           patternCount: 26,
-          patternListOrder: 'linear',
+          patternListOrder: LINEAR,
           difficulty: uniform(26, 3),
           defaults: {
             timeLimitPerPattern: 10
@@ -293,7 +295,7 @@ export const CHALLENGES = [
           moveLimit: 45,
           patternList: patternList([156, 157, 158, 159, 160, 161, 162, 163, 164, 165]),
           patternCount: 10,
-          patternListOrder: 'linear',
+          patternListOrder: LINEAR,
           difficulty: uniform(10, 3)
         })
       }),
@@ -331,7 +333,7 @@ export const CHALLENGES = [
         gameOfLife
       ),
       patternCount: 14,
-      patternListOrder: 'random',
+      patternListOrder: RANDOM,
       difficulty: uniform(14, 1)
     })
   }),
@@ -342,7 +344,7 @@ export const CHALLENGES = [
       timeLimit: 60,
       patternList: patternList([0]),
       patternCount: 15,
-      patternListOrder: 'random',
+      patternListOrder: RANDOM,
       difficulty: uniform(15, 3),
       defaults: {
         moveLimitPerPattern: 5
@@ -356,7 +358,7 @@ export const CHALLENGES = [
       moveLimit: 45,
       patternList: patternList([156, 157, 158, 159, 160, 161, 162, 163, 164, 165]),
       patternCount: 10,
-      patternListOrder: 'linear',
+      patternListOrder: LINEAR,
       difficulty: uniform(10, 3)
     })
   }),
@@ -366,7 +368,7 @@ export const CHALLENGES = [
     settings: new ChallengeProperties({
       patternList: patternList([119, 109, 110, 111, 142, 143, 144, 145, 131, 166, 146, 130, 132, 133, 156, 167, 168, 169, 161, 170, 171, 172, 173, 174, 175, 176]),
       patternCount: 26,
-      patternListOrder: 'linear',
+      patternListOrder: LINEAR,
       difficulty: uniform(26, 3),
       defaults: {
         timeLimitPerPattern: 10
@@ -380,7 +382,7 @@ export const CHALLENGES = [
       timeLimit: 10,
       patternList: patternList([0]),
       patternCount: -1,
-      patternListOrder: 'linear',
+      patternListOrder: LINEAR,
       difficulty: n => Math.floor(7 * Math.log10(n) + 3),
       defaults: {
         bonusTimePerPattern: 2
@@ -394,7 +396,7 @@ export const CHALLENGES = [
       timeLimit: 50,
       patternList: patternList([86, 183, 184, 185]),
       patternCount: 4,
-      patternListOrder: 'linear',
+      patternListOrder: LINEAR,
       difficulty: () => sumInRanges([[4,5], [5,7], [9,13], [13,18]], 40)
     })
   }),
@@ -405,7 +407,7 @@ export const CHALLENGES = [
       timeLimit: 120,
       patternList: patternList([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]),
       patternCount: 10,
-      patternListOrder: 'linear',
+      patternListOrder: LINEAR,
       difficulty:  () => sumInRanges([[4,7], [7,11], [8,12], [14,20], [20,25], [20,25], [30,36], [35, 40]], 150)
     })
   }),
@@ -416,7 +418,7 @@ export const CHALLENGES = [
       timeLimit: 120,
       patternList: patternList([136, 19, 18, 17, 47, 177, 14]),
       patternCount: 7,
-      patternListOrder: 'linear',
+      patternListOrder: LINEAR,
       difficulty:  () => sumInRanges([[30,36], [18,25], [15,19], [9, 12], [6,10], [3,5], [3,5]], 97)
     })
   }),
@@ -427,7 +429,7 @@ export const CHALLENGES = [
       patternList: patternList([83, 84, 85, 104, 93, 94, 96, 97, 98, 99, 117, 103, 30, 152]),
       patternCount: 10,
       timeLimit: 80,
-      patternListOrder: 'random',
+      patternListOrder: RANDOM,
       difficulty:  () => sumInRanges([[4,8], [6,9], [5,7], [10,18], [7,10], [3,7], [3,6], [6,8], [6,9], [9,14], [6,8], [5,8], [5,8], [13,20]], 96),
       defaults: {
         bonusTimePerPattern: 5,
@@ -441,7 +443,7 @@ export const CHALLENGES = [
       timeLimit: 40,
       patternList: patternList([69, 45, 66, 130, 178, 179, 180, 182]),
       patternCount: 7,
-      patternListOrder: 'random',
+      patternListOrder: RANDOM,
       difficulty:  () => sumInRanges([[6,10], [5,9], [6,13], [2,4], [13,20], [10,15], [4,9], [7,17]], 70)
     })
   }),

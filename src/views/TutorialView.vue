@@ -74,13 +74,10 @@ div > h1.text-center {
 </style>
 
 <script>
-import { useStore } from '../store/store.js';
 import { tilesToFlip } from '../assets/js/LayoutShared.js';
 import { Layout } from '../assets/js/Layout.js';
 export default {
   data() {
-    const store = useStore();
-
     const examples = [
       {
         matrix: [[1,1,1,1,1],
@@ -164,11 +161,9 @@ export default {
     });
     
     const layout = examples[0].layout.copy();
-    store.setLayout(layout);
     return {
       layout,
       examples,
-      store,
       showModal: true,
       shake: false,
       stage: -1,
@@ -191,13 +186,11 @@ export default {
       if (!val) {
 
         if (this.stage + 1 >= this.examples.length) {
-          this.store.setLayout(this.layout);
           this.$router.push('/freeplayGame');
           return;
         }
 
         this.layout = this.examples[this.stage + 1].layout.copy();
-        this.store.setLayout(this.layout);
 
         this.text = this.examples[this.stage + 1].text;
 
@@ -241,7 +234,6 @@ export default {
     reset() {
       if (!this.examples[this.stage].solution) {
         this.layout = this.examples[this.stage].layout.copy();
-        this.store.setLayout(this.layout);
       }
     }
   },

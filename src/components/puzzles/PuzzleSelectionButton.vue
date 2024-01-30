@@ -122,7 +122,6 @@ export default {
       if (!this.unlocked) return;
       const store = useStore();
       store.setPuzzle(this.puzzle);
-      store.setLayout(this.layout);
 
       setModulo(this.puzzle.modulo);
 

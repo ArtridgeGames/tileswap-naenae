@@ -1,5 +1,4 @@
 <script setup>
-import { useStore } from "@/store/store.js";
 import TileShape from "./TileShape.vue";
 </script>
 
@@ -46,7 +45,7 @@ import {
 } from "../assets/js/LayoutShared.js";
 import { SETTINGS_DATA } from "../assets/js/Settings";
 export default {
-  props: ["tile", "visible", "small", "position"],
+  props: ["tile", "visible", "small", "position", "layout"],
   data() {
     return {
       tileSize: "30px",
@@ -85,20 +84,19 @@ export default {
     },
   },
   mounted() {
-    const store = useStore();
     const resize = () => {
-      const { width, height } = store.currentLayout;
+      const { width, height } = this.layout.actualSize();
 
       const size =
         (1 /
           (Math.sqrt(width ** 2 + height ** 2) *
             (window.innerWidth > 600 ? 0.5 : 0.8))) *
-        300 *
+        250 *
         (this.$props.small !== undefined ? 0.5 : 1);
       this.tileSize = size + "px";
     };
 
-    watch(() => store.currentLayout, resize, { deep: true, immediate: false });
+    watch(() => this.layout, resize, { deep: true, immediate: false });
     resize();
     window.addEventListener("resize", resize);
 
