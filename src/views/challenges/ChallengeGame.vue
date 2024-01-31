@@ -11,7 +11,7 @@ import Progress from "../../components/Progress.vue";
 
     <div v-if="hasStarted">
       <h2 class="info center">
-        {{  [formattedTime, moves, percentageCompleted].filter(e => e).join(' - ')  }}
+        {{  [formattedTime, moves, currentChallenge.settings.isInfinite ? null : percentageCompleted + "%"].filter(e => e).join(' - ')  }}
       </h2>
       <h2 class="per center">{{  [movesPer, formattedTimePer].filter(e => e).join(' - ')  }}</h2>
       <Progress
@@ -177,12 +177,12 @@ export default {
     },
     percentageCompleted() {
       return this.currentChallenge.settings.isInfinite
-        ? ""
+        ? 0
         : Math.floor(
             (this.currentChallenge.process.patternIndex /
               this.currentChallenge.settings.patternCount) *
               100
-          ) + "%";
+          );
     },
     moves() {
       return this.currentChallenge.process.movesRemaining === -1

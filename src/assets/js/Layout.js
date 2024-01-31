@@ -244,7 +244,7 @@ export class Layout {
       return this.generatePosition(iterations, modulo, tilesToFlip);
     }
 
-    if (copy.nTiles() < 50) {
+    if (copy.nTiles() < 50 && false) {
       const { solutions, shortest, zerows, } = solveWithRotation({
         state: copy.matrix,
         modulo,
