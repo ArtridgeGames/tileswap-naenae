@@ -77,6 +77,10 @@ export class Layout {
     });
   }
 
+  static fromId(id) {
+    return Layout.ALL_LAYOUTS.find(e => e.id === id).copy();
+  }
+
   /**
    * Creates a new Layout object
    * @param {Object} config

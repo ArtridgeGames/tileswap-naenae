@@ -162,7 +162,7 @@ const getNeighbors = (layout, x, y) => {
 }
 
 const getPatternFromIdWithPadding = (id, padding) => {
-  const layout = Layout.ALL_LAYOUTS.find(e => e.id === id).copy();
+  const layout = Layout.fromId(id);
   const newMatrix = addPaddingToMatrix(layout.matrix, padding);
   return new ChallengePattern({
     id,

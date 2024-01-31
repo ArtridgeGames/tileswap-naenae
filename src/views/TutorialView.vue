@@ -76,6 +76,7 @@ div > h1.text-center {
 <script>
 import { tilesToFlip } from '../assets/js/LayoutShared.js';
 import { Layout } from '../assets/js/Layout.js';
+import { useStore } from '../store/store.js';
 export default {
   data() {
     const examples = [
@@ -186,6 +187,8 @@ export default {
       if (!val) {
 
         if (this.stage + 1 >= this.examples.length) {
+          const store = useStore();
+          store.setLayout(Layout.fromId(0));
           this.$router.push('/freeplayGame');
           return;
         }

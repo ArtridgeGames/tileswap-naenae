@@ -7,6 +7,8 @@ Score is obtained when
 When solving a position in freeplay the following formula is applied to find out how much score is to be awarded:
 score = difficulty * (1.1 + difficulty / (max difficulty * 0.8 + 10))
 
+$$ score = D \times({1.1 + {D \over {D_{max} \times 0.8 + 10}}}) $$
+
 where: 
 - difficulty is the least number of moves required to solve the position
 - max difficulty is the theoretical maximum number of moves that the layout can take to solve, it can be approximated with the number of tiles the the layout has
