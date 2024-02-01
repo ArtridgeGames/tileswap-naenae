@@ -9,31 +9,8 @@ import TileShape from "./TileShape.vue";
         <TileShape :color="gradient[tile]" :shape="tileSVG"></TileShape>
       </div>
     </Transition>
-
-    <div class="flip-enter-active"></div>
-    <div class="flip-leave-active"></div>
   </div>
 </template>
-
-<!-- <div class="inner-tile">
-  <div
-    class="front"
-    :style="{
-      background: 'rgba(0,0,0,0)',
-    }"
-  >
-    <TileShape :color="frontColor" :shape="tileSVG"></TileShape>
-  </div>
-
-  <div
-    class="back"
-    :style="{
-      background: 'rgba(0,0,0,0)',
-    }"
-  >
-    <TileShape :color="backColor" :shape="tileSVG"></TileShape>
-  </div>
-</div> -->
 
 <script>
 import { watch } from "vue";
@@ -114,6 +91,7 @@ export default {
   border-radius: v-bind(borderRadius);
   margin: 7px;
   display: inline-block;
+  pointer-events: v-bind("visible ? 'auto' : 'none'");
   cursor: v-bind('visible ? "pointer" : "default"');
   /* overflow: hidden; */
   outline: solid 5px v-bind("frontOutline");

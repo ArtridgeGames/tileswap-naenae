@@ -236,6 +236,8 @@ export class ChallengeProcess {
     this.patternBonusTime = this.currentPattern.bonusTimePerPattern;
 
     this.timerId = null;
+
+    this.advanceTimers = true;
   }
 
   /**
@@ -243,16 +245,18 @@ export class ChallengeProcess {
    * when the player starts playing the challenge.
    */
   start() {
+    this.advanceTimers = true;
     this.state = ChallengeProcess.STATE.IN_PROGRESS;
+    clearInterval(this.timerId);
     this.timerId = setInterval(() => {
-      if (this.settings.timeLimit !== -1) {
+      if (this.settings.timeLimit !== -1 && this.advanceTimers) {
         this.timeRemaining--;
         if (this.timeRemaining <= 0) {
           this.lost(ChallengeProcess.STATE.LOST_TIME);
           return;
         }
       }
-      if (this.patternTime !== -1) {
+      if (this.patternTime !== -1 && this.advanceTimers) {
         this.patternTime--;
         if (this.patternTime <= 0) {
           this.lost(ChallengeProcess.STATE.LOST_TIME);
@@ -260,6 +264,27 @@ export class ChallengeProcess {
         }
       }
     }, 1000);
+  }
+
+  /**
+   * Pauses the challenge process.
+   */
+  pause() {
+    this.advanceTimers = false;
+  }
+
+  /**
+   * Resumes the challenge process.
+   */
+  resume() {
+    this.advanceTimers = true;
+  }
+
+  /**
+   * Quits the challenge process.
+   */
+  quit() {
+    clearInterval(this.timerId);
   }
 
   /**

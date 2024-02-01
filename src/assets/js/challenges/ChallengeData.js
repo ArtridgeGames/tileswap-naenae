@@ -161,7 +161,7 @@ const getNeighbors = (layout, x, y) => {
   return neighbors;
 }
 
-const getPatternFromIdWithPadding = (id, padding) => {
+export const getPatternFromIdWithPadding = (id, padding) => {
   const layout = Layout.fromId(id);
   const newMatrix = addPaddingToMatrix(layout.matrix, padding);
   return new ChallengePattern({

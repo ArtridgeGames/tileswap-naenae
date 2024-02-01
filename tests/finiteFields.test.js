@@ -55,43 +55,55 @@ describe('Finite Field matrix operations', () => {
     [0, 1, 1]
   ]);
 
-  // A * I = A
-  expect(A.multiply(field.identity(3)).equals(A)).toEqual(true);
-  
-  expect(A.isSquare()).toEqual(true);
-  expect(A.isSymmetric()).toEqual(false);
-  expect(B.isSymmetric()).toEqual(true);
+  test('Square and symmetric matrices', () => {
+    expect(A.isSquare()).toEqual(true);
+    expect(A.isSymmetric()).toEqual(false);
+    expect(B.isSymmetric()).toEqual(true);
+  });
 
-  // A^T
-  expect(A.transpose().toRawMatrix()).toEqual([
-    [1, 1, 0],
-    [0, 1, 1],
-    [1, 0, 1]
-  ]);
+  test('A * I = A', () => {
+    expect(A.multiply(field.identity(3)).equals(A)).toEqual(true);
+  });
 
-  // A^T = A
-  expect(B.transpose()).toEqual(B);
 
-  // A + B
-  expect(A.add(B).toRawMatrix()).toEqual([
-    [0, 1, 1],
-    [0, 1, 1],
-    [0, 0, 0]
-  ]);
+  test('A^T', () => {
+    expect(A.transpose().toRawMatrix()).toEqual([
+      [1, 1, 0],
+      [0, 1, 1],
+      [1, 0, 1]
+    ]);
+  });
 
-  // A * B
-  expect(A.multiply(B).toRawMatrix()).toEqual([
-    [1, 0, 1],
-    [0, 1, 1],
-    [1, 1, 0]
-  ]);
+  test('B^T = B for symmetrical matrices', () => {
+    expect(B.transpose()).toEqual(B);
+  });
+
+  test('A + B', () => {
+    expect(A.add(B).toRawMatrix()).toEqual([
+      [0, 1, 1],
+      [0, 1, 1],
+      [0, 0, 0]
+    ]);
+  });
+
+  test('A * B', () => {
+    expect(A.multiply(B).toRawMatrix()).toEqual([
+      [1, 0, 1],
+      [0, 1, 1],
+      [1, 1, 0]
+    ]);
+  });
 
   // A^3
-  expect(A.pow(3).toRawMatrix()).toEqual([
-    [0, 1, 1],
-    [1, 0, 1],
-    [1, 1, 0]
-  ]);
+
+  test('A^3', () => {
+    expect(A.pow(3).toRawMatrix()).toEqual([
+      [0, 1, 1],
+      [1, 0, 1],
+      [1, 1, 0]
+    ]);
+  });
+
 
   // -A = A
   expect(A.opposite()).toEqual(A);

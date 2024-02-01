@@ -7,7 +7,7 @@ import Tile from "./Tile.vue";
     <div>
       <div
         class="row"
-        v-for="(row, rowIndex) in modelValue.matrix"
+        v-for="(row, rowIndex) in matrix"
         :key="'row' + rowIndex + '' + currentChallenge?.currentPattern + modulo"
       >
         <Tile
@@ -18,34 +18,34 @@ import Tile from "./Tile.vue";
           :data-tile="`${tile + 1}`"
           :visible="tile !== -1"
           :layout="modelValue"
-          :position="[rowIndex, tileIndex]"
+          :position="[rowIndex + paddingY, tileIndex + paddingX]"
           :key="
-            rowIndex + '' + tileIndex + '' + currentChallenge?.currentPattern + modelValue.id
+            rowIndex + paddingX + '' + tileIndex + paddingY + '' + currentChallenge?.currentPattern + modelValue.id
           "
           :class="{
             solution:
-              devMode && solution && solution[rowIndex][tileIndex] >= 1,
+              devMode && solution && solution[rowIndex + paddingY][tileIndex + paddingX] >= 1,
             'color-blind': settings.colorBlind === 1,
             highlight: highlightedTiles?.some(
-              ([x, y]) => x === tileIndex && y === rowIndex
+              ([x, y]) => x === tileIndex + paddingX && y === rowIndex + paddingY
             ),
-            hover: (shouldHover(rowIndex, tileIndex) && settings.hoverTiles === 1 && disabled !== '') || forcedHover?.some(([x, y]) => x === tileIndex && y === rowIndex)
+            hover: (shouldHover(rowIndex + paddingY, tileIndex + paddingX) && settings.hoverTiles === 1 && disabled !== '') || forcedHover?.some(([x, y]) => x === tileIndex + paddingX && y === rowIndex + paddingY)
           }"
           :style="{
             outline: target
-              ? `5px solid ${gradient[target[rowIndex][tileIndex]]}`
+              ? `5px solid ${gradient[target[rowIndex + paddingY][tileIndex + paddingX]]}`
               : 'none',
           }"
           :data-moves="
             solution
               ? modulo !== 2
-                ? solution[rowIndex][tileIndex]
+                ? solution[rowIndex + paddingY][tileIndex + paddingX]
                 : ''
               : ''
           "
-          @[EVENTS.TOUCHSTART]="onTileClick(rowIndex, tileIndex)"
-          @mouseover="tile !== -1 && mouseOver(rowIndex, tileIndex)"
-          @mouseleave="tile !== -1 && mouseLeave(rowIndex, tileIndex)"
+          @[EVENTS.TOUCHSTART]="onTileClick(rowIndex + paddingY, tileIndex + paddingX)"
+          @mouseover="tile !== -1 && mouseOver(rowIndex + paddingY, tileIndex + paddingX)"
+          @mouseleave="tile !== -1 && mouseLeave(rowIndex + paddingY, tileIndex + paddingX)"
         />
       </div>
     </div>
@@ -126,6 +126,17 @@ export default {
       gradient,
       hoveredTile: null,
     };
+  },
+  computed: {
+    matrix() {
+      return this.modelValue.actualSize().matrix;
+    },
+    paddingX() {
+      return this.modelValue.actualSize().paddingLeft;
+    },
+    paddingY() {
+      return this.modelValue.actualSize().paddingTop;
+    },
   },
   methods: {
     onTileClick(row, tile) {

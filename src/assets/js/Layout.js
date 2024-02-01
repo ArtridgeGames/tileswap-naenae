@@ -274,13 +274,30 @@ export class Layout {
   actualSize() {
     if (this.actualSizeCache) return this.actualSizeCache;
     const matrix = this.matrix.map(row => row.slice());
+
+    // Top padding
     while (matrix[0].every(e => e === -1)) matrix.shift();
+    const paddingTop = this.matrix.length - matrix.length;
+    
+    // Bottom padding
     while (matrix[matrix.length - 1].every(e => e === -1)) matrix.pop();
+    const paddingBottom = this.matrix.length - matrix.length - paddingTop;
+    
+    // Left padding
     while (matrix.every(row => row[0] === -1)) matrix.forEach(row => row.shift());
+    const paddingLeft = this.matrix[0].length - matrix[0].length;
+    
+    // Right padding
     while (matrix.every(row => row[row.length - 1] === -1)) matrix.forEach(row => row.pop());
+    const paddingRight = this.matrix[0].length - matrix[0].length - paddingLeft;
     this.actualSizeCache = {
       width: matrix[0].length,
-      height: matrix.length
+      height: matrix.length,
+      paddingTop,
+      paddingBottom,
+      paddingLeft,
+      paddingRight,
+      matrix: matrix,
     };
     return this.actualSizeCache;
   }

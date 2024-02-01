@@ -7,7 +7,7 @@ import Progress from "../../components/Progress.vue";
 
 <template>
   <div>
-    <Button class="top right" text="back" @pressed="showPauseModal = true" />
+    <Button class="top right" text="pause" @pressed="pause" />
 
     <div v-if="hasStarted">
       <h2 class="info center">
@@ -42,7 +42,7 @@ import Progress from "../../components/Progress.vue";
     </Modal>
 
     <Modal v-model="showPauseModal">
-      <h1>Are you sure you want to go back?</h1>
+      <h1>Game is paused</h1>
       <Button black text="resume" @pressed="resume" />
       <Button black text="quit" @pressed="quit" />
     </Modal>
@@ -118,10 +118,16 @@ export default {
         setModulo(this.currentChallenge.process.patternModulo);
       }
     },
+    pause() {
+      this.showPauseModal = true;
+      this.currentChallenge.process.pause();
+    },
     resume() {
       this.showPauseModal = false;
+      this.currentChallenge.process.resume();
     },
     quit() {
+      this.currentChallenge.process.quit();
       this.$router.push("/home");
     },
   },
@@ -194,27 +200,6 @@ export default {
         ? ""
         : this.currentChallenge.process.patternMoves
     },
-  },
-  mounted() {
-    // this.timerId = window.setInterval(()=>{
-    //   if (this.currentChallenge.timeLimit !== -1){
-    //     this.time -= 1 * this.hasStarted * !this.showPauseModal;
-    //     if (this.time <= 0) {
-    //       this.modalText = "no time left!";
-    //       this.currentChallenge.maxPercent = Math.max(this.percentageCompleted, this.currentChallenge.maxPercent);
-    //       this.showLostModal = true;
-    //       window.clearInterval(this.timerId);
-    //     }
-    //   } if (this.currentChallenge.timeLimitPer !== -1) {
-    //     this.timePer -= 1 * this.hasStarted * !this.showPauseModal;
-    //     if (this.timePer <= 0) {
-    //       this.modalText = "no time left!";
-    //       this.currentChallenge.maxPercent = Math.max(this.percentageCompleted, this.currentChallenge.maxPercent);
-    //       this.showLostModal = true;
-    //       window.clearInterval(this.timerId);
-    //     }
-    //   }
-    // }, 1000);
   },
 };
 </script>
