@@ -321,6 +321,60 @@ export const CHALLENGES = [
         })
       }),
     ]
+  },
+  {
+    title: "Back to basics",
+    unlockCategory: 3,
+    challenges: [
+      new Challenge({
+        id: 8,
+        title: 'Normal',
+        settings: new ChallengeProperties({
+          timeLimit: 100,
+          patternList: [
+            new ChallengePattern({id:11, layout: Layout.fromId(11), moduloPerPattern: 2}),
+            new ChallengePattern({id:11, layout: Layout.fromId(11), moduloPerPattern: 3}),
+            new ChallengePattern({id:11, layout: Layout.fromId(11), moduloPerPattern: 4}),
+          ],
+          patternCount: 3,
+          patternListOrder: LINEAR,
+          difficulty: uniform(3, 7)
+        })
+      }),
+      new Challenge({
+        id: 9,
+        title: 'Hard',
+        settings: new ChallengeProperties({
+          timeLimit: 100,
+          patternList: [
+            new ChallengePattern({id:11, layout: Layout.fromId(11), moduloPerPattern: 2}),
+            new ChallengePattern({id:11, layout: Layout.fromId(11), moduloPerPattern: 3}),
+            new ChallengePattern({id:11, layout: Layout.fromId(11), moduloPerPattern: 4}),
+            new ChallengePattern({id:11, layout: Layout.fromId(11), moduloPerPattern: 5}),
+          ],
+          patternCount: 4,
+          patternListOrder: LINEAR,
+          difficulty: () => sumInRanges([[5,7], [7,12], [9,12], [9,12]], 34)
+        })
+      }),
+      new Challenge({
+        id: 10,
+        title: 'Expert',
+        settings: new ChallengeProperties({
+          timeLimit: 100,
+          patternList: [
+            new ChallengePattern({id:11, layout: Layout.fromId(11), moduloPerPattern: 2}),
+            new ChallengePattern({id:11, layout: Layout.fromId(11), moduloPerPattern: 3}),
+            new ChallengePattern({id:11, layout: Layout.fromId(11), moduloPerPattern: 4}),
+            new ChallengePattern({id:11, layout: Layout.fromId(11), moduloPerPattern: 5}),
+            new ChallengePattern({id:11, layout: Layout.fromId(11), moduloPerPattern: 6}),
+          ],
+          patternCount: 5,
+          patternListOrder: LINEAR,
+          difficulty: () => sumInRanges([[5,7], [7,12], [9,12], [9,12], [10, 13]], 42)
+        })
+      }),
+    ]
   }
   /*
   new Challenge({
