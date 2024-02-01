@@ -229,6 +229,8 @@ export class Layout {
 
     const copy = this.copy();
     copy.setAllTiles(modulo - 1);
+
+    const alreadyFlipped = [];
     
     for (let i = 0; i < iterations; i++) {
 
@@ -238,8 +240,9 @@ export class Layout {
       do {
         row = Math.floor(Math.random() * copy.height);
         tile = Math.floor(Math.random() * copy.width);
-      } while (!copy.isTile(row, tile));
-
+      } while (!copy.isTile(row, tile) || alreadyFlipped.includes(row * copy.width + tile));
+      alreadyFlipped.push(row * copy.width + tile);
+      if (alreadyFlipped.length === Math.floor(copy.nTiles() / 2)) alreadyFlipped.splice(0, alreadyFlipped.length);
       copy.swapTiles(row, tile, -1, modulo, tilesToFlip);
     }
 
