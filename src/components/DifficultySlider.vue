@@ -23,7 +23,7 @@ export default {
     const store = useStore();
     return {
       difficulties: ['very easy', 'easy', 'normal', 'hard', 'very hard'],
-      max: (modulo.value-1)*(store.currentLayout.width * store.currentLayout.height - store.currentLayout.exclude.length)
+      max: (modulo.value-1)*(store.currentLayout.nTiles())
     }
   },
   computed: {

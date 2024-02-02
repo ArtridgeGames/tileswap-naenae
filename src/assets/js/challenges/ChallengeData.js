@@ -131,7 +131,6 @@ export const gameOfLife = pattern => {
     }
   }));
   const newLayout = pattern.layout.copy();
-  newLayout.exclude = Layout.getExcludeFromMatrix(newMatrix);
   newLayout.setMatrix(newMatrix);
   return new ChallengePattern({
     ...pattern,

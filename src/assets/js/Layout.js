@@ -95,11 +95,10 @@ export class Layout {
 
     this.width = width;
     this.height = height;
-    this.exclude = exclude ?? [];
     this.unlockCategory = unlockCategory ?? 0;
     this.matrix = new Array(height).fill(0).map(() => new Array(width).fill().map(e => 0));
     this.id = id ?? 0;
-    for (const e of this.exclude) {
+    for (const e of exclude) {
       if (e < 0 || e >= width * height) throw new Error(`Invalid index ${e} for layout of size ${width}x${height}`);
       this.matrix[Math.floor(e / width)][e % width] = -1;
     }
@@ -171,7 +170,10 @@ export class Layout {
    */
   setMatrix(matrix) {
     this.matrix = matrix.map(row => row.slice());
-    this.exclude = Layout.getExcludeFromMatrix(this.matrix);
+  }
+
+  get exclude() {
+    return Layout.getExcludeFromMatrix(this.matrix);
   }
 
   /**
@@ -214,7 +216,6 @@ export class Layout {
     const { width, height, exclude, unlockCategory, id } = this;
     const copy = new Layout({ width, height, exclude, unlockCategory, id });
     copy.matrix = this.matrix.map(row => row.slice());
-    copy.exclude = this.exclude.slice();
     return copy;
   }
 
