@@ -301,11 +301,50 @@ export const CHALLENGES = [
     ]
   },
   {
-    title: "Game of Life",
+    title: "Category 3",
     unlockCategory: 2,
     challenges: [
       new Challenge({
         id: 8,
+        title: 'Normal',
+        settings: new ChallengeProperties({
+          timeLimit: 60,
+          patternList: patternList([1, 10, 11, 24, 25, 27, 28, 86]),
+          patternCount: 6,
+          patternListOrder: RANDOM,
+          difficulty: uniformSumInRanges([5,7], 6, 36)
+        })
+      }),
+      new Challenge({
+        id: 9,
+        title: 'Hard',
+        settings: new ChallengeProperties({
+          timeLimit: 60,
+          patternList: patternList([1, 10, 11, 24, 25, 27, 28, 86]),
+          patternCount: 8,
+          patternListOrder: RANDOM,
+          difficulty: () => sumInRanges([[7, 11], [6, 10], [4, 7], [7, 11], [7, 11], [4,6], [4,6], [4, 7]], 46)
+        })
+      }),
+      new Challenge({
+        id: 10,
+        title: 'Expert',
+        settings: new ChallengeProperties({
+          timeLimit: 75,
+          patternList: patternList([1, 10, 11, 24, 25, 27, 28, 86]),
+          patternCount: 16,
+          patternListOrder: RANDOM,
+          difficulty: () => sumInRanges([[5, 11], [6, 10], [4, 7], [5, 11], [5, 11], [4,6], [4,6], [4, 7], [5, 11], [6, 10], [4, 7], [5, 11], [5, 11], [4,6], [4,6], [4, 7]], 86)
+        })
+      }),
+    ]
+  },
+  {
+    title: "Game of Life",
+    unlockCategory: 2,
+    challenges: [
+      new Challenge({
+        id: 11,
         title: 'Q survival',
         settings: new ChallengeProperties({
           timeLimit: 60,
@@ -326,7 +365,7 @@ export const CHALLENGES = [
     unlockCategory: 3,
     challenges: [
       new Challenge({
-        id: 8,
+        id: 12,
         title: 'Normal',
         settings: new ChallengeProperties({
           timeLimit: 100,
@@ -341,7 +380,7 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        id: 9,
+        id: 13,
         title: 'Hard',
         settings: new ChallengeProperties({
           timeLimit: 100,
@@ -357,7 +396,7 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        id: 10,
+        id: 14,
         title: 'Expert',
         settings: new ChallengeProperties({
           timeLimit: 100,
