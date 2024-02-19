@@ -199,8 +199,8 @@ export const CHALLENGES = [
         settings: new ChallengeProperties({
           timeLimit: 60,
           patternList: patternList([0, 14, 20, 21, 22, 23, 46]),
-          patternCount: 10,
-          difficulty: uniformSumInRanges([3, 5], 10, 45)
+          patternCount: 7,
+          difficulty: uniformSumInRanges([3, 5], 7, 31)
         })
       }),
       new Challenge({
@@ -234,10 +234,12 @@ export const CHALLENGES = [
         title: 'Normal',
         settings: new ChallengeProperties({
           timeLimit: 60,
-          patternList: patternList([0, 14, 20, 21, 22, 23, 46]),
-          patternCount: 10,
-          patternListOrder: RANDOM,
-          difficulty: uniformSumInRanges([3, 5], 10, 45)
+          patternList: [
+            new ChallengePattern({id:0, layout: Layout.fromId(0), moveLimitPerPattern: 7}),
+          ],
+          patternCount: 5,
+          patternListOrder: LINEAR,
+          difficulty: uniform(5,3)
         })
       }),
       new Challenge({
@@ -245,10 +247,12 @@ export const CHALLENGES = [
         title: 'Hard',
         settings: new ChallengeProperties({
           timeLimit: 60,
-          patternList: patternList([0, 14, 20, 21, 22, 23, 46]),
-          patternCount: 14,
+          patternList: [
+            new ChallengePattern({id:0, layout: Layout.fromId(0), moveLimitPerPattern: 5}),
+          ],
+          patternCount: 7,
           patternListOrder: RANDOM,
-          difficulty: uniformSumInRanges([3, 5], 14, 60)
+          difficulty: uniform(7,3)
         })
       }),
       new Challenge({
@@ -256,10 +260,10 @@ export const CHALLENGES = [
         title: 'Expert',
         settings: new ChallengeProperties({
           timeLimit: 60,
-          patternList: patternList([0, 14, 20, 21, 22, 23, 46]),
-          patternCount: 16,
+          patternList: [new ChallengePattern({id:0, layout: Layout.fromId(0), moveLimitPerPattern: 3})],
+          patternCount: 30,
           patternListOrder: RANDOM,
-          difficulty: uniformSumInRanges([3, 6], 16, 70)
+          difficulty: uniform(30,3)
         })
       })
     ]
