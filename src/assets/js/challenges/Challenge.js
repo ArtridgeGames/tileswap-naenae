@@ -1,5 +1,6 @@
 import { expect, require } from '../utils.js';
 import { Layout } from '../Layout.js';
+import { useStore } from '../../../store/store.js';
 
 export class Challenge {
   /**
@@ -40,6 +41,7 @@ export class ChallengeProperties {
     moveLimitPerPattern: -1,
     bonusTimePerPattern: 0,
     moduloPerPattern: 2,
+    firstTimeScore: 100,
   }
 
   /**
@@ -54,6 +56,7 @@ export class ChallengeProperties {
    * @param {Number} [config.patternCount] - The number of patterns of the challenge
    * @param {ChallengeProperties.LIST_ORDERS.LINEAR|ChallengeProperties.LIST_ORDERS.RANDOM} [config.patternListOrder] - The order of the pattern list of the challenge
    * @param {Function} config.difficulty - The difficulty of the challenge
+   * @param {Number} [config.firstTimeScore] - The score given to the player the first time they complete the challenge
    * @param {Object} [config.defaults] - The default values for each pattern of the challenge.
    * @param {Number} [config.defaults.timeLimitPerPattern] - The default time limit for each pattern of the challenge
    * @param {Number} [config.defaults.moveLimitPerPattern] - The default move limit for each pattern of the challenge
@@ -68,6 +71,7 @@ export class ChallengeProperties {
     patternCount,
     patternListOrder,
     difficulty,
+    firstTimeScore,
     defaults: {
       timeLimitPerPattern,
       moveLimitPerPattern,
@@ -86,6 +90,7 @@ export class ChallengeProperties {
     this.patternCount = patternCount ?? ChallengeProperties.GLOBAL_DEFAULTS.patternCount;
     this.patternListOrder = patternListOrder ?? ChallengeProperties.GLOBAL_DEFAULTS.patternListOrder;
     this.difficulty = difficulty;
+    this.firstTimeScore = firstTimeScore ?? ChallengeProperties.GLOBAL_DEFAULTS.firstTimeScore;
     this.defaults = {
       timeLimitPerPattern,
       moveLimitPerPattern,
@@ -203,6 +208,9 @@ export class ChallengeProcess {
   constructor(settings) {
     require(settings);
     this.settings = settings;
+
+    this.firstTime = true;
+    this.temporaryScore = 0;
   }
 
   /**
@@ -215,17 +223,18 @@ export class ChallengeProcess {
     
     this.timeRemaining = this.settings.timeLimit;
     this.movesRemaining = this.settings.moveLimit;
-    
+
+    this.temporaryScore = 0;
     
     if (this.settings.isInfinite) {
       this.patternGenerator = this.createPatternGenerator();
       this.currentPattern = this.patternGenerator.next().value;
     } else {
       this.patternsToBePlayed = this.generatePatternsToBePlayed();
-      const difficulties = this.settings.difficulty(this.patternsToBePlayed);
-      if (difficulties.length !== this.patternsToBePlayed.length)
+      this.difficulties = this.settings.difficulty(this.patternsToBePlayed);
+      if (this.difficulties.length !== this.patternsToBePlayed.length)
         throw new Error(`Invalid difficulty array. Expected ${this.patternsToBePlayed.length} elements, got ${difficulties.length}.`);
-      this.randomizePatterns(difficulties);
+      this.randomizePatterns(this.difficulties);
 
       this.currentPattern = this.patternsToBePlayed[0];
     }
@@ -299,6 +308,11 @@ export class ChallengeProcess {
       
       this.patternIndex++;
       if (this.settings.isInfinite) {
+
+        const difficulty = this.settings.difficulty(this.patternIndex);
+        this.temporaryScore += Math.round(difficulty * (1.1 + difficulty / (this.currentPattern.layout.nTiles() * 0.8 + 10))
+          * (this.patternTime === -1 ? 1 : 1.5) * (this.patternMoves === -1 ? 1 : 1.5));
+        
         this.currentPattern = this.patternGenerator.next().value;
       } else {
         if (this.patternIndex === this.settings.patternCount) {
@@ -338,8 +352,8 @@ export class ChallengeProcess {
    */
   generatePatternsToBePlayed() {
     if (this.settings.isSequence) {
-      const patterns = [];
-      for (let i = 0; i < this.settings.patternCount; i++) {
+      const patterns = [this.settings.patternSequence.initialState.copy()];
+      for (let i = 1; i < this.settings.patternCount; i++) {
         patterns.push(this.settings.patternSequence.transition(patterns[i - 1]));
       }
       return patterns;
@@ -390,6 +404,29 @@ export class ChallengeProcess {
   won() {
     this.state = ChallengeProcess.STATE.WON;
     clearInterval(this.timerId);
+
+    const store = useStore();
+    if (!this.settings.isInfinite) {
+      if (this.firstTime) {
+        this.firstTime = false;
+        store.score += this.settings.firstTimeScore;
+      }
+
+      const score =
+        this.difficulties
+        .map((difficulty, i) => {
+          const pattern = this.patternsToBePlayed[i];
+          const timePerMultiplier = pattern.timeLimitPerPattern === -1 ? 1 : 1.5;
+          const movePerMultiplier = pattern.moveLimitPerPattern === -1 ? 1 : 1.5;
+          return Math.round(difficulty * (1.1 + difficulty / (this.patternsToBePlayed[i].layout.nTiles() * 0.8 + 10)))
+          * timePerMultiplier * movePerMultiplier;
+        })
+        .reduce((acc, difficulty) => acc + difficulty, 0);
+
+      const timeMultiplier = this.settings.timeLimit === -1 ? 1 : 1.5;
+      const moveMultiplier = this.settings.moveLimit === -1 ? 1 : 1.5;
+      store.score += score * timeMultiplier * moveMultiplier * (this.unlockCategory + 1);
+    }
   }
 
   /**
@@ -399,6 +436,11 @@ export class ChallengeProcess {
   lost(reason) {
     this.state = reason;
     clearInterval(this.timerId);
+
+    if (this.settings.isInfinite) {
+      const store = useStore();
+      store.score += this.temporaryScore * (this.unlockCategory + 1);
+    }
   }
 
   /**
