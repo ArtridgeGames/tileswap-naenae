@@ -1,4 +1,4 @@
-import { FiniteFieldMatrix, FiniteField } from './FiniteField.js';
+import { FiniteFieldMatrix, FiniteField } from './fields/FiniteField.js';
 import { generateMoveMatrix } from './moveMatrix.js';
 
 /**
@@ -19,6 +19,7 @@ const solve = (initialState) => {
     state: initialState
   });
 
+  // u(n) = u(n-1) + M * (1 - u(n-1))
   const u = n => {
     if (n === 0) return parsedState;
     const previous = u(n - 1);

@@ -9,7 +9,7 @@ import Progress from "./Progress.vue";
         :value="score"
         :max="1000"
         barColor="#e58f65"
-        :text="score + ' / ' + 1000"
+        :text="Math.floor(score) + ' / ' + 1000"
       />
     </div>
     <div class="position">

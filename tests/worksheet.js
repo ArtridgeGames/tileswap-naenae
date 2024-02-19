@@ -1,21 +1,10 @@
-import { getPatternFromIdWithPadding } from '../src/assets/js/challenges/ChallengeData.js'
+import { FiniteField } from '../src/assets/js/solve/fields/FiniteField.js';
+import { getIrreduciblePolynomialOfDegree } from '../src/assets/js/solve/irreduciblePolynomials.js';
 
-const layout = getPatternFromIdWithPadding(168, 6).layout;
 
-const originalWidth = layout.width;
-const originalHeight = layout.height;
+const field = new FiniteField(4);
 
-const { width, height, matrix } = layout.actualSize();
 
-console.log(originalWidth, originalHeight);
+const polynomial = getIrreduciblePolynomialOfDegree(3);
 
-console.log(width, height);
-
-// originalWidth = width + 2*padding
-// padding_x = (originalWidth - width) / 2
-// padding_y = (originalHeight - height) / 2
-
-const padding_x = (originalWidth - width) / 2;
-const padding_y = (originalHeight - height) / 2;
-
-console.log(padding_x, padding_y);
+console.log(polynomial);

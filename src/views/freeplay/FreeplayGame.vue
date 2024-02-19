@@ -140,7 +140,7 @@ main {
 </style>
 <script>
 import { solve, devMode, setDevMode } from "../../assets/js/solve/devmode";
-import { modulo, setModulo } from "../../assets/js/LayoutShared.js";
+import { modulo, setModulo, tilesToFlip } from "../../assets/js/LayoutShared.js";
 import { Layout } from "../../assets/js/Layout.js";
 import { watch } from "vue";
 import { Task } from "../../assets/js/Task";
@@ -158,6 +158,7 @@ export default {
       store,
       layout,
       difficulty: store.difficulty,
+      latestDifficulty: store.difficulty,
       internalModulo: modulo.value,
       showModal: false,
       showDevMode: devMode.value,
@@ -213,6 +214,7 @@ export default {
       if (this.layout.isSolved(modulo.value)) {
         this.store.stats.layoutsSolved++;
         this.showModal = true;
+        this.store.score += this.layout.computeScore(this.latestDifficulty);
         Task.advanceTasks(
           this.layout.id,
           Task.TASK_TYPES.FREEPLAY,
@@ -222,9 +224,11 @@ export default {
     },
     randomize() {
       this.moves = 0;
+      this.latestDifficulty = this.difficulty + Math.round(Math.random() * (modulo.value - 1));
       this.layout = this.layout.generatePosition(
-        this.difficulty + Math.round(Math.random() * (modulo.value - 1)),
-        modulo.value
+        this.latestDifficulty,
+        modulo.value,
+        tilesToFlip.value
       );
       this.$nextTick(() => {
         try {
@@ -246,6 +250,7 @@ export default {
   },
   mounted() {
     this.randomize();
+    // console.log(this.layout.computeMaxDifficulty());
 
     watch(devMode, (newVal) => {
       if (newVal) {

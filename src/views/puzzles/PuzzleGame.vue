@@ -157,6 +157,7 @@ export default {
     reset() {
       this.moves = 0;
       this.layout.setMatrix(this.puzzle.base.matrix);
+      // this.layout = this.layout.copy();
     },
     handleClick() {
       this.moves++;

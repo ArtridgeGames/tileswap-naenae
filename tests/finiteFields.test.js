@@ -1,5 +1,5 @@
-import { FiniteField, FiniteFieldMatrix } from '../src/assets/js/solve/FiniteField.js';
-
+import { FiniteField } from '../src/assets/js/solve/fields/FiniteField.js';
+import { FiniteFieldMatrix } from '../src/assets/js/solve/fields/FiniteFieldMatrix.js';
 
 test('Finite Field elements and operations', () => {
 
@@ -178,5 +178,52 @@ describe('Finite Field matrix operations', () => {
   // R = L - I + U
   // L = R + I - U = P * A * U^-1
   // U = R + I - L = P * A * L^-1
+
+});
+
+describe('Finite Field from tables', () => {
+
+  const additionTable = [
+    [0, 1, 2, 3],
+    [1, 0, 3, 2],
+    [2, 3, 0, 1],
+    [3, 2, 1, 0],
+  ]
+  
+  const multiplicationTable = [
+    [0, 0, 0, 0],
+    [0, 1, 2, 3],
+    [0, 2, 3, 1],
+    [0, 3, 1, 2],
+  ]
+  
+  const field = FiniteField.fromTables(additionTable, multiplicationTable);
+  
+  
+  const zero = field.el(0);
+  const one = field.el(1);
+  const two = field.el(2);
+  const three = field.el(3);
+
+  test('basic operations', () => {
+    expect(one.add(two)).toEqual(three);
+    expect(one.multiply(two)).toEqual(two);
+    expect(one.inverse()).toEqual(one);
+    expect(one.opposite()).toEqual(one);
+  
+    expect(two.add(three)).toEqual(one);
+    expect(two.multiply(three)).toEqual(one);
+    expect(two.inverse()).toEqual(three);
+    expect(two.opposite()).toEqual(two);
+
+    expect(three.add(three.opposite())).toEqual(zero);
+    expect(three.multiply(three.inverse())).toEqual(one);
+
+    expect(two.pow(3)).toEqual(one);
+    expect(three.pow(3)).toEqual(one);
+
+    expect(one.divide(two)).toEqual(three);
+  });
+
 
 });

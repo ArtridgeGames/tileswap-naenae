@@ -20,7 +20,7 @@ export const useStore = defineStore('store', () => {
   const isRandomFreeplay = ref(false);
   const menuViewIndex = ref(0);
   const savedMenuScroll = ref(0);
-  const score = ref(222);
+  const score = ref(0);
   
   function unlockAll() {
     unlockedCategoriesFP.value = Math.max(...Layout.ALL_LAYOUTS.map(e => e.unlockCategory));

@@ -1,6 +1,6 @@
 import { generateMoveMatrix } from './moveMatrix.js';
-import { FiniteField, FiniteFieldMatrix } from './FiniteField.js';
-
+import { FiniteField } from './fields/FiniteField.js';
+import { FiniteFieldMatrix } from './fields/FiniteFieldMatrix.js';
 
 const inverses = new Map();
 const determinants = new Map();
@@ -58,6 +58,7 @@ class Solution {
  * }}
  */
 export function solveWithRotation({ state, target, tilesToFlip, modulo }) {
+  
   const states = [
     state,
     rotateMatrix(state),
@@ -98,6 +99,7 @@ export function solveWithRotation({ state, target, tilesToFlip, modulo }) {
     solutions,
     zerows,
     shortest: n,
+    minMoves: min,
     determinant: solutions[0].determinant.value,
   }
 }
@@ -141,6 +143,15 @@ export function solvePattern({ state, target, tilesToFlip, modulo }) {
 
   const M = generateMoveMatrix({ width, height, state, tilesToFlip, modulo });
 
+  // console.log(M.matrix.map(row => row.map(e => e.value)));
+  // console.log(P.matrix.map(row => row.map(e => e.value)));
+
+  // state + Mx = target
+  // P = state - target
+  // P + Mx = 0
+  // Mx = -P
+  // x = M^(-1) * -P
+
   let det;
   if (determinants.has(key)) {
     det = determinants.get(key);
@@ -157,12 +168,12 @@ export function solvePattern({ state, target, tilesToFlip, modulo }) {
       I = M.inverse();
       inverses.set(key, I);
     }
-    result = I.multiply(P).matrix.map(e => e[0].value);
+    result = I.multiply(P.opposite()).matrix.map(e => e[0].value);
     zerows = 1;
   } else {
 
     const augmentedMatrix = FiniteFieldMatrix.from2DArray(
-      M.matrix.map((row, i) => row.concat(P.matrix[i])),
+      M.matrix.map((row, i) => row.concat(P.opposite().matrix[i])),
       M.field
     );
 

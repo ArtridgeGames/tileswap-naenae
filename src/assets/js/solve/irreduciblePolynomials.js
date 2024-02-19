@@ -1,5 +1,3 @@
-import { FiniteField, FiniteFieldPolynomialAsElement } from './FiniteField.js';
-
 const irreducibles = new Map([
  [1, [3]],
  [2, [7]],
@@ -46,20 +44,20 @@ const irreducibles = new Map([
 ]);
 
 /**
- * Get the irreducible polynomial of the field
- * @param {FiniteField} field
- * @returns {FiniteFieldPolynomialAsElement}
+ * Get a list of irreducible polynomials of a given degree
+ * @param {Number} degree
+ * @returns {Number[][]}
  */
-export const getIrreduciblePolynomialOfField = (field) => {
-  const polynomials = irreducibles.get(field.q);
+export const getIrreduciblePolynomialOfDegree = (degree) => {
+  const polynomials = irreducibles.get(degree);
   if (!polynomials) {
-    throw new Error(`No irreducible polynomial for field of order ${field.p} ** ${field.q}`);
+    throw new Error(`No irreducible polynomial of degree ${degree}`);
   }
   const result = [];
   for (const el of polynomials) {
     const binary = parseInt(el.toString(), 8).toString(2).trim();
     const coefficients = binary.split('').map(e => parseInt(e));
-    result.push(field.el(coefficients));
+    result.push(coefficients);
   }
   return result;
 }

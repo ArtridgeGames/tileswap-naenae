@@ -88,8 +88,10 @@ export class Layout {
    * @param {Number} config.height the height of the layout 
    * @param {Number[]} config.exclude the indices of the tiles to exclude from the layout
    * @param {Number} config.unlockCategory the level at which this layout is unlocked
+   * @param {Number} config.id the id of the layout
+   * @param {Number} config.maxDifficulty the theoretical maximum difficulty of the layout
    */
-  constructor({ width, height, exclude, unlockCategory, id }) {
+  constructor({ width, height, exclude, unlockCategory, id, maxDifficulty }) {
     require(width, height);
     expect(width > 0 && height > 0);
 
@@ -98,10 +100,13 @@ export class Layout {
     this.unlockCategory = unlockCategory ?? 0;
     this.matrix = new Array(height).fill(0).map(() => new Array(width).fill().map(e => 0));
     this.id = id ?? 0;
+    exclude = exclude ?? [];
     for (const e of exclude) {
       if (e < 0 || e >= width * height) throw new Error(`Invalid index ${e} for layout of size ${width}x${height}`);
       this.matrix[Math.floor(e / width)][e % width] = -1;
     }
+
+    this.maxDifficulty = maxDifficulty ?? -1;
   }
 
   /**
@@ -276,7 +281,6 @@ export class Layout {
    * added around the layout
    */
   actualSize() {
-    if (this.actualSizeCache) return this.actualSizeCache;
     const matrix = this.matrix.map(row => row.slice());
 
     // Top padding
@@ -294,16 +298,15 @@ export class Layout {
     // Right padding
     while (matrix.every(row => row[row.length - 1] === -1)) matrix.forEach(row => row.pop());
     const paddingRight = this.matrix[0].length - matrix[0].length - paddingLeft;
-    this.actualSizeCache = {
+    return {
       width: matrix[0].length,
       height: matrix.length,
       paddingTop,
       paddingBottom,
       paddingLeft,
       paddingRight,
-      matrix: matrix,
+      matrix,
     };
-    return this.actualSizeCache;
   }
 
   /**
@@ -312,8 +315,25 @@ export class Layout {
    * @returns {Number} the score to be awarded for solving the layout
    */
   computeScore(iterations) {
-    return iterations * (iterations / (this.nTiles() * 0.8 + 10) + 1.1);
+    const dMax = this.maxDifficulty ?? this.computeMaxDifficulty();
+    this.maxDifficulty = dMax;
+    return iterations * (1.1 + iterations / (dMax * 0.8 + 10));
   }
+
+  computeMaxDifficulty() {
+    const layout = this.copy();
+
+    let result = -1;
+    for (let i = 0; i < 10; i++) {
+      const { matrix } = layout.generatePosition(layout.nTiles());
+      const { minMoves } = solveWithRotation({ state: matrix, modulo: 2, tilesToFlip: Layout.TILES_TO_FLIP });
+      if (minMoves > result) result = minMoves;
+    }
+
+    return result;
+  }
+
+
 
   /**
    * Calculate the array of exclusion indices from a layout matrix
@@ -323,7 +343,7 @@ export class Layout {
   static getExcludeFromMatrix(matrix) {
     const width = matrix[0].length;
     return matrix
-      .map((row, y) => row.map((cell, x) => cell === -1 ? y * width + x : null)).flat().filter(e => e || e === 0);
+      .map((row, y) => row.map((cell, x) => cell === -1 ? y * width + x : null)).flat().filter(e => e !== null);
   }
 
   static getRandomLayout() {
