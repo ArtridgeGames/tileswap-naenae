@@ -317,7 +317,7 @@ export class Layout {
   computeScore(iterations) {
     const dMax = this.maxDifficulty ?? this.computeMaxDifficulty();
     this.maxDifficulty = dMax;
-    return iterations * (1.1 + iterations / (dMax * 0.8 + 10));
+    return Math.round(iterations * (1.1 + iterations / (dMax * 0.8 + 10)));
   }
 
   computeMaxDifficulty() {

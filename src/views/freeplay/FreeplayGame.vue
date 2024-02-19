@@ -72,6 +72,7 @@ import DevMode from "../../components/DevMode.vue";
 
     <Modal v-model="showModal">
       <h1>you won in {{ moves }} move{{ moves > 1 ? "s" : "" }}!</h1>
+      <h3>Score: {{ store.score - latestScore }} + {{ latestScore }}</h3>
       <Button black text="yay!" @pressed="showModal = false" />
     </Modal>
   </div>
@@ -159,6 +160,7 @@ export default {
       layout,
       difficulty: store.difficulty,
       latestDifficulty: store.difficulty,
+      latestScore: 0,
       internalModulo: modulo.value,
       showModal: false,
       showDevMode: devMode.value,
@@ -214,7 +216,8 @@ export default {
       if (this.layout.isSolved(modulo.value)) {
         this.store.stats.layoutsSolved++;
         this.showModal = true;
-        this.store.score += this.layout.computeScore(this.latestDifficulty);
+        this.latestScore = this.layout.computeScore(this.latestDifficulty);
+        this.store.score += this.latestScore;
         Task.advanceTasks(
           this.layout.id,
           Task.TASK_TYPES.FREEPLAY,
