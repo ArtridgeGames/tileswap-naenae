@@ -13,23 +13,11 @@ import lockURL from "/images/svg/lock.svg";
       <p>{{ setting.name }}</p>
       <div class="options">
         <div
-          :style="`${
-            value instanceof Array
-              ? value[0] instanceof Object
-                ? value
-                    .map((e, i) => `--value-${i + 1}: ` + formatRgb(e) + ';')
-                    .join(' ')
-                : `--value: ${formatBR(value, 0.4)};`
-              : `--value: ${value};`
-          } 
-          --selected: ${j === setting.selected ? '2px' : '0px'};
-          ${setting.repr ? `--repr: ${setting.repr(j)};` : ''}
-          `"
-          :data-repr="setting.repr ? setting.repr(j) : ''"
-          :data-value="value"
-          :data-locked="j > setting.unlocked"
-          :class="key"
           v-for="(value, j) in setting.options"
+          :style="`--selected: ${j === setting.selected ? '2px' : '0px'};
+          ${setting.css ? setting.css(j) : ''}`"
+          :data-text="setting.text ? setting.text(j) : ''"
+          :class="key"
           :key="value + ' ' + j"
           @click="changeSetting(key, j)"
           :title="JSON.stringify(value)"
@@ -64,8 +52,23 @@ import lockURL from "/images/svg/lock.svg";
   margin-bottom: 10px;
 }
 .list > .element > .options > div {
+  background-color: white;
+  overflow: hidden;
   outline: var(--selected) solid black;
   position: relative;
+  width: 75px;
+  height: 50px;
+  cursor: pointer;
+  display: inline-block;
+  border-radius: 5px;
+  margin-left: 5px;
+}
+.list > .element > .options > div::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .list > .element > .options {
   margin-bottom: 10px;
@@ -75,16 +78,6 @@ import lockURL from "/images/svg/lock.svg";
   overflow-x: scroll;
   padding: 10px 0;
   justify-content: center;
-}
-.backgroundColor {
-  background-color: var(--value);
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-  display: inline-block;
-  border-radius: 5px;
-  margin-left: 5px;
-  transform: translateY(10%);
 }
 .tilesColor {
   background-color: var(--value-2);
@@ -105,100 +98,6 @@ import lockURL from "/images/svg/lock.svg";
   border-top: 50px solid var(--value-1);
   border-right: 50px solid transparent;
   border-radius: 5px;
-}
-.colorBlind {
-  background-color: white;
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-  display: inline-block;
-  border-radius: 5px;
-  margin-left: 5px;
-  transform: translateY(10%);
-}
-.colorBlind::after {
-  content: attr(data-value);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.hoverTiles {
-  background-color: white;
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-  display: inline-block;
-  border-radius: 5px;
-  margin-left: 5px;
-  transform: translateY(10%);
-}
-.hoverTiles::after {
-  content: attr(data-value);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.tilesShape {
-  border-radius: var(--value);
-  width: 50px;
-  height: 50px;
-  margin-left: 5px;
-  cursor: pointer;
-  display: inline-block;
-  background-color: #666;
-}
-
-img {
-  width: 100%;
-  height: 100%;
-  transform: scale(1.1);
-  position: absolute;
-  background: white;
-}
-.tilesSVG {
-  width: 50px;
-  height: 50px;
-  margin-left: 5px;
-  border-radius: 5px;
-  cursor: pointer;
-  display: inline-block;
-}
-.spread {
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-  display: inline-block;
-  border-radius: 5px;
-  margin-left: 5px;
-  transform: translateY(10%);
-}
-.spread::after {
-  content: attr(data-repr);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.tileAnimation {
-  width: 100px;
-  height: 50px;
-  cursor: pointer;
-  display: inline-block;
-  border-radius: 5px;
-  margin-left: 5px;
-  transform: translateY(10%);
-}
-.tileAnimation::after {
-  content: attr(data-repr);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 </style>
 

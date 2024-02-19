@@ -318,7 +318,7 @@ export class Layout {
     expect(this.unlockCategory >= 0);
     const dMax = this.maxDifficulty ?? this.computeMaxDifficulty();
     this.maxDifficulty = dMax;
-    return Math.round(iterations * (1.1 + iterations / (dMax * 0.8 + 10))) * this.unlockCategory;
+    return Math.round(iterations * (1.1 + iterations / (dMax * 0.8 + 10))) * (this.unlockCategory + 1);
   }
 
   computeMaxDifficulty() {

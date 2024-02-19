@@ -1,5 +1,6 @@
 :root {
   --root-bg-color: #bbb2ea;
+  --root-bg-color-dark: #988fd1;
 }
 
 .default {
@@ -12,7 +13,7 @@
   --title-font-size: 120px;
 
   --bg-color: var(--root-bg-color); /* #bbb2ea */ /* #adad85 */
-  --bg-darker-color: #988fd1;
+  --bg-dark-color: var(--root-bg-color-dark) /* #988fd1 */;
   --hl-text-color: #fff;
   --shadow-text-color: #000;
   --hl-color: #fff;
@@ -95,8 +96,8 @@ h1.main-title > span {
 
 hr.separator {
   width: 88%;
-  border-color: var(--bg-darker-color);
-  background: var(--bg-darker-color);
+  border-color: var(--bg-dark-color);
+  background: var(--bg-dark-color);
   border-style: solid;
   height: 6px;
   border-radius: 5px;

@@ -4,13 +4,37 @@ import { tilesToFlip } from './LayoutShared.js';
 export const SETTINGS_DATA = {
   backgroundColor: {
     name: 'Background Color',
-    options: ['#bbb2ea', '#adad85', '#666', '#FF9D81', '#83769C', '#7be3ad'],
+    options: [{
+      main: '#bbb2ea',
+      dark: '#988fd1'
+    }, {
+      main: '#adad85',
+      dark: '#9d9d6c'
+    }, {
+      main: '#7a7a7a',
+      dark: '#666'
+    }, {
+      main: '#FF9D81',
+      dark: '#FF7F5c'
+    }, {
+      main: '#83769C',
+      dark: '#75678e'
+    }, {
+      main: '#7be3ad',
+      dark: '#57db97'
+    }],
     get value() {
       const { settings } = useStore();
       return this.options[settings.backgroundColor];
     },
     onChange(index) {
-      document.documentElement.style.setProperty('--root-bg-color', this.options[index]);
+      document.documentElement.style.setProperty('--root-bg-color', this.options[index].main);
+      document.documentElement.style.setProperty('--root-bg-color-dark', this.options[index].dark);
+    },
+    css(index) {
+      return `
+        background-color: ${this.options[index].main};
+      `
     },
     unlocked: 5
   },
@@ -28,6 +52,13 @@ export const SETTINGS_DATA = {
     onChange(index) {
       return;
     },
+    css(index) {
+      return `
+        width: 50px;
+        --value-1: rgb(${this.options[index][0].r}, ${this.options[index][0].g}, ${this.options[index][0].b});
+        --value-2: rgb(${this.options[index][1].r}, ${this.options[index][1].g}, ${this.options[index][1].b});
+      `
+    },
     unlocked: 2
   },
   colorBlind: {
@@ -40,6 +71,9 @@ export const SETTINGS_DATA = {
     onChange(index) {
       return;
     },
+    text(index) {
+      return this.options[index];
+    },
     unlocked: 2
   },
   hoverTiles: {
@@ -51,6 +85,9 @@ export const SETTINGS_DATA = {
     },
     onChange(index) {
       return;
+    },
+    text(index) {
+      return this.options[index];
     },
     unlocked: 2
   },
@@ -65,34 +102,37 @@ export const SETTINGS_DATA = {
     onChange(index) {
       return;
     },
+    css(index) {
+      return `width: 50px;`
+    },
     unlocked: 3
   },
   spread: {
     name: 'Spread',
     options: [[
-        [-1, -1], [0, -1], [1, -1],
-        [-1, 0], [0, 0], [1, 0],
-        [-1, 1], [0, 1], [1, 1],
-      ],
-      [
-        [-1,-1], [0,0], [-1,1],
-        [1,-1], [1,1],
-      ],
-      [
-        [-1,0], [0,-1],[1,0],[0,0],[0,1]
-      ],
-      [[0,0]],
-      [
-        [0,0],[0,-1],[0,-2],[1,-2],[2,-2],
-        [1,0],[2,0],[2,1],[2,2],[0,1],[0,2],[-1,2],[-2,2],
-        [-1,0],[-2,0],[-2,-1],[-2,-2]
-      ]
+      [-1, -1], [0, -1], [1, -1],
+      [-1, 0], [0, 0], [1, 0],
+      [-1, 1], [0, 1], [1, 1],
+    ],
+    [
+      [-1, -1], [0, 0], [-1, 1],
+      [1, -1], [1, 1],
+    ],
+    [
+      [-1, 0], [0, -1], [1, 0], [0, 0], [0, 1]
+    ],
+    [[0, 0]],
+    [
+      [0, 0], [0, -1], [0, -2], [1, -2], [2, -2],
+      [1, 0], [2, 0], [2, 1], [2, 2], [0, 1], [0, 2], [-1, 2], [-2, 2],
+      [-1, 0], [-2, 0], [-2, -1], [-2, -2]
+    ]
     ],
     get value() {
       const { settings } = useStore();
       return this.options[settings.spread];
     },
-    repr(index) {
+    text(index) {
       if (index === 0) return '□';
       if (index === 1) return '✖';
       if (index === 2) return '+';
@@ -109,23 +149,23 @@ export const SETTINGS_DATA = {
     options: [{
       name: 'flip',
       mode: 'out-in'
-     },
-     {
+    },
+    {
       name: 'fade',
       mode: 'default'
-     },
-     {
+    },
+    {
       name: 'bounce',
       mode: 'out-in'
-     },
-     {
+    },
+    {
       name: 'spin',
       mode: 'out-in'
-     },
-     {
+    },
+    {
       name: 'none',
       mode: 'out-in'
-     }
+    }
     ],
     get value() {
       const { settings } = useStore();
@@ -134,7 +174,7 @@ export const SETTINGS_DATA = {
     onChange(index) {
       return;
     },
-    repr(index) {
+    text(index) {
       return this.options[index].name;
     },
     unlocked: 4

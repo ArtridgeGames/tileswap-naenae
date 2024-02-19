@@ -51,7 +51,7 @@ main::before {
   left: 50%;
   width: 93%;
   height: 10px;
-  background: var(--bg-darker-color);
+  background: var(--bg-dark-color);
   border-radius: 10px;
   z-index: 0;
   transform: translateX(-50%);
