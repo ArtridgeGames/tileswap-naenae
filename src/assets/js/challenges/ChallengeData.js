@@ -895,7 +895,13 @@ export const CHALLENGES = [
       difficulty: () => [3, 4, 5, 6, 7, 8, 9, 10, 11 ,12]
     })
   })*/
-]
+].map(category => {
+  category.challenges.map(challenge => {
+    challenge.process.unlockCategory = category.unlockCategory;
+    return challenge;
+  });
+  return category;
+})
 
 /*
 export const OLD_CHALLENGES = [

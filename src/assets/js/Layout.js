@@ -315,9 +315,10 @@ export class Layout {
    * @returns {Number} the score to be awarded for solving the layout
    */
   computeScore(iterations) {
+    expect(this.unlockCategory >= 0);
     const dMax = this.maxDifficulty ?? this.computeMaxDifficulty();
     this.maxDifficulty = dMax;
-    return Math.round(iterations * (1.1 + iterations / (dMax * 0.8 + 10)));
+    return Math.round(iterations * (1.1 + iterations / (dMax * 0.8 + 10))) * this.unlockCategory;
   }
 
   computeMaxDifficulty() {

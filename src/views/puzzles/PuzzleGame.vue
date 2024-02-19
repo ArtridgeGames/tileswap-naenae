@@ -112,6 +112,7 @@ main.puzzle-container {
 
 <script>
 import { Task } from "../../assets/js/Task";
+import { Puzzle } from "../../assets/js/Puzzle";
 export default {
   data() {
     const store = useStore();
@@ -136,14 +137,11 @@ export default {
         : `current best: ${this.puzzle.completionMoves} moves`;
     },
     nextMedal() {
-      if (this.puzzle.completionMoves === -1) return "next medal: finish the puzzle";
-      return this.puzzle.completionMoves <= this.puzzle.solution.length
-        ? ""
-        : `next medal: ${
-            this.puzzle.completionMoves <= this.puzzle.solution.length * 1.2
-              ? this.puzzle.solution.length
-              : Math.floor(this.puzzle.solution.length * 1.2)
-          } moves`;
+      const { medal, movesRequiredForNextMedal } = this.puzzle.medalFromMoves(this.puzzle.completionMoves);
+      if (medal === Puzzle.MEDALS.NOT_COMPLETED) return "";
+      if (medal === Puzzle.MEDALS.GOLD) return "";
+      if (medal === Puzzle.MEDALS.SILVER) return `next medal: ${movesRequiredForNextMedal} moves`;
+      if (medal === Puzzle.MEDALS.BRONZE) return `next medal: ${movesRequiredForNextMedal} moves`;
     },
   },
   watch: {

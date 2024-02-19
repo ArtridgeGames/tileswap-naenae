@@ -1,5 +1,6 @@
 import { Layout } from './Layout.js';
 import { useStore } from '../../store/store.js';
+import { expect, require } from './utils.js';
 
 /**
  * A class representing tile swap puzzles.
@@ -2817,6 +2818,8 @@ export class Puzzle {
    * @param {Number[]} solution
    */
   constructor({ base, target, moves, solution, id, modulo, unlockCategory }) {
+    require(base, target, moves, solution, id, modulo)
+
     this.base = base;
     this.target = target;
     this.moves = moves;
@@ -2824,6 +2827,7 @@ export class Puzzle {
     this.id = id;
     this.modulo = modulo;
     this.unlockCategory = unlockCategory ?? Math.floor(id / 5) + 1;
+    this.score = new Array(3).fill().map((_, i) => Math.round(this.solution.length * 10 * (i + 1) / 6));
   }
 
   /**
@@ -2848,12 +2852,24 @@ export class Puzzle {
   }
 
   medalFromMoves(moves) {
-    return !this.solved ? Puzzle.MEDALS.NOT_COMPLETED :
+    return !this.solved ? {
+      medal: Puzzle.MEDALS.NOT_COMPLETED,
+      movesRequiredForNextMedal: -1
+    } :
       (moves <= this.solution.length
-        ? Puzzle.MEDALS.GOLD
+        ? {
+          medal: Puzzle.MEDALS.GOLD,
+          movesRequiredForNextMedal: -1
+        }
         : moves <= this.solution.length * 1.2
-          ? Puzzle.MEDALS.SILVER
-          : Puzzle.MEDALS.BRONZE);
+          ? {
+            medal: Puzzle.MEDALS.SILVER,
+            movesRequiredForNextMedal: this.solution.length
+          }
+          : {
+            medal: Puzzle.MEDALS.BRONZE,
+            movesRequiredForNextMedal: Math.ceil(this.solution.length * 1.2)
+          });
   }
 
   get solved() {
@@ -2875,18 +2891,31 @@ export class Puzzle {
   }
 
   set completionMoves(val) {
+    expect(this.unlockCategory >= 0);
     const store = useStore();
     for (let i = 0; i < store.stats.puzzlesCompleted.length; i++) {
       const data = store.stats.puzzlesCompleted[i];
       if (data.id === this.id) {
+
+        if (data.completionMoves <= val) return;
+
+        // if the new medal is higher than the old one, add the score
+        const newMedal = this.medalFromMoves(val).medal;
+        const oldMedal = this.medalFromMoves(data.completionMoves).medal;
+
+        for (let i = oldMedal + 1; i <= newMedal; i++) {
+          store.score += this.score[i] * (this.unlockCategory + 1);
+        }
+
         data.completionMoves = Math.min(val, data.completionMoves);
         return;
       }
     }
-    store.stats.puzzlesCompleted.push({ id: this.id, completionMoves: val })
-  }
+    store.stats.puzzlesCompleted.push({ id: this.id, completionMoves: val });
 
-  computeScore() {
-
+    // if the new medal is higher than the old one, add the score
+    for (let i = 0; i <= this.medalFromMoves(val).medal; i++) {
+      store.score += this.score[i] * (this.unlockCategory + 1);
+    }
   }
 }
