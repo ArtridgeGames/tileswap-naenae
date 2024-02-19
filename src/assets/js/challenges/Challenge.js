@@ -326,6 +326,8 @@ export class ChallengeProcess {
       this.patternMoves = this.currentPattern.moveLimitPerPattern;
       this.patternModulo = this.currentPattern.moduloPerPattern;
       this.patternBonusTime = this.currentPattern.bonusTimePerPattern;
+
+      return;
     }
 
     if (this.settings.moveLimit !== -1) {
