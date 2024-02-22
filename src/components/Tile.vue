@@ -22,7 +22,7 @@ import {
 } from "../assets/js/LayoutShared.js";
 import { SETTINGS_DATA } from "../assets/js/Settings";
 export default {
-  props: ["tile", "visible", "small", "position", "layout"],
+  props: ["tile", "visible", "small", "position", "layout", "enableClickOnHiddenTiles"],
   data() {
     return {
       tileSize: "30px",
@@ -91,7 +91,7 @@ export default {
   border-radius: v-bind(borderRadius);
   margin: 7px;
   display: inline-block;
-  pointer-events: v-bind("visible ? 'auto' : 'none'");
+  pointer-events: v-bind("enableClickOnHiddenTiles || visible ? 'auto' : 'none'");
   cursor: v-bind('visible ? "pointer" : "default"');
   /* overflow: hidden; */
   outline: solid 5px v-bind("frontOutline");

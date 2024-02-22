@@ -12,8 +12,9 @@ import randomUrl from "/images/svg/random.svg";
     <!-- <LinkButton class="top right" text="back" to="/home" /> -->
     <br>
     <div>
-      <div class="text-center">
+      <div class="text-center tools">
         <IconButton :icon="randomUrl" @pressed="startRandomFreeplay" />
+        <LinkButton to="layout-editor" text="✎"></LinkButton>
       </div>
       <div v-for="(category, i) in categories" :key="i">
         <div class="layouts">
@@ -43,6 +44,18 @@ main {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+}
+div.tools {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+div.tools > button {
+  width: 100px;
+  height: 100px;
+  font-size: 48px;
+  display: inline-block;
 }
 </style>
 

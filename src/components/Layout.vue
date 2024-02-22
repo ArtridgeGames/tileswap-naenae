@@ -13,6 +13,7 @@ import Tile from "./Tile.vue";
         <Tile
           class="tile"
           :small="small"
+          :enableClickOnHiddenTiles="enableClickOnHiddenTiles"
           v-for="(tile, tileIndex) in row"
           :tile="tile"
           :data-tile="`${tile + 1}`"
@@ -116,8 +117,8 @@ import { gradient, tilesToFlip, modulo } from "../assets/js/LayoutShared.js";
 import { EVENTS } from '../assets/js/events.js';
 
 export default {
-  props: ["modelValue", "small", "disabled", "solution", "target", "forcedHover", "highlightedTiles"],
-  emits: ["update:modelValue", "swap"],
+  props: ["modelValue", "small", "disabled", "solution", "target", "forcedHover", "highlightedTiles", "enableClickOnHiddenTiles"],
+  emits: ["update:modelValue", "swap", "tileClick"],
   data() {
     const { currentChallenge, settings } = useStore();
     return {
@@ -140,8 +141,14 @@ export default {
   },
   methods: {
     onTileClick(row, tile) {
+      this.$emit(
+        "tileClick",
+        row * this.modelValue.matrix[0].length + tile,
+        row,
+        tile
+      );
       if (
-        this.disabled === undefined &&
+        this.disabled === undefined || this.disabled === false &&
         this.modelValue.matrix[row][tile] !== -1
       ) {
         const store = useStore();

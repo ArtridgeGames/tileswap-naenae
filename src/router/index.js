@@ -9,6 +9,7 @@ import ChallengeGame from '../views/challenges/ChallengeGame.vue'
 import TutorialView from '../views/TutorialView.vue';
 import TestView from '../views/TestView.vue';
 import EditorView from '../views/EditorView.vue';
+import LayoutEditorView from '../views/LayoutEditorView.vue';
 import IntroView from '../views/IntroView.vue';
 import SwipeView from '../views/SwipeView.vue'
 
@@ -69,6 +70,11 @@ const router = createRouter({
       path: '/editor',
       name: 'editor',
       component: EditorView
+    },
+    {
+      path: '/layout-editor',
+      name: 'layout-editor',
+      component: LayoutEditorView
     }
   ]
 });
