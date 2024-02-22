@@ -192,6 +192,7 @@ export const CHALLENGES = [
   {
     title: "Category 1",
     unlockCategory: 0,
+    allUnlocked: false,
     challenges: [
       new Challenge({
         id: 0,
@@ -228,6 +229,7 @@ export const CHALLENGES = [
   {
     title: "Think Fast",
     unlockCategory: 0,
+    allUnlocked: false,
     challenges: [
       new Challenge({
         id: 3,
@@ -271,6 +273,7 @@ export const CHALLENGES = [
   {
     title: "Read",
     unlockCategory: 1,
+    allUnlocked: false,
     challenges: [
       new Challenge({
         id: 6,
@@ -290,6 +293,7 @@ export const CHALLENGES = [
   {
     title: "Count",
     unlockCategory: 1,
+    allUnlocked: false,
     challenges: [
       new Challenge({
         id: 7,
@@ -307,6 +311,7 @@ export const CHALLENGES = [
   {
     title: "Category 3",
     unlockCategory: 2,
+    allUnlocked: false,
     challenges: [
       new Challenge({
         id: 8,
@@ -346,6 +351,7 @@ export const CHALLENGES = [
   {
     title: "Tile Centipede",
     unlockCategory: 2,
+    allUnlocked: false,
     challenges: [
       new Challenge({
         id: 11,
@@ -386,6 +392,7 @@ export const CHALLENGES = [
   {
     title: "Category 4",
     unlockCategory: 3,
+    allUnlocked: false,
     challenges: [
       new Challenge({
         id: 14,
@@ -426,6 +433,7 @@ export const CHALLENGES = [
   {
     title: "Unconventional",
     unlockCategory: 3,
+    allUnlocked: false,
     challenges: [
       new Challenge({
         id: 17,
@@ -470,6 +478,7 @@ export const CHALLENGES = [
   {
     title: "Category 5",
     unlockCategory: 4,
+    allUnlocked: false,
     challenges: [
       new Challenge({
         id: 20,
@@ -510,6 +519,7 @@ export const CHALLENGES = [
   {
     title: "Category 6",
     unlockCategory: 5,
+    allUnlocked: false,
     challenges: [
       new Challenge({
         id: 23,
@@ -549,6 +559,7 @@ export const CHALLENGES = [
   {
     title: "Corrupted",
     unlockCategory: 4,
+    allUnlocked: true,
     challenges: [
       new Challenge({
         id: 26,
@@ -600,6 +611,7 @@ export const CHALLENGES = [
   {
     title: "Snake",
     unlockCategory: 5,
+    allUnlocked: false,
     challenges: [
       new Challenge({
         id: 29,
@@ -639,6 +651,7 @@ export const CHALLENGES = [
   {
     title: "Category 7",
     unlockCategory: 6,
+    allUnlocked: false,
     challenges: [
       new Challenge({
         id: 32,
@@ -678,6 +691,7 @@ export const CHALLENGES = [
   {
     title: "Game of Life",
     unlockCategory: 6,
+    allUnlocked: true,
     challenges: [
       new Challenge({
         id: 35,
@@ -699,6 +713,7 @@ export const CHALLENGES = [
   {
     title: "Back to basics",
     unlockCategory: 7,
+    allUnlocked: false,
     challenges: [
       new Challenge({
         id: 36,
