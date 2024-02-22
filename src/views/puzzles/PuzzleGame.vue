@@ -59,7 +59,8 @@ import IconButton from "../../components/buttons/IconButton.vue";
 
       <div class="explanation">
         <Layout small v-model="puzzle.base" disabled />
-        <p>→</p>
+        <p v-if="windowWidth > windowHeight">→</p>
+        <p v-else>↓</p>
         <Layout small v-model="puzzle.target" disabled />
       </div>
 
@@ -86,11 +87,13 @@ main.puzzle-container {
 
 .explanation {
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
 }
 .explanation > p {
   font-size: 32px;
+  margin: 0;
 }
 .explanation > div {
   padding: 20px;
@@ -103,6 +106,9 @@ main.puzzle-container {
   .target {
     margin-left: 0;
     margin-top: 80px;
+  }
+  .explanation {
+    flex-direction: column;
   }
   main {
     margin-top: 40px;
@@ -119,9 +125,10 @@ export default {
     const puzzle = store.currentPuzzle;
     const layout = puzzle.base.copy();
 
-    const { width: windowWidth } = useWindow();
+    const { width: windowWidth, height: windowHeight } = useWindow();
     return {
       windowWidth,
+      windowHeight,
       layout,
       puzzle,
       moves: 0,

@@ -7,9 +7,9 @@ import Progress from "./Progress.vue";
     <div class="progress">
       <Progress
         :value="score"
-        :max="1000"
+        :max="nextScore"
         barColor="#e58f65"
-        :text="Math.floor(score) + ' / ' + 1000"
+        :text="Math.floor(score) + (nextScore === 0 ?  '' : ' / ' + nextScore)"
       />
     </div>
     <div class="position">
@@ -120,6 +120,14 @@ export default {
     score() {
       const store = useStore();
       return store.score;
+    },
+    nextScore() {
+      const store = useStore();
+      return store.nextScore;
+    },
+    currentCategory() {
+      const store = useStore();
+      return store.currentCategory;
     },
   },
   components: { Progress },

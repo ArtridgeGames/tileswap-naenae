@@ -14,13 +14,7 @@ import TaskContainer from "../components/TaskContainer.vue";
 <template>
   <div>
     <main class="center middle">
-      <div
-        :class="{
-          bottom: windowWidth > 600,
-          right: windowWidth > 600,
-          'text-center': windowWidth <= 600,
-        }"
-      >
+      <div class="text-center">
         <p v-if="isSignedIn" @click="signOut">
           You are logged in as {{ user.displayName }}
         </p>

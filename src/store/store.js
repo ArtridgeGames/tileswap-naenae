@@ -1,10 +1,8 @@
 import { defineStore } from 'pinia';
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { register } from '../firebase/database.js';
 import { INITIAL_STATS } from '../assets/js/Stats.js';
 import { INITIAL_SETTINGS, SETTINGS_DATA } from '../assets/js/Settings.js';
-import { Layout } from '../assets/js/Layout.js';
-import { Puzzle } from '../assets/js/Puzzle.js';
 import { CHALLENGES } from '../assets/js/challenges/ChallengeData.js';
 
 export const useStore = defineStore('store', () => {
@@ -12,20 +10,69 @@ export const useStore = defineStore('store', () => {
   const currentPuzzle = ref({});
   const currentChallenge = ref({});
   const difficulty = ref(5);
-  const unlockedCategoriesFP = ref(0);
-  const unlockedCategoriesPZ = ref(0);
-  const unlockedChallenges = ref([0, 3]); // ref([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21])
   const currentTasks = ref([0,1,2]);
   const maxTask = ref(2);
   const isRandomFreeplay = ref(false);
   const menuViewIndex = ref(0);
   const savedMenuScroll = ref(0);
   const score = ref(0);
+
+  if (globalThis.window && !window.hasOwnProperty('score')) {
+    Object.defineProperty(window, 'score', {
+      get: () => score.value,
+      set: (value) => {
+        score.value = value
+      }
+    });
+  }
+  
+  const categories = [
+    1000,
+    3000, // + 2k
+    6000, // + 3k
+    10000, // + 4k
+    15000, // + 5k
+    21000, // + 6k
+    28000, // + 7k
+    36000, // + 8k
+    45000, // + 9k
+    55000, // + 10k
+    66000, // + 11k
+    78000, // + 12k
+    91000, // + 13k
+    105000, // + 14k
+    120000, // + 15k
+    136000, // + 16k
+    153000, // + 17k
+  ]
+  const nextScore = computed(() => {
+    const index = categories.findIndex(e => e > score.value);
+    return index === -1 ? 0 : categories[index];
+  });
+  const currentCategory = computed(() => {
+    const index = categories.findIndex(e => e > score.value);
+    return index === -1 ? categories.length - 1 : index;
+  });
+
+  const unlockedCategoriesFP = computed(() => {
+    return currentCategory.value;
+  })
+  const unlockedCategoriesPZ = computed(() => {
+    return currentCategory.value;
+  });
+  const unlockedChallenges = computed(() => {
+    return CHALLENGES.filter(e => e.unlockCategory <= currentCategory.value)
+      .flatMap(e => {
+        if (e.allUnlocked) return e.challenges.map(e => e.id);
+        return e.challenges
+          .filter((_, i) => i === 0 || stats.value.challengesCompleted.includes(e.challenges[i - 1].id))
+          .map(e => e.id);
+      });
+  }); // ref([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21])
+
   
   function unlockAll() {
-    unlockedCategoriesFP.value = Math.max(...Layout.ALL_LAYOUTS.map(e => e.unlockCategory));
-    unlockedCategoriesPZ.value = Math.max(...Puzzle.PUZZLES.map(e => e.unlockCategory));
-    unlockedChallenges.value = CHALLENGES.flatMap(e => e.challenges.map(e => e.id));
+    score.value = categories[categories.length - 1];
   }
 
   if (process.env.NODE_ENV === 'development') {
@@ -89,6 +136,8 @@ export const useStore = defineStore('store', () => {
     menuViewIndex,
     savedMenuScroll,
     score,
-    unlockAll,
+    nextScore,
+    currentCategory,
+    unlockAll
   };
 });

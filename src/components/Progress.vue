@@ -36,6 +36,7 @@ export default {
   props: ['value', 'max', 'text', 'barColor'],
   computed: {
     progress() {
+      if (this.max == 0) return "100%";
       return (this.value / this.max * 100) + "%";
     },
     barColorOrDefault() {

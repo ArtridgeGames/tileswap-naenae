@@ -230,7 +230,7 @@ export const CHALLENGES = [
     unlockCategory: 0,
     challenges: [
       new Challenge({
-        id: 0,
+        id: 3,
         title: 'Normal',
         settings: new ChallengeProperties({
           timeLimit: 60,
@@ -243,7 +243,7 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        id: 1,
+        id: 4,
         title: 'Hard',
         settings: new ChallengeProperties({
           timeLimit: 60,
@@ -256,7 +256,7 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        id: 2,
+        id: 5,
         title: 'Expert',
         settings: new ChallengeProperties({
           timeLimit: 60,

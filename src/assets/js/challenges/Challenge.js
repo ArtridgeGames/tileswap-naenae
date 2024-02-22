@@ -21,7 +21,7 @@ export class Challenge {
     this.id = id;
     this.title = title;
     this.settings = settings;
-    this.process = new ChallengeProcess(this.settings);
+    this.process = new ChallengeProcess(this);
   }
 }
 
@@ -203,11 +203,12 @@ export class ChallengeProcess {
    * Constructs a new Challenge Process.
    * A Challenge Process manages the ongoing state when
    * a challenge is being played.
-   * @param {ChallengeProperties} settings
+   * @param {Challenge} challenge - The challenge being played
    */
-  constructor(settings) {
-    require(settings);
-    this.settings = settings;
+  constructor(challenge) {
+    require(challenge);
+    this.settings = challenge.settings;
+    this.id = challenge.id;
 
     this.firstTime = true;
     this.temporaryScore = 0;
@@ -414,6 +415,7 @@ export class ChallengeProcess {
         store.score += this.settings.firstTimeScore;
       }
 
+      // Compute score
       const score =
         this.difficulties
         .map((difficulty, i) => {
@@ -428,6 +430,10 @@ export class ChallengeProcess {
       const timeMultiplier = this.settings.timeLimit === -1 ? 1 : 1.5;
       const moveMultiplier = this.settings.moveLimit === -1 ? 1 : 1.5;
       store.score += score * timeMultiplier * moveMultiplier * (this.unlockCategory + 1);
+
+      store.stats.challengesCompleted.push(this.id);
+      console.log(store.stats.challengesCompleted);
+      console.log(this);
     }
   }
 
