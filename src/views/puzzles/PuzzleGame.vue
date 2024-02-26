@@ -12,6 +12,7 @@ import Progress from "../../components/Progress.vue";
 
 <template>
   <div>
+
     <LinkButton class="top right" text="back" to="/home" />
     <IconButton
       class="top left"
@@ -26,6 +27,7 @@ import Progress from "../../components/Progress.vue";
         bottom: windowWidth <= 600,
       }"
     >
+      <p v-show="moves > 0">{{ moves }} move{{ moves > 1 ? "s" : "" }}</p>
       <h1>{{ completionMoves }}</h1>
       <h1>{{ nextMedal }}</h1>
       <Button text="retry" @pressed="reset" />
