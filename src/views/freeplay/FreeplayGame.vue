@@ -261,8 +261,6 @@ export default {
   },
   mounted() {
     this.randomize();
-    // console.log(this.layout.computeMaxDifficulty());
-
     watch(devMode, (newVal) => {
       if (newVal) {
         this.updateSolutions();

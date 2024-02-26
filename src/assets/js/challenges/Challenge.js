@@ -306,7 +306,6 @@ export class ChallengeProcess {
    * Updates the challenge process according to the player input.
    */
   handleClick() {
-    console.log(this.state);
     if (this.state !== ChallengeProcess.STATE.IN_PROGRESS) return;
 
     if (this.currentPattern.layout.isSolved(this.patternModulo)) {
@@ -438,8 +437,6 @@ export class ChallengeProcess {
       store.score += score * timeMultiplier * moveMultiplier * 2 ** this.unlockCategory;
 
       store.stats.challengesCompleted.push(this.id);
-      console.log(store.stats.challengesCompleted);
-      console.log(this);
     }
   }
 
