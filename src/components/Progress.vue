@@ -9,7 +9,7 @@
 .container {
   position: relative;
   width: 100%;
-  height: 30px;
+  height: 40px;
   background: var(--hl-color);
   /* border: 1px solid var(--shadow-color); */
   border-radius: 20px;
@@ -33,14 +33,14 @@
 
 <script>
 export default {
-  props: ['value', 'max', 'text', 'barColor'],
+  props: ['value', 'max', 'text', 'barColor', 'backgroundColor'],
   computed: {
     progress() {
       if (this.max == 0) return "100%";
       return (this.value / this.max * 100) + "%";
     },
     barColorOrDefault() {
-      return this.barColor ?? 'var(--bg-color)';
+      return this.barColor ?? 'var(--root-bg-color)';
     }
   }
 }

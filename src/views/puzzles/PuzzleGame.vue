@@ -7,6 +7,7 @@ import Modal from "../../components/Modal.vue";
 import { useWindow } from "../../assets/js/window.js";
 import tutorialUrl from "/images/svg/tutorial.svg";
 import IconButton from "../../components/buttons/IconButton.vue";
+import Progress from "../../components/Progress.vue";
 </script>
 
 <template>
@@ -51,6 +52,13 @@ import IconButton from "../../components/buttons/IconButton.vue";
 
     <Modal v-model="showWinModal">
       <h1>you won in {{ moves }} move{{ moves > 1 ? "s" : "" }}!</h1>
+      <Progress
+        :value="store.score"
+        :max="store.nextScore"
+        barColor="#e58f65"
+        style="border: 5px solid black;"
+        :text="Math.floor(store.score) + (store.nextScore === 0 ?  '' : ' / ' + store.nextScore)"
+      />
       <Button black text="yay!" @pressed="showWinModal = false" />
     </Modal>
 
@@ -127,6 +135,7 @@ export default {
 
     const { width: windowWidth, height: windowHeight } = useWindow();
     return {
+      store,
       windowWidth,
       windowHeight,
       layout,

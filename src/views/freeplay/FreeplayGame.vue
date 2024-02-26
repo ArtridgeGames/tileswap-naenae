@@ -7,6 +7,7 @@ import ModuloSlider from "../../components/ModuloSlider.vue";
 import Modal from "../../components/Modal.vue";
 import LinkButton from "../../components/buttons/LinkButton.vue";
 import DevMode from "../../components/DevMode.vue";
+import Progress from "../../components/Progress.vue";
 </script>
 
 <template>
@@ -72,7 +73,14 @@ import DevMode from "../../components/DevMode.vue";
 
     <Modal v-model="showModal">
       <h1>you won in {{ moves }} move{{ moves > 1 ? "s" : "" }}!</h1>
-      <h3>Score: {{ store.score - latestScore }} + {{ latestScore }}</h3>
+      <!-- <h3>Score: {{ store.score - latestScore }} + {{ latestScore }}</h3> -->
+      <Progress
+        :value="store.score"
+        :max="store.nextScore"
+        barColor="#e58f65"
+        style="border: 5px solid black;"
+        :text="Math.floor(store.score) + (store.nextScore === 0 ?  '' : ' / ' + store.nextScore)"
+      />
       <Button black text="yay!" @pressed="showModal = false" />
     </Modal>
   </div>

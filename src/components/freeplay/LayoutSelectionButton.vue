@@ -109,7 +109,7 @@ export default {
     },
     unlocked() {
       const store = useStore();
-      return this.layout.unlockCategory <= store.unlockedCategoriesFP;
+      return this.layout.unlockCategory <= store.unlockedCategoriesFP || this.layout.unlockCategory >= store.categories.length;
     }
   },
   methods: {

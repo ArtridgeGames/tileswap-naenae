@@ -197,6 +197,7 @@ export class ChallengeProcess {
     WON: 2,
     LOST_TIME: 3,
     LOST_MOVES: 4,
+    PAUSED: 5,
   }
 
   /**
@@ -245,6 +246,7 @@ export class ChallengeProcess {
     this.patternModulo = this.currentPattern.moduloPerPattern;
     this.patternBonusTime = this.currentPattern.bonusTimePerPattern;
 
+    clearInterval(this.timerId);
     this.timerId = null;
 
     this.advanceTimers = true;
@@ -280,6 +282,7 @@ export class ChallengeProcess {
    * Pauses the challenge process.
    */
   pause() {
+    this.state = ChallengeProcess.STATE.PAUSED;
     this.advanceTimers = false;
   }
 
@@ -287,6 +290,7 @@ export class ChallengeProcess {
    * Resumes the challenge process.
    */
   resume() {
+    this.state = ChallengeProcess.STATE.IN_PROGRESS;
     this.advanceTimers = true;
   }
 
@@ -294,6 +298,7 @@ export class ChallengeProcess {
    * Quits the challenge process.
    */
   quit() {
+    this.state = ChallengeProcess.STATE.NOT_STARTED;
     clearInterval(this.timerId);
   }
 
@@ -301,6 +306,7 @@ export class ChallengeProcess {
    * Updates the challenge process according to the player input.
    */
   handleClick() {
+    console.log(this.state);
     if (this.state !== ChallengeProcess.STATE.IN_PROGRESS) return;
 
     if (this.currentPattern.layout.isSolved(this.patternModulo)) {

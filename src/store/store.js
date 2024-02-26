@@ -138,6 +138,7 @@ export const useStore = defineStore('store', () => {
     score,
     nextScore,
     currentCategory,
-    unlockAll
+    unlockAll,
+    categories
   };
 });

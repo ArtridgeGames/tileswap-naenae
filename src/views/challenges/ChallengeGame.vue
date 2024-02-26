@@ -33,17 +33,26 @@ import Progress from "../../components/Progress.vue";
 
     <Modal v-model="showWinModal">
       <h1>you won the challenge!</h1>
+      <Progress
+        :value="store.score"
+        :max="store.nextScore"
+        barColor="#e58f65"
+        style="border: 5px solid black;"
+        :text="Math.floor(store.score) + (store.nextScore === 0 ?  '' : ' / ' + store.nextScore)"
+      />
       <Button black text="yay!" @pressed="showWinModal = false" />
     </Modal>
 
     <Modal v-model="showLostModal">
       <h1>{{ modalText }}</h1>
       <Button black text="adnwkhu!" @pressed="showLostModal = false" />
+      <Button black text="restart" @pressed="restart" />
     </Modal>
 
     <Modal v-model="showPauseModal">
       <h1>Game is paused</h1>
       <Button black text="resume" @pressed="resume" />
+      <Button black text="restart" @pressed="restart" />
       <Button black text="quit" @pressed="quit" />
     </Modal>
   </div>
@@ -92,8 +101,10 @@ import { ChallengeProcess } from "../../assets/js/challenges/Challenge";
 
 export default {
   data() {
-    const { currentChallenge } = useStore();
+    const store = useStore();
+    const { currentChallenge } = store;
     return {
+      store,
       currentChallenge,
       showWinModal: false,
       showLostModal: false,
@@ -125,6 +136,12 @@ export default {
     resume() {
       this.showPauseModal = false;
       this.currentChallenge.process.resume();
+    },
+    restart() {
+      this.currentChallenge.process.quit();
+      this.currentChallenge.process.init();
+      this.hasStarted = false;
+      this.showPauseModal = false;
     },
     quit() {
       this.currentChallenge.process.quit();
