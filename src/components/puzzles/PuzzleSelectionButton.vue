@@ -107,7 +107,7 @@ export default {
         ? "var(--hl-color)"
         : (completionMoves <= solutionL
         ? "var(--success-color)"
-        : completionMoves <= solutionL * 1.2
+        : completionMoves <= this.puzzle.silverMoves
         ? "var(--silver-color)"
         : "var(--bronze-color)");
     },

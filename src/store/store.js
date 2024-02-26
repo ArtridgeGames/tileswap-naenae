@@ -27,9 +27,9 @@ export const useStore = defineStore('store', () => {
   }
   
   const categories = [
-    700,
-    1500, // + 2k
-    4000, // + 3k
+    750,
+    2500, // + 2k
+    7000, // + 3k
     15000, // + 4k
     50000, // + 5k
     120000, // + 6k

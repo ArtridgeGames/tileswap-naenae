@@ -121,7 +121,7 @@ export class Task {
         const range = Math.floor(Puzzle.PUZZLES.length/10)
         targetIds.push(Math.min(Math.floor(Math.random()*range+startingPuzzle), Puzzle.PUZZLES.length-1))
         const currentPuzzle = Puzzle.PUZZLES.filter(puzz => puzz.id === targetIds[0])[0];
-        const difficulty = difficultyPercent<=30?-1:difficultyPercent<=60?currentPuzzle.solution.length*1.2:currentPuzzle.solution.length;
+        const difficulty = difficultyPercent<=30?-1:difficultyPercent<=60?currentPuzzle.silverMoves:currentPuzzle.solution.length;
         return new Task({
           timesRequired: 1, 
           targetId: targetIds, 
