@@ -10,7 +10,7 @@ import TestView from '../views/TestView.vue';
 import EditorView from '../views/EditorView.vue';
 import LayoutEditorView from '../views/LayoutEditorView.vue';
 import IntroView from '../views/IntroView.vue';
-import SwipeView from '../views/SwipeView.vue'
+import SwipeView from '../views/SwipeView.vue';
 
 const router = createRouter({
   history: createMemoryHistory(import.meta.env.BASE_URL),
@@ -28,7 +28,7 @@ const router = createRouter({
     {
       path: '/tutorial',
       name: 'tutorial',
-      component: TutorialViewAdvanced
+      component: TutorialView
     },
     {
       path: '/freeplaySelection',
