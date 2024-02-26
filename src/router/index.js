@@ -1,5 +1,4 @@
-import { createRouter, createMemoryHistory, createWebHashHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createMemoryHistory } from 'vue-router'
 import FreeplaySelection from '../views/freeplay/FreeplaySelection.vue'
 import PuzzleSelection from '../views/puzzles/PuzzleSelection.vue'
 import ChallengeSelection from '../views/challenges/ChallengeSelection.vue'
@@ -30,7 +29,7 @@ const router = createRouter({
     {
       path: '/tutorial',
       name: 'tutorial',
-      component: TutorialView
+      component: TutorialViewAdvanced
     },
     {
       path: '/freeplaySelection',
