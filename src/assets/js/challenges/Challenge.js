@@ -429,7 +429,7 @@ export class ChallengeProcess {
 
       const timeMultiplier = this.settings.timeLimit === -1 ? 1 : 1.5;
       const moveMultiplier = this.settings.moveLimit === -1 ? 1 : 1.5;
-      store.score += score * timeMultiplier * moveMultiplier * (this.unlockCategory + 1);
+      store.score += score * timeMultiplier * moveMultiplier * 2 ** this.unlockCategory;
 
       store.stats.challengesCompleted.push(this.id);
       console.log(store.stats.challengesCompleted);
