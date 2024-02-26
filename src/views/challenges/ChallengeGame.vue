@@ -142,6 +142,7 @@ export default {
       this.currentChallenge.process.init();
       this.hasStarted = false;
       this.showPauseModal = false;
+      this.showLostModal = false;
     },
     quit() {
       this.currentChallenge.process.quit();
@@ -149,16 +150,6 @@ export default {
     },
   },
   watch: {
-    showWinModal() {
-      if (!this.showWinModal) {
-        this.$router.push("/home");
-      }
-    },
-    showLostModal() {
-      if (!this.showLostModal) {
-        this.$router.push("/home");
-      }
-    },
     "currentChallenge.process.state"(newVal) {
       if (newVal === ChallengeProcess.STATE.WON) {
         this.showWinModal = true;
