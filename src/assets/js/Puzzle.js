@@ -211,7 +211,7 @@ export class Puzzle {
         [2, 2, 2, 2, 1, 1, 1, 2, 2, 2, 2]
       ],
       solution: [4, 5, 13, 14, 16, 17, 23, 25, 27, 28, 30, 34, 35, 44, 55, 56, 57, 64, 67, 68, 90, 96, 104]
-      , unlockCategory: 9
+      , unlockCategory: 15
     },
     {
       // solution : 0, 1, 4, 5, 10, 11, 14, 15
@@ -343,7 +343,7 @@ export class Puzzle {
         [0, 0, 2, 2, 2, 0, 0]
       ],
       solution: [10, 14, 20, 31, 42, 48]
-      , unlockCategory: 8
+      , unlockCategory: 9
     },
     {
       "moves": 12,
@@ -1786,7 +1786,7 @@ export class Puzzle {
         [1, 1, 1, 1, 1, 1, 1]
       ],
       solution: [1, 2, 3, 4, 14, 16, 17, 21, 28, 31, 34, 35, 41, 42, 44, 45, 46, 47]
-      , unlockCategory: 8
+      , unlockCategory: 12
     },
     {
       moves: 30,
@@ -1948,7 +1948,7 @@ export class Puzzle {
         [2, 2, 1, 1, 1, 1, 1, 1, 2, 2, 2]
       ],
       solution: [2, 4, 12, 13, 18, 20, 34, 35, 38, 42, 44, 45, 46, 48, 49, 52, 53, 59, 60, 63, 64, 68, 70]
-      , unlockCategory: 9
+      , unlockCategory: 15
     },
     {
       moves: 25,
@@ -1975,7 +1975,7 @@ export class Puzzle {
         [2, 2, 2, 0, 0, 0, 2, 2, 2]
       ],
       solution: [16, 42, 43, 44, 50, 51, 52, 53, 55, 58, 59, 70]
-      , unlockCategory: 8
+      , unlockCategory: 9
     },
     {
       moves: 60,
@@ -2021,7 +2021,7 @@ export class Puzzle {
         [1, 1, 1, 0, 0, 0, 0],
       ],
       solution: [0, 1, 3, 5, 6, 7, 10, 13, 21, 22, 24, 26, 27, 35, 38, 41, 42, 43, 45, 47, 48]
-      , unlockCategory: 8
+      , unlockCategory: 10
     },
     {
       moves: 50,
@@ -2096,7 +2096,7 @@ export class Puzzle {
         [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0]
       ],
       solution: [1, 2, 3, 5, 6, 8, 9, 10, 12, 13, 14, 19, 21, 23, 24, 25, 28, 31, 34, 35, 36, 47, 50, 52, 53, 54, 57, 58, 60, 64, 65, 66, 67, 71, 72, 76, 77, 78, 79, 83, 85, 86, 89, 90, 91, 93, 96, 107, 108, 109, 112, 115, 118, 119, 120, 122, 124, 129, 130, 131, 133, 134, 135, 137, 138, 140, 141, 142]
-      , unlockCategory: 9
+      , unlockCategory: 14
     },
     {
       moves: 12,
@@ -2144,7 +2144,7 @@ export class Puzzle {
         [0, 2, 0, 2, 0, 2, 0, 2, 0]
       ],
       solution: [2, 4, 5, 13, 26, 27, 30, 31, 36, 37, 40, 43, 44, 48, 49, 53, 54, 57, 60, 71]
-      , unlockCategory: 8
+      , unlockCategory: 11
     },
     {
       //UC1
@@ -2755,6 +2755,256 @@ export class Puzzle {
       ],
       unlockCategory: 10,
       modulo: 3
+    },{
+      moves: 5,
+      target: [
+        [
+          1,
+          -1,
+          -1,
+          -1,
+          0
+        ],
+        [
+          1,
+          1,
+          -1,
+          -1,
+          0
+        ],
+        [
+          0,
+          1,
+          1,
+          -1,
+          0
+        ],
+        [
+          0,
+          -1,
+          1,
+          1,
+          0
+        ],
+        [
+          0,
+          -1,
+          -1,
+          1,
+          0
+        ]
+      ],
+      base: [
+        [
+          1,
+          -1,
+          -1,
+          -1,
+          1
+        ],
+        [
+          1,
+          0,
+          -1,
+          -1,
+          1
+        ],
+        [
+          1,
+          0,
+          0,
+          -1,
+          1
+        ],
+        [
+          1,
+          -1,
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          -1,
+          -1,
+          1,
+          1
+        ]
+      ],
+      solution: [
+        4,
+        12,
+        15,
+        17,
+        18
+      ],
+      unlockCategory: 1
+    },
+    {
+      moves: 12,
+      base: [
+        [
+          -1,
+          -1,
+          0,
+          -1,
+          0,
+          -1,
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        [
+          -1,
+          -1,
+          0,
+          -1,
+          -1,
+          0,
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        [
+          0,
+          0,
+          -1,
+          0,
+          0,
+          -1,
+          -1,
+          0,
+          0,
+          -1
+        ],
+        [
+          -1,
+          -1,
+          -1,
+          0,
+          0,
+          -1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          -1,
+          -1,
+          -1,
+          -1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          -1,
+          -1,
+          -1,
+          -1,
+          -1,
+          0,
+          0,
+          -1,
+          -1,
+          -1
+        ]
+      ],
+      target: [
+        [
+          -1,
+          -1,
+          0,
+          -1,
+          0,
+          -1,
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        [
+          -1,
+          -1,
+          0,
+          -1,
+          -1,
+          0,
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        [
+          0,
+          0,
+          -1,
+          0,
+          0,
+          -1,
+          -1,
+          0,
+          0,
+          -1
+        ],
+        [
+          -1,
+          -1,
+          -1,
+          0,
+          0,
+          -1,
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          -1,
+          -1,
+          -1,
+          -1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          -1,
+          -1,
+          -1,
+          -1,
+          -1,
+          0,
+          0,
+          -1,
+          -1,
+          -1
+        ]
+      ],
+      solution: [
+        20,
+        21,
+        23,
+        28,
+        34,
+        36,
+        37,
+        38,
+        39,
+        49,
+        55,
+        56
+      ],
+      unlockCategory: 8
     }
 
   ]
@@ -2802,7 +3052,13 @@ export class Puzzle {
       return Puzzle.PUZZLES.filter(e => e.unlockCategory === i);
     });
   }
-
+  get silverMoves(){
+    const sol = this.solution.length
+    return Math.max(sol + 2 * this.modulo, 
+           Math.ceil(sol * 1.5)
+           + (sol * 1.5 % this.modulo) ? this.modulo : 0)
+  }
+  
   static MEDALS = {
     NOT_COMPLETED: -1,
     BRONZE: 0,
@@ -2861,14 +3117,14 @@ export class Puzzle {
           medal: Puzzle.MEDALS.GOLD,
           movesRequiredForNextMedal: -1
         }
-        : moves <= this.solution.length * 1.2
+        : moves <= this.silverMoves
           ? {
             medal: Puzzle.MEDALS.SILVER,
             movesRequiredForNextMedal: this.solution.length
           }
           : {
             medal: Puzzle.MEDALS.BRONZE,
-            movesRequiredForNextMedal: Math.ceil(this.solution.length * 1.2)
+            movesRequiredForNextMedal: this.silverMoves
           });
   }
 
@@ -2919,3 +3175,4 @@ export class Puzzle {
     }
   }
 }
+

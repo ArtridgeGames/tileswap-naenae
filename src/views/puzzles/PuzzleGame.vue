@@ -54,6 +54,7 @@ import Progress from "../../components/Progress.vue";
 
     <Modal v-model="showWinModal">
       <h1>you won in {{ moves }} move{{ moves > 1 ? "s" : "" }}!</h1>
+      <h1>{{ nextMedal }}</h1>
       <Progress
         :value="store.score"
         :max="store.nextScore"
@@ -62,10 +63,11 @@ import Progress from "../../components/Progress.vue";
         :text="Math.floor(store.score) + (store.nextScore === 0 ?  '' : ' / ' + store.nextScore)"
       />
       <Button black text="yay!" @pressed="showWinModal = false" />
+      <Button  black text="retry" @pressed="restart" />
     </Modal>
 
     <Modal v-model="showExplanationModal">
-      <h1>you gotta do what do be do</h1>
+      <h1>you gotta do what do be do be doo</h1>
 
       <div class="explanation">
         <Layout small v-model="puzzle.base" disabled />
@@ -144,6 +146,7 @@ export default {
       puzzle,
       moves: 0,
       maxMoves: puzzle.moves,
+      lastMoves,
       showWinModal: false,
       showExplanationModal: true,
     };
@@ -162,13 +165,6 @@ export default {
       if (medal === Puzzle.MEDALS.BRONZE) return `next medal: ${movesRequiredForNextMedal} moves`;
     },
   },
-  watch: {
-    showWinModal() {
-      if (!this.showWinModal) {
-        this.$router.push("/home");
-      }
-    },
-  },
   methods: {
     reset() {
       this.moves = 0;
@@ -183,6 +179,10 @@ export default {
         Task.advanceTasks(this.puzzle.id, Task.TASK_TYPES.PUZZLE, this.moves);
       }
     },
+    restart() {
+      this.showWinModal = false;
+      this.reset();
+    }
   },
 };
 </script>
