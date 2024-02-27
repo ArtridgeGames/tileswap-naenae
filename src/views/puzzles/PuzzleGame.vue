@@ -62,7 +62,7 @@ import Progress from "../../components/Progress.vue";
         style="border: 5px solid black;"
         :text="Math.floor(store.score) + (store.nextScore === 0 ?  '' : ' / ' + store.nextScore)"
       />
-      <Button black text="yay!" @pressed="showWinModal = false; this.quit()" />
+      <Button black text="yay!" @pressed="showWinModal = false; quit()" />
       <Button  black text="retry" @pressed="restart" />
     </Modal>
 
