@@ -146,7 +146,6 @@ export default {
       puzzle,
       moves: 0,
       maxMoves: puzzle.moves,
-      lastMoves,
       showWinModal: false,
       showExplanationModal: true,
     };
