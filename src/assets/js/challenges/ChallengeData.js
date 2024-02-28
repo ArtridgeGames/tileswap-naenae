@@ -200,8 +200,8 @@ export const CHALLENGES = [
         settings: new ChallengeProperties({
           timeLimit: 60,
           patternList: patternList([0, 14, 20, 21, 22, 23, 46]),
-          patternCount: 7,
-          difficulty: uniformSumInRanges([3, 5], 7, 31)
+          patternCount: 4, //4 or 5,
+          difficulty: uniformSumInRanges([3, 5], 4, 21)
         })
       }),
       new Challenge({
@@ -210,8 +210,8 @@ export const CHALLENGES = [
         settings: new ChallengeProperties({
           timeLimit: 60,
           patternList: patternList([0, 14, 20, 21, 22, 23, 46]),
-          patternCount: 14,
-          difficulty: uniformSumInRanges([3, 5], 14, 60)
+          patternCount: 8, //maybe 14, needs to be tested
+          difficulty: uniformSumInRanges([3, 5], 8, 37) //sumInRanges, add higher difficulty when possible
         })
       }),
       new Challenge({
