@@ -117,7 +117,7 @@ export default {
                    [1,1,1,1,0,0,0],
                    [1,1,1,1,0,0,0],
                    [1,1,1,1,0,0,0]],
-          solution: [12,15,47],
+          solution: [12,15,42],
           showModal: true
         },
         {
@@ -252,9 +252,26 @@ export default {
                    [1,-1,1]],
         },
         {
-          matrix: [[ 1, 0,-1],
-                   [ 0, ]]
-        }
+          matrix: [[0, 1,1],
+                   [0,-1,1],
+                   [1,-1,1]],
+        },
+        {
+          matrix: [[0, 1,1],
+                   [0,-1,1],
+                   [1,-1,1]],
+        },
+        {
+          matrix: [[0, 1,1],
+                   [0,-1,1],
+                   [1,-1,1]],
+        },
+        {
+          matrix: [[0, 1,1],
+                   [0,-1,1],
+                   [1,-1,1]],
+          showModal: true
+        },
       ].map(stage => {
         const res = new Layout({
           width: stage.matrix[0].length,
