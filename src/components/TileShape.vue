@@ -8,8 +8,8 @@
 
 import SpikeTile from './tiles/Spike.vue'
 import Round from './tiles/Round.vue';
-import Squircle from './Tiles/Squircle.vue';
-import Square from './Tiles/Square.vue';
+import Squircle from './tiles/Squircle.vue';
+import Square from './tiles/Square.vue';
 
 export default {
   props: ['color', 'shape'],
