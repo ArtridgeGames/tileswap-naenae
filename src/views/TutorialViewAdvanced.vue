@@ -35,6 +35,22 @@ import Button from '../components/buttons/Button.vue';
         <h1>[INSERT ANIMATION]</h1>
         <Button black text="ok!" @pressed="showModal = false" />
       </div>
+      <div v-if="modalPage == 5">
+        <h1>As you might have noticed, clicking twice on the same tile is the same as not clicking on it at all.</h1>
+        <h1>[INSERT ANIMATION]</h1>
+        <Button black text="ok!" @pressed="modalPage++" />
+      </div>
+      <div v-if="modalPage == 6">
+        <h1>Also notice that the order on which you click the tiles does not matter.</h1>
+        <h1>[INSERT ANIMATION]</h1>
+        <Button black text="ok!" @pressed="modalPage++" />
+      </div>
+      <div v-if="modalPage == 7">
+        <h1>From now on we won't tell you when you're getting further away from the solution.</h1>
+        <h1>You can go back to the initial state anytime by pressing the retry button</h1>
+        <h1>[INSERT ANIMATION]</h1>
+        <Button black text="ok!" @pressed="showModal = false;" />
+      </div>
     </Modal>
 
     <!-- <LayoutVue 
