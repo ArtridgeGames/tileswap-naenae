@@ -19,7 +19,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'intro',
-      component: TutorialViewAdvanced
+      component: IntroView // TutorialViewAdvanced
     },
     {
       path: '/home',
