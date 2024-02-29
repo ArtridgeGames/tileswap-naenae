@@ -117,7 +117,7 @@ export default {
                    [1,1,1,1,0,0,0],
                    [1,1,1,1,0,0,0],
                    [1,1,1,1,0,0,0]],
-          showModal: true
+          showModal: true,
         },
         {
           matrix: [[-1,0,0,1,1],
@@ -226,6 +226,16 @@ export default {
           matrix: [[1,0,0],
                    [0,1,0],
                    [0,0,1]],
+          showModal: true
+        },
+        {
+          matrix: [[0, 1,1],
+                   [0,-1,1],
+                   [1,-1,1]],
+        },
+        {
+          matrix: [[ 1, 0,-1],
+                   [ 0, ]]
         }
       ].map(stage => {
         const res = new Layout({
