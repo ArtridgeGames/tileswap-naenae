@@ -19,7 +19,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'intro',
-      component: IntroView // TutorialViewAdvanced
+      component: IntroView
     },
     {
       path: '/home',
@@ -29,7 +29,7 @@ const router = createRouter({
     {
       path: '/tutorial',
       name: 'tutorial',
-      component: TutorialView
+      component: TutorialViewAdvanced
     },
     {
       path: '/freeplaySelection',
