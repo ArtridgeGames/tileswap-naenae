@@ -274,6 +274,21 @@ export default {
                    [1,0,1]],
           showModal: true
         },
+        {
+          matrix: [[0,1,1],
+                   [1,0,0],
+                   [0,1,1]],
+        },
+        {
+          matrix: [[1, 0,1],
+                   [1, 1,0],
+                   [0, 1,1]],
+        },
+        {
+          matrix: [[1, 1,1],
+                   [1, 0,1],
+                   [0, 1,0]],
+        },
       ].map(stage => {
         const res = new Layout({
           width: stage.matrix[0].length,
