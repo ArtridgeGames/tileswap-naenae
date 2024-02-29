@@ -16,7 +16,7 @@ import Button from '../components/buttons/Button.vue';
       </div>
       <div v-if="modalPage == 1">
         <h1>You've won!</h1>
-        <h3>Your'e free to continue experimenting. Continue when you're ready.</h3>
+        <h3>You're free to continue experimenting. Continue when you're ready.</h3>
         <Button black text="ok!" @pressed="showModal = false" />
       </div>
       <div v-if="modalPage == 2">
@@ -117,42 +117,48 @@ export default {
                    [1,1,1,1,0,0,0],
                    [1,1,1,1,0,0,0],
                    [1,1,1,1,0,0,0]],
-          showModal: true,
+          solution: [12,15,47],
+          showModal: true
         },
         {
           matrix: [[-1,0,0,1,1],
                    [ 0,0,0,1,1],
                    [ 0,0,0,1,1],
                    [ 1,1,1,1,1],
-                   [ 1,1,1,1,1]]
+                   [ 1,1,1,1,1]],
+          solution: [6]
         },
         {
           matrix: [[1,1,1, 1,1],
                    [1,1,1, 1,1],
                    [1,1,0, 0,0],
                    [1,1,0, 0,0],
-                   [1,1,0,-1,0]]
+                   [1,1,0,-1,0]],
+          solution: [18]
         },
         {
           matrix: [[1,1, 1, 1,1],
                    [1,1, 1, 1,1],
                    [1,1, 0,-1,0],
                    [1,1,-1, 0,0],
-                   [1,1, 0, 0,0]]
+                   [1,1, 0, 0,0]],
+          solution: [18]
         },
         {
           matrix: [[1, 1, 1, 1,1],
                    [1, 0,-1, 0,1],
                    [1,-1, 0,-1,1],
                    [1, 0,-1, 0,1],
-                   [1, 1, 1, 1,1]]
+                   [1, 1, 1, 1,1]],
+          solution: [12]
         },
         {
           matrix: [[ 1, 1,1,1,1],
                    [ 1, 1,1,1,1],
                    [ 0, 0,0,1,1],
                    [-1, 0,0,1,1],
-                   [-1,-1,0,1,1]]
+                   [-1,-1,0,1,1]],
+          solution: [16]
         },
         {
           matrix: [[ 1, 1, 1,1,1],
@@ -160,6 +166,7 @@ export default {
                    [-1, 0, 0,1,1],
                    [-1, 0, 0,1,1],
                    [-1,-1,-1,1,1]],
+          solution: [16],
           showModal: true
         },
         {
@@ -167,27 +174,32 @@ export default {
                    [1,1,0,0],
                    [1,1,0,0],
                    [1,1,1,1]],
+          solution: [7]
         },
         {
           matrix: [[1,1,0,0],
                    [1,1,0,0],
                    [1,1,1,1],
                    [1,1,1,1]],
+          solution: [3]
         },
         {
           matrix: [[1,0,0],
                    [1,0,0],
                    [1,1,1]],
+          solution: [2]
         },
         {
           matrix: [[1, 1,1],
                    [0,-1,1],
                    [0, 0,1]],
+          solution: [6]
         },
         {
           matrix: [[1, 1,1],
                    [1,-1,0],
                    [1,-1,0]],
+          solution: [8],
           showModal: true
         },
         {
@@ -196,6 +208,7 @@ export default {
                    [0,0,1,0,0],
                    [1,1,0,0,0],
                    [1,1,0,0,0]],
+          solution: [6,18]
         },
         {
           matrix: [[0,0,0,1,1],
@@ -203,6 +216,7 @@ export default {
                    [0,0,1,0,0],
                    [1,1,0,0,0],
                    [1,1,1,1,1]],
+          solution: [6,13]
         },
         {
           matrix: [[0,0,1,0,0],
@@ -210,22 +224,26 @@ export default {
                    [0,0,1,0,0],
                    [1,1,1,1,1],
                    [1,1,1,1,1]],
+          solution: [6, 8]
         },
         {
           matrix: [[0,0,0],
                    [1,1,1],
                    [0,0,0],
                    [0,0,0]],
+          solution: [1,7]
         },
         {
           matrix: [[0,1,0],
                    [0,1,0],
                    [1,1,1]],
+          solution: [0,2]
         },
         {
           matrix: [[1,0,0],
                    [0,1,0],
                    [0,0,1]],
+          solution: [2, 6],
           showModal: true
         },
         {
