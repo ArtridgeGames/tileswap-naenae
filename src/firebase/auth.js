@@ -10,7 +10,7 @@ import { Capacitor } from '@capacitor/core';
 
 const getFirebaseAuth = () => {
   if (Capacitor.isNativePlatform()) {
-    return initializeAuth(getApp(), {
+    return initializeAuth(app, {
       persistence: indexedDBLocalPersistence,
     });
   } else {
