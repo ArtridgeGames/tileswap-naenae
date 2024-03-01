@@ -67,15 +67,15 @@ import Button from '../components/buttons/Button.vue';
 
     
     <Transition appear name="fade" mode="out-in">
-      <LayoutVue
-        :highlightedTiles="highlightedTiles"
-        :key="stageIndex"
-        class="center middle"
-        v-model="stage.layout"
-        :class="{ shake }"
-        :disabled="disabled"
-        @swap="handleClick"
-      />
+      <div class="center middle" :key="stageIndex">
+        <LayoutVue
+          :highlightedTiles="highlightedTiles"
+          :class="{ shake }"
+          v-model="stage.layout"
+          :disabled="disabled"
+          @swap="handleClick"
+        />
+      </div>
     </Transition>
     
     <div class="top center text-center" style="width: max-content; max-width: 100%;">
