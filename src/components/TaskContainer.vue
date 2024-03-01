@@ -50,7 +50,7 @@ progress {
 
 <script>
 import { Task } from "../assets/js/Task.js";
-import { useStore } from "@/store/store.js";
+import { useStore } from "../store/store.js";
 export default {
   methods: {
     claimTask(task) {

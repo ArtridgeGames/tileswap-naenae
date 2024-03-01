@@ -1,5 +1,5 @@
 <script setup>
-import { useStore } from "@/store/store.js";
+import { useStore } from "../../store/store.js";
 import lockURL from '/images/svg/lock.svg';
 </script>
 

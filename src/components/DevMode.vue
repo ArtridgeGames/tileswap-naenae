@@ -94,7 +94,7 @@
 <script>
 
 import { setDevMode } from "../assets/js/solve/devmode.js";
-import { useWindow } from "@/assets/js/window.js";
+import { useWindow } from "../assets/js/window.js";
 
 export default {
   props: {

@@ -13,5 +13,7 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  base: '/tileswap-naenae/'
+  // '/tileswap-naenae/' when building for GitHub Pages
+  // '/': when building for mobile platforms
+  base: '/tileswap-naenae/' 
 })

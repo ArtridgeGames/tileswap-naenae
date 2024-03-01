@@ -72,6 +72,7 @@ body,
   background: var(--bg-color);
   margin: 0;
   height: 100%;
+  width: 100%;
   overflow: hidden;
   color: var(--hl-text-color);
   transition: background 0.3s ease;
@@ -236,16 +237,16 @@ h1.title {
 
 .center {
   left: 50%;
-  translate: -50%;
+  transform: translateX(-50%);
 }
 
 .middle {
   top: 50%;
-  translate: 0 -50%;
+  transform: translateY(-50%);
 }
 
 .center.middle {
-  translate: -50% -50%;
+  transform: translate(-50%, -50%) !important;
 }
 
 .shake {
