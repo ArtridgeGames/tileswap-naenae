@@ -160,6 +160,7 @@ const getNeighbors = (layout, x, y) => {
   return neighbors;
 }
 
+//TODO OSKAR COMMENTE L'OUTPUT DE LA FONCTION
 export const getPatternFromIdWithPadding = (id, padding) => {
   const layout = Layout.fromId(id);
   const newMatrix = addPaddingToMatrix(layout.matrix, padding);
@@ -697,14 +698,44 @@ export const CHALLENGES = [
         id: 35,
         title: 'Q survival',
         settings: new ChallengeProperties({
-          timeLimit: 60,
+          timeLimit: 30,
           patternSequence: new PatternSequence(
             getPatternFromIdWithPadding(168, 6),
             gameOfLife
           ),
           difficulty: n => Math.floor(7 * Math.log10(n + 1) + 3),
           defaults: {
-            bonusTimePerPattern: 5,
+            bonusTimePerPattern: 15,
+          }
+        })
+      }),
+      new Challenge({
+        id: 36,
+        title: 'Smiley survival',
+        settings: new ChallengeProperties({
+          timeLimit: 30,
+          patternSequence: new PatternSequence(
+            getPatternFromIdWithPadding(186, 8),
+            gameOfLife
+          ),
+          difficulty: n => Math.floor(7 * Math.log10(n + 1) + 3),
+          defaults: {
+            bonusTimePerPattern: 15,
+          }
+        })
+      }),
+      new Challenge({
+        id: 37,
+        title: 'Arrow survival',
+        settings: new ChallengeProperties({
+          timeLimit: 30,
+          patternSequence: new PatternSequence(
+            getPatternFromIdWithPadding(187, 6),
+            gameOfLife
+          ),
+          difficulty: n => Math.floor(7 * Math.log10(n + 1) + 3),
+          defaults: {
+            bonusTimePerPattern: 15,
           }
         })
       }),
@@ -716,7 +747,7 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
-        id: 36,
+        id: 38,
         title: 'Normal',
         settings: new ChallengeProperties({
           timeLimit: 100,
@@ -731,7 +762,7 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        id: 37,
+        id: 39,
         title: 'Hard',
         settings: new ChallengeProperties({
           timeLimit: 100,
@@ -747,7 +778,7 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        id: 38,
+        id: 40,
         title: 'Expert',
         settings: new ChallengeProperties({
           timeLimit: 100,
