@@ -16,7 +16,7 @@ import Button from '../components/buttons/Button.vue';
       </div>
       <div v-else-if="modalPage === 1">
         <h1>You've won!</h1>
-        <h3>You're free to continue experimenting. Continue when you're ready.</h3>
+        <h1>You're free to continue experimenting. Continue when you're ready.</h1>
         <Button black text="ok!" @pressed="showModal = false" />
       </div>
       <div v-else-if="modalPage === 2">
