@@ -6,6 +6,7 @@ import FreeplayGame from '../views/freeplay/FreeplayGame.vue'
 import PuzzleGame from '../views/puzzles/PuzzleGame.vue'
 import ChallengeGame from '../views/challenges/ChallengeGame.vue'
 import TutorialView from '../views/TutorialView.vue';
+import TutorialViewAdvanced from '../views/TutorialViewAdvanced.vue';
 import TestView from '../views/TestView.vue';
 import EditorView from '../views/EditorView.vue';
 import LayoutEditorView from '../views/LayoutEditorView.vue';
@@ -28,7 +29,7 @@ const router = createRouter({
     {
       path: '/tutorial',
       name: 'tutorial',
-      component: TutorialView
+      component: TutorialViewAdvanced
     },
     {
       path: '/freeplaySelection',

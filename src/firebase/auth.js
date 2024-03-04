@@ -1,14 +1,33 @@
 import { app } from "./firebase.js";
 import { read, registeredObservables } from "./database.js"
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth,
+         onAuthStateChanged,
+         signInWithEmailAndPassword,
+         indexedDBLocalPersistence,
+         initializeAuth } from "firebase/auth";
 import { ref, computed } from 'vue';
+import { Capacitor } from '@capacitor/core';
 
-const auth = getAuth(app);
+const getFirebaseAuth = () => {
+  if (Capacitor.isNativePlatform()) {
+    return initializeAuth(app, {
+      persistence: indexedDBLocalPersistence,
+    });
+  } else {
+    return getAuth();
+  }
+};
+
+const auth = getFirebaseAuth(app);
 
 const currentUser = ref({});
 const currentUserData = ref({});
 
 export const authLoaded = new ref(false);
+
+auth.authStateReady().then(() => {
+  authLoaded.value = true;
+});
 
 onAuthStateChanged(auth, async (user) => {
   if (user) {
@@ -33,7 +52,6 @@ onAuthStateChanged(auth, async (user) => {
     currentUser.value = {};
     currentUserData.value = {};
   }
-  authLoaded.value = true;
 });
 
 /**

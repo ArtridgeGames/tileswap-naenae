@@ -1,5 +1,5 @@
 <script setup>
-import { useStore } from "@/store/store.js";
+import { useStore } from "../../store/store.js";
 import LayoutVue from "../../components/Layout.vue";
 import Button from "../../components/buttons/Button.vue";
 import DifficultySlider from "../../components/DifficultySlider.vue";
@@ -153,7 +153,7 @@ import { modulo, setModulo, tilesToFlip } from "../../assets/js/LayoutShared.js"
 import { Layout } from "../../assets/js/Layout.js";
 import { watch } from "vue";
 import { Task } from "../../assets/js/Task";
-import { useWindow } from "@/assets/js/window.js";
+import { useWindow } from "../../assets/js/window.js";
 
 export default {
   data() {

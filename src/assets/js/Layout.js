@@ -28,7 +28,32 @@ export class Layout {
     ],
     unlockCategory: 5,
     id: 31
-  },  
+  },
+  {
+    dimensions: "8x5",
+    "exclude": [
+      9,
+      14,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30
+    ],
+    unlockCategory: 18,
+    id: 186
+  },
+  {
+    dimensions: "3x3",
+    "exclude": [
+      7,
+      0,
+      2
+    ],
+    unlockCategory: 18,
+    id: 187
+  }
 ].map((e) => {
     const width = parseInt(e.dimensions.split("x")[0]);
     const height = parseInt(e.dimensions.split("x")[1]);

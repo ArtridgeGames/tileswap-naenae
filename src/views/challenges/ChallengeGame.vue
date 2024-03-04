@@ -40,12 +40,12 @@ import Progress from "../../components/Progress.vue";
         style="border: 5px solid black;"
         :text="Math.floor(store.score) + (store.nextScore === 0 ?  '' : ' / ' + store.nextScore)"
       />
-      <Button black text="yay!" @pressed="showWinModal = false" />
+      <Button black text="yay!" @pressed="showWinModal = false; quit();" />
     </Modal>
 
     <Modal v-model="showLostModal">
       <h1>{{ modalText }}</h1>
-      <Button black text="adnwkhu!" @pressed="showLostModal = false" />
+      <Button black text="adnwkhu!" @pressed="showLostModal = false; quit();" />
       <Button black text="restart" @pressed="restart" />
     </Modal>
 

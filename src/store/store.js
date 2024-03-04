@@ -134,6 +134,7 @@ export const useStore = defineStore('store', () => {
   register(difficulty, 'difficulty');
   register(stats, 'stats');
   register(settings, 'settings');
+  register(score, 'score');
 
   return {
     currentLayout,

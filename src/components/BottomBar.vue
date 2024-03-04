@@ -40,7 +40,6 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: 15px;
   padding-top: 15px;
 }
 
@@ -69,6 +68,7 @@ main > div.progress {
   justify-content: center;
   align-items: center;
   z-index: 100;
+  margin-top: 15px;
   padding: 10px;
   border-radius: 15px;
   position: relative;
