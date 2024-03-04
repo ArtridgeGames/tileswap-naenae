@@ -483,6 +483,9 @@ export default {
         this.showModal = true;
       }
       this.enableNext = false;
+      if (this.stageIndex === this.stages.length - 1) {
+        return;
+      }
       this.stageIndex++;
       this.text = this.stage.title;
     },
