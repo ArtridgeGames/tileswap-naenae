@@ -62,7 +62,7 @@ import Progress from "../../components/Progress.vue";
         style="border: 5px solid black;"
         :text="Math.floor(store.score) + (store.nextScore === 0 ?  '' : ' / ' + store.nextScore)"
       />
-      <Button black text="yay!" @pressed="showWinModal = false" />
+      <Button black text="yay!" @pressed="goMenu" />
       <Button  black text="retry" @pressed="restart" />
     </Modal>
 
@@ -181,6 +181,10 @@ export default {
     restart() {
       this.showWinModal = false;
       this.reset();
+    },
+    goMenu() {
+      this.showWinModal = false;
+      this.$router.push("/home");
     }
   },
 };

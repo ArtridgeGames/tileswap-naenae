@@ -40,7 +40,7 @@
             stroke: outline,
           }"
           style="
-            fill: none;
+            fill: 'none';
             fill-opacity: 1;
             stroke-width: 2.94776;
             stroke-linecap: round;
@@ -64,6 +64,6 @@
 
 <script>
 export default {
-  props: ['outline', 'highlight', 'borderRadius']
+  props: ['outline', 'highlight', 'borderRadius', 'target-color']
 }
 </script>

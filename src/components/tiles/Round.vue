@@ -18,18 +18,18 @@
       inkscape:groupmode="layer"
       id="layer1">
       <circle
-        :style="{fill:color}"
-        style="stroke-width:60.979;stroke-linecap:round;stroke-linejoin:round;paint-order:fill markers stroke"
+        style="stroke-width:10"
+       :style="{fill:color,stroke:borderColor,stroke_miterlimit:4,stroke_dasharray:'none',paint_order:'fill markers stroke'}"
         id="path846"
         cx="150"
         cy="150"
-        r="150" />
+        r="145" />
     </g>
   </svg>
 </template>
 
 <script>
 export default {
-  props:['color']
+  props:['color', 'borderColor']
 }
 </script>

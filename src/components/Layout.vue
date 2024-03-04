@@ -19,6 +19,7 @@ import Tile from "./Tile.vue";
           :data-tile="`${tile + 1}`"
           :visible="tile !== -1"
           :layout="modelValue"
+          
           :position="[rowIndex + paddingY, tileIndex + paddingX]"
           :key="
             rowIndex + paddingX + '' + tileIndex + paddingY + '' + currentChallenge?.currentPattern + modelValue.id
@@ -32,11 +33,6 @@ import Tile from "./Tile.vue";
             ),
             hover: (shouldHover(rowIndex + paddingY, tileIndex + paddingX) && settings.hoverTiles === 1 && disabled !== '') || forcedHover?.some(([x, y]) => x === tileIndex + paddingX && y === rowIndex + paddingY)
           }"
-          :style="{
-            outline: target
-              ? `5px solid ${gradient[target[rowIndex + paddingY][tileIndex + paddingX]]}`
-              : 'none',
-          }"
           :data-moves="
             solution
               ? modulo !== 2
@@ -44,6 +40,7 @@ import Tile from "./Tile.vue";
                 : ''
               : ''
           "
+          :borderColor="target? gradient[target[rowIndex + paddingY][tileIndex + paddingX]]: 'none'"
           @[EVENTS.TOUCHSTART]="onTileClick(rowIndex + paddingY, tileIndex + paddingX)"
           @mouseover="tile !== -1 && mouseOver(rowIndex + paddingY, tileIndex + paddingX)"
           @mouseleave="tile !== -1 && mouseLeave(rowIndex + paddingY, tileIndex + paddingX)"
@@ -137,7 +134,7 @@ export default {
     },
     paddingY() {
       return this.modelValue.actualSize().paddingTop;
-    },
+    }
   },
   methods: {
     onTileClick(row, tile) {

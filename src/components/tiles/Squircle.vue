@@ -15,15 +15,20 @@
       id="defs2" />
     <g
       id="layer1">
-      <rect width="300" height="300" rx="70"
-        :style="{fill:color}"
-      />
+      <rect
+       style="stroke-width:10"
+       :style="{fill:color,stroke:borderColor,stroke_miterlimit:4,stroke_dasharray:'none',paint_order:'fill markers stroke'}"
+       width="290"
+       height="290"
+       x="5"
+       y="5"
+       rx="70" />
     </g>
   </svg>
 </template>
 
 <script>
 export default {
-  props:['color']
+  props:['color', 'borderColor']
 }
 </script>
