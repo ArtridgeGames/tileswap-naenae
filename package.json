@@ -10,8 +10,7 @@
     "preview": "vite preview",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "deploy": "vite build && gh-pages -d dist -m \"Deploying to gh-pages\"",
-    "build-mobile": "npm run build && npx cap sync",
-    "launch-mobile": "npm run build && npx cap sync && npx cap open"
+    "build-mobile": "npm run build && npx cap sync"
   },
   "dependencies": {
     "@capacitor/android": "^5.7.0",

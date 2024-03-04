@@ -15,5 +15,5 @@ export default defineConfig({
   },
   // '/tileswap-naenae/' when building for GitHub Pages
   // '/': when building for mobile platforms
-  base: '/tileswap-naenae/' 
-})
+  base: '/tileswap-naenae/'
+});
