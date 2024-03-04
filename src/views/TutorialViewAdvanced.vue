@@ -52,6 +52,10 @@ import Button from '../components/buttons/Button.vue';
         <Button black text="ok!" @pressed="showModal = false; retry = true" />
       </div>
       <div v-else-if="modalPage === 8">
+        <h1>Smae concept as before, but things will get harder if you mess up</h1>
+        <Button black text="ok!" @pressed="showModal = false" />
+      </div>
+      <div v-else-if="modalPage === 9">
         <h1>You seem to have mastered the basics</h1>
         <h1>How about we now let you choose how difficult you want it to be?</h1>
         <h1>Move the slider to adjust the difficulty of the initial state</h1>
