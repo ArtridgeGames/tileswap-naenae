@@ -154,14 +154,10 @@ export default {
           title: 'Basics - 4 / 5'
         },
         {
-          matrix: [[1,1,1,1,0,0,0],
-                   [0,0,0,1,0,0,0],
-                   [0,0,0,1,0,0,0],
-                   [0,0,0,1,1,1,1],
-                   [1,1,1,1,0,0,0],
-                   [1,1,1,1,0,0,0],
-                   [1,1,1,1,0,0,0]],
-          solution: [12,15,40],
+          matrix: [[0,0,0],
+                   [0,0,0],
+                   [0,0,0]],
+          solution: [4],
           title: 'Basics - 5 / 5',
           showModal: true
         },
@@ -172,7 +168,7 @@ export default {
                    [ 1,1,1,1,1],
                    [ 1,1,1,1,1]],
           solution: [6],
-          title: 'Missing tiles - 1 / 6'
+          title: 'Missing tiles - 1 / 5'
         },
         {
           matrix: [[1,1,1, 1,1],
@@ -181,17 +177,17 @@ export default {
                    [1,1,0, 0,0],
                    [1,1,0,-1,0]],
           solution: [18],
-          title: 'Missing tiles - 2 / 6'
+          title: 'Missing tiles - 2 / 5'
         },
-        {
-          matrix: [[1,1, 1, 1,1],
-                   [1,1, 1, 1,1],
-                   [1,1, 0,-1,0],
-                   [1,1,-1, 0,0],
-                   [1,1, 0, 0,0]],
-          solution: [18],
-          title: 'Missing tiles - 3 / 6'
-        },
+        // {
+        //   matrix: [[1,1, 1, 1,1],
+        //            [1,1, 1, 1,1],
+        //            [1,1, 0,-1,0],
+        //            [1,1,-1, 0,0],
+        //            [1,1, 0, 0,0]],
+        //   solution: [18],
+        //   title: 'Missing tiles - 3 / 6'
+        // },
         {
           matrix: [[1, 1, 1, 1,1],
                    [1, 0,-1, 0,1],
@@ -199,7 +195,7 @@ export default {
                    [1, 0,-1, 0,1],
                    [1, 1, 1, 1,1]],
           solution: [12],
-          title: 'Missing tiles - 4 / 6'
+          title: 'Missing tiles - 3 / 5'
         },
         {
           matrix: [[ 1, 1,1,1,1],
@@ -208,7 +204,7 @@ export default {
                    [-1, 0,0,1,1],
                    [-1,-1,0,1,1]],
           solution: [16],
-          title: 'Missing tiles - 5 / 6'
+          title: 'Missing tiles - 4 / 5'
         },
         {
           matrix: [[ 1, 1, 1,1,1],
@@ -217,7 +213,7 @@ export default {
                    [-1, 0, 0,1,1],
                    [-1,-1,-1,1,1]],
           solution: [16],
-          title: 'Missing tiles - 6 / 6',
+          title: 'Missing tiles - 5 / 5',
           showModal: true
         },
         {
@@ -305,21 +301,26 @@ export default {
           matrix: [[0, 1,1],
                    [0,-1,1],
                    [1,-1,1]],
-          title: 'On your own - 1 / 5',
+          title: 'On your own - 1 / 6',
           moves: 2
+        },
+        {
+          matrix: [[1,0,1]],
+          title: 'On your own - 2 / 6',
+          moves: 3
         },
         {
           matrix: [[1, 0,-1],
                    [0,-1,0],
                    [-1,0,0]],
-          title: 'On your own - 2 / 5',
+          title: 'On your own - 3 / 6',
           moves: 3
         },
         {
           matrix: [[0, -1,0],
                    [-1,0,-1],
                    [0,-1,1]],
-          title: 'On your own - 3 / 5',
+          title: 'On your own - 4 / 6',
           moves: 3
         },
         {
@@ -328,14 +329,14 @@ export default {
                    [ 0, 1, 0],
                    [-1,-1, 1],
                    [ 0, 0, 0]],
-          title: 'On your own - 4 / 5',
+          title: 'On your own - 5 / 6',
           moves: 4
         },
         {
           matrix: [[1, 0,1],
                    [1,-1,0],
                    [1, 0,1]],
-          title: 'On your own - 5 / 5',
+          title: 'On your own - 6 / 6',
           showModal: true,
           moves: 5
 

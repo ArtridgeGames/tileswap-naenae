@@ -690,12 +690,52 @@ export const CHALLENGES = [
     ]
   },
   {
-    title: "Game of Life",
+    title: "Metamorphosis",
     unlockCategory: 6,
-    allUnlocked: true,
+    allUnlocked: false,
     challenges: [
       new Challenge({
         id: 35,
+        title: 'Normal',
+        settings: new ChallengeProperties({
+          timeLimit: 50,
+          patternList: patternList([97, 188, 189, 190, 65]),
+          patternCount: 5, 
+          patternListOrder: LINEAR,
+          difficulty: uniformSumInRanges([6,9], 5, 39) 
+        })
+      }),
+      new Challenge({
+        id: 36,
+        title: 'Hard',
+        settings: new ChallengeProperties({
+          timeLimit: 55,
+          patternList: patternList([65, 191, 192, 193, 101]),
+          patternCount: 5, 
+          patternListOrder: LINEAR,
+          difficulty: uniformSumInRanges([8,12], 5, 50) 
+        })
+      }),
+      new Challenge({
+        id: 37,
+        title: 'EXPERT TODO',
+        settings: new ChallengeProperties({
+          moveLimit: 45,
+          patternList: patternList([97, 188, 189, 190, 65]),
+          patternCount: 5, 
+          patternListOrder: LINEAR,
+          difficulty: uniform(5, 5) 
+        })
+      })
+    ]
+  },
+  {
+    title: "Game of Life",
+    unlockCategory: 7,
+    allUnlocked: true,
+    challenges: [
+      new Challenge({
+        id: 38,
         title: 'Q survival',
         settings: new ChallengeProperties({
           timeLimit: 30,
@@ -710,7 +750,7 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        id: 36,
+        id: 39,
         title: 'Smiley survival',
         settings: new ChallengeProperties({
           timeLimit: 30,
@@ -725,7 +765,7 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        id: 37,
+        id: 40,
         title: 'Arrow survival',
         settings: new ChallengeProperties({
           timeLimit: 30,
@@ -747,7 +787,7 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
-        id: 38,
+        id: 41,
         title: 'Normal',
         settings: new ChallengeProperties({
           timeLimit: 100,
@@ -762,7 +802,7 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        id: 39,
+        id: 42,
         title: 'Hard',
         settings: new ChallengeProperties({
           timeLimit: 100,
@@ -778,7 +818,7 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        id: 40,
+        id: 43,
         title: 'Expert',
         settings: new ChallengeProperties({
           timeLimit: 100,
