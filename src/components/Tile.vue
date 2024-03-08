@@ -58,7 +58,6 @@ export default {
     },
   },
   mounted() {
-    console.log(this.borderColor)
     const resize = () => {
       const { width, height } = this.layout.actualSize();
 

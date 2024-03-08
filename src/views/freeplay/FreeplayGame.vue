@@ -21,6 +21,7 @@ import Progress from "../../components/Progress.vue";
         <span> DEV </span>
       </div>
 
+      <Button text="reset" @pressed="reset" />
       <Button text="randomize" @pressed="randomize" />
       <DifficultySlider v-model="difficulty" />
     </div>
@@ -166,6 +167,7 @@ export default {
       windowWidth,
       store,
       layout,
+      savedMatrix: [],
       difficulty: store.difficulty,
       latestDifficulty: store.difficulty,
       latestScore: 0,
@@ -235,12 +237,13 @@ export default {
     },
     randomize() {
       this.moves = 0;
-      this.latestDifficulty = this.difficulty + Math.round(Math.random() * (modulo.value - 1));
+      this.latestDifficulty = this.difficulty // + Math.round(Math.random() * (modulo.value - 1));
       this.layout = this.layout.generatePosition(
         this.latestDifficulty,
         modulo.value,
         tilesToFlip.value
       );
+      this.savedMatrix = this.layout.matrix.map((row) => row.map((tile) => tile));
       this.$nextTick(() => {
         try {
           if (devMode.value) {
@@ -251,6 +254,13 @@ export default {
           this.solution = this.layout.matrix.map((row) => row.map((tile) => 0));
         }
       });
+    },
+    reset() {
+      this.moves = 0;
+      this.layout.matrix = this.savedMatrix.map((row) => row.map((tile) => tile));
+      if (devMode.value) {
+        this.updateSolutions();
+      }
     },
     updateSolutions() {
       const { solutions, shortest, determinant } = solve(this.layout.matrix);

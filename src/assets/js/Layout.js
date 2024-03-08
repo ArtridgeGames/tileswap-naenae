@@ -261,20 +261,22 @@ export class Layout {
     const copy = this.copy();
     copy.setAllTiles(modulo - 1);
 
-    const alreadyFlipped = [];
-    
+    // These are all the tiles that can be clicked.
+    // Each tile is present modulo - 1 times in the array
+    const possibleTiles = copy.matrix
+      .map((row, y) =>
+        row.map((tile, x) => copy.isTile(y * copy.width + x) ? y * copy.width + x : null)
+      )
+      .flat()
+      .filter(e => e !== null)
+      .flatMap(e => new Array(modulo - 1).fill().map(_ => e));
+
+    // Sequentially choose one tile after the other at random,
+    // until the number of iterations is reached
     for (let i = 0; i < iterations; i++) {
-
-      let row;
-      let tile;
-
-      do {
-        row = Math.floor(Math.random() * copy.height);
-        tile = Math.floor(Math.random() * copy.width);
-      } while (!copy.isTile(row, tile) || alreadyFlipped.includes(row * copy.width + tile));
-      alreadyFlipped.push(row * copy.width + tile);
-      if (alreadyFlipped.length === Math.floor(copy.nTiles() / 2)) alreadyFlipped.splice(0, alreadyFlipped.length);
-      copy.swapTiles(row, tile, -1, modulo, tilesToFlip);
+      const index = possibleTiles[Math.floor(Math.random() * possibleTiles.length)];
+      copy.swapTiles(Math.floor(index / copy.width), index % copy.width, -1, modulo, tilesToFlip);
+      possibleTiles.splice(possibleTiles.indexOf(index), 1);
     }
 
     // Regenerate if the matrix is already solved

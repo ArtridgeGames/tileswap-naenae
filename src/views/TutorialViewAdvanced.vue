@@ -2,6 +2,7 @@
 import LayoutVue from '../components/Layout.vue';
 import Modal from '../components/Modal.vue';
 import Button from '../components/buttons/Button.vue';
+import LayoutAnimation from '../components/LayoutAnimation.vue';
 </script>
 
 <template>
@@ -12,6 +13,8 @@ import Button from '../components/buttons/Button.vue';
         <h1>To win the game, turn all the tiles white</h1>
         <h1>Clicking on a tile swaps the color of <span style="color: var(--success-color)">this tile</span> and all its neighbors</h1>
         <LayoutVue class="example-layout" small disabled v-model="exampleLayout" :highlightedTiles="[[2,2]]" />
+        <!-- <LayoutAnimation :layout="exampleLayout" /> -->
+        
         <Button black text="ok!" @pressed="showModal = false" />
       </div>
       <div v-else-if="modalPage === 1">

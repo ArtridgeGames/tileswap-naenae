@@ -4,7 +4,7 @@
 
 <template>
   <div class="diff">
-    <h2>difficulty - {{ difficultyText }}</h2>
+    <h2>difficulty - {{ difficultyText }} {{ modelValue }}</h2>
     <input type="range"
             min="2"
             :value="modelValue"
@@ -20,16 +20,18 @@ export default {
   props: ['modelValue'],
   emits: ['update:modelValue'],
   data() {
-    const store = useStore();
     return {
       difficulties: ['very easy', 'easy', 'normal', 'hard', 'very hard'],
-      max: (modulo.value-1)*(store.currentLayout.nTiles())
     }
   },
   computed: {
     difficultyText() {
       const diff = this.difficulties[Math.floor((this.modelValue - 1) / (this.max / this.difficulties.length))];
       return diff;
+    },
+    max() {
+      const store = useStore();
+      return (modulo.value - 1) * store.currentLayout.nTiles();
     }
   },
   mounted() {
