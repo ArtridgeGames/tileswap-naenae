@@ -14,7 +14,7 @@ import randomUrl from "/images/svg/random.svg";
     <div>
       <div class="text-center tools">
         <IconButton :icon="randomUrl" @pressed="startRandomFreeplay" />
-        <LinkButton to="layout-editor" text="✎"></LinkButton>
+        <LinkButton v-if="showLayoutEditor" to="layout-editor" text="✎"></LinkButton>
       </div>
       <div v-for="(category, i) in categories" :key="i">
         <div class="layouts">
@@ -73,6 +73,11 @@ export default {
       categories: CATEGORIES
         // .slice(negativeCategories + 1, CATEGORIES.length)
         // .concat(CATEGORIES.slice(0, negativeCategories + 1))
+    }
+  },
+  computed: {
+    showLayoutEditor() {
+      return process.env.NODE_ENV === 'development';
     }
   },
   methods: {
