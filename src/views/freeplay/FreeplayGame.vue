@@ -21,9 +21,9 @@ import Progress from "../../components/Progress.vue";
         <span> DEV </span>
       </div>
 
-      <Button text="reset" @pressed="reset" />
-      <Button text="randomize" @pressed="randomize" />
       <DifficultySlider v-model="difficulty" />
+      <Button text="randomize" @pressed="randomize" />
+      <Button text="reset" @pressed="reset" />
     </div>
 
     <p
