@@ -74,13 +74,14 @@ import Progress from "../../components/Progress.vue";
 
     <Modal v-model="showModal">
       <div v-if="modalPage === 0">
-        <h1>you won in {{ moves }} move{{ moves > 1 ? "s" : "" }}!</h1>
+        <h1 style="margin: 0">you won in {{ moves }} move{{ moves > 1 ? "s" : "" }}!</h1>
+        <p style="font-size: var(--font-size-xs); margin: 14px 0">+ {{ latestScore }} score</p>
         <!-- <h3>Score: {{ store.score - latestScore }} + {{ latestScore }}</h3> -->
         <Progress
           :value="store.score"
           :max="store.nextScore"
           barColor="#e58f65"
-          style="border: 5px solid black;"
+          style="border: 5px solid black; margin-bottom: 15px"
           :text="Math.floor(store.score) + (store.nextScore === 0 ?  '' : ' / ' + store.nextScore)"
         />
         <Button v-if="!showOtherGameModesPopup" black text="yay!" @pressed="showModal = false" />
