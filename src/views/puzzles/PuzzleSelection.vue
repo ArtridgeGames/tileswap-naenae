@@ -43,7 +43,7 @@ import { Puzzle } from '../../assets/js/Puzzle.js';
 export default {
   data() {
     return {
-      categories: Puzzle.CATEGORIES,
+      categories: Puzzle.CATEGORIES.filter(category => category.length > 0),
     }
   }
 }

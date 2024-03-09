@@ -66,11 +66,8 @@ import { Layout } from "../../assets/js/Layout.js";
 export default {
   data() {
     const { CATEGORIES } = Layout;
-    const negativeCategories = CATEGORIES.reduce((acc, cat) => {
-      return cat.some(layout => layout.unlockCategory < 0) ? acc + 1 : acc;
-    }, 0);
     return {
-      categories: CATEGORIES
+      categories: CATEGORIES.filter(e => e.length > 0)
         // .slice(negativeCategories + 1, CATEGORIES.length)
         // .concat(CATEGORIES.slice(0, negativeCategories + 1))
     }

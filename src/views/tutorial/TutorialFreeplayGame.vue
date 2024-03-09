@@ -3,24 +3,14 @@ import { useStore } from "../../store/store.js";
 import LayoutVue from "../../components/Layout.vue";
 import Button from "../../components/buttons/Button.vue";
 import DifficultySlider from "../../components/DifficultySlider.vue";
-import ModuloSlider from "../../components/ModuloSlider.vue";
 import Modal from "../../components/Modal.vue";
-import LinkButton from "../../components/buttons/LinkButton.vue";
-import DevMode from "../../components/DevMode.vue";
 import Progress from "../../components/Progress.vue";
+import LinkButton from "../../components/buttons/LinkButton.vue";
 </script>
 
 <template>
   <div>
     <div class="top-menu">
-      <div
-        class="devmode"
-        v-if="devMode && windowWidth < 600"
-        @click="showDevMode = !showDevMode"
-      >
-        <span> DEV </span>
-      </div>
-
       <DifficultySlider v-model="difficulty" />
       <Button text="randomize" @pressed="randomize" />
       <Button text="reset" @pressed="reset" />
@@ -37,9 +27,8 @@ import Progress from "../../components/Progress.vue";
       {{ moves }} move{{ moves > 1 ? "s" : "" }}
     </p>
 
-    <div class="top right">
+    <div class="top right" v-if="showBack">
       <LinkButton text="back" to="/home" />
-      <ModuloSlider v-if="store.score >= store.categories[10]" v-model="internalModulo" />
     </div>
 
     <main>
@@ -47,49 +36,34 @@ import Progress from "../../components/Progress.vue";
         <LayoutVue
           :key="modulo + layout.id"
           v-model="layout"
-          :solution="devMode ? solution : null"
           @swap="handleClick"
         />
       </Transition>
     </main>
 
-    <div
-      class="open-dev left bottom"
-      @click="
-        setDevMode(true);
-        showDevMode = true;
-      "
-      v-if="!devMode"
-    >
-      v
-    </div>
-
-    <DevMode
-      v-model:show="showDevMode"
-      v-model:solution-index="solutionIndex"
-      v-model:solve-on-click="solveOnClick"
-      :solutions="solutions"
-      :determinant="determinant"
-    />
-
     <Modal v-model="showModal">
       <div v-if="modalPage === 0">
         <h1>you won in {{ moves }} move{{ moves > 1 ? "s" : "" }}!</h1>
-        <!-- <h3>Score: {{ store.score - latestScore }} + {{ latestScore }}</h3> -->
         <Progress
           :value="store.score"
           :max="store.nextScore"
           barColor="#e58f65"
-          style="border: 5px solid black;"
+          style="border: 5px solid black"
           :text="Math.floor(store.score) + (store.nextScore === 0 ?  '' : ' / ' + store.nextScore)"
         />
-        <Button v-if="!showOtherGameModesPopup" black text="yay!" @pressed="showModal = false" />
-        <Button v-else text="yay!" black @pressed="modalPage = 1;" />
+        <Button v-if="firstCompletion" black text="next" @pressed="modalPage++" />
+        <Button v-else black text="yay!" @pressed="showModal = false" />
       </div>
       <div v-else-if="modalPage === 1">
-        <h1>So far you have only been playing in Freeplay, where you are free to choose your difficulty and have no constraints.</h1>
-        <h1>Swipe to change menus and go to the Puzzles and Challenges gamemodes.</h1>
-        <Button text="yay!" black @pressed="unlockOtherGameModes" />
+        <h1>By finishing this pattern, you've gained a bit of score.</h1>
+        <h1>The score you gain is proportional to the difficulty chosen on the slider.</h1>
+        <h1>Reach the treshold at the end of the bar to unlock new things</h1>
+        <br>
+        <h1>However you might be tired of playing on the same pattern.</h1>
+        <h1>Click on the back button to see what other options you have.</h1>
+        <h1>Reach a score of 50 to unlock new gamemodes.</h1>
+
+        <Button black text="yay!" @pressed="showModal = false; modalPage = 0; showBack = true" />
       </div>
     </Modal>
   </div>
@@ -110,36 +84,6 @@ main {
   font-size: 30px;
 }
 
-.open-dev {
-  background-color: black;
-  color: red;
-  border-radius: 5px;
-  outline: 2px solid red;
-  width: 25px;
-  height: 25px;
-  text-align: center;
-  cursor: pointer;
-  padding-top: 3px;
-  margin-left: 10px;
-  margin-bottom: 10px;
-}
-
-.top-menu .devmode span {
-  font-family: monospace;
-  margin: 10px;
-}
-.top-menu .devmode:has(span) {
-  padding: 5px;
-  margin: 0 auto;
-  color: var(--devmode-color);
-  background-color: #000;
-  font-size: var(--font-size-sm);
-  width: max-content;
-}
-.cursor {
-  cursor: pointer;
-}
-
 @media screen and (max-width: 600px) {
   .top-menu {
     position: absolute;
@@ -157,10 +101,8 @@ main {
 }
 </style>
 <script>
-import { solve, devMode, setDevMode } from "../../assets/js/solve/devmode";
 import { modulo, setModulo, tilesToFlip } from "../../assets/js/LayoutShared.js";
 import { Layout } from "../../assets/js/Layout.js";
-import { watch } from "vue";
 import { Task } from "../../assets/js/Task";
 import { useWindow } from "../../assets/js/window.js";
 
@@ -172,6 +114,7 @@ export default {
     const { width: windowWidth } = useWindow();
 
     return {
+      firstCompletion: true,
       modalPage: 0,
       windowWidth,
       store,
@@ -182,12 +125,8 @@ export default {
       latestScore: 0,
       internalModulo: modulo.value,
       showModal: false,
-      showDevMode: devMode.value,
-      solutions: [],
-      solutionIndex: 0,
-      determinant: 0,
+      showBack: false,
       moves: 0,
-      solveOnClick: false,
     };
   },
   watch: {
@@ -201,6 +140,7 @@ export default {
     },
     showModal() {
       if (!this.showModal) {
+        this.firstCompletion = false;
         if (this.store.isRandomFreeplay) {
           this.store.setLayout(Layout.getRandomLayout());
           this.layout = this.store.currentLayout;
@@ -209,32 +149,9 @@ export default {
       }
     },
   },
-  computed: {
-    solution() {
-      if (this.solutions.length === 0) return null;
-      return this.solutions[this.solutionIndex].matrix;
-    },
-    showOtherGameModesPopup() {
-      const store = useStore();
-      return store.score >= 50 && !store.hasHadOtherGameModesPopup;
-    }
-  },
   methods: {
     handleClick(index, row, tile) {
       this.moves++;
-
-      if (devMode.value) {
-        if (this.solveOnClick) {
-          this.updateSolutions();
-        } else {
-          for (const solution of this.solutions) {
-            solution.matrix[row][tile] =
-              (((solution.matrix[row][tile] - 1) % modulo.value) +
-                modulo.value) %
-              modulo.value;
-          }
-        }
-      }
 
       if (this.layout.isSolved(modulo.value)) {
         this.store.stats.layoutsSolved++;
@@ -257,44 +174,14 @@ export default {
         tilesToFlip.value
       );
       this.savedMatrix = this.layout.matrix.map((row) => row.map((tile) => tile));
-      this.$nextTick(() => {
-        try {
-          if (devMode.value) {
-            this.updateSolutions();
-          }
-        } catch (e) {
-          console.error(e);
-          this.solution = this.layout.matrix.map((row) => row.map((tile) => 0));
-        }
-      });
     },
     reset() {
       this.moves = 0;
       this.layout.matrix = this.savedMatrix.map((row) => row.map((tile) => tile));
-      if (devMode.value) {
-        this.updateSolutions();
-      }
     },
-    updateSolutions() {
-      const { solutions, shortest, determinant } = solve(this.layout.matrix);
-      this.solutionIndex = shortest;
-      this.solutions = solutions;
-      this.determinant = determinant;
-    },
-    unlockOtherGameModes() {
-      this.showModal = false;
-      this.modalPage = 0;
-      this.store.hasHadOtherGameModesPopup = true;
-      this.$router.push("/home");
-    }
   },
   mounted() {
     this.randomize();
-    watch(devMode, (newVal) => {
-      if (newVal) {
-        this.updateSolutions();
-      }
-    });
   },
 };
 </script>

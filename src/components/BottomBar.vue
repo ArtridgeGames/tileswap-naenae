@@ -12,7 +12,7 @@ import Progress from "./Progress.vue";
         :text="Math.floor(score) + (nextScore === 0 ?  '' : ' / ' + nextScore)"
       />
     </div>
-    <div class="position">
+    <div class="position" v-if="showDots">
       <!-- <div class="left-click" @[EVENTS.TOUCHSTART]="$emit('swipe', { delta: -1 })"></div>
       <div class="right-click" @[EVENTS.TOUCHSTART]="$emit('swipe', { delta: 1 })"></div> -->
       <div
@@ -129,6 +129,9 @@ export default {
       const store = useStore();
       return store.currentCategory;
     },
+    showDots() {
+      return this.views.length > 1;
+    }
   },
   components: { Progress },
 };

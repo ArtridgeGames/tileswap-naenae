@@ -986,6 +986,7 @@ export const CHALLENGES = [
     challenge.process.unlockCategory = category.unlockCategory;
     return challenge;
   });
+  category.unlockCategory = category.unlockCategory >= 1 ? category.unlockCategory + 1 : category.unlockCategory;
   return category;
 })
 

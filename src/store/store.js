@@ -4,18 +4,20 @@ import { register } from '../firebase/database.js';
 import { INITIAL_STATS } from '../assets/js/Stats.js';
 import { INITIAL_SETTINGS, SETTINGS_DATA } from '../assets/js/Settings.js';
 import { CHALLENGES } from '../assets/js/challenges/ChallengeData.js';
+import { Layout } from '../assets/js/Layout.js';
 
 export const useStore = defineStore('store', () => {
   const currentLayout = ref({});
   const currentPuzzle = ref({});
   const currentChallenge = ref({});
-  const difficulty = ref(5);
+  const difficulty = ref(2);
   const currentTasks = ref([0,1,2]);
   const maxTask = ref(2);
   const isRandomFreeplay = ref(false);
   const menuViewIndex = ref(0);
   const savedMenuScroll = ref(0);
   const score = ref(0);
+  const hasHadOtherGameModesPopup = ref(false);
 
   if (globalThis.window && !window.hasOwnProperty('score')) {
     Object.defineProperty(window, 'score', {
@@ -27,6 +29,7 @@ export const useStore = defineStore('store', () => {
   }
   
   const categories = [
+    50,
     750,
     2500, // + 2k
     7000, // + 3k
@@ -96,7 +99,7 @@ export const useStore = defineStore('store', () => {
   }
 
   if (process.env.NODE_ENV === 'development') {
-    unlockAll();
+    // unlockAll();
   }
 
   function setTask(index, task) {
@@ -121,6 +124,7 @@ export const useStore = defineStore('store', () => {
   function setLayout(layout) {
     currentLayout.value = layout;
   }
+  setLayout(Layout.fromId(0));
   function setPuzzle(puzzle) {
     currentPuzzle.value = puzzle;
   }
@@ -160,6 +164,7 @@ export const useStore = defineStore('store', () => {
     nextScore,
     currentCategory,
     unlockAll,
-    categories
+    categories,
+    hasHadOtherGameModesPopup
   };
 });

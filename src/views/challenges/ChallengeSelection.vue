@@ -56,7 +56,6 @@ div.challenge-selection-container {
 <script>
 import { useStore } from '../../store/store.js';
 import { setModulo } from '../../assets/js/LayoutShared.js';
-// import { Challenge } from '../../assets/js/challenges/Challenge';
 import { Challenge } from '../../assets/js/challenges/Challenge.js';
 import { CHALLENGES } from '../../assets/js/challenges/ChallengeData.js';
 
@@ -66,7 +65,7 @@ export default {
       .fill().map((_, i) => CHALLENGES.filter(group => group.unlockCategory === i));
     return {
       selectedChallengeGroup: null,
-      categories
+      categories: categories.filter(category => category.length > 0)
     }
   },
   methods: {

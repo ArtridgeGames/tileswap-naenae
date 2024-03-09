@@ -1,8 +1,8 @@
 <script setup>
-import LayoutVue from '../components/Layout.vue';
-import Modal from '../components/Modal.vue';
-import Button from '../components/buttons/Button.vue';
-import LayoutAnimation from '../components/LayoutAnimation.vue';
+import LayoutVue from '../../components/Layout.vue';
+import Modal from '../../components/Modal.vue';
+import Button from '../../components/buttons/Button.vue';
+import LayoutAnimation from '../../components/LayoutAnimation.vue';
 </script>
 
 <template>
@@ -107,8 +107,8 @@ import LayoutAnimation from '../components/LayoutAnimation.vue';
 </style>
 
 <script>
-import { Layout } from '../assets/js/Layout.js';
-import { useStore } from '../store/store.js';
+import { Layout } from '../../assets/js/Layout.js';
+import { useStore } from '../../store/store.js';
 
 export default {
   data() {
@@ -499,7 +499,7 @@ export default {
     end() {
       const store = useStore();
       store.setLayout(Layout.fromId(0));
-      this.$router.push('/freeplayGame');
+      this.$router.push('/tutorialFreeplayGame');
     }
   }
 }

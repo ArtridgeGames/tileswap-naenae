@@ -72,10 +72,11 @@ export default {
     ChallengeSelection,
     AdditionalSelection
   },
-  data() {
-    return {
-      views: ["FreeplaySelection", "PuzzleSelection", "ChallengeSelection", "AdditionalSelection"]
-    };
+  computed: {
+    views() {
+      const store = useStore();
+      return store.score >= 50 ? ["FreeplaySelection", "PuzzleSelection", "ChallengeSelection", "AdditionalSelection"] : ["FreeplaySelection"]
+    }
   },
   mounted() {
     const { menuViewIndex, savedMenuScroll } = useStore();

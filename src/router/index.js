@@ -1,12 +1,12 @@
-import { createRouter, createMemoryHistory } from 'vue-router'
-import FreeplaySelection from '../views/freeplay/FreeplaySelection.vue'
-import PuzzleSelection from '../views/puzzles/PuzzleSelection.vue'
-import ChallengeSelection from '../views/challenges/ChallengeSelection.vue'
-import FreeplayGame from '../views/freeplay/FreeplayGame.vue'
-import PuzzleGame from '../views/puzzles/PuzzleGame.vue'
-import ChallengeGame from '../views/challenges/ChallengeGame.vue'
-import TutorialView from '../views/TutorialView.vue';
-import TutorialViewAdvanced from '../views/TutorialViewAdvanced.vue';
+import { createRouter, createMemoryHistory } from 'vue-router';
+import FreeplaySelection from '../views/freeplay/FreeplaySelection.vue';
+import PuzzleSelection from '../views/puzzles/PuzzleSelection.vue';
+import ChallengeSelection from '../views/challenges/ChallengeSelection.vue';
+import FreeplayGame from '../views/freeplay/FreeplayGame.vue';
+import PuzzleGame from '../views/puzzles/PuzzleGame.vue';
+import ChallengeGame from '../views/challenges/ChallengeGame.vue';
+import TutorialViewAdvanced from '../views/tutorial/TutorialViewAdvanced.vue';
+import TutorialFreeplayGame from '../views/tutorial/TutorialFreeplayGame.vue';
 import TestView from '../views/TestView.vue';
 import EditorView from '../views/EditorView.vue';
 import LayoutEditorView from '../views/LayoutEditorView.vue';
@@ -30,6 +30,11 @@ const router = createRouter({
       path: '/tutorial',
       name: 'tutorial',
       component: TutorialViewAdvanced
+    },
+    {
+      path: '/tutorialFreeplayGame',
+      name: 'tutorialFreeplayGame',
+      component: TutorialFreeplayGame
     },
     {
       path: '/freeplaySelection',
