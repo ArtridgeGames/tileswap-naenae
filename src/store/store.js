@@ -18,6 +18,7 @@ export const useStore = defineStore('store', () => {
   const savedMenuScroll = ref(0);
   const score = ref(0);
   const hasHadOtherGameModesPopup = ref(false);
+  const selectedChallengeGroup = ref(null);
 
   if (globalThis.window && !window.hasOwnProperty('score')) {
     Object.defineProperty(window, 'score', {
@@ -166,6 +167,7 @@ export const useStore = defineStore('store', () => {
     currentCategory,
     unlockAll,
     categories,
-    hasHadOtherGameModesPopup
+    hasHadOtherGameModesPopup,
+    selectedChallengeGroup
   };
 });

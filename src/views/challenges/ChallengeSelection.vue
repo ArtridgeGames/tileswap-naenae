@@ -11,7 +11,7 @@ import Separator from '../../components/Separator.vue';
     <h1 class="title" v-if="!selectedChallengeGroup">Challenges</h1>
     <h1 class="title" v-else>{{ selectedChallengeGroup.title }}</h1>
     <!-- <LinkButton v-if="!categoryName" class="top right" text="back" to="/home" /> -->
-    <Button v-if="selectedChallengeGroup" class="top right" text="back" @pressed="selectedChallengeGroup = null" />
+    <Button v-if="selectedChallengeGroup" class="top right" text="back" @pressed="back" />
 
     <Transition name="fade" mode="out-in">
       <div class="container" :key="selectedChallengeGroup">
@@ -64,8 +64,13 @@ export default {
     const categories = new Array(new Set(CHALLENGES.map(group => group.unlockCategory)).size)
       .fill().map((_, i) => CHALLENGES.filter(group => group.unlockCategory === i));
     return {
-      selectedChallengeGroup: null,
       categories: categories.filter(category => category.length > 0)
+    }
+  },
+  computed: {
+    selectedChallengeGroup() {
+      const store = useStore();
+      return store.selectedChallengeGroup;
     }
   },
   methods: {
@@ -87,7 +92,8 @@ export default {
 
       if (!this.isUnlocked(group)) return;
 
-      this.selectedChallengeGroup = group;
+      const store = useStore();
+      store.selectedChallengeGroup = group;
     },
     isUnlocked(category) {
       const { unlockedChallenges } = useStore();
@@ -98,6 +104,10 @@ export default {
         if (unlockedChallenges.includes(category.challenges[i].id)) return true;
       }
       return false;
+    },
+    back() {
+      const store = useStore();
+      store.selectedChallengeGroup = null;
     }
   }
 }
