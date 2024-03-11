@@ -98,10 +98,11 @@ export const useStore = defineStore('store', () => {
   
   function unlockAll() {
     score.value = categories[categories.length - 1];
+    hasHadOtherGameModesPopup.value = true;
   }
 
   if (process.env.NODE_ENV === 'development') {
-    // unlockAll();
+    unlockAll();
   }
 
   function setTask(index, task) {
