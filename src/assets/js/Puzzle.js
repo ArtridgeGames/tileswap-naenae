@@ -3016,7 +3016,7 @@ export class Puzzle {
 
       return new Puzzle({
         base, target, moves, solution, id, modulo: modulo ?? 2,
-        unlockCategory: unlockCategory >= 1 ? unlockCategory + 1 : unlockCategory 
+        unlockCategory 
       });
     });
 

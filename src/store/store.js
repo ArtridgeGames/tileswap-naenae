@@ -74,7 +74,8 @@ export const useStore = defineStore('store', () => {
   });
   const currentCategory = computed(() => {
     const index = categories.findIndex(e => e > score.value);
-    return index === -1 ? categories.length - 1 : index;
+    // Adjust index to skip first category
+    return index === -1 ? categories.length - 1 : (index >= 1 ? index - 1 : index);
   });
 
   const unlockedCategoriesFP = computed(() => {

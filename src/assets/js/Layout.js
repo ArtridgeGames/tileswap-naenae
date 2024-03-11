@@ -265,7 +265,7 @@ export class Layout {
 
     return new Layout({
       width, height,
-      unlockCategory: (unlockCategory >= 2 ? unlockCategory + 1 : unlockCategory) - 1,
+      unlockCategory: unlockCategory - 1,
       id,
       exclude: e.exclude ?? [],
     });
@@ -289,7 +289,7 @@ export class Layout {
 
     return new Layout({
       width, height,
-      unlockCategory: (unlockCategory >= 2 ? unlockCategory + 1 : unlockCategory) - 1,
+      unlockCategory: unlockCategory - 1,
       id,
       exclude: e.exclude ?? [],
     });

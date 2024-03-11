@@ -4,6 +4,7 @@ import Progress from "./Progress.vue";
 
 <template>
   <main>
+    <div class="category">{{ currentCategory + 1 }}</div>
     <div class="progress">
       <Progress
         :value="score"
@@ -54,6 +55,21 @@ main::before {
   border-radius: 10px;
   z-index: 0;
   transform: translateX(-50%);
+}
+
+main > div.category {
+  display: flex;
+  color: var(--hl-text-color);
+  position: absolute;
+  background: var(--bg-dark-color);
+  width: 41px;
+  height: 27px;
+  border-radius: 10px;
+  text-align: center;
+  left: 50%;
+  transform: translate(-50%, -22px);
+  align-items: center;
+  justify-content: center;
 }
 
 
