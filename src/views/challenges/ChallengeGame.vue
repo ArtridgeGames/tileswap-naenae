@@ -56,6 +56,16 @@ import Progress from "../../components/Progress.vue";
       <Button black text="restart" @pressed="restart" />
       <Button black text="quit" @pressed="quit" />
     </Modal>
+
+    <Modal v-model="showIntroductionModal">
+      <h1>
+        In this mode, you have to complete the pattern in the given time or
+        moves. You can only swap the tiles in the pattern. The pattern will
+        change after every successful completion. You can pause the game at any
+        time.
+      </h1>
+      <Button black text="got it!" @pressed="showIntroductionModal = false" />
+    </Modal>
   </div>
 </template>
 
@@ -112,6 +122,7 @@ export default {
       showPauseModal: false,
       modalText: "",
       hasStarted: false,
+      showIntroductionModal: !store.hasHadChallengeExplanationPopup,
     };
   },
   methods: {
@@ -176,6 +187,11 @@ export default {
         this.showLostModal = true;
         this.currentChallenge.process.init();
         return;
+      }
+    },
+    showIntroductionModal(val) {
+      if (!val) {
+        this.store.hasHadChallengeExplanationPopup = true;
       }
     },
   },

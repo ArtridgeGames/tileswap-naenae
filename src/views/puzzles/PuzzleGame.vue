@@ -79,6 +79,12 @@ import Progress from "../../components/Progress.vue";
 
       <Button black text="close" @pressed="showExplanationModal = false" />
     </Modal>
+
+    <Modal v-model="showIntroductionModal">
+      <h1>you gotta do what do be do be doo</h1>
+      <h1>and do it in as few moves as possible</h1>
+      <Button black text="close" @pressed="showIntroductionModal = false" />
+    </Modal>
   </div>
 </template>
 
@@ -149,6 +155,7 @@ export default {
       maxMoves: puzzle.moves,
       showWinModal: false,
       showExplanationModal: true,
+      showIntroductionModal: !store.hasHadChallengeExplanationPopup,
     };
   },
   computed: {
@@ -163,7 +170,14 @@ export default {
       if (medal === Puzzle.MEDALS.GOLD) return "";
       if (medal === Puzzle.MEDALS.SILVER) return `next medal: ${movesRequiredForNextMedal} moves`;
       if (medal === Puzzle.MEDALS.BRONZE) return `next medal: ${movesRequiredForNextMedal} moves`;
-    },
+    }
+  },
+  watch: {
+    showIntroductionModal(val) {
+      if (!val) {
+        this.store.hasHadChallengeExplanationPopup = true;
+      }
+    }
   },
   methods: {
     reset() {
