@@ -213,6 +213,7 @@ export class ChallengeProcess {
 
     this.firstTime = true;
     this.temporaryScore = 0;
+    this.latestAddedScore = 0;
   }
 
   /**
@@ -415,9 +416,10 @@ export class ChallengeProcess {
 
     const store = useStore();
     if (!this.settings.isInfinite) {
+      let scoreToAdd = 0;
       if (this.firstTime) {
         this.firstTime = false;
-        store.score += this.settings.firstTimeScore;
+        scoreToAdd += this.settings.firstTimeScore;
       }
 
       // Compute score
@@ -434,9 +436,11 @@ export class ChallengeProcess {
 
       const timeMultiplier = this.settings.timeLimit === -1 ? 1 : 1.5;
       const moveMultiplier = this.settings.moveLimit === -1 ? 1 : 1.5;
-      store.score += score * timeMultiplier * moveMultiplier * 2 ** this.unlockCategory;
+      scoreToAdd += score * timeMultiplier * moveMultiplier * 2 ** this.unlockCategory;
 
       store.stats.challengesCompleted.push(this.id);
+      store.score += scoreToAdd;
+      this.latestAddedScore = scoreToAdd;
     }
   }
 

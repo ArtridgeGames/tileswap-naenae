@@ -55,6 +55,7 @@ import Progress from "../../components/Progress.vue";
     <Modal v-model="showWinModal">
       <h1>you won in {{ moves }} move{{ moves > 1 ? "s" : "" }}!</h1>
       <h1>{{ nextMedal }}</h1>
+      <p style="font-size: var(--font-size-xs); margin: 14px 0">+ {{ puzzle.latestAddedScore }} score</p>
       <Progress
         :value="store.score"
         :max="store.nextScore"

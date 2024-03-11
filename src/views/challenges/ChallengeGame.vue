@@ -33,6 +33,7 @@ import Progress from "../../components/Progress.vue";
 
     <Modal v-model="showWinModal">
       <h1>you won the challenge!</h1>
+      <p style="font-size: var(--font-size-xs); margin: 14px 0">+ {{ currentChallenge.process.latestAddedScore }} score</p>
       <Progress
         :value="store.score"
         :max="store.nextScore"

@@ -3058,6 +3058,8 @@ export class Puzzle {
     this.modulo = modulo;
     this.unlockCategory = unlockCategory ?? Math.floor(id / 5) + 1;
     this.score = new Array(3).fill().map((_, i) => Math.round(this.solution.length * 20 * (i + 1) / 6));
+
+    this.latestAddedScore = 0;
   }
 
   /**
@@ -3133,9 +3135,12 @@ export class Puzzle {
         const newMedal = this.medalFromMoves(val).medal;
         const oldMedal = this.medalFromMoves(data.completionMoves).medal;
 
+        let toAdd = 0;
         for (let i = oldMedal + 1; i <= newMedal; i++) {
-          store.score += this.score[i] * 2 ** (this.unlockCategory);
+          toAdd += this.score[i] * 2 ** (this.unlockCategory);
         }
+        store.score += toAdd;
+        this.latestAddedScore = toAdd;
 
         data.completionMoves = Math.min(val, data.completionMoves);
         return;
@@ -3144,9 +3149,12 @@ export class Puzzle {
     store.stats.puzzlesCompleted.push({ id: this.id, completionMoves: val });
 
     // if the new medal is higher than the old one, add the score
+    let toAdd = 0;
     for (let i = 0; i <= this.medalFromMoves(val).medal; i++) {
-      store.score += this.score[i] * 2 ** (this.unlockCategory);
+      toAdd += this.score[i] * 2 ** (this.unlockCategory);
     }
+    store.score += toAdd;
+    this.latestAddedScore = toAdd;
   }
 }
 
