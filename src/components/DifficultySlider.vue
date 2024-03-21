@@ -4,7 +4,7 @@ import MultiRangeSlider from "multi-range-slider-vue";
 
 <template>
   <div class="diff">
-    <h2>difficulty - {{ difficultyText }} ({{ modelValue.join(' - ') }})</h2>
+    <h2>difficulty - {{ difficultyText }} ({{ minValue }} - {{ maxValue }})</h2>
     <!-- <input type="range"
             min="2"
             :value="modelValue"
@@ -29,10 +29,8 @@ import MultiRangeSlider from "multi-range-slider-vue";
 </template>
 
 <script>
-import { useStore } from '@/store/store.js'
-import { modulo } from '../assets/js/LayoutShared.js';
 export default {
-  props: ['modelValue'],
+  props: ['modelValue', 'max'],
   emits: ['update:modelValue'],
   data() {
     return {
@@ -43,23 +41,35 @@ export default {
   },
   computed: {
     difficultyText() {
-      const average = (this.modelValue[0] + this.modelValue[1]) / 2;
+      const average = (this.minValue + this.maxValue) / 2;
       const diff = this.difficulties[Math.floor((average - 1) / (this.max / this.difficulties.length))];
       return diff;
     },
+  },
+  watch: {
+    minValue() {
+      this.$emit('update:modelValue', [this.minValue, this.maxValue]);
+    },
+    maxValue() {
+      this.$emit('update:modelValue', [this.minValue, this.maxValue]);
+    },
     max() {
-      const store = useStore();
-      return (modulo.value - 1) * store.currentLayout.nTiles();
+      if (this.maxValue > this.max) {
+        this.maxValue = this.max;
+        if (this.minValue > this.maxValue) this.minValue = this.maxValue - 1;
+      }
     }
   },
   mounted() {
-    if (this.modelValue[1] > this.max) {
-      this.modelValue[1] = this.max;
-      this.$emit('update:modelValue', [this.modelValue[0], this.modelValue[1]]);
+    if (this.maxValue > this.max) {
+      this.maxValue = this.max;
+      if (this.minValue > this.maxValue) this.minValue = this.maxValue - 1;
     }
   },
   methods: {
     updateValue(value) {
+      this.minValue = value.minValue;
+      this.maxValue = value.maxValue;
       this.$emit('update:modelValue', [value.minValue, value.maxValue]);
     }
   }

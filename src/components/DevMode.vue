@@ -25,6 +25,7 @@
         </div>
   
         <div v-else>
+          <p>zerows: {{ zerows }}</p>
           <p>Multiple solutions found:</p>
           <p
             v-for="(solution, i) in solutions"
@@ -103,6 +104,7 @@ export default {
     solveOnClick: Boolean,
     solutions: Array,
     determinant: Number,
+    zerows: Number,
   },
   emits: ["update:show", "update:solutionIndex", "update:solveOnClick"],
   data() {

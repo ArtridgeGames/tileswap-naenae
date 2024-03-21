@@ -21,7 +21,7 @@ import Progress from "../../components/Progress.vue";
         <span> DEV </span>
       </div>
 
-      <DifficultySlider v-model="difficultyRange" />
+      <DifficultySlider v-model="difficultyRange" :max="max" />
       <Button text="randomize" @pressed="randomize" />
       <Button text="reset" @pressed="reset" />
     </div>
@@ -70,6 +70,7 @@ import Progress from "../../components/Progress.vue";
       v-model:solve-on-click="solveOnClick"
       :solutions="solutions"
       :determinant="determinant"
+      :zerows="zerows"
     />
 
     <Modal v-model="showModal">
@@ -188,6 +189,7 @@ export default {
       solutions: [],
       solutionIndex: 0,
       determinant: 0,
+      zerows: 0,
       moves: 0,
       solveOnClick: false,
     };
@@ -199,6 +201,12 @@ export default {
     },
     internalModulo(newVal) {
       setModulo(newVal);
+      if (this.difficultyRange[1] > this.max) {
+        this.difficultyRange[1] = this.max;
+      }
+      if (this.difficultyRange[0] > this.difficultyRange[1]) {
+        this.difficultyRange[0] = this.difficultyRange[1] - 1;
+      }
       this.randomize();
     },
     showModal() {
@@ -219,6 +227,9 @@ export default {
     showOtherGameModesPopup() {
       const store = useStore();
       return store.score >= 50 && !store.hasHadOtherGameModesPopup;
+    },
+    max() {
+      return (modulo.value - 1) * (this.layout.nTiles() - this.zerows);
     }
   },
   methods: {
@@ -254,6 +265,7 @@ export default {
       this.moves = 0;
       const min = this.difficultyRange[0];
       const max = this.difficultyRange[1];
+      console.log(min, max);
       this.latestDifficulty = Math.floor(Math.random() * (max - min + 1) + min) // + Math.round(Math.random() * (modulo.value - 1));
       this.layout = this.layout.generatePosition(
         this.latestDifficulty,
@@ -280,10 +292,11 @@ export default {
       }
     },
     updateSolutions() {
-      const { solutions, shortest, determinant } = solve(this.layout.matrix);
+      const { solutions, shortest, determinant, zerows } = solve(this.layout.matrix);
       this.solutionIndex = shortest;
       this.solutions = solutions;
       this.determinant = determinant;
+      this.zerows = zerows;
     },
     unlockOtherGameModes() {
       this.showModal = false;
@@ -299,6 +312,7 @@ export default {
         this.updateSolutions();
       }
     });
+    this.updateSolutions();
   },
 };
 </script>

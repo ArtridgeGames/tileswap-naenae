@@ -143,8 +143,8 @@ export function solvePattern({ state, target, tilesToFlip, modulo }) {
 
   const M = generateMoveMatrix({ width, height, state, tilesToFlip, modulo });
 
-  // console.log(M.matrix.map(row => row.map(e => e.value)));
-  // console.log(P.matrix.map(row => row.map(e => e.value)));
+  // console.log(M.toString());
+  // console.log(M.reducedRowEchelonForm().toString());
 
   // state + Mx = target
   // P = state - target
@@ -169,7 +169,7 @@ export function solvePattern({ state, target, tilesToFlip, modulo }) {
       inverses.set(key, I);
     }
     result = I.multiply(P.opposite()).matrix.map(e => e[0].value);
-    zerows = 1;
+    zerows = 0;
   } else {
 
     const augmentedMatrix = FiniteFieldMatrix.from2DArray(
@@ -179,7 +179,7 @@ export function solvePattern({ state, target, tilesToFlip, modulo }) {
 
     const augmentedRref = augmentedMatrix.reducedRowEchelonForm();
 
-    zerows = augmentedRref.matrix.filter(row => row.every(e => e.equals(0))).length - 1;
+    zerows = augmentedRref.matrix.filter(row => row.every(e => e.equals(0))).length;
 
     const rrefLastCol = FiniteFieldMatrix.from2DArray(
       augmentedRref.matrix.map(row => [row[row.length - 1]]),

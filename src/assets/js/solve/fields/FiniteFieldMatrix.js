@@ -628,7 +628,7 @@ export class FiniteFieldMatrix {
   toString() {
     let str = '';
     for (let i = 0; i < this.height; i++) {
-      str += '|' +
+      str += `${i.toString().padStart(3, ' ')} |` +
         this.matrix[i].reduce(
           (prev, a) => {
             return prev + ' ' + a.value.toString().padStart(this.field.order.toString().length, ' ');

@@ -489,7 +489,7 @@ export class Layout {
     }
 
     if (copy.nTiles() < 50 && false) {
-      const { solutions, shortest, zerows, } = solveWithRotation({
+      const { solutions, shortest, zerows } = solveWithRotation({
         state: copy.matrix,
         modulo,
         tilesToFlip
