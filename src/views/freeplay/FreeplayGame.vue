@@ -265,7 +265,6 @@ export default {
       this.moves = 0;
       const min = this.difficultyRange[0];
       const max = this.difficultyRange[1];
-      console.log(min, max);
       this.latestDifficulty = Math.floor(Math.random() * (max - min + 1) + min) // + Math.round(Math.random() * (modulo.value - 1));
       this.layout = this.layout.generatePosition(
         this.latestDifficulty,
