@@ -20,6 +20,9 @@ import MultiRangeSlider from "multi-range-slider-vue";
         :label="false"
         :minValue="minValue"
         :maxValue="maxValue"
+        :minCaption="''"
+        :maxCaption="''"
+        :labels="[]"
         @input="updateValue"
       />
   </div>
@@ -99,6 +102,9 @@ h2{
   height: 33px;
   width: 33px;
   border: none;
+}
+.multi-range-slider .caption {
+  display: none !important;
 }
 .multi-range-slider .thumb-right::before {
   margin: -7px -22px;
