@@ -21,7 +21,7 @@ import Progress from "../../components/Progress.vue";
         <span> DEV </span>
       </div>
 
-      <DifficultySlider v-model="difficulty" />
+      <DifficultySlider v-model="difficultyRange" />
       <Button text="randomize" @pressed="randomize" />
       <Button text="reset" @pressed="reset" />
     </div>
@@ -178,6 +178,7 @@ export default {
       store,
       layout,
       savedMatrix: [],
+      difficultyRange: [3, 5],
       difficulty: store.difficulty,
       latestDifficulty: store.difficulty,
       latestScore: 0,
@@ -251,7 +252,9 @@ export default {
     },
     randomize() {
       this.moves = 0;
-      this.latestDifficulty = this.difficulty // + Math.round(Math.random() * (modulo.value - 1));
+      const min = this.difficultyRange[0];
+      const max = this.difficultyRange[1];
+      this.latestDifficulty = Math.floor(Math.random() * (max - min + 1) + min) // + Math.round(Math.random() * (modulo.value - 1));
       this.layout = this.layout.generatePosition(
         this.latestDifficulty,
         modulo.value,

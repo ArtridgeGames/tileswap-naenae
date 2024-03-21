@@ -1,15 +1,27 @@
 <script setup>
-
+import MultiRangeSlider from "multi-range-slider-vue";
 </script>
 
 <template>
   <div class="diff">
-    <h2>difficulty - {{ difficultyText }} {{ modelValue }}</h2>
-    <input type="range"
+    <h2>difficulty - {{ difficultyText }} ({{ modelValue.join(' - ') }})</h2>
+    <!-- <input type="range"
             min="2"
             :value="modelValue"
             @input="$emit('update:modelValue', parseInt($event.target.value))"
-            :max="max">
+            :max="max"> -->
+
+      <MultiRangeSlider
+        baseClassName="multi-range-slider custom-slider"
+        :min="2"
+        :max="max"
+        :step="1"
+        :ruler="false"
+        :label="false"
+        :minValue="minValue"
+        :maxValue="maxValue"
+        @input="updateValue"
+      />
   </div>
 </template>
 
@@ -21,12 +33,15 @@ export default {
   emits: ['update:modelValue'],
   data() {
     return {
+      minValue: 3,
+      maxValue: 5,
       difficulties: ['very easy', 'easy', 'normal', 'hard', 'very hard'],
     }
   },
   computed: {
     difficultyText() {
-      const diff = this.difficulties[Math.floor((this.modelValue - 1) / (this.max / this.difficulties.length))];
+      const average = (this.modelValue[0] + this.modelValue[1]) / 2;
+      const diff = this.difficulties[Math.floor((average - 1) / (this.max / this.difficulties.length))];
       return diff;
     },
     max() {
@@ -35,15 +50,21 @@ export default {
     }
   },
   mounted() {
-    if (this.modelValue > this.max) {
-      this.$emit('update:modelValue', this.max);
+    if (this.modelValue[1] > this.max) {
+      this.modelValue[1] = this.max;
+      this.$emit('update:modelValue', [this.modelValue[0], this.modelValue[1]]);
+    }
+  },
+  methods: {
+    updateValue(value) {
+      this.$emit('update:modelValue', [value.minValue, value.maxValue]);
     }
   }
 }
 
 </script>
 
-<style scoped>
+<style>
 .diff{
   margin:5px;
 }
@@ -52,5 +73,37 @@ h2{
     font-size: 25px;
     text-align: center;
     white-space: nowrap;
+}
+.custom-slider {
+  border: none;
+  box-shadow: none;
+}
+.multi-range-slider .bar {
+  position: relative;
+}
+.custom-slider .bar-left {
+  box-shadow: none;
+}
+.custom-slider .bar-right {
+  box-shadow: none;
+}
+.multi-range-slider .bar-inner {
+  background-color: black;
+  box-shadow: none;
+  border: none;
+  height: 20px;
+}
+.multi-range-slider .thumb::before {
+  box-shadow: none;
+  background-color: black;
+  height: 33px;
+  width: 33px;
+  border: none;
+}
+.multi-range-slider .thumb-right::before {
+  margin: -7px -22px;
+}
+.multi-range-slider .thumb-left::before {
+  margin: -7px -14px;
 }
 </style>
