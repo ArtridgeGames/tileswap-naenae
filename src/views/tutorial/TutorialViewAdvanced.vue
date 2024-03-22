@@ -55,10 +55,18 @@ import LayoutAnimation from '../../components/LayoutAnimation.vue';
         <Button black text="ok!" @pressed="showModal = false; retry = true" />
       </div>
       <div v-else-if="modalPage === 8">
-        <h1>Smae concept as before, but things will get harder if you mess up</h1>
+        <h1>Now let's progressively make a pattern harder</h1>
         <Button black text="ok!" @pressed="showModal = false" />
       </div>
       <div v-else-if="modalPage === 9">
+        <h1>Try a few different patterns</h1>
+        <Button black text="ok!" @pressed="showModal = false" />
+      </div>
+      <div v-else-if="modalPage === 10">
+        <h1>Same concept as before, but things get harder if you mess up</h1>
+        <Button black text="ok!" @pressed="showModal = false" />
+      </div>
+      <div v-else-if="modalPage === 11">
         <h1>You seem to have mastered the basics</h1>
         <h1>How about we now let you choose how difficult you want it to be?</h1>
         <h1>Move the slider to adjust the difficulty of the initial state</h1>
@@ -179,15 +187,6 @@ export default {
           solution: [18],
           title: 'Missing tiles - 2 / 5'
         },
-        // {
-        //   matrix: [[1,1, 1, 1,1],
-        //            [1,1, 1, 1,1],
-        //            [1,1, 0,-1,0],
-        //            [1,1,-1, 0,0],
-        //            [1,1, 0, 0,0]],
-        //   solution: [18],
-        //   title: 'Missing tiles - 3 / 6'
-        // },
         {
           matrix: [[1, 1, 1, 1,1],
                    [1, 0,-1, 0,1],
@@ -219,32 +218,24 @@ export default {
         {
           matrix: [[1,1,0,0],
                    [1,1,0,0],
-                   [1,1,0,0],
-                   [1,1,1,1]],
-          solution: [7],
-          title: 'Missing tiles 2 - 1 / 4'
-        },
-        {
-          matrix: [[1,1,0,0],
-                   [1,1,0,0],
-                   [1,1,1,1],
-                   [1,1,1,1]],
-          solution: [3],
-          title: 'Missing tiles 2 - 2 / 4'
+                   [0,0,0,0],
+                   [0,0,1,1]],
+          solution: [7, 12],
+          title: 'Corners - 1 / 3'
         },
         {
           matrix: [[1, 1,1],
                    [0,-1,1],
                    [0, 0,1]],
           solution: [6],
-          title: 'Missing tiles 2 - 3 / 4'
+          title: 'Corners - 2 / 3'
         },
         {
           matrix: [[1, 1,1],
                    [1,-1,0],
                    [1,-1,0]],
           solution: [8],
-          title: 'Missing tiles 2 - 4 / 4',
+          title: 'Corners - 3 / 3',
           showModal: true
         },
         {
@@ -254,7 +245,7 @@ export default {
                    [1,1,0,0,0],
                    [1,1,0,0,0]],
           solution: [6,18],
-          title: 'Overlapping clicks - 1 / 6'
+          title: 'Overlapping clicks - 1 / 5'
         },
         {
           matrix: [[0,0,0,1,1],
@@ -263,64 +254,57 @@ export default {
                    [1,1,0,0,0],
                    [1,1,1,1,1]],
           solution: [6,13],
-          title: 'Overlapping clicks - 2 / 6'
+          title: 'Overlapping clicks - 2 / 5'
         },
-        {
-          matrix: [[0,0,1,0,0],
-                   [0,0,1,0,0],
-                   [0,0,1,0,0],
-                   [1,1,1,1,1],
-                   [1,1,1,1,1]],
-          solution: [6, 8],
-          title: 'Overlapping clicks - 3 / 6'
-        },
+        // {
+        //   matrix: [[0,0,1,0,0],
+        //            [0,0,1,0,0],
+        //            [0,0,1,0,0],
+        //            [1,1,1,1,1],
+        //            [1,1,1,1,1]],
+        //   solution: [6, 8],
+        //   title: 'Overlapping clicks - 3 / 6'
+        // },
         {
           matrix: [[0,0,0],
                    [1,1,1],
                    [0,0,0],
                    [0,0,0]],
           solution: [1,7],
-          title: 'Overlapping clicks - 4 / 6'
+          title: 'Overlapping clicks - 3 / 5'
         },
         {
           matrix: [[0,1,0],
                    [0,1,0],
                    [1,1,1]],
           solution: [0,2],
-          title: 'Overlapping clicks - 5 / 6'
+          title: 'Overlapping clicks - 4 / 5'
         },
         {
           matrix: [[1,0,0],
                    [0,1,0],
                    [0,0,1]],
           solution: [2, 6],
-          title: 'Overlapping clicks - 6 / 6',
+          title: 'Overlapping clicks - 5 / 5',
           showModal: true
         },
         {
-          matrix: [[0, 1,1],
-                   [0,-1,1],
-                   [1,-1,1]],
-          title: 'On your own - 1 / 6',
-          moves: 2
-        },
-        {
           matrix: [[1,0,1]],
-          title: 'On your own - 2 / 6',
+          title: 'On your own - 1 / 4',
           moves: 3
         },
         {
-          matrix: [[1, 0,-1],
-                   [0,-1,0],
-                   [-1,0,0]],
-          title: 'On your own - 3 / 6',
-          moves: 3
-        },
-        {
-          matrix: [[0, -1,0],
+          matrix: [[ 1,1, 1],
                    [-1,0,-1],
-                   [0,-1,1]],
-          title: 'On your own - 4 / 6',
+                   [-1,1,-1],],
+          title: 'On your own - 2 / 4',
+          moves: 3
+        },
+        {
+          matrix: [[-1, 0,-1],
+                   [ 1, 0, 0],
+                   [-1, 1,-1],],
+          title: 'On your own - 3 / 4',
           moves: 3
         },
         {
@@ -329,17 +313,61 @@ export default {
                    [ 0, 1, 0],
                    [-1,-1, 1],
                    [ 0, 0, 0]],
-          title: 'On your own - 5 / 6',
-          moves: 4
+          title: 'On your own - 4 / 4',
+          moves: 4,
+          showModal: true
+        },
+        {
+          matrix: [[1, 0,1],
+                   [1,-1,1],
+                   [1, 1,1]],
+          title: 'Step-by-step 1/3',
+          moves: 3
+        },
+        {
+          matrix: [[1, 0,1],
+                   [1,-1,1],
+                   [1, 0,1]],
+          title: 'Step-by-step 2/3',
+          moves: 6
         },
         {
           matrix: [[1, 0,1],
                    [1,-1,0],
                    [1, 0,1]],
-          title: 'On your own - 6 / 6',
+          title: 'Step-by-step 3/3',
+          moves: 5,
+          showModal: true
+        },
+        {
+          matrix: [[0, -1,0],
+                   [-1,0,-1],
+                   [0,-1,1]],
+          title: 'Others 1/3',
+          moves: 3
+        },
+        {
+          matrix: [[1, 0,-1],
+                   [0,-1,1],
+                   [-1,1,1]],
+          title: 'Others 2/3',
+          moves: 2
+        },
+        {
+          matrix: [[1, 1,-1],
+                   [0,-1,1],
+                   [-1,0,0]],
+          title: 'Others 3/3',
+          moves: 3,
           showModal: true,
-          moves: 5
-
+        },
+        {
+          matrix: [[0,0,1,0],
+                   [0,0,1,0],
+                   [1,1,0,1],
+                   [1,1,0,1]],
+          title: 'Final steps - 1 / 5',
+          moves: 4
         },
         {
           matrix: [[0,0,1,1,1],
@@ -347,28 +375,28 @@ export default {
                    [1,1,0,0,0],
                    [1,1,1,1,1],
                    [0,0,1,1,1]],
-          title: 'Final steps - 1 / 4',
+          title: 'Final steps - 2 / 5',
           moves: 5
         },
         {
           matrix: [[0,1,1],
                    [1,0,0],
                    [0,1,1]],
-          title: 'Final steps - 2 / 4',
+          title: 'Final steps - 3 / 5',
           moves: 3,
         },
         {
           matrix: [[1, 0,1],
                    [1, 1,0],
                    [0, 1,1]],
-          title: 'Final steps - 3 / 4',
+          title: 'Final steps - 4 / 5',
           moves: 4,
         },
         {
           matrix: [[1, 1,1],
                    [1, 0,1],
                    [0, 1,0]],
-          title: 'Final steps - 4 / 4',
+          title: 'Final steps - 5 / 5',
           moves: 5,
           showModal: true
         },
