@@ -9,7 +9,7 @@ import Progress from "../../components/Progress.vue";
   <div>
     <Button class="top right" text="pause" @pressed="pause" />
 
-    <div v-if="hasStarted">
+    <div>
       <h2 class="info center">
         {{  [formattedTime, moves, currentChallenge.settings.isInfinite ? null : percentageCompleted + "%"].filter(e => e).join(' - ')  }}
       </h2>
@@ -20,7 +20,6 @@ import Progress from "../../components/Progress.vue";
         :max="100"
       />
     </div>
-    <h2 class="info center" v-else>Click To Start The Challenge !</h2>
     <main>
       <Transition name="fade" mode="out-in">
         <Layout
@@ -55,16 +54,6 @@ import Progress from "../../components/Progress.vue";
       <Button black text="resume" @pressed="resume" />
       <Button black text="restart" @pressed="restart" />
       <Button black text="quit" @pressed="quit" />
-    </Modal>
-
-    <Modal v-model="showIntroductionModal">
-      <h1>
-        In this mode, you have to complete the pattern in the given time or
-        moves. You can only swap the tiles in the pattern. The pattern will
-        change after every successful completion. You can pause the game at any
-        time.
-      </h1>
-      <Button black text="got it!" @pressed="showIntroductionModal = false" />
     </Modal>
   </div>
 </template>
@@ -122,16 +111,13 @@ export default {
       showLostModal: false,
       showPauseModal: false,
       modalText: "",
-      hasStarted: false,
-      showIntroductionModal: !store.hasHadChallengeExplanationPopup,
     };
+  },
+  mounted() {
+    this.currentChallenge.process.start();
   },
   methods: {
     handleClick() {
-      if (!this.hasStarted) {
-        this.currentChallenge.process.start();
-      }
-      this.hasStarted = true;
 
       this.currentChallenge.process.handleClick();
 
@@ -153,7 +139,7 @@ export default {
     restart() {
       this.currentChallenge.process.quit();
       this.currentChallenge.process.init();
-      this.hasStarted = false;
+      this.currentChallenge.process.start();
       this.showPauseModal = false;
       this.showLostModal = false;
     },
@@ -189,12 +175,7 @@ export default {
         this.currentChallenge.process.init();
         return;
       }
-    },
-    showIntroductionModal(val) {
-      if (!val) {
-        this.store.hasHadChallengeExplanationPopup = true;
-      }
-    },
+    }
   },
   computed: {
     formattedTime() {

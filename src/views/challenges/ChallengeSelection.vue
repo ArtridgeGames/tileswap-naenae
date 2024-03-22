@@ -4,6 +4,7 @@ import Button from '../../components/buttons/Button.vue';
 import CSB from '../../components/challenges/ChallengeSelectionButton.vue';
 import ChallengeCategoryButton from '../../components/challenges/ChallengeCategoryButton.vue';
 import Separator from '../../components/Separator.vue';
+import Modal from '../../components/Modal.vue';
 </script>
 
 <template>
@@ -40,6 +41,21 @@ import Separator from '../../components/Separator.vue';
       </div>
     </Transition>
 
+    <Modal v-model="showModal">
+      <div v-html="selectedChallenge.description"></div>
+      <Button black text="start!" @pressed="showModal = false; start();" />
+    </Modal>
+
+    <Modal v-model="showIntroductionModal">
+      <h1>
+        In this mode, you have to complete the pattern in the given time or
+        moves. You can only swap the tiles in the pattern. The pattern will
+        change after every successful completion. You can pause the game at any
+        time.
+      </h1>
+      <Button black text="got it!" @pressed="showIntroductionModal = false" />
+    </Modal>
+
   </div>
 </template>
 
@@ -61,32 +77,42 @@ import { CHALLENGES } from '../../assets/js/challenges/ChallengeData.js';
 
 export default {
   data() {
+    const store = useStore();
     const categories = new Array(new Set(CHALLENGES.map(group => group.unlockCategory)).size)
       .fill().map((_, i) => CHALLENGES.filter(group => group.unlockCategory === i));
     return {
-      categories: categories.filter(category => category.length > 0)
+      categories: categories.filter(category => category.length > 0),
+      showModal: false,
+      showIntroductionModal: false,
     }
   },
   computed: {
     selectedChallengeGroup() {
       const store = useStore();
       return store.selectedChallengeGroup;
+    },
+    selectedChallenge() {
+      const store = useStore();
+      return store.currentChallenge;
     }
   },
   methods: {
+    start() {
+      this.$router.push('/challengeGame');
+    },
     selectChallenge(challenge) {
       
       if (!this.isUnlocked(challenge)) return;
 
       challenge.process.init();
-
       const store = useStore();
       store.setChallenge(challenge);
 
       setModulo(challenge.process.patternModulo);
-      store.setLayout(challenge.process.currentPattern.layout)
+      store.setLayout(challenge.process.currentPattern.layout);
 
-      this.$router.push('/challengeGame');
+      this.showModal = true;
+
     },
     selectChallengeGroup(group) {
 
@@ -94,6 +120,11 @@ export default {
 
       const store = useStore();
       store.selectedChallengeGroup = group;
+
+      if (!store.hasHadChallengeExplanationPopup) {
+        this.showIntroductionModal = true;
+        store.hasHadChallengeExplanationPopup = true;
+      }
     },
     isUnlocked(category) {
       const { unlockedChallenges } = useStore();

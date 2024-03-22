@@ -9,17 +9,20 @@ export class Challenge {
    * @param {Object} config - The configuration object
    * @param {Number} config.id - The id of the challenge
    * @param {String} config.title - The title of the challenge
+   * @param {String} config.description - The description of the challenge
    * @param {ChallengeProperties} config.settings - The settings of the challenge
    */
   constructor({
     id,
     title,
+    description,
     settings,
   }) {
     require(id, title, settings);
 
     this.id = id;
-    this.title = title;
+    this.title = title ?? "";
+    this.description = description;
     this.settings = settings;
     this.process = new ChallengeProcess(this);
   }
