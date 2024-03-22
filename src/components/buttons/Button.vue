@@ -24,6 +24,12 @@ button:focus {
 button:not(.disabled):active {
   transform: scale(0.95);
 }
+button.center:not(.disabled):active {
+  transform: scale(0.95) translateX(-50%);
+}
+button.middle:not(.disabled):active {
+  transform: scale(0.95) translateY(-50%);
+}
 button.disabled {
   cursor: not-allowed;
   color: gray;
