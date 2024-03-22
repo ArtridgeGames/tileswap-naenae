@@ -112,6 +112,10 @@ h2{
   height: 33px;
   width: 33px;
   border: none;
+  pointer-events: all;
+}
+.multi-range-slider input:active + .thumb::before {
+  transform: scale(1.1);
 }
 .multi-range-slider .caption {
   display: none !important;

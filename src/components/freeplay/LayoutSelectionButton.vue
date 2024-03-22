@@ -57,6 +57,9 @@ import lockUrl from '/images/svg/lock.svg'
   align-items: center;
   justify-content: center;
 }
+.container:active {
+  transform: scale(0.95);
+}
 .container[data-level="30"]::before {
   background-color: var(--bg-color);
 }

@@ -1,5 +1,5 @@
 <template>
-  <main class="icon-container" @[EVENTS.TOUCHEND]="handleClick">
+  <main class="icon-container" @click="handleClick">
     <div>
       <img :src="icon" />
     </div>
@@ -30,6 +30,9 @@ main.icon-container {
   background-color: var(--hl-color);
   padding: var(--button-padding);
   overflow: hidden;
+}
+main.icon-container:active {
+  transform: scale(0.95);
 }
 </style>
 

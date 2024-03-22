@@ -1,5 +1,5 @@
 <template>
-  <button @[clickEvent]="handleClick">
+  <button @click="handleClick">
     {{ text }}
   </button>
 </template>
@@ -16,9 +16,13 @@ button {
   cursor: pointer;
   margin: 10px;
   display: inline-block;
+  transition: transform 0.05s;
 }
 button:focus {
   outline: none;
+}
+button:active {
+  transform: scale(0.95);
 }
 </style>
 

@@ -52,6 +52,9 @@ import lockURL from '/images/svg/lock.svg';
   margin: 6px;
   cursor: pointer;
 }
+.container:active {
+  transform: scale(0.95);
+}
 .tile {
   position: absolute;
   border-radius: 2px;

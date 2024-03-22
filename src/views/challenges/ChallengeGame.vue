@@ -78,9 +78,10 @@ main {
 }
 .info {
   position: absolute;
-  top: 20px;
+  top: 70px;
   font-size: var(--font-size-md);
-  white-space: nowrap;
+  width: 100%;
+  white-space: normal;
 }
 .per {
   position: absolute;

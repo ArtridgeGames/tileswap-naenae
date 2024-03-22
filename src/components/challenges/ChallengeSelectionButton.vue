@@ -81,7 +81,7 @@ export default {
 </script>
 
 <style scoped>
-div {
+.challenge-button {
   width: 60%;
   padding: var(--button-padding);
   border: none;
@@ -94,6 +94,9 @@ div {
   display: inline-block;
   color: var(--shadow-text-color);
   text-align: center;
+}
+.challenge-button:active {
+  transform: scale(0.95);
 }
 
 .is-completed {
