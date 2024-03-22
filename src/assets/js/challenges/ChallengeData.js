@@ -196,6 +196,13 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
+        description: `
+        Test your mastery of this first category by finishing a number of patterns in limited time
+          <ul>
+            <li>time : 60s</li>
+            <li>patterns : 4</li>
+          </ul>
+        `,
         id: 0,
         title: 'Normal',
         settings: new ChallengeProperties({
@@ -206,6 +213,13 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
+        description: `
+        Confirm your mastery of this first category by finishing a number of patterns in limited time
+          <ul>
+            <li>time : 60s</li>
+            <li>patterns : 8</li>
+          </ul>
+        `,
         id: 1,
         title: 'Hard',
         settings: new ChallengeProperties({
@@ -216,6 +230,13 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
+        description: `
+        Prove your expertize of this first category by finishing a number of patterns in limited time
+          <ul>
+            <li>time : 60s</li>
+            <li>pattern : 16</li>
+          </ul>
+        `,
         id: 2,
         title: 'Expert',
         settings: new ChallengeProperties({
