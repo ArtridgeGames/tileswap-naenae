@@ -78,6 +78,10 @@ body,
   transition: background 0.3s ease;
 }
 
+#app {
+  padding-top: env(safe-area-inset-top);
+}
+
 img {
   touch-action: manipulation;
   -webkit-user-drag: none;
