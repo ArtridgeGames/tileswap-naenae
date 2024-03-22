@@ -64,7 +64,7 @@ import Progress from "../../components/Progress.vue";
         :text="Math.floor(store.score) + (store.nextScore === 0 ?  '' : ' / ' + store.nextScore)"
       />
       <Button black text="yay!" @pressed="showWinModal = false; quit()" />
-      <Button  black text="retry" @pressed="restart" />
+      <Button v-if="!hasGold" black text="retry" @pressed="restart" />
     </Modal>
 
     <Modal v-model="showExplanationModal">
@@ -170,7 +170,10 @@ export default {
       if (medal === Puzzle.MEDALS.GOLD) return "";
       if (medal === Puzzle.MEDALS.SILVER) return `next medal: ${movesRequiredForNextMedal} moves`;
       if (medal === Puzzle.MEDALS.BRONZE) return `next medal: ${movesRequiredForNextMedal} moves`;
-    }
+    },
+    hasGold() {
+      return this.puzzle.completionMoves <= this.puzzle.solution.length;
+    },
   },
   watch: {
     showIntroductionModal(val) {

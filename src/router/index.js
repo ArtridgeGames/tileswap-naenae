@@ -19,7 +19,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'intro',
-      component: TutorialFreeplayGame
+      component: IntroView
     },
     {
       path: '/home',
