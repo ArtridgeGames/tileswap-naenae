@@ -11,7 +11,7 @@ import LinkButton from "../../components/buttons/LinkButton.vue";
 <template>
   <div>
     <div class="top-menu">
-      <DifficultySlider v-model="difficulty" />
+      <DifficultySlider v-model="difficultyRange" :max="max" />
       <Button text="randomize" @pressed="randomize" />
       <Button text="reset" @pressed="reset" />
     </div>
@@ -120,7 +120,7 @@ export default {
       store,
       layout,
       savedMatrix: [],
-      difficulty: store.difficulty,
+      difficultyRange: [3, 5],
       latestDifficulty: store.difficulty,
       latestScore: 0,
       internalModulo: modulo.value,
@@ -130,10 +130,6 @@ export default {
     };
   },
   watch: {
-    difficulty() {
-      this.store.difficulty = this.difficulty;
-      this.randomize();
-    },
     internalModulo(newVal) {
       setModulo(newVal);
       this.randomize();
@@ -148,6 +144,11 @@ export default {
         this.randomize();
       }
     },
+  },
+  computed: {
+    max() {
+      return (modulo.value - 1) * this.layout.nTiles();
+    }
   },
   methods: {
     handleClick(index, row, tile) {
@@ -167,7 +168,9 @@ export default {
     },
     randomize() {
       this.moves = 0;
-      this.latestDifficulty = this.difficulty // + Math.round(Math.random() * (modulo.value - 1));
+      const min = this.difficultyRange[0];
+      const max = this.difficultyRange[1];
+      this.latestDifficulty = Math.floor(Math.random() * (max - min + 1) + min)
       this.layout = this.layout.generatePosition(
         this.latestDifficulty,
         modulo.value,
