@@ -124,6 +124,10 @@ h1.title {
   outline: 5px solid var(--success-color);
 }
 
+.modal.fade-enter-active, .modal.fade-leave-active {
+  pointer-events: none;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity var(--fade-time) ease;

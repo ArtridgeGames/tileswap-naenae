@@ -85,7 +85,11 @@ import Progress from "../../components/Progress.vue";
           style="border: 5px solid black; margin-bottom: 15px"
           :text="Math.floor(store.score) + (store.nextScore === 0 ?  '' : ' / ' + store.nextScore)"
         />
-        <Button v-if="!showOtherGameModesPopup" black text="yay!" @pressed="showModal = false" />
+        <Button v-if="!showOtherGameModesPopup"
+          black
+          text="yay!"
+          @pressed="showModal = false"
+        />
         <Button v-else text="yay!" black @pressed="modalPage = 1;" />
       </div>
       <div v-else-if="modalPage === 1">
@@ -230,7 +234,7 @@ export default {
     },
     max() {
       return (modulo.value - 1) * (this.layout.nTiles() - this.zerows);
-    }
+    },
   },
   methods: {
     handleClick(index, row, tile) {

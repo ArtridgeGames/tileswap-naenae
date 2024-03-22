@@ -1,5 +1,5 @@
 <template>
-  <button @click="handleClick">
+  <button :class="{ disabled: isDisabled }" @click="handleClick" :disabled="isDisabled">
     {{ text }}
   </button>
 </template>
@@ -21,8 +21,12 @@ button {
 button:focus {
   outline: none;
 }
-button:active {
+button:not(.disabled):active {
   transform: scale(0.95);
+}
+button.disabled {
+  cursor: not-allowed;
+  color: gray;
 }
 </style>
 
@@ -30,7 +34,7 @@ button:active {
 import { EVENTS } from '../../assets/js/events.js';
 
 export default {
-  props: ['text', 'black', 'event', 'trigger'],
+  props: ['text', 'black', 'event', 'trigger', 'disabled'],
   emits: ['pressed'],
   computed: {
     backgroundColor() {
@@ -41,6 +45,10 @@ export default {
     },
     clickEvent() {
       return this.trigger !== undefined ? this.trigger : EVENTS.TOUCHEND;
+    },
+    isDisabled() {
+      if (this.disabled === "") return true;
+      return this.disabled !== undefined ? this.disabled : false;
     }
   },
   methods: {
