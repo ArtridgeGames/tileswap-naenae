@@ -76,10 +76,16 @@ body,
   overflow: hidden;
   color: var(--hl-text-color);
   transition: background 0.3s ease;
+  position: relative;
+}
+
+body {
+  padding-top: env(safe-area-inset-top);
+  padding-top: constant(safe-area-inset-top);
 }
 
 #app {
-  padding-top: env(safe-area-inset-top);
+  position: relative;
 }
 
 img {
