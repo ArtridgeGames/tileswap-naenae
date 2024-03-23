@@ -3,7 +3,7 @@ import Progress from "./Progress.vue";
 </script>
 
 <template>
-  <main>
+  <main :class="{ closed }">
     <div class="category">{{ currentCategory + 1 }}</div>
     <div class="progress">
       <Progress
@@ -42,6 +42,11 @@ main {
   align-items: center;
   justify-content: flex-start;
   padding-top: 15px;
+  transition: bottom 0.5s ease-in-out;
+}
+
+main.closed {
+  bottom: -150px;
 }
 
 main::before {
@@ -147,6 +152,10 @@ export default {
     },
     showDots() {
       return this.views.length > 1;
+    },
+    closed() {
+      const store = useStore();
+      return !store.allowScroll;
     }
   },
   components: { Progress },
