@@ -16,7 +16,8 @@ import randomUrl from "/images/svg/random.svg";
         <IconButton :icon="randomUrl" @pressed="startRandomFreeplay" />
         <LinkButton v-if="showLayoutEditor" to="layout-editor" text="✎"></LinkButton>
       </div>
-      <div v-for="(category, i) in categories" :key="i">
+      <div v-for="(category, i) in categories"
+        :key="i" :class="{ fade: i === categories.length - 1 && !isUnlocked(category[0]) }">
         <div class="layouts">
           <Separator :text="i + 1" />
           <LayoutSelectionButton
@@ -64,17 +65,24 @@ import { useStore } from '../../store/store.js';
 import { Layout } from "../../assets/js/Layout.js";
 
 export default {
-  data() {
-    const { CATEGORIES } = Layout;
-    return {
-      categories: CATEGORIES.filter(e => e.length > 0)
-        // .slice(negativeCategories + 1, CATEGORIES.length)
-        // .concat(CATEGORIES.slice(0, negativeCategories + 1))
-    }
-  },
   computed: {
     showLayoutEditor() {
       return process.env.NODE_ENV === 'development';
+    },
+    categories() {
+      const store = useStore();
+      const { CATEGORIES } = Layout;
+      return CATEGORIES.filter(e => e.length > 0)
+              .filter(e => {
+                const layout = e[0];
+                return layout.unlockCategory <= store.unlockedCategoriesFP + 1 || layout.unlockCategory >= store.categories.length
+              });
+          // .slice(negativeCategories + 1, CATEGORIES.length)
+          // .concat(CATEGORIES.slice(0, negativeCategories + 1))
+    },
+    categoriesLength() {
+      const { CATEGORIES } = Layout;
+      return CATEGORIES.filter(e => e.length > 0).length;
     }
   },
   methods: {
@@ -86,6 +94,10 @@ export default {
       store.isRandomFreeplay = true;
       store.setLayout(Layout.getRandomLayout());
       this.$router.push("/freeplayGame");
+    },
+    isUnlocked(layout) {
+      const store = useStore();
+      return layout.unlockCategory <= store.unlockedCategoriesFP || layout.unlockCategory >= store.categories.length;
     }
   }
 };

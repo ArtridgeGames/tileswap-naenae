@@ -105,7 +105,7 @@ export const useStore = defineStore('store', () => {
   }
 
   if (process.env.NODE_ENV === 'development') {
-    unlockAll();
+    // unlockAll();
   }
 
   function setTask(index, task) {

@@ -9,7 +9,8 @@ import Separator from '@/components/Separator.vue';
     <h1 class="title">Puzzles</h1>
     <!-- <LinkButton class="top right" text="back" to="/home" /> -->
     
-    <div v-for="(category, i) in categories" :key="i">
+    <div v-for="(category, i) in categories"
+      :key="i" :class="{ fade: i === categories.length - 1 && !isUnlocked(category[0]) }">
       <Separator :text="i + 1" />
       <div class="layouts">
         <PuzzleSelectionButton
@@ -39,11 +40,23 @@ main {
 
 <script>
 import { Puzzle } from '../../assets/js/Puzzle.js';
+import { useStore } from '../../store/store';
 
 export default {
-  data() {
-    return {
-      categories: Puzzle.CATEGORIES.filter(category => category.length > 0),
+  computed: {
+    categories() {
+      const store = useStore();
+      return Puzzle.CATEGORIES.filter(category => category.length > 0)
+            .filter(e => {
+              const puzzle = e[0];
+              return puzzle.unlockCategory <= store.unlockedCategoriesPZ + 1 || puzzle.unlockCategory >= store.categories.length
+            });
+    }
+  },
+  methods: {
+    isUnlocked(puzzle) {
+      const store = useStore();
+      return puzzle.unlockCategory <= store.unlockedCategoriesPZ || puzzle.unlockCategory >= store.categories.length;
     }
   }
 }

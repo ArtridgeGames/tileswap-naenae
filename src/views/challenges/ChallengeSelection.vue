@@ -27,7 +27,9 @@ import Modal from '../../components/Modal.vue';
           ></CSB>
         </div>
         <div v-else>
-          <div v-for="(category, index) in categories" :key="index">
+          <div v-for="(category, index) in categories"
+            :key="index"
+            :class="{ fade: index === categories.length - 1 && !isUnlocked(category[0]) }">
             <Separator :text="index + 1" />
             <ChallengeCategoryButton
               v-for="group in category"
@@ -77,11 +79,7 @@ import { CHALLENGES } from '../../assets/js/challenges/ChallengeData.js';
 
 export default {
   data() {
-    const store = useStore();
-    const categories = new Array(new Set(CHALLENGES.map(group => group.unlockCategory)).size)
-      .fill().map((_, i) => CHALLENGES.filter(group => group.unlockCategory === i));
     return {
-      categories: categories.filter(category => category.length > 0),
       showModal: false,
       showIntroductionModal: false,
     }
@@ -94,6 +92,16 @@ export default {
     selectedChallenge() {
       const store = useStore();
       return store.currentChallenge;
+    },
+    categories() {
+      const store = useStore();
+      const categories = new Array(new Set(CHALLENGES.map(group => group.unlockCategory)).size)
+      .fill().map((_, i) => CHALLENGES.filter(group => group.unlockCategory === i));
+      return categories.filter(category => category.length > 0)
+            .filter(e => {
+              const challenge = e[0];
+              return challenge.unlockCategory <= store.currentCategory + 1 || challenge.unlockCategory >= store.categories.length
+            });
     }
   },
   methods: {
