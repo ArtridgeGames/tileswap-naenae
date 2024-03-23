@@ -55,12 +55,19 @@
 </style>
 
 <script>
+import { useStore } from '../store/store.js';
 export default {
   props: ['modelValue'],
   emits: ['update:modelValue'],
   methods: {
     close() {
       this.$emit('update:modelValue', false);
+    }
+  },
+  watch: {
+    modelValue(val) {
+      const store = useStore();
+      store.allowScroll = !val;
     }
   }
 }

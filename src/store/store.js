@@ -21,6 +21,7 @@ export const useStore = defineStore('store', () => {
   const hasHadPuzzleExplanationPopup = ref(false);
   const hasHadChallengeExplanationPopup = ref(false);
   const selectedChallengeGroup = ref(null);
+  const allowScroll = ref(true);
 
   if (globalThis.window && !window.hasOwnProperty('score')) {
     Object.defineProperty(window, 'score', {
@@ -173,6 +174,7 @@ export const useStore = defineStore('store', () => {
     hasHadOtherGameModesPopup,
     hasHadPuzzleExplanationPopup,
     hasHadChallengeExplanationPopup,
-    selectedChallengeGroup
+    selectedChallengeGroup,
+    allowScroll
   };
 });

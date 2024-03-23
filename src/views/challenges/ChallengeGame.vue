@@ -53,7 +53,7 @@ import Progress from "../../components/Progress.vue";
       <h1>Game is paused</h1>
       <Button black text="resume" @pressed="resume" />
       <Button black text="restart" @pressed="restart" />
-      <Button black text="quit" @pressed="quit" />
+      <Button black text="quit" @pressed="showPauseModal = false; quit();" />
     </Modal>
   </div>
 </template>

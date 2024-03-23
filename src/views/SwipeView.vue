@@ -30,7 +30,7 @@ main.carousell {
   scroll-snap-type: x mandatory;
   scroll-snap-stop: always;
 
-  overflow-x: scroll;
+  overflow-x: v-bind(allowScroll ? 'scroll' : 'hidden');
   overflow-y: hidden;
 
   display: flex;
@@ -76,6 +76,10 @@ export default {
     views() {
       const store = useStore();
       return store.score >= 50 ? ["FreeplaySelection", "PuzzleSelection", "ChallengeSelection", "AdditionalSelection"] : ["FreeplaySelection"]
+    },
+    allowScroll() {
+      const store = useStore();
+      return store.allowScroll;
     }
   },
   mounted() {
@@ -85,7 +89,7 @@ export default {
     el.firstChild.scrollTop = savedMenuScroll;
   },
   methods: {
-    handleScroll() {
+    handleScroll(event) {
       const docViewLeft = window.scrollX;
       const docViewRight = docViewLeft + window.innerWidth;
 

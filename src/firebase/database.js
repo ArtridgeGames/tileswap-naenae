@@ -5,6 +5,8 @@ import { watch } from 'vue';
 
 const db = getDatabase(app);
 
+const leaderboard = 'http://dreamlo.com/lb/70S2AACvbku8mKgXA8wJEQVHxq7h_jJkqr2G_Wjurhaw';
+
 export const registeredObservables = [];
 
 function serializeForFirebase(obj) {
