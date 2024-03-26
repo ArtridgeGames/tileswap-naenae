@@ -27,7 +27,7 @@ import Progress from "../../components/Progress.vue";
         bottom: windowWidth <= 600,
       }"
     >
-      <p v-show="moves > 0">{{ moves }} move{{ moves > 1 ? "s" : "" }}</p>
+      <h1 v-show="moves > 0">{{ moves }} move{{ moves > 1 ? "s" : "" }}</h1>
       <h1>{{ completionMoves }}</h1>
       <h1>{{ nextMedal }}</h1>
       <Button text="retry" @pressed="reset" />
@@ -102,6 +102,15 @@ main.puzzle-container {
 }
 .info {
   text-align: center;
+  width: max-content;
+}
+
+.info > h1 {
+  margin: 0;
+}
+
+.info > h1:last-of-type {
+  margin-bottom: 15px;
 }
 
 .explanation {

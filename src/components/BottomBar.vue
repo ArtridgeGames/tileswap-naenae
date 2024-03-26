@@ -9,7 +9,7 @@ import Progress from "./Progress.vue";
       <Progress
         :value="score"
         :max="nextScore"
-        barColor="#e58f65"
+        barColor="var(--score-color)"
         :text="Math.floor(score) + (nextScore === 0 ?  '' : ' / ' + nextScore)"
       />
     </div>
@@ -43,6 +43,7 @@ main {
   justify-content: flex-start;
   padding-top: 15px;
   transition: bottom 0.5s ease-in-out;
+  z-index: 100;
 }
 
 main.closed {
