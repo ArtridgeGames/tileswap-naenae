@@ -175,21 +175,6 @@ export const getPatternFromIdWithPadding = (id, padding) => {
 }
 
 export const CHALLENGES = [
-  // {
-  //   title: "Test",
-  //   unlockCategory: 0,
-  //   challenges: [
-  //     new Challenge({
-  //       id: -1,
-  //       title: 'Test',
-  //       settings: new ChallengeProperties({
-  //         patternCount: 5,
-  //         patternList: patternList([0]),
-  //         difficulty: () => new Array(5).fill().map((_, i) => i + 1),
-  //       })
-  //     })
-  //   ]
-  // },
   {
     title: "Category 1",
     unlockCategory: 0,
@@ -197,7 +182,7 @@ export const CHALLENGES = [
     challenges: [
       new Challenge({
         description: `
-        Test your mastery of this first category by finishing a number of patterns in limited time
+        Attempt to master this first category by finishing a number of patterns in limited time
           <ul>
             <li>time : 60s</li>
             <li>patterns : 4</li>
@@ -234,7 +219,7 @@ export const CHALLENGES = [
         Prove your expertize of this first category by finishing a number of patterns in limited time
           <ul>
             <li>time : 60s</li>
-            <li>pattern : 16</li>
+            <li>patterns : 16</li>
           </ul>
         `,
         id: 2,
@@ -254,6 +239,13 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
+        description: `
+        Finish this classic pattern in 3 moves, you are allowed 2 mistakes
+          <ul>
+            <li>time : 60s</li>
+            <li>patterns : 3</li>
+          </ul>
+        `,
         id: 3,
         title: 'Normal',
         settings: new ChallengeProperties({
@@ -261,12 +253,19 @@ export const CHALLENGES = [
           patternList: [
             new ChallengePattern({ id: 0, layout: Layout.fromId(0), moveLimitPerPattern: 7 }),
           ],
-          patternCount: 5,
+          patternCount: 3,
           patternListOrder: LINEAR,
-          difficulty: uniform(5, 3)
+          difficulty: uniform(3, 3)
         })
       }),
       new Challenge({
+        description: `
+        Finish this classic pattern in 3 moves, you are allowed 1 mistakes
+          <ul>
+            <li>time : 60s</li>
+            <li>patterns : 7</li>
+          </ul>
+        `,
         id: 4,
         title: 'Hard',
         settings: new ChallengeProperties({
@@ -280,6 +279,13 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
+        description: `
+        Finish this classic pattern in 3 moves, you are not allowed any mistake
+          <ul>
+            <li>time : 60s</li>
+            <li>patterns : 30</li>
+          </ul>
+        `,
         id: 5,
         title: 'Expert',
         settings: new ChallengeProperties({
@@ -293,11 +299,18 @@ export const CHALLENGES = [
     ]
   },
   {
-    title: "Read",
+    title: "Alphabet",
     unlockCategory: 1,
     allUnlocked: false,
     challenges: [
       new Challenge({
+        description: `
+        Go from A to Z
+          <ul>
+            <li>time per pattern : 10s</li>
+            <li>patterns : 26</li>
+          </ul>
+        `,
         id: 6,
         title: 'Normal',
         settings: new ChallengeProperties({
@@ -318,6 +331,13 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
+        description: `
+        Go from 0 to 9
+          <ul>
+            <li>clicks : 45</li>
+            <li>patterns : 10</li>
+          </ul>
+        `,
         id: 7,
         title: 'Count',
         settings: new ChallengeProperties({
@@ -336,6 +356,13 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
+        description: `
+        Attempt to master this third category by finishing a number of patterns in limited time
+          <ul>
+            <li>time : 60s</li>
+            <li>patterns : 6</li>
+          </ul>
+        `,
         id: 8,
         title: 'Normal',
         settings: new ChallengeProperties({
@@ -347,6 +374,13 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
+        description: `
+        Confirm your mastery of this third category by finishing a number of patterns in limited time
+          <ul>
+            <li>time : 60s</li>
+            <li>patterns : 8</li>
+          </ul>
+        `,
         id: 9,
         title: 'Hard',
         settings: new ChallengeProperties({
@@ -358,6 +392,13 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
+        description: `
+        Prove your expertize of this third category by finishing a number of patterns in limited time
+          <ul>
+            <li>time : 60s</li>
+            <li>patterns : 16</li>
+          </ul>
+        `,
         id: 10,
         title: 'Expert',
         settings: new ChallengeProperties({
@@ -376,6 +417,13 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
+        description: `
+        Finish this weird pattern as it keeps growing
+          <ul>
+            <li>time : 50s</li>
+            <li>patterns : 4</li>
+          </ul>
+        `,
         id: 11,
         title: 'Normal',
         settings: new ChallengeProperties({
@@ -387,6 +435,13 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
+        description: `
+        Finish this weird pattern as it keeps growing
+          <ul>
+            <li>time : 50s</li>
+            <li>patterns : 4</li>
+          </ul>
+        `,
         id: 12,
         title: 'Hard',
         settings: new ChallengeProperties({
@@ -399,6 +454,13 @@ export const CHALLENGES = [
       }),
       //TODO: add more patterns for expert
       new Challenge({
+        description: `
+        Finish this weird pattern as it keeps growing
+          <ul>
+            <li>time : 50s</li>
+            <li>patterns : 4</li>
+          </ul>
+        `,
         id: 13,
         title: 'Expert',
         settings: new ChallengeProperties({
@@ -417,6 +479,13 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
+        description: `
+        Attempt to master this fourth category by finishing a number of patterns in limited time
+          <ul>
+            <li>time : 60s</li>
+            <li>patterns : 6</li>
+          </ul>
+        `,
         id: 14,
         title: 'Normal',
         settings: new ChallengeProperties({
@@ -429,6 +498,13 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
+        description: `
+        Confirm your mastery of this fourth category by finishing a number of patterns in limited time
+          <ul>
+            <li>time : 60s</li>
+            <li>patterns : 7</li>
+          </ul>
+        `,
         id: 15,
         title: 'Hard',
         settings: new ChallengeProperties({
@@ -440,6 +516,13 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
+        description: `
+        Prove your expertize of this fourth category by finishing a number of patterns in limited time
+          <ul>
+            <li>time : 70s</li>
+            <li>patterns : 14</li>
+          </ul>
+        `,
         id: 16,
         title: 'Expert',
         settings: new ChallengeProperties({
@@ -458,6 +541,12 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
+        description: `
+        Simply finish this pattern 4 times
+          <ul>
+            <li>patterns : 4</li>
+          </ul>
+        `,
         id: 17,
         title: 'Normal',
         settings: new ChallengeProperties({
@@ -468,6 +557,13 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
+        description: `
+        Simply finish this pattern 4 times
+          <ul>
+            <li>time : 60s</li>
+            <li>patterns : 4</li>
+          </ul>
+        `,
         id: 18,
         title: 'Hard',
         settings: new ChallengeProperties({
@@ -479,6 +575,13 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
+        description: `
+        Finish this pattern 6 times
+          <ul>
+            <li>patterns : 6</li>
+            <li>clicks per pattern: 20</li>
+          </ul>
+        `,
         id: 19,
         title: 'Expert',
         settings: new ChallengeProperties({
@@ -503,6 +606,13 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
+        description: `
+        Attempt to master this fifth category by finishing a number of patterns in limited time
+          <ul>
+            <li>time : 60s</li>
+            <li>patterns : 6</li>
+          </ul>
+        `,
         id: 20,
         title: 'Normal',
         settings: new ChallengeProperties({
@@ -515,6 +625,13 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
+        description: `
+        Confirm your mastery of this fifth category by finishing a number of patterns in limited time
+          <ul>
+            <li>time : 60s</li>
+            <li>patterns : 10</li>
+          </ul>
+        `,
         id: 21,
         title: 'Hard',
         settings: new ChallengeProperties({
@@ -526,6 +643,13 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
+        description: `
+        Prove your expertize of this fifth category by finishing a number of patterns in limited time
+          <ul>
+            <li>time : 60s</li>
+            <li>patterns : 16</li>
+          </ul>
+        `,
         id: 22,
         title: 'Expert',
         settings: new ChallengeProperties({
@@ -544,6 +668,13 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
+        description: `
+        Attempt to master this sixth category by finishing a number of patterns in limited time
+          <ul>
+            <li>time : 60s</li>
+            <li>patterns : 6</li>
+          </ul>
+        `,
         id: 23,
         title: 'Normal',
         settings: new ChallengeProperties({
@@ -555,6 +686,13 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
+        description: `
+        Confirm your mastery of this sixth category by finishing a number of patterns in limited time
+          <ul>
+            <li>time : 60s</li>
+            <li>patterns : 9</li>
+          </ul>
+        `,
         id: 24,
         title: 'Hard',
         settings: new ChallengeProperties({
@@ -566,6 +704,13 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
+        description: `
+        Prove your expertize of this sixth category by finishing a number of patterns in limited time
+          <ul>
+            <li>time : 120s</li>
+            <li>patterns : 18</li>
+          </ul>
+        `,
         id: 25,
         title: 'Expert',
         settings: new ChallengeProperties({
@@ -584,6 +729,13 @@ export const CHALLENGES = [
     allUnlocked: true,
     challenges: [
       new Challenge({
+        description: `
+          Survive as long as you can as this pattern slowly corrupts
+          <ul>
+            <li>time : infinite</li>
+            <li>patterns : infinite</li>
+          </ul>
+        `,
         id: 26,
         title: 'Normal (5x5)',
         settings: new ChallengeProperties({
@@ -599,6 +751,13 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
+        description: `
+          Survive as long as you can as this pattern slowly corrupts
+          <ul>
+            <li>time : infinite</li>
+            <li>patterns : infinite</li>
+          </ul>
+        `,
         id: 27,
         title: 'Hard (5x5)',
         settings: new ChallengeProperties({
@@ -614,6 +773,13 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
+        description: `
+          Survive as long as you can as this pattern slowly corrupts
+          <ul>
+            <li>time : infinite</li>
+            <li>patterns : infinite</li>
+          </ul>
+        `,
         id: 28,
         title: 'Easy (5x5)',
         settings: new ChallengeProperties({
@@ -636,6 +802,9 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
+        description: `
+          CHALLENGE NOT DONE
+        `,
         id: 29,
         title: 'Normal',
         settings: new ChallengeProperties({
@@ -647,6 +816,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
+        description: `
+          CHALLENGE NOT DONE
+        `,
         id: 30,
         title: 'Hard',
         settings: new ChallengeProperties({
@@ -658,6 +830,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
+        description: `
+          CHALLENGE NOT DONE
+        `,
         id: 31,
         title: 'Survival',
         settings: new ChallengeProperties({
@@ -676,6 +851,13 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
+        description: `
+        Attempt to master this seventh category by finishing a number of patterns in limited time
+          <ul>
+            <li>time : 60s</li>
+            <li>patterns : 6</li>
+          </ul>
+        `,
         id: 32,
         title: 'Normal',
         settings: new ChallengeProperties({
@@ -687,6 +869,13 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
+        description: `
+        Confirm your mastery of this sixth category by finishing a number of patterns in limited time
+          <ul>
+            <li>time : 80s</li>
+            <li>patterns : 9</li>
+          </ul>
+        `,
         id: 33,
         title: 'Hard',
         settings: new ChallengeProperties({
@@ -698,6 +887,13 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
+        description: `
+        Prove your expertize of this sixth category by finishing a number of patterns in limited time
+          <ul>
+            <li>time : 90s</li>
+            <li>patterns : 18</li>
+          </ul>
+        `,
         id: 34,
         title: 'Expert',
         settings: new ChallengeProperties({
@@ -716,6 +912,13 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
+        description: `
+          Play as one pattern slowly switches into another
+          <ul>
+            <li>time : 50s</li>
+            <li>patterns : 5</li>
+          </ul>
+        `,
         id: 35,
         title: 'Normal',
         settings: new ChallengeProperties({
@@ -728,6 +931,13 @@ export const CHALLENGES = [
       }),
       new Challenge({
         id: 36,
+        description: `
+          Play as one pattern slowly switches into another
+          <ul>
+            <li>time : 55s</li>
+            <li>patterns : 5</li>
+          </ul>
+        `,
         title: 'Hard',
         settings: new ChallengeProperties({
           timeLimit: 55,
@@ -738,6 +948,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
+        description: `
+          CHALLENGE NOT DONE
+        `,
         id: 37,
         title: 'EXPERT TODO',
         settings: new ChallengeProperties({
@@ -756,6 +969,13 @@ export const CHALLENGES = [
     allUnlocked: true,
     challenges: [
       new Challenge({
+        description: `
+          Survive as long as you can as the pattern changes according to Conway's game of life  
+          <ul>
+            <li>time : infinite</li>
+            <li>patterns : infinite</li>
+          </ul>
+        `,
         id: 38,
         title: 'Q survival',
         settings: new ChallengeProperties({
@@ -771,6 +991,13 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
+        description: `
+          Survive as long as you can as the pattern changes according to Conway's game of life  
+          <ul>
+            <li>time : infinite</li>
+            <li>patterns : infinite</li>
+          </ul>
+        `,
         id: 39,
         title: 'Smiley survival',
         settings: new ChallengeProperties({
@@ -786,6 +1013,13 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
+        description: `
+          Survive as long as you can as the pattern changes according to Conway's game of life  
+          <ul>
+            <li>time : infinite</li>
+            <li>patterns : infinite</li>
+          </ul>
+        `,
         id: 40,
         title: 'Arrow survival',
         settings: new ChallengeProperties({
@@ -808,6 +1042,13 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
+        description: `
+          Finish this simple pattern as the number of tile states keeps increasing 
+          <ul>
+            <li>time : 100</li>
+            <li>patterns : 3</li>
+          </ul>
+        `,
         id: 41,
         title: 'Normal',
         settings: new ChallengeProperties({
@@ -823,6 +1064,13 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
+        description: `
+          Finish this simple pattern as the number of tile states keeps increasing 
+          <ul>
+            <li>time : 100</li>
+            <li>patterns : 4</li>
+          </ul>
+        `,
         id: 42,
         title: 'Hard',
         settings: new ChallengeProperties({
@@ -839,6 +1087,13 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
+        description: `
+          Finish this simple pattern as the number of tile states keeps increasing 
+          <ul>
+            <li>time : 100</li>
+            <li>patterns : 5</li>
+          </ul>
+        `,
         id: 43,
         title: 'Expert',
         settings: new ChallengeProperties({
@@ -856,60 +1111,59 @@ export const CHALLENGES = [
         })
       }),
     ]
-  }
+  },
+  {
+    title: "Growing square",
+    unlockCategory: 9,
+    allUnlocked: false,
+    challenges: [
+      new Challenge({
+        description: `
+        Finish this weird pattern as it keeps growing
+          <ul>
+            <li>time : 120s</li>
+            <li>patterns : 10</li>
+          </ul>
+        `,
+        id: 12,
+        title: 'Hard',
+        settings: new ChallengeProperties({
+          timeLimit: 120,
+          patternList: patternList([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]),
+          patternCount: 10,
+          patternListOrder: LINEAR,
+          difficulty: () => sumInRanges([[4,7], [7,11], [8,12], [14,20], [20,25], [20,25], [30,36], [35, 40]], 150)
+        })
+      })
+    ]
+  },
+  {
+    title: "Shrinking circle",
+    unlockCategory: 9,
+    allUnlocked: false,
+    challenges: [
+      new Challenge({
+        description: `
+        Finish this weird pattern as it keeps shrinking
+          <ul>
+            <li>time : 120s</li>
+            <li>patterns : 7</li>
+          </ul>
+        `,
+        id: 12,
+        title: 'Hard',
+        settings: new ChallengeProperties({
+          timeLimit: 120,
+          patternList: patternList([136, 19, 18, 17, 47, 177, 14]),
+          patternCount: 10,
+          patternListOrder: LINEAR,
+          difficulty: () => sumInRanges([[30,36], [18,25], [15,19], [9, 12], [6,10], [3,5], [3,5]], 97)
+        })
+      })
+    ]
+  },
   /*
-  new Challenge({
-    id: 0,
-    title: 'Game of life',
-    settings: new ChallengeProperties({
-      timeLimit: 60,
-      patternSequence: new PatternSequence(
-        getPatternFromIdWithPadding(99, 2),
-        gameOfLife
-      ),
-      patternCount: 14,
-      patternListOrder: RANDOM,
-      difficulty: uniform(14, 1)
-    })
-  }),
-  new Challenge({
-    id: 2,
-    title: 'Think Fast - Hard',
-    settings: new ChallengeProperties({
-      timeLimit: 60,
-      patternList: patternList([0]),
-      patternCount: 15,
-      patternListOrder: RANDOM,
-      difficulty: uniform(15, 3),
-      defaults: {
-        moveLimitPerPattern: 5
-      }
-    })
-  }),
-  new Challenge({
-    id: 3,
-    title: 'Count',
-    settings: new ChallengeProperties({
-      moveLimit: 45,
-      patternList: patternList([156, 157, 158, 159, 160, 161, 162, 163, 164, 165]),
-      patternCount: 10,
-      patternListOrder: LINEAR,
-      difficulty: uniform(10, 3)
-    })
-  }),
-  new Challenge({
-    id: 4,
-    title: 'Read',
-    settings: new ChallengeProperties({
-      patternList: patternList([119, 109, 110, 111, 142, 143, 144, 145, 131, 166, 146, 130, 132, 133, 156, 167, 168, 169, 161, 170, 171, 172, 173, 174, 175, 176]),
-      patternCount: 26,
-      patternListOrder: LINEAR,
-      difficulty: uniform(26, 3),
-      defaults: {
-        timeLimitPerPattern: 10
-      }
-    })
-  }),
+
   new Challenge({
     id: 5,
     title: 'Survival',
@@ -924,39 +1178,7 @@ export const CHALLENGES = [
       }
     })
   }),
-  new Challenge({
-    id: 6,
-    title: 'Tile Centipede',
-    settings: new ChallengeProperties({
-      timeLimit: 50,
-      patternList: patternList([86, 183, 184, 185]),
-      patternCount: 4,
-      patternListOrder: LINEAR,
-      difficulty: () => sumInRanges([[4,5], [5,7], [9,13], [13,18]], 40)
-    })
-  }),
-  new Challenge({
-    id: 7,
-    title: 'Growing Square',
-    settings: new ChallengeProperties({
-      timeLimit: 120,
-      patternList: patternList([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]),
-      patternCount: 10,
-      patternListOrder: LINEAR,
-      difficulty:  () => sumInRanges([[4,7], [7,11], [8,12], [14,20], [20,25], [20,25], [30,36], [35, 40]], 150)
-    })
-  }),
-  new Challenge({
-    id: 8,
-    title: 'Shrinking Circle',
-    settings: new ChallengeProperties({
-      timeLimit: 120,
-      patternList: patternList([136, 19, 18, 17, 47, 177, 14]),
-      patternCount: 7,
-      patternListOrder: LINEAR,
-      difficulty:  () => sumInRanges([[30,36], [18,25], [15,19], [9, 12], [6,10], [3,5], [3,5]], 97)
-    })
-  }),
+
   new Challenge({
     id: 9,
     title: 'Game of Life',
@@ -980,26 +1202,6 @@ export const CHALLENGES = [
       patternCount: 7,
       patternListOrder: RANDOM,
       difficulty:  () => sumInRanges([[6,10], [5,9], [6,13], [2,4], [13,20], [10,15], [4,9], [7,17]], 70)
-    })
-  }),
-  new Challenge({
-    id: 11,
-    title: 'Corrupted',
-    settings: new ChallengeProperties({
-      timeLimit: 120,
-      patternCount: 10,
-      patternSequence: new PatternSequence(
-        new ChallengePattern({
-          id: 0,
-          layout: new Layout({
-            width: 7,
-            height: 7,
-            exclude: [0, 1, 2, 3, 4, 5, 6, 7, 13, 14, 20, 21, 27, 28, 34, 35, 41, 42, 43, 44, 45, 46, 47, 48]
-          }),
-        }),
-        corrupted
-      ),
-      difficulty: () => [3, 4, 5, 6, 7, 8, 9, 10, 11 ,12]
     })
   })*/
 ].map(category => {
