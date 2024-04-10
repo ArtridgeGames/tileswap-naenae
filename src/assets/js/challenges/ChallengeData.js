@@ -1114,7 +1114,7 @@ export const CHALLENGES = [
   },
   {
     title: "Growing square",
-    unlockCategory: 9,
+    unlockCategory: 8,
     allUnlocked: false,
     challenges: [
       new Challenge({
@@ -1139,7 +1139,7 @@ export const CHALLENGES = [
   },
   {
     title: "Shrinking circle",
-    unlockCategory: 9,
+    unlockCategory: 8,
     allUnlocked: false,
     challenges: [
       new Challenge({
