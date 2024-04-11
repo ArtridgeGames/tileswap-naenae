@@ -23,7 +23,7 @@ function sumInRanges(ranges, targetSum, maxAttempts = 1000) {
       return combination; // Valid solution found
     }
   }
-  return null; // No solution found within the given number of attempts
+  throw new Error("Sum cannot be fit inside the ranges")
 }
 
 function calculateMaxPossible(remainingSum, ranges, currentIndex) {
@@ -1125,14 +1125,14 @@ export const CHALLENGES = [
             <li>patterns : 10</li>
           </ul>
         `,
-        id: 12,
+        id: 44,
         title: 'Hard',
         settings: new ChallengeProperties({
           timeLimit: 120,
           patternList: patternList([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]),
           patternCount: 10,
           patternListOrder: LINEAR,
-          difficulty: () => sumInRanges([[4,7], [7,11], [8,12], [14,20], [20,25], [20,25], [30,36], [35, 40]], 150)
+          difficulty: () => sumInRanges([[4,7], [7,11], [8,12], [14,20], [20,25], [20,25], [30,36], [35, 40], [35, 50], [40, 55]], 235)
         })
       })
     ]
@@ -1150,12 +1150,12 @@ export const CHALLENGES = [
             <li>patterns : 7</li>
           </ul>
         `,
-        id: 12,
+        id: 45,
         title: 'Hard',
         settings: new ChallengeProperties({
           timeLimit: 120,
           patternList: patternList([136, 19, 18, 17, 47, 177, 14]),
-          patternCount: 10,
+          patternCount: 7,
           patternListOrder: LINEAR,
           difficulty: () => sumInRanges([[30,36], [18,25], [15,19], [9, 12], [6,10], [3,5], [3,5]], 97)
         })
