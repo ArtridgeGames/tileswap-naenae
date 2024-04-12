@@ -97,7 +97,7 @@ import LayoutAnimation from '../../components/LayoutAnimation.vue';
       <h1>{{ text }}</h1>
       <h1 :class="{ shake }" v-if="showWrong">Wrong tile!</h1>
       <Button v-if="retry" text="reset" @pressed="reset" />
-      <h1 v-if="showMoves">this should take {{ stage.moves }} clicks</h1>
+      <h1 v-if="showMoves">this takes minimum {{ stage.moves }} clicks</h1>
     </div>
 
 
