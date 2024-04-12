@@ -307,7 +307,7 @@ export const CHALLENGES = [
         description: `
         Go from A to Z
           <ul>
-            <li>time per pattern : 10s</li>
+            <li>time per pattern : 26s</li>
             <li>patterns : 26</li>
           </ul>
         `,
@@ -319,7 +319,47 @@ export const CHALLENGES = [
           patternListOrder: LINEAR,
           difficulty: uniform(26, 3),
           defaults: {
+            timeLimitPerPattern: 26
+          }
+        })
+      }),
+      new Challenge({
+        description: `
+        Go from A to Z
+          <ul>
+            <li>time per pattern : 10s</li>
+            <li>patterns : 26</li>
+          </ul>
+        `,
+        id: 7,
+        title: 'Hard',
+        settings: new ChallengeProperties({
+          patternList: patternList([119, 109, 110, 111, 142, 143, 144, 145, 131, 166, 146, 130, 132, 133, 156, 167, 168, 169, 161, 170, 171, 172, 173, 174, 175, 176]),
+          patternCount: 26,
+          patternListOrder: LINEAR,
+          difficulty: uniform(26, 3),
+          defaults: {
             timeLimitPerPattern: 10
+          }
+        })
+      }),
+      new Challenge({
+        description: `
+        Go from A to Z
+          <ul>
+            <li>time per pattern : 5s</li>
+            <li>patterns : 26</li>
+          </ul>
+        `,
+        id: 8,
+        title: 'Expert',
+        settings: new ChallengeProperties({
+          patternList: patternList([119, 109, 110, 111, 142, 143, 144, 145, 131, 166, 146, 130, 132, 133, 156, 167, 168, 169, 161, 170, 171, 172, 173, 174, 175, 176]),
+          patternCount: 26,
+          patternListOrder: LINEAR,
+          difficulty: uniform(26, 3),
+          defaults: {
+            timeLimitPerPattern: 5
           }
         })
       })
@@ -338,7 +378,7 @@ export const CHALLENGES = [
             <li>patterns : 10</li>
           </ul>
         `,
-        id: 7,
+        id: 9,
         title: 'Count',
         settings: new ChallengeProperties({
           moveLimit: 45,
@@ -346,6 +386,42 @@ export const CHALLENGES = [
           patternCount: 10,
           patternListOrder: LINEAR,
           difficulty: uniform(10, 3)
+        })
+      }),
+      new Challenge({
+        description: `
+        Go from 0 to 9
+          <ul>
+            <li>clicks : 45</li>
+            <li>patterns : 10</li>
+          </ul>
+        `,
+        id: 10,
+        title: 'Count',
+        settings: new ChallengeProperties({
+          moveLimit: 45,
+          patternList: patternList([156, 157, 158, 159, 160, 161, 162, 163, 164, 165]),
+          patternCount: 10,
+          patternListOrder: LINEAR,
+          difficulty: uniformSumInRanges([3,4], 10, 38)
+        })
+      }),
+      new Challenge({
+        description: `
+        Go from 0 to 9. You are not allowed any mistakes
+          <ul>
+            <li>clicks : 45</li>
+            <li>patterns : 10</li>
+          </ul>
+        `,
+        id: 11,
+        title: 'Count',
+        settings: new ChallengeProperties({
+          moveLimit: 45,
+          patternList: patternList([156, 157, 158, 159, 160, 161, 162, 163, 164, 165]),
+          patternCount: 10,
+          patternListOrder: LINEAR,
+          difficulty: uniformSumInRanges([3,5], 10, 45)
         })
       }),
     ]
@@ -363,7 +439,7 @@ export const CHALLENGES = [
             <li>patterns : 6</li>
           </ul>
         `,
-        id: 8,
+        id: 12,
         title: 'Normal',
         settings: new ChallengeProperties({
           timeLimit: 60,
@@ -381,7 +457,7 @@ export const CHALLENGES = [
             <li>patterns : 8</li>
           </ul>
         `,
-        id: 9,
+        id: 13,
         title: 'Hard',
         settings: new ChallengeProperties({
           timeLimit: 60,
@@ -399,7 +475,7 @@ export const CHALLENGES = [
             <li>patterns : 16</li>
           </ul>
         `,
-        id: 10,
+        id: 14,
         title: 'Expert',
         settings: new ChallengeProperties({
           timeLimit: 75,
@@ -424,7 +500,7 @@ export const CHALLENGES = [
             <li>patterns : 4</li>
           </ul>
         `,
-        id: 11,
+        id: 15,
         title: 'Normal',
         settings: new ChallengeProperties({
           timeLimit: 50,
@@ -442,7 +518,7 @@ export const CHALLENGES = [
             <li>patterns : 4</li>
           </ul>
         `,
-        id: 12,
+        id: 16,
         title: 'Hard',
         settings: new ChallengeProperties({
           timeLimit: 50,
@@ -461,7 +537,7 @@ export const CHALLENGES = [
             <li>patterns : 4</li>
           </ul>
         `,
-        id: 13,
+        id: 17,
         title: 'Expert',
         settings: new ChallengeProperties({
           timeLimit: 30,
@@ -486,7 +562,7 @@ export const CHALLENGES = [
             <li>patterns : 6</li>
           </ul>
         `,
-        id: 14,
+        id: 18,
         title: 'Normal',
         settings: new ChallengeProperties({
           timeLimit: 60,
@@ -505,7 +581,7 @@ export const CHALLENGES = [
             <li>patterns : 7</li>
           </ul>
         `,
-        id: 15,
+        id: 19,
         title: 'Hard',
         settings: new ChallengeProperties({
           timeLimit: 60,
@@ -523,7 +599,7 @@ export const CHALLENGES = [
             <li>patterns : 14</li>
           </ul>
         `,
-        id: 16,
+        id: 20,
         title: 'Expert',
         settings: new ChallengeProperties({
           timeLimit: 70,
@@ -547,7 +623,7 @@ export const CHALLENGES = [
             <li>patterns : 4</li>
           </ul>
         `,
-        id: 17,
+        id: 21,
         title: 'Normal',
         settings: new ChallengeProperties({
           patternList: patternList([29, 29, 29, 29]),
@@ -564,7 +640,7 @@ export const CHALLENGES = [
             <li>patterns : 4</li>
           </ul>
         `,
-        id: 18,
+        id: 22,
         title: 'Hard',
         settings: new ChallengeProperties({
           timeLimit: 60,
@@ -582,7 +658,7 @@ export const CHALLENGES = [
             <li>clicks per pattern: 20</li>
           </ul>
         `,
-        id: 19,
+        id: 23,
         title: 'Expert',
         settings: new ChallengeProperties({
           patternList: [
@@ -613,7 +689,7 @@ export const CHALLENGES = [
             <li>patterns : 6</li>
           </ul>
         `,
-        id: 20,
+        id: 24,
         title: 'Normal',
         settings: new ChallengeProperties({
           timeLimit: 45,
@@ -632,7 +708,7 @@ export const CHALLENGES = [
             <li>patterns : 10</li>
           </ul>
         `,
-        id: 21,
+        id: 25,
         title: 'Hard',
         settings: new ChallengeProperties({
           timeLimit: 60,
@@ -650,7 +726,7 @@ export const CHALLENGES = [
             <li>patterns : 16</li>
           </ul>
         `,
-        id: 22,
+        id: 26,
         title: 'Expert',
         settings: new ChallengeProperties({
           timeLimit: 60,
@@ -675,7 +751,7 @@ export const CHALLENGES = [
             <li>patterns : 6</li>
           </ul>
         `,
-        id: 23,
+        id: 27,
         title: 'Normal',
         settings: new ChallengeProperties({
           timeLimit: 60,
@@ -693,7 +769,7 @@ export const CHALLENGES = [
             <li>patterns : 9</li>
           </ul>
         `,
-        id: 24,
+        id: 28,
         title: 'Hard',
         settings: new ChallengeProperties({
           timeLimit: 60,
@@ -711,7 +787,7 @@ export const CHALLENGES = [
             <li>patterns : 18</li>
           </ul>
         `,
-        id: 25,
+        id: 29,
         title: 'Expert',
         settings: new ChallengeProperties({
           timeLimit: 120,
@@ -736,7 +812,7 @@ export const CHALLENGES = [
             <li>patterns : infinite</li>
           </ul>
         `,
-        id: 26,
+        id: 30,
         title: 'Normal (5x5)',
         settings: new ChallengeProperties({
           timeLimit: 60,
@@ -758,7 +834,7 @@ export const CHALLENGES = [
             <li>patterns : infinite</li>
           </ul>
         `,
-        id: 27,
+        id: 31,
         title: 'Hard (5x5)',
         settings: new ChallengeProperties({
           timeLimit: 30,
@@ -780,7 +856,7 @@ export const CHALLENGES = [
             <li>patterns : infinite</li>
           </ul>
         `,
-        id: 28,
+        id: 32,
         title: 'Easy (5x5)',
         settings: new ChallengeProperties({
           timeLimit: 45,
@@ -805,7 +881,7 @@ export const CHALLENGES = [
         description: `
           CHALLENGE NOT DONE
         `,
-        id: 29,
+        id: 33,
         title: 'Normal',
         settings: new ChallengeProperties({
           moveLimit: 45,
@@ -819,7 +895,7 @@ export const CHALLENGES = [
         description: `
           CHALLENGE NOT DONE
         `,
-        id: 30,
+        id: 34,
         title: 'Hard',
         settings: new ChallengeProperties({
           moveLimit: 45,
@@ -833,7 +909,7 @@ export const CHALLENGES = [
         description: `
           CHALLENGE NOT DONE
         `,
-        id: 31,
+        id: 35,
         title: 'Survival',
         settings: new ChallengeProperties({
           timeLimit: 10,
@@ -858,7 +934,7 @@ export const CHALLENGES = [
             <li>patterns : 6</li>
           </ul>
         `,
-        id: 32,
+        id: 36,
         title: 'Normal',
         settings: new ChallengeProperties({
           timeLimit: 60,
@@ -876,7 +952,7 @@ export const CHALLENGES = [
             <li>patterns : 9</li>
           </ul>
         `,
-        id: 33,
+        id: 37,
         title: 'Hard',
         settings: new ChallengeProperties({
           timeLimit: 80,
@@ -894,7 +970,7 @@ export const CHALLENGES = [
             <li>patterns : 18</li>
           </ul>
         `,
-        id: 34,
+        id: 38,
         title: 'Expert',
         settings: new ChallengeProperties({
           timeLimit: 90,
@@ -919,7 +995,7 @@ export const CHALLENGES = [
             <li>patterns : 5</li>
           </ul>
         `,
-        id: 35,
+        id: 39,
         title: 'Normal',
         settings: new ChallengeProperties({
           timeLimit: 50,
@@ -930,7 +1006,7 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        id: 36,
+        id: 40,
         description: `
           Play as one pattern slowly switches into another
           <ul>
@@ -951,7 +1027,7 @@ export const CHALLENGES = [
         description: `
           CHALLENGE NOT DONE
         `,
-        id: 37,
+        id: 41,
         title: 'EXPERT TODO',
         settings: new ChallengeProperties({
           moveLimit: 45,
@@ -976,7 +1052,7 @@ export const CHALLENGES = [
             <li>patterns : infinite</li>
           </ul>
         `,
-        id: 38,
+        id: 42,
         title: 'Q survival',
         settings: new ChallengeProperties({
           timeLimit: 30,
@@ -998,7 +1074,7 @@ export const CHALLENGES = [
             <li>patterns : infinite</li>
           </ul>
         `,
-        id: 39,
+        id: 43,
         title: 'Smiley survival',
         settings: new ChallengeProperties({
           timeLimit: 30,
@@ -1020,7 +1096,7 @@ export const CHALLENGES = [
             <li>patterns : infinite</li>
           </ul>
         `,
-        id: 40,
+        id: 44,
         title: 'Arrow survival',
         settings: new ChallengeProperties({
           timeLimit: 30,
@@ -1049,7 +1125,7 @@ export const CHALLENGES = [
             <li>patterns : 3</li>
           </ul>
         `,
-        id: 41,
+        id: 45,
         title: 'Normal',
         settings: new ChallengeProperties({
           timeLimit: 100,
@@ -1071,7 +1147,7 @@ export const CHALLENGES = [
             <li>patterns : 4</li>
           </ul>
         `,
-        id: 42,
+        id: 46,
         title: 'Hard',
         settings: new ChallengeProperties({
           timeLimit: 100,
@@ -1094,7 +1170,7 @@ export const CHALLENGES = [
             <li>patterns : 5</li>
           </ul>
         `,
-        id: 43,
+        id: 47,
         title: 'Expert',
         settings: new ChallengeProperties({
           timeLimit: 100,
@@ -1125,7 +1201,7 @@ export const CHALLENGES = [
             <li>patterns : 10</li>
           </ul>
         `,
-        id: 44,
+        id: 48,
         title: 'Hard',
         settings: new ChallengeProperties({
           timeLimit: 120,
@@ -1150,7 +1226,7 @@ export const CHALLENGES = [
             <li>patterns : 7</li>
           </ul>
         `,
-        id: 45,
+        id: 49,
         title: 'Hard',
         settings: new ChallengeProperties({
           timeLimit: 120,
