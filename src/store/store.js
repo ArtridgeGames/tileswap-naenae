@@ -93,7 +93,12 @@ export const useStore = defineStore('store', () => {
       .flatMap(e => {
         if (e.allUnlocked) return e.challenges.map(e => e.id);
         return e.challenges
-          .filter((_, i) => i === 0 || stats.value.challengesCompleted.includes(e.challenges[i - 1].id))
+          .filter((_, i) => {
+            if (i === 0) return true;
+            const completed = stats.value.challengesCompleted.hasOwnProperty(e.challenges[i - 1].id)
+              && stats.value.challengesCompleted[e.challenges[i - 1].id].completed;
+            return completed;
+          })
           .map(e => e.id);
       });
   }); // ref([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21])

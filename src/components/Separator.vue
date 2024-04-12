@@ -21,6 +21,8 @@ hr::after {
   color: var(--hl-text-color);
   display: v-bind(display);
   position: absolute;
+  place-content: center;
+  align-items: center;
   background: var(--bg-dark-color);
   width: 41px;
   height: 27px;

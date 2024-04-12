@@ -412,6 +412,7 @@ export class ChallengeProcess {
 
   /**
    * Ends the challenge process and marks it as won.
+   * This method should only be called for finite challenges.
    */
   won() {
     this.state = ChallengeProcess.STATE.WON;
@@ -440,8 +441,38 @@ export class ChallengeProcess {
       const timeMultiplier = this.settings.timeLimit === -1 ? 1 : 1.5;
       const moveMultiplier = this.settings.moveLimit === -1 ? 1 : 1.5;
       scoreToAdd += score * timeMultiplier * moveMultiplier * 2 ** this.unlockCategory;
+      
+      const result = {
+        completed: true
+      }
+      const currentStats = store.stats.challengesCompleted[this.id];
+      
+      if (this.settings.timeLimit !== -1) {
+        const time = this.settings.timeLimit - this.timeRemaining;
+        if (currentStats) {
+          if (time < currentStats.time) {
+            result.time = time;
+          } else {
+            result.time = currentStats.time;
+          }
+        } else {
+          result.time = time;
+        }
+      }
 
-      store.stats.challengesCompleted.push(this.id);
+      if (this.settings.moveLimit !== -1) {
+        const moves = this.settings.moveLimit - this.movesRemaining;
+        if (currentStats) {
+          if (moves < currentStats.moves) {
+            result.moves = moves;
+          } else {
+            result.moves = currentStats.moves;
+          }
+        } else {
+          result.moves = moves;
+        }
+      }
+      store.stats.challengesCompleted[this.id] = result;
       store.score += scoreToAdd;
       this.latestAddedScore = scoreToAdd;
     }
@@ -455,9 +486,52 @@ export class ChallengeProcess {
     this.state = reason;
     clearInterval(this.timerId);
 
+    const store = useStore();
     if (this.settings.isInfinite) {
-      const store = useStore();
       store.score += this.temporaryScore * (this.unlockCategory + 1);
+
+      const currentStats = store.stats.challengesCompleted[this.id];
+      if (currentStats) {
+        if (currentStats.completed) return;
+        if (this.patternIndex > currentStats.patternIndex) {
+          store.stats.challengesCompleted[this.id] = {
+            completed: false,
+            patternIndex: this.patternIndex,
+          };
+        } else {
+          store.stats.challengesCompleted[this.id] = {
+            completed: false,
+            patternIndex: currentStats.patternIndex,
+          };
+        }
+      } else {
+        store.stats.challengesCompleted[this.id] = {
+          completed: false,
+          patternIndex: this.patternIndex,
+        };
+      }
+    } else {
+      const currentStats = store.stats.challengesCompleted[this.id];
+      if (currentStats) {
+        if (currentStats.completed) return;
+        const completion = this.patternIndex / this.settings.patternCount * 100;
+        if (completion > currentStats.completion) {
+          store.stats.challengesCompleted[this.id] = {
+            completed: false,
+            completion,
+          };
+        } else {
+          store.stats.challengesCompleted[this.id] = {
+            completed: false,
+            completion: currentStats.completion,
+          };
+        }
+      } else {
+        store.stats.challengesCompleted[this.id] = {
+          completed: false,
+          completion: this.patternIndex / this.settings.patternCount * 100,
+        };
+      }
     }
   }
 

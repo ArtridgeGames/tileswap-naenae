@@ -30,7 +30,7 @@ export const STATS_DATA = {
     }
   },
   challengesCompleted: {
-    initialValue: [],
+    initialValue: {},
     name: "Challenges Completed",
     display: (val) => {
       return `${val.length} / ${CHALLENGES.length}`
