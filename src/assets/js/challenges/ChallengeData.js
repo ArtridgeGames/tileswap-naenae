@@ -806,9 +806,10 @@ export const CHALLENGES = [
     challenges: [
       new Challenge({
         description: `
-          Survive as long as you can as this pattern slowly corrupts
+          Survive as long as you can as this pattern slowly corrupts. Every pattern you finish gives you extra time
           <ul>
-            <li>time : infinite</li>
+            <li>time : 60s</li>
+            <li>extra time : 5s</li>
             <li>patterns : infinite</li>
           </ul>
         `,
@@ -828,9 +829,10 @@ export const CHALLENGES = [
       }),
       new Challenge({
         description: `
-          Survive as long as you can as this pattern slowly corrupts
+          Survive as long as you can as this pattern slowly corrupts. Every pattern you finish gives you extra time
           <ul>
-            <li>time : infinite</li>
+            <li>time : 30s</li>
+            <li>extra time : 5s</li>
             <li>patterns : infinite</li>
           </ul>
         `,
@@ -850,9 +852,10 @@ export const CHALLENGES = [
       }),
       new Challenge({
         description: `
-          Survive as long as you can as this pattern slowly corrupts
+          Survive as long as you can as this pattern slowly corrupts. Every pattern you finish gives you extra time
           <ul>
-            <li>time : infinite</li>
+            <li>time : 45</li>
+            <li>extra time : 15s</li>
             <li>patterns : infinite</li>
           </ul>
         `,
