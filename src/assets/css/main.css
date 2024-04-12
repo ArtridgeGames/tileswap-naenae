@@ -24,6 +24,8 @@
   --success-color: #dac778;
   --puzzle-white: #9e968d;
   --devmode-color: red;
+  --stress-color: #ff0000;
+  --score-color: #e58f65;
 
   --tile-border-radius: 30px;
   --button-border-radius: 7px;

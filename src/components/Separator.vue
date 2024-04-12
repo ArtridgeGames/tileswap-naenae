@@ -27,8 +27,10 @@ hr::after {
   width: 41px;
   height: 27px;
   border-radius: 10px;
-  text-align: center;
+  justify-content: center;
+  align-items: center;
   left: 50%;
+  z-index: 1;
   transform: translate(-50%, -12px);
 }
 </style>
