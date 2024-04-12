@@ -22,6 +22,7 @@ hr::after {
   display: v-bind(display);
   position: absolute;
   place-content: center;
+  align-items: center;
   background: var(--bg-dark-color);
   width: 41px;
   height: 27px;
@@ -37,7 +38,7 @@ export default {
   props: ['text'],
   computed: {
     display() {
-      return this.text ? 'block' : 'none';
+      return this.text ? 'flex' : 'none';
     },
     margin() {
       return this.text ? '10px 0' : '0';

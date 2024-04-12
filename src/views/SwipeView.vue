@@ -30,7 +30,7 @@ main.carousell {
   scroll-snap-type: x mandatory;
   scroll-snap-stop: always;
 
-  overflow-x: v-bind(allowScroll ? 'scroll' : 'hidden');
+  overflow-x: v-bind("allowScroll ? 'scroll' : 'hidden'");
   overflow-y: hidden;
 
   display: flex;
