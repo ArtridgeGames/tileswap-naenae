@@ -44,6 +44,7 @@ div.locked {
 <script>
 import { Task } from "../../assets/js/Task";
 import { formatTime } from "../../assets/js/Format";
+import { useStore } from '../../store/store';
 export default {
   props: ["challenge", "locked"],
   computed: {
@@ -51,16 +52,17 @@ export default {
       const maxMoves = this.challenge.settings.moveLimit.toString();
       const nPatterns = this.challenge.settings.patternCount.toString();
 
-      const score = "0";
-        // this.challenge.maxPercent !== 0
-        //   ? this.challenge.maxPercent !== 100
-        //     ? this.challenge.maxPercent + "%"
-        //     : this.challenge.timeLimit !== -1
-        //     ? formatTime(this.challenge.minTime)
-        //     : this.challenge.moveLimit !== -1
-        //     ? this.challenge.minMoves + " moves"
-        //     : ""
-        //   : "";
+      const store = useStore();
+      const stats = store.stats.challengesCompleted[this.challenge.id];
+      console.log(stats);
+      const score = stats ? (
+        stats.patternIndex !== undefined ? stats.patternIndex.toString()
+        : stats.completion !== undefined ? stats.completion + "%"
+        : stats.time !== undefined ? formatTime(stats.time)
+        : stats.moves !== undefined ? stats.moves + " moves" : null
+      ) : null;
+      
+      console.log(score);
 
       return (
         (!this.challenge.title
@@ -70,7 +72,7 @@ export default {
             nPatterns +
             " layouts"
           : this.challenge.title) +
-        ` ${(score && "<br>(") + score + (score && ")")}`
+        ` ${(score ? "| " + score : "")}`
       );
     },
     isTaskTarget() {
