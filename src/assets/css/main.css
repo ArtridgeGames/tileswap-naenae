@@ -7,7 +7,7 @@
   --font-family: TileSwap;
 
   --font-size-xs: 24px;
-  --font-size-sm: 24px;
+  --font-size-sm: 32px;
   --font-size-md: 48px;
   --font-size-lg: 64px;
   --title-font-size: 120px;
@@ -120,6 +120,20 @@ h1.title {
   font-size: var(--font-size-lg);
   text-align: center;
   margin: 50px 0;
+}
+
+h1 {
+  font-size: var(--font-size-sm);
+}
+p, li {
+  font-size: var(--font-size-sm);
+}
+.modal p, .modal li {
+  font-weight: bold;
+}
+ul {
+  list-style-position: inside;
+  padding: 0;
 }
 
 .fade {

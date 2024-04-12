@@ -12,7 +12,7 @@ button {
   border-radius: var(--button-border-radius);
   background-color: v-bind(backgroundColor);
   color: v-bind(color);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
   cursor: pointer;
   margin: 10px;
   display: inline-block;

@@ -181,9 +181,9 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
-        description: `
+        description: `<p>
         Attempt to master this first category by finishing a number of patterns in limited time
-          <ul>
+          </p><ul>
             <li>time : 60s</li>
             <li>patterns : 4</li>
           </ul>
@@ -198,9 +198,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
         Confirm your mastery of this first category by finishing a number of patterns in limited time
-          <ul>
+          </p><ul>
             <li>time : 60s</li>
             <li>patterns : 8</li>
           </ul>
@@ -215,9 +215,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
         Prove your expertize of this first category by finishing a number of patterns in limited time
-          <ul>
+          </p><ul>
             <li>time : 60s</li>
             <li>patterns : 16</li>
           </ul>
@@ -239,9 +239,9 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
-        description: `
+        description: `<p>
         Finish this classic pattern in 3 moves, you are allowed 2 mistakes
-          <ul>
+          </p><ul>
             <li>time : 60s</li>
             <li>patterns : 3</li>
           </ul>
@@ -259,9 +259,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
         Finish this classic pattern in 3 moves, you are allowed 1 mistakes
-          <ul>
+          </p><ul>
             <li>time : 60s</li>
             <li>patterns : 7</li>
           </ul>
@@ -279,9 +279,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
         Finish this classic pattern in 3 moves, you are not allowed any mistake
-          <ul>
+          </p><ul>
             <li>time : 60s</li>
             <li>patterns : 30</li>
           </ul>
@@ -304,9 +304,9 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
-        description: `
+        description: `<p>
         Go from A to Z
-          <ul>
+          </p><ul>
             <li>time per pattern : 26s</li>
             <li>patterns : 26</li>
           </ul>
@@ -324,9 +324,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
         Go from A to Z
-          <ul>
+          </p><ul>
             <li>time per pattern : 10s</li>
             <li>patterns : 26</li>
           </ul>
@@ -344,9 +344,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
         Go from A to Z
-          <ul>
+          </p><ul>
             <li>time per pattern : 5s</li>
             <li>patterns : 26</li>
           </ul>
@@ -371,9 +371,9 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
-        description: `
+        description: `<p>
         Go from 0 to 9
-          <ul>
+          </p><ul>
             <li>clicks : 45</li>
             <li>patterns : 10</li>
           </ul>
@@ -389,9 +389,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
         Go from 0 to 9
-          <ul>
+          </p><ul>
             <li>clicks : 45</li>
             <li>patterns : 10</li>
           </ul>
@@ -407,9 +407,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
         Go from 0 to 9. You are not allowed any mistakes
-          <ul>
+          </p><ul>
             <li>clicks : 45</li>
             <li>patterns : 10</li>
           </ul>
@@ -432,9 +432,9 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
-        description: `
+        description: `<p>
         Attempt to master this third category by finishing a number of patterns in limited time
-          <ul>
+          </p><ul>
             <li>time : 60s</li>
             <li>patterns : 6</li>
           </ul>
@@ -450,9 +450,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
         Confirm your mastery of this third category by finishing a number of patterns in limited time
-          <ul>
+          </p><ul>
             <li>time : 60s</li>
             <li>patterns : 8</li>
           </ul>
@@ -468,9 +468,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
         Prove your expertize of this third category by finishing a number of patterns in limited time
-          <ul>
+          </p><ul>
             <li>time : 60s</li>
             <li>patterns : 16</li>
           </ul>
@@ -493,9 +493,9 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
-        description: `
+        description: `<p>
         Finish this weird pattern as it keeps growing
-          <ul>
+          </p><ul>
             <li>time : 50s</li>
             <li>patterns : 4</li>
           </ul>
@@ -511,9 +511,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
         Finish this weird pattern as it keeps growing
-          <ul>
+          </p><ul>
             <li>time : 50s</li>
             <li>patterns : 4</li>
           </ul>
@@ -530,9 +530,9 @@ export const CHALLENGES = [
       }),
       //TODO: add more patterns for expert
       new Challenge({
-        description: `
+        description: `<p>
         Finish this weird pattern as it keeps growing
-          <ul>
+          </p><ul>
             <li>time : 50s</li>
             <li>patterns : 4</li>
           </ul>
@@ -555,9 +555,9 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
-        description: `
+        description: `<p>
         Attempt to master this fourth category by finishing a number of patterns in limited time
-          <ul>
+          </p><ul>
             <li>time : 60s</li>
             <li>patterns : 6</li>
           </ul>
@@ -574,9 +574,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
         Confirm your mastery of this fourth category by finishing a number of patterns in limited time
-          <ul>
+          </p><ul>
             <li>time : 60s</li>
             <li>patterns : 7</li>
           </ul>
@@ -592,9 +592,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
         Prove your expertize of this fourth category by finishing a number of patterns in limited time
-          <ul>
+          </p><ul>
             <li>time : 70s</li>
             <li>patterns : 14</li>
           </ul>
@@ -617,9 +617,9 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
-        description: `
+        description: `<p>
         Simply finish this pattern 4 times
-          <ul>
+          </p><ul>
             <li>patterns : 4</li>
           </ul>
         `,
@@ -633,9 +633,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
         Simply finish this pattern 4 times
-          <ul>
+          </p><ul>
             <li>time : 60s</li>
             <li>patterns : 4</li>
           </ul>
@@ -651,9 +651,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
         Finish this pattern 6 times
-          <ul>
+          </p><ul>
             <li>patterns : 6</li>
             <li>clicks per pattern: 20</li>
           </ul>
@@ -682,9 +682,9 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
-        description: `
+        description: `<p>
         Attempt to master this fifth category by finishing a number of patterns in limited time
-          <ul>
+          </p><ul>
             <li>time : 60s</li>
             <li>patterns : 6</li>
           </ul>
@@ -701,9 +701,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
         Confirm your mastery of this fifth category by finishing a number of patterns in limited time
-          <ul>
+          </p><ul>
             <li>time : 60s</li>
             <li>patterns : 10</li>
           </ul>
@@ -719,9 +719,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
         Prove your expertize of this fifth category by finishing a number of patterns in limited time
-          <ul>
+          </p><ul>
             <li>time : 60s</li>
             <li>patterns : 16</li>
           </ul>
@@ -744,9 +744,9 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
-        description: `
+        description: `<p>
         Attempt to master this sixth category by finishing a number of patterns in limited time
-          <ul>
+          </p><ul>
             <li>time : 60s</li>
             <li>patterns : 6</li>
           </ul>
@@ -762,9 +762,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
         Confirm your mastery of this sixth category by finishing a number of patterns in limited time
-          <ul>
+          </p><ul>
             <li>time : 60s</li>
             <li>patterns : 9</li>
           </ul>
@@ -780,9 +780,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
         Prove your expertize of this sixth category by finishing a number of patterns in limited time
-          <ul>
+          </p><ul>
             <li>time : 120s</li>
             <li>patterns : 18</li>
           </ul>
@@ -805,9 +805,9 @@ export const CHALLENGES = [
     allUnlocked: true,
     challenges: [
       new Challenge({
-        description: `
+        description: `<p>
           Survive as long as you can as this pattern slowly corrupts. Every pattern you finish gives you extra time
-          <ul>
+          </p><ul>
             <li>time : 60s</li>
             <li>extra time : 5s</li>
             <li>patterns : infinite</li>
@@ -828,9 +828,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
           Survive as long as you can as this pattern slowly corrupts. Every pattern you finish gives you extra time
-          <ul>
+          </p><ul>
             <li>time : 30s</li>
             <li>extra time : 5s</li>
             <li>patterns : infinite</li>
@@ -851,9 +851,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
           Survive as long as you can as this pattern slowly corrupts. Every pattern you finish gives you extra time
-          <ul>
+          </p><ul>
             <li>time : 45</li>
             <li>extra time : 15s</li>
             <li>patterns : infinite</li>
@@ -881,7 +881,7 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
-        description: `
+        description: `<p>
           CHALLENGE NOT DONE
         `,
         id: 33,
@@ -895,7 +895,7 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
           CHALLENGE NOT DONE
         `,
         id: 34,
@@ -909,7 +909,7 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
           CHALLENGE NOT DONE
         `,
         id: 35,
@@ -930,9 +930,9 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
-        description: `
+        description: `<p>
         Attempt to master this seventh category by finishing a number of patterns in limited time
-          <ul>
+          </p><ul>
             <li>time : 60s</li>
             <li>patterns : 6</li>
           </ul>
@@ -948,9 +948,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
         Confirm your mastery of this sixth category by finishing a number of patterns in limited time
-          <ul>
+          </p><ul>
             <li>time : 80s</li>
             <li>patterns : 9</li>
           </ul>
@@ -966,9 +966,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
         Prove your expertize of this sixth category by finishing a number of patterns in limited time
-          <ul>
+          </p><ul>
             <li>time : 90s</li>
             <li>patterns : 18</li>
           </ul>
@@ -991,9 +991,9 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
-        description: `
+        description: `<p>
           Play as one pattern slowly switches into another
-          <ul>
+          </p><ul>
             <li>time : 50s</li>
             <li>patterns : 5</li>
           </ul>
@@ -1010,9 +1010,9 @@ export const CHALLENGES = [
       }),
       new Challenge({
         id: 40,
-        description: `
+        description: `<p>
           Play as one pattern slowly switches into another
-          <ul>
+          </p><ul>
             <li>time : 55s</li>
             <li>patterns : 5</li>
           </ul>
@@ -1027,7 +1027,7 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
           CHALLENGE NOT DONE
         `,
         id: 41,
@@ -1048,9 +1048,9 @@ export const CHALLENGES = [
     allUnlocked: true,
     challenges: [
       new Challenge({
-        description: `
+        description: `<p>
           Survive as long as you can as the pattern changes according to Conway's game of life  
-          <ul>
+          </p><ul>
             <li>time : infinite</li>
             <li>patterns : infinite</li>
           </ul>
@@ -1070,9 +1070,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
           Survive as long as you can as the pattern changes according to Conway's game of life  
-          <ul>
+          </p><ul>
             <li>time : infinite</li>
             <li>patterns : infinite</li>
           </ul>
@@ -1092,9 +1092,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
           Survive as long as you can as the pattern changes according to Conway's game of life  
-          <ul>
+          </p><ul>
             <li>time : infinite</li>
             <li>patterns : infinite</li>
           </ul>
@@ -1121,9 +1121,9 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
-        description: `
+        description: `<p>
           Finish this simple pattern as the number of tile states keeps increasing 
-          <ul>
+          </p><ul>
             <li>time : 100</li>
             <li>patterns : 3</li>
           </ul>
@@ -1143,9 +1143,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
           Finish this simple pattern as the number of tile states keeps increasing 
-          <ul>
+          </p><ul>
             <li>time : 100</li>
             <li>patterns : 4</li>
           </ul>
@@ -1166,9 +1166,9 @@ export const CHALLENGES = [
         })
       }),
       new Challenge({
-        description: `
+        description: `<p>
           Finish this simple pattern as the number of tile states keeps increasing 
-          <ul>
+          </p><ul>
             <li>time : 100</li>
             <li>patterns : 5</li>
           </ul>
@@ -1197,9 +1197,9 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
-        description: `
+        description: `<p>
         Finish this weird pattern as it keeps growing
-          <ul>
+          </p><ul>
             <li>time : 120s</li>
             <li>patterns : 10</li>
           </ul>
@@ -1222,9 +1222,9 @@ export const CHALLENGES = [
     allUnlocked: false,
     challenges: [
       new Challenge({
-        description: `
+        description: `<p>
         Finish this weird pattern as it keeps shrinking
-          <ul>
+          </p><ul>
             <li>time : 120s</li>
             <li>patterns : 7</li>
           </ul>

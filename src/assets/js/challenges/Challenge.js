@@ -449,7 +449,7 @@ export class ChallengeProcess {
       
       if (this.settings.timeLimit !== -1) {
         const time = this.settings.timeLimit - this.timeRemaining;
-        if (currentStats) {
+        if (currentStats && currentStats.time) {
           if (time < currentStats.time) {
             result.time = time;
           } else {
@@ -462,7 +462,7 @@ export class ChallengeProcess {
 
       if (this.settings.moveLimit !== -1) {
         const moves = this.settings.moveLimit - this.movesRemaining;
-        if (currentStats) {
+        if (currentStats && currentStats.moves) {
           if (moves < currentStats.moves) {
             result.moves = moves;
           } else {

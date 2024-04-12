@@ -68,12 +68,12 @@ main > div.category {
   color: var(--hl-text-color);
   position: absolute;
   background: var(--bg-dark-color);
-  width: 41px;
-  height: 27px;
+  width: 55px;
+  height: 32px;
   border-radius: 10px;
   text-align: center;
   left: 50%;
-  transform: translate(-50%, -22px);
+  transform: translate(-50%, -27px);
   align-items: center;
   justify-content: center;
 }
@@ -81,7 +81,7 @@ main > div.category {
 
 main > div.progress {
   width: 70%;
-  margin-top: 9px;
+  margin-top: 13px;
 }
 
 .position {
@@ -90,7 +90,7 @@ main > div.progress {
   justify-content: center;
   align-items: center;
   z-index: 100;
-  margin-top: 15px;
+  margin-top: 10px;
   padding: 10px;
   border-radius: 15px;
   position: relative;

@@ -54,15 +54,12 @@ export default {
 
       const store = useStore();
       const stats = store.stats.challengesCompleted[this.challenge.id];
-      console.log(stats);
       const score = stats ? (
         stats.patternIndex !== undefined ? stats.patternIndex.toString()
         : stats.completion !== undefined ? stats.completion + "%"
         : stats.time !== undefined ? formatTime(stats.time)
         : stats.moves !== undefined ? stats.moves + " moves" : null
       ) : null;
-      
-      console.log(score);
 
       return (
         (!this.challenge.title
@@ -78,6 +75,12 @@ export default {
     isTaskTarget() {
       return Task.isTaskTarget(this.challenge.id, Task.TASK_TYPES.CHALLENGE);
     },
+    isCompleted() {
+      const store = useStore();
+      if (store.stats.challengesCompleted[this.challenge.id]) {
+        return store.stats.challengesCompleted[this.challenge.id].completed;
+      }
+    }
   },
 };
 </script>
@@ -90,7 +93,7 @@ export default {
   border-radius: var(--button-border-radius);
   background-color: var(--hl-color);
   color: v-bind(color);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
   cursor: pointer;
   margin: 5px 10px;
   display: inline-block;

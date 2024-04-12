@@ -11,7 +11,7 @@ div {
   width: 100%;
   height: 100%;
   color: var(--color);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
   cursor: pointer;
   display: flex;
   justify-content: center;

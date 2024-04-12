@@ -50,10 +50,7 @@ import Modal from '../../components/Modal.vue';
 
     <Modal v-model="showIntroductionModal">
       <h1>
-        In this mode, you have to complete the pattern in the given time or
-        moves. You can only swap the tiles in the pattern. The pattern will
-        change after every successful completion. You can pause the game at any
-        time.
+        TODO: Add a description of the challenge mode here
       </h1>
       <Button black text="got it!" @pressed="showIntroductionModal = false" />
     </Modal>
