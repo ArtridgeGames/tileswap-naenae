@@ -82,10 +82,10 @@ export default {
   margin:5px;
 }
 h2{
-    margin: 10px 0 20px;
-    font-size: 25px;
-    text-align: center;
-    white-space: nowrap;
+  margin: 10px 0 20px;
+  font-size: var(--font-size-sm);
+  text-align: center;
+  white-space: nowrap;
 }
 .custom-slider {
   border: none;

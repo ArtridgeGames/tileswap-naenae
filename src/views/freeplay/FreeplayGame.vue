@@ -5,9 +5,9 @@ import Button from "../../components/buttons/Button.vue";
 import DifficultySlider from "../../components/DifficultySlider.vue";
 import ModuloSlider from "../../components/ModuloSlider.vue";
 import Modal from "../../components/Modal.vue";
-import LinkButton from "../../components/buttons/LinkButton.vue";
 import DevMode from "../../components/DevMode.vue";
 import Progress from "../../components/Progress.vue";
+import BackButton from "../../components/buttons/BackButton.vue";
 </script>
 
 <template>
@@ -26,21 +26,15 @@ import Progress from "../../components/Progress.vue";
       <Button text="reset" @pressed="reset" />
     </div>
 
-    <p
+    <h2
       v-show="moves > 0"
-      class="move-counter top"
-      :class="{
-        left: windowWidth < 600,
-        center: windowWidth >= 600,
-      }"
+      class="move-counter top center"
     >
       {{ moves }} move{{ moves > 1 ? "s" : "" }}
-    </p>
+    </h2>
 
-    <div class="top right">
-      <LinkButton text="back" to="/home" />
-      <ModuloSlider v-if="store.score >= store.categories[10]" v-model="internalModulo" />
-    </div>
+    <BackButton to="/home" class="top left" />
+    <ModuloSlider class="top right" v-if="store.score >= store.categories[10]" v-model="internalModulo" />
 
     <main>
       <Transition name="fade" mode="out-in">
@@ -113,7 +107,7 @@ main {
   transform: translate(-50%, -50%);
 }
 .move-counter {
-  font-size: 30px;
+  font-size: var(font-size-sm);
 }
 
 .open-dev {
@@ -156,9 +150,6 @@ main {
     transform: translateX(-50%);
     margin: 0;
     margin-bottom: 10px;
-  }
-  .move-counter {
-    margin-left: 20px;
   }
 }
 </style>

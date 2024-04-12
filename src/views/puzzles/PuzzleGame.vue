@@ -1,21 +1,21 @@
 <script setup>
 import { useStore } from "../../store/store";
-import LinkButton from "../../components/buttons/LinkButton.vue";
 import Button from "../../components/buttons/Button.vue";
 import Layout from "../../components/Layout.vue";
 import Modal from "../../components/Modal.vue";
 import { useWindow } from "../../assets/js/window.js";
 import tutorialUrl from "/images/svg/tutorial.svg";
 import IconButton from "../../components/buttons/IconButton.vue";
+import BackButton from "../../components/buttons/BackButton.vue";
 import Progress from "../../components/Progress.vue";
 </script>
 
 <template>
   <div>
 
-    <LinkButton class="top right" text="back" to="/home" />
+    <BackButton class="top left" to="/home" />
     <IconButton
-      class="top left"
+      class="top right"
       :icon="tutorialUrl"
       @pressed="showExplanationModal = true"
     />
@@ -40,17 +40,6 @@ import Progress from "../../components/Progress.vue";
         @swap="handleClick"
       />
     </main>
-
-    <!-- <div class="target" :class="{
-        left: windowWidth > 600,
-        middle: windowWidth > 600,
-        top: windowWidth <= 600,
-        center: windowWidth <= 600
-      }">
-
-      <Layout v-model="puzzle.target" disabled small />
-
-    </div> -->
 
     <Modal v-model="showWinModal">
       <h1>you won in {{ moves }} move{{ moves > 1 ? "s" : "" }}!</h1>

@@ -1,18 +1,17 @@
 <script setup>
-import LinkButton from '../../components/buttons/LinkButton.vue';
 import Button from '../../components/buttons/Button.vue';
 import CSB from '../../components/challenges/ChallengeSelectionButton.vue';
 import ChallengeCategoryButton from '../../components/challenges/ChallengeCategoryButton.vue';
 import Separator from '../../components/Separator.vue';
 import Modal from '../../components/Modal.vue';
+import BackButton from '../../components/buttons/BackButton.vue';
 </script>
 
 <template>
   <div class="challenge-selection-container">
     <h1 class="title" v-if="!selectedChallengeGroup">Challenges</h1>
     <h1 class="title" v-else>{{ selectedChallengeGroup.title }}</h1>
-    <!-- <LinkButton v-if="!categoryName" class="top right" text="back" to="/home" /> -->
-    <Button v-if="selectedChallengeGroup" class="top right" text="back" @pressed="back" />
+    <BackButton v-if="selectedChallengeGroup" class="top left" @click="back" />
 
     <Transition name="fade" mode="out-in">
       <div class="container" :key="selectedChallengeGroup">
@@ -46,6 +45,7 @@ import Modal from '../../components/Modal.vue';
     <Modal v-model="showModal">
       <div v-html="selectedChallenge.description"></div>
       <Button black text="start!" @pressed="showModal = false; start();" />
+      <Button black text="back" @pressed="showModal = false" />
     </Modal>
 
     <Modal v-model="showIntroductionModal">
