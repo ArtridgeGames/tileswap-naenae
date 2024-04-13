@@ -471,7 +471,7 @@ export const CHALLENGES = [
         description: `<p>
         Prove your expertize of this third category by finishing a number of patterns in limited time
           </p><ul>
-            <li>time : 60s</li>
+            <li>time : 75s</li>
             <li>patterns : 16</li>
           </ul>
         `,
@@ -533,7 +533,7 @@ export const CHALLENGES = [
         description: `<p>
         Finish this weird pattern as it keeps growing
           </p><ul>
-            <li>time : 50s</li>
+            <li>time : 30s</li>
             <li>patterns : 4</li>
           </ul>
         `,
@@ -685,7 +685,7 @@ export const CHALLENGES = [
         description: `<p>
         Attempt to master this fifth category by finishing a number of patterns in limited time
           </p><ul>
-            <li>time : 60s</li>
+            <li>time : 45s</li>
             <li>patterns : 6</li>
           </ul>
         `,
@@ -882,7 +882,7 @@ export const CHALLENGES = [
     challenges: [
       new Challenge({
         description: `<p>
-          CHALLENGE NOT DONE
+          CHALLENGE NOT DONE</p>
         `,
         id: 33,
         title: 'Normal',
@@ -896,7 +896,7 @@ export const CHALLENGES = [
       }),
       new Challenge({
         description: `<p>
-          CHALLENGE NOT DONE
+          CHALLENGE NOT DONE</p>
         `,
         id: 34,
         title: 'Hard',
@@ -910,7 +910,7 @@ export const CHALLENGES = [
       }),
       new Challenge({
         description: `<p>
-          CHALLENGE NOT DONE
+          CHALLENGE NOT DONE</p>
         `,
         id: 35,
         title: 'Survival',
@@ -1028,7 +1028,7 @@ export const CHALLENGES = [
       }),
       new Challenge({
         description: `<p>
-          CHALLENGE NOT DONE
+          CHALLENGE NOT DONE</p>
         `,
         id: 41,
         title: 'EXPERT TODO',
@@ -1289,7 +1289,7 @@ export const CHALLENGES = [
     return challenge;
   });
   return category;
-})
+});
 
 /*
 export const OLD_CHALLENGES = [
