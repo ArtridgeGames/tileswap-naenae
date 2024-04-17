@@ -40,6 +40,7 @@ import PauseButton from "../../components/buttons/PauseButton.vue";
         :value="percentageCompleted"
         :max="100"
         :text="percentageCompleted + '%'"
+        barColor="var(--score-color)"
       />
     </div>
 
