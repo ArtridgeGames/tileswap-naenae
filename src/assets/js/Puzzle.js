@@ -343,7 +343,8 @@ export class Puzzle {
         [0, 0, 2, 2, 2, 0, 0]
       ],
       solution: [10, 14, 20, 31, 42, 48]
-      , unlockCategory: 9
+      , unlockCategory: 9,
+      modulo: 3
     },
     {
       "moves": 12,
@@ -1948,6 +1949,7 @@ export class Puzzle {
         [2, 1, 1, 1, 0, 0, 0, 0, 2],
         [2, 2, 2, 0, 0, 0, 2, 2, 2]
       ],
+      modulo: 3,
       solution: [16, 42, 43, 44, 50, 51, 52, 53, 55, 58, 59, 70]
       , unlockCategory: 9
     },
@@ -2017,8 +2019,9 @@ export class Puzzle {
         [2, 2, 1, 1, 1, 2, 2],
         [2, 2, 2, 1, 2, 2, 2]
       ],
-      solution: [5, 7, 8, 12, 21, 22, 24, 27, 33]
-      , unlockCategory: 9
+      solution: [5, 7, 8, 12, 21, 22, 24, 27, 33],
+      unlockCategory: 9,
+      modulo: 3,
     },
     {
       moves: 50,
@@ -3067,6 +3070,7 @@ export class Puzzle {
    * @param {Layout} layout the layout to check
    */
   isSolvedWith(layout) {
+    console.log(this.target.matrix, layout.matrix);
     return this.target.matrix
       .every((row, i) =>
         row.every((tile, j) => tile === layout.matrix[i][j])

@@ -14,11 +14,38 @@ import Progress from "../../components/Progress.vue";
   <div>
 
     <BackButton class="top left" to="/home" />
-    <IconButton
-      class="top right"
-      :icon="tutorialUrl"
-      @pressed="showExplanationModal = true"
-    />
+
+    <div class="top center medals">
+      <h2 v-if="completionMoves !== -1">
+        your best:
+        <span class="medal" :style="{
+          backgroundColor: color(completionMoves)
+        }">
+          {{ completionMoves }}
+        </span>
+      </h2>
+      <h2 v-if="nextMedal !== -1">
+        next medal: 
+        <span class="medal" :style="{
+          backgroundColor: color(nextMedal)
+        }">
+          {{ nextMedal }}
+        </span>
+      </h2>
+    </div>
+
+    <div class="top right modulo">
+      <div class="balls">
+        <div
+        v-for="i in puzzle.modulo"
+        :key="i"
+        :style="{
+          backgroundColor: gradient[i - 1]
+        }"
+        ></div>
+      </div>
+      <h2>{{ puzzle.modulo }}</h2>
+    </div>
 
     <div
       class="info center"
@@ -28,9 +55,12 @@ import Progress from "../../components/Progress.vue";
       }"
     >
       <h1 v-show="moves > 0">{{ moves }} move{{ moves > 1 ? "s" : "" }}</h1>
-      <h1>{{ completionMoves }}</h1>
-      <h1>{{ nextMedal }}</h1>
-      <Button text="retry" @pressed="reset" />
+      <div>
+        <Button text="retry" @pressed="reset" />
+        <button class="explanation" @pressed="showExplanationModal = true">
+          <img :src="tutorialUrl" />
+        </button>
+      </div>
     </div>
 
     <main class="puzzle-container">
@@ -43,7 +73,7 @@ import Progress from "../../components/Progress.vue";
 
     <Modal v-model="showWinModal">
       <h1>you won in {{ moves }} move{{ moves > 1 ? "s" : "" }}!</h1>
-      <h1>{{ nextMedal }}</h1>
+      <h1 v-if="nextMedal !== -1">next medal: {{ nextMedal }}</h1>
       <p style="font-size: var(--font-size-xs); margin: 14px 0">+ {{ puzzle.latestAddedScore }} score</p>
       <Progress
         :value="store.score"
@@ -92,14 +122,68 @@ main.puzzle-container {
 .info {
   text-align: center;
   width: max-content;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 40px;
 }
-
+.info > div {
+  display: flex;
+}
+.info .explanation {
+  margin: 10px;
+  background: white;
+  border-radius: var(--button-border-radius);
+  border: none;
+  width: 55px;
+  height: 55px;
+}
+.info .explanation img {
+  width: 30px;
+  height: 30px;
+}
 .info > h1 {
   margin: 0;
 }
-
 .info > h1:last-of-type {
   margin-bottom: 15px;
+}
+
+.modulo {
+  margin: 20px;
+  width: fit-content;
+  display: flex;
+  gap: 5px;
+}
+.modulo .balls {
+  display: flex;
+  align-items: center;
+}
+.modulo .balls > div {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin: 3px;
+}
+.modulo > h2 {
+  font-size: var(--font-size-sm);
+  margin: 0;
+}
+
+.medals {
+  margin-top: 50px;
+  text-align: center;
+}
+.medals > h2 {
+  font-size: var(--font-size-xs);
+  margin: 5px 0;
+}
+
+.medals .medal {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  align-content: center;
 }
 
 .explanation {
@@ -136,6 +220,7 @@ main.puzzle-container {
 <script>
 import { Task } from "../../assets/js/Task";
 import { Puzzle } from "../../assets/js/Puzzle";
+import { gradient } from '../../assets/js/LayoutShared.js';
 export default {
   data() {
     const store = useStore();
@@ -159,15 +244,15 @@ export default {
   computed: {
     completionMoves() {
       return this.puzzle.completionMoves === -1
-        ? ""
-        : `current best: ${this.puzzle.completionMoves} moves`;
+        ? -1
+        : this.puzzle.completionMoves;
     },
     nextMedal() {
       const { medal, movesRequiredForNextMedal } = this.puzzle.medalFromMoves(this.puzzle.completionMoves);
-      if (medal === Puzzle.MEDALS.NOT_COMPLETED) return "";
-      if (medal === Puzzle.MEDALS.GOLD) return "";
-      if (medal === Puzzle.MEDALS.SILVER) return `next medal: ${movesRequiredForNextMedal} moves`;
-      if (medal === Puzzle.MEDALS.BRONZE) return `next medal: ${movesRequiredForNextMedal} moves`;
+      if (medal === Puzzle.MEDALS.NOT_COMPLETED) return -1;
+      if (medal === Puzzle.MEDALS.GOLD) return -1;
+      if (medal === Puzzle.MEDALS.SILVER) return movesRequiredForNextMedal;
+      if (medal === Puzzle.MEDALS.BRONZE) return movesRequiredForNextMedal;
     },
     hasGold() {
       return this.puzzle.completionMoves <= this.puzzle.solution.length;
@@ -200,6 +285,16 @@ export default {
     },
     quit() {
       this.$router.push("/home");
+    },
+    color(moves) {
+      const solutionLength = this.puzzle.solution.length;
+      return !this.puzzle.solved
+        ? "var(--hl-color)"
+        : (moves <= solutionLength
+        ? "var(--success-color)"
+        : moves <= this.puzzle.silverMoves
+        ? "var(--silver-color)"
+        : "var(--bronze-color)");
     }
   },
 };
