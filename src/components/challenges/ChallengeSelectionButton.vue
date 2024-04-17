@@ -56,7 +56,7 @@ export default {
       const stats = store.stats.challengesCompleted[this.challenge.id];
       const score = stats ? (
         stats.patternIndex !== undefined ? stats.patternIndex.toString()
-        : stats.completion !== undefined ? stats.completion + "%"
+        : stats.completion !== undefined ? Math.floor(stats.completion) + "%"
         : stats.time !== undefined ? formatTime(stats.time)
         : stats.moves !== undefined ? stats.moves + " moves" : null
       ) : null;
