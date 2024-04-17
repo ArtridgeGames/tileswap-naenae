@@ -12,6 +12,7 @@ button {
   width: 75px;
   height: 75px;
   padding: 0;
+  padding-top: 10px;
 }
 </style>
 

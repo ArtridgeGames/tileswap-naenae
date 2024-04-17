@@ -30,13 +30,17 @@ export const setModulo = (value) => {
 }
 
 export const gradient = computed(() => {
+  return getGradient(modulo.value);
+})
+
+export const getGradient = modulo => {
   const backColor = SETTINGS_DATA.tilesColor.value[0];
   const frontColor = SETTINGS_DATA.tilesColor.value[1];
   const difference = { r: frontColor.r - backColor.r, g: frontColor.g - backColor.g, b: frontColor.b - backColor.b }
-  return new Array(modulo.value).fill().map((e, i) => {
-    return `rgb(${difference.r * (i / (modulo.value - 1)) + backColor.r},${difference.g * (i / (modulo.value - 1)) + backColor.g},${difference.b * (i / (modulo.value - 1)) + backColor.b})`
+  return new Array(modulo).fill().map((e, i) => {
+    return `rgb(${difference.r * (i / (modulo - 1)) + backColor.r},${difference.g * (i / (modulo - 1)) + backColor.g},${difference.b * (i / (modulo - 1)) + backColor.b})`
   });
-})
+}
 
 export const outlineGradient = computed(() => {
   const backColor = SETTINGS_DATA.tilesColor.value[0];

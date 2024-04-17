@@ -28,7 +28,7 @@
   --score-color: #e58f65;
 
   --tile-border-radius: 30px;
-  --button-border-radius: 7px;
+  --button-border-radius: 12px;
   --sb-border-radius: 10px;
   --popup-border-radius: 15px;
 
@@ -253,6 +253,19 @@ ul {
 
 .text-center {
   text-align: center;
+}
+
+.pressable {
+  transition: transform 0.05s;
+}
+.pressable:not(.disabled):active {
+  transform: scale(0.95);
+}
+.pressable.center:not(.disabled):active {
+  transform: scale(0.95) translateX(-50%);
+}
+.pressable.middle:not(.disabled):active {
+  transform: scale(0.95) translateY(-50%);
 }
 
 .top,

@@ -1,5 +1,5 @@
 <template>
-  <button :class="{ disabled: isDisabled }" @click="handleClick" :disabled="isDisabled">
+  <button class="pressable" :class="{ disabled: isDisabled }" @click="handleClick" :disabled="isDisabled">
     {{ text }}
   </button>
 </template>
@@ -16,19 +16,9 @@ button {
   cursor: pointer;
   margin: 10px;
   display: inline-block;
-  transition: transform 0.05s;
 }
 button:focus {
   outline: none;
-}
-button:not(.disabled):active {
-  transform: scale(0.95);
-}
-button.center:not(.disabled):active {
-  transform: scale(0.95) translateX(-50%);
-}
-button.middle:not(.disabled):active {
-  transform: scale(0.95) translateY(-50%);
 }
 button.disabled {
   cursor: not-allowed;

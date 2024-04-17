@@ -20,10 +20,13 @@ import BackButton from "../../components/buttons/BackButton.vue";
       >
         <span> DEV </span>
       </div>
-
-      <DifficultySlider v-model="difficultyRange" :max="max" />
-      <Button text="randomize" @pressed="randomize" />
-      <Button text="reset" @pressed="reset" />
+      
+      <DifficultySlider v-model="difficultyRange" :max="max" @randomize="randomize" />
+      
+      <div class="buttons">
+        <Button text="reset" @pressed="reset" />
+        <Button text="hint" />
+      </div>
     </div>
 
     <h2
@@ -53,7 +56,7 @@ import BackButton from "../../components/buttons/BackButton.vue";
         setDevMode(true);
         showDevMode = true;
       "
-      v-if="!devMode"
+      v-if="!devMode && windowWidth > 600"
     >
       v
     </div>
@@ -100,6 +103,10 @@ import BackButton from "../../components/buttons/BackButton.vue";
   width: 240px;
   margin-left: 20px;
 }
+.top-menu .buttons {
+  display: flex;
+  width: 88%;
+}
 main {
   position: absolute;
   top: 50%;
@@ -109,7 +116,6 @@ main {
 .move-counter {
   font-size: var(font-size-sm);
 }
-
 .open-dev {
   background-color: black;
   color: red;
@@ -144,12 +150,15 @@ main {
   .top-menu {
     position: absolute;
     bottom: 0;
-    width: 80%;
+    width: 100%;
     text-align: center;
     left: 50%;
     transform: translateX(-50%);
     margin: 0;
     margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }
 </style>
