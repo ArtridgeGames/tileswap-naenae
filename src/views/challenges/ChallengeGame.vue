@@ -3,13 +3,47 @@ import Layout from "../../components/Layout.vue";
 import Modal from "../../components/Modal.vue";
 import Button from "../../components/buttons/Button.vue";
 import Progress from "../../components/Progress.vue";
+import PauseButton from "../../components/buttons/PauseButton.vue";
 </script>
 
 <template>
   <div>
-    <Button class="top right" text="pause" @pressed="pause" />
+    <div class="top info center">
+      <div>
+        <PauseButton @pause="pause" />
+        <div class="modulo">
+          <div class="balls">
+            <div
+            v-for="i in modulo"
+            :key="i"
+            :style="{
+              backgroundColor: gradient[i - 1]
+            }"
+            ></div>
+          </div>
+          <h2>{{ modulo }}</h2>
+        </div>
+      </div>
+      <div>
+        <h2>{{ moves }}</h2>
+        <h2>{{ formattedTime }}</h2>
+      </div>
+    </div>
 
-    <div>
+    <div class="bottom info">
+      <div class="per">
+        <h2>{{ movesPer }}</h2>
+        <h2>{{ formattedTimePer }}</h2>
+      </div>
+      <Progress
+        class="progress"
+        :value="percentageCompleted"
+        :max="100"
+        :text="percentageCompleted + '%'"
+      />
+    </div>
+
+    <!-- <div>
       <h2 class="info center">
         {{  [formattedTime, moves, currentChallenge.settings.isInfinite ? null : percentageCompleted + "%"].filter(e => e).join(' - ')  }}
       </h2>
@@ -19,7 +53,8 @@ import Progress from "../../components/Progress.vue";
         :value="percentageCompleted"
         :max="100"
       />
-    </div>
+    </div> -->
+
     <main>
       <Transition name="fade" mode="out-in">
         <Layout
@@ -65,31 +100,59 @@ main {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.info {
-  position: absolute;
-  top: 70px;
-  font-size: var(--font-size-md);
-  width: 100%;
-  white-space: normal;
+
+.top.info {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  gap: 20px;
 }
-.per {
-  position: absolute;
-  bottom: 5%;
-  font-size: var(--font-size-lg);
-  pointer-events: none;
+
+.top.info > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.bottom.info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+  gap: 20px;
+}
+
+.bottom.info > .per {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
 }
 
 .progress {
-  width: 50%;
-  top: 150px;
-  height: 20px;
+  width: 90%;
+  height: 30px;
   background-color: var(--hl-color);
 }
 
-@media screen and (max-width: 600px) {
-  .progress {
-    width: 90%;
-  }
+.modulo {
+  margin: 20px 0;
+  width: fit-content;
+  display: flex;
+  gap: 5px;
+}
+.modulo .balls {
+  display: flex;
+  align-items: center;
+}
+.modulo .balls > div {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin: 3px;
+}
+h2 {
+  font-size: var(--font-size-sm);
+  margin: 0;
 }
 </style>
 
@@ -97,7 +160,7 @@ main {
 import { useStore } from "../../store/store.js";
 import { Task } from "../../assets/js/Task";
 import { formatTime } from "../../assets/js/Format";
-import { modulo, setModulo } from "../../assets/js/LayoutShared.js";
+import { modulo, setModulo, gradient } from "../../assets/js/LayoutShared.js";
 import { ChallengeProcess } from "../../assets/js/challenges/Challenge";
 
 export default {

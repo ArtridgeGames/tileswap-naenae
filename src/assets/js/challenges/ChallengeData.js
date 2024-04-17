@@ -174,6 +174,23 @@ export const getPatternFromIdWithPadding = (id, padding) => {
   });
 }
 
+const testChallenge = new Challenge({
+  description: `TEST CHALLENGE`,
+  id: -1,
+  title: 'TEST CHALLENGE',
+  settings: new ChallengeProperties({
+    timeLimit: 99999999,
+    moveLimit: 99999999,
+    patternList: patternList([0]),
+    patternCount: 10,
+    difficulty: uniform(10, 3),
+    defaults: {
+      timeLimitPerPattern: 99999999,
+      moveLimitPerPattern: 99999999
+    }
+  })
+});
+
 export const CHALLENGES = [
   {
     title: "Category 1",
