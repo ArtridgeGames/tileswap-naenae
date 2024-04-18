@@ -396,7 +396,7 @@ export const CHALLENGES = [
           </ul>
         `,
         id: 9,
-        title: 'Count',
+        title: 'Normal',
         settings: new ChallengeProperties({
           moveLimit: 45,
           patternList: patternList([156, 157, 158, 159, 160, 161, 162, 163, 164, 165]),
@@ -414,7 +414,7 @@ export const CHALLENGES = [
           </ul>
         `,
         id: 10,
-        title: 'Count',
+        title: 'Hard',
         settings: new ChallengeProperties({
           moveLimit: 45,
           patternList: patternList([156, 157, 158, 159, 160, 161, 162, 163, 164, 165]),
@@ -432,7 +432,7 @@ export const CHALLENGES = [
           </ul>
         `,
         id: 11,
-        title: 'Count',
+        title: 'Expert',
         settings: new ChallengeProperties({
           moveLimit: 45,
           patternList: patternList([156, 157, 158, 159, 160, 161, 162, 163, 164, 165]),
