@@ -8,7 +8,7 @@ import BackButton from '../../components/buttons/BackButton.vue';
 </script>
 
 <template>
-  <div class="challenge-selection-container">
+  <main>
     <h1 class="title" v-if="!selectedChallengeGroup">Challenges</h1>
     <h1 class="title" v-else>{{ selectedChallengeGroup.title }}</h1>
     <BackButton v-if="selectedChallengeGroup" class="top left" @click="back" />
@@ -55,16 +55,17 @@ import BackButton from '../../components/buttons/BackButton.vue';
       <Button black text="got it!" @pressed="showIntroductionModal = false" />
     </Modal>
 
-  </div>
+  </main>
 </template>
 
 <style scoped>
 div.container {
   text-align: center;
 }
-div.challenge-selection-container {
+main {
   height: 100%;
   overflow-y: scroll;
+  position: relative;
 }
 </style>
 

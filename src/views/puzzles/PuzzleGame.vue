@@ -5,9 +5,9 @@ import Layout from "../../components/Layout.vue";
 import Modal from "../../components/Modal.vue";
 import { useWindow } from "../../assets/js/window.js";
 import tutorialUrl from "/images/svg/tutorial.svg";
-import IconButton from "../../components/buttons/IconButton.vue";
 import BackButton from "../../components/buttons/BackButton.vue";
 import Progress from "../../components/Progress.vue";
+import ModuloViewer from "../../components/ModuloViewer.vue";
 </script>
 
 <template>
@@ -34,19 +34,8 @@ import Progress from "../../components/Progress.vue";
       </h2>
     </div>
 
-    <div class="top right modulo">
-      <div class="balls">
-        <div
-        v-for="i in puzzle.modulo"
-        :key="i"
-        :style="{
-          backgroundColor: gradient[i - 1]
-        }"
-        ></div>
-      </div>
-      <h2>{{ puzzle.modulo }}</h2>
-    </div>
-
+    <ModuloViewer class="top right" :modulo="puzzle.modulo" v-if="store.score >= store.categories[10] || modulo > 2" />
+    
     <div
       class="info center"
       :class="{
@@ -57,7 +46,7 @@ import Progress from "../../components/Progress.vue";
       <h1 v-show="moves > 0">{{ moves }} move{{ moves > 1 ? "s" : "" }}</h1>
       <div>
         <Button text="retry" @pressed="reset" />
-        <button class="explanation" @pressed="showExplanationModal = true">
+        <button class="explanation pressable" @click="showExplanationModal = true">
           <img :src="tutorialUrl" />
         </button>
       </div>
@@ -146,27 +135,6 @@ main.puzzle-container {
 }
 .info > h1:last-of-type {
   margin-bottom: 15px;
-}
-
-.modulo {
-  margin: 20px;
-  width: fit-content;
-  display: flex;
-  gap: 5px;
-}
-.modulo .balls {
-  display: flex;
-  align-items: center;
-}
-.modulo .balls > div {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  margin: 3px;
-}
-.modulo > h2 {
-  font-size: var(--font-size-sm);
-  margin: 0;
 }
 
 .medals {

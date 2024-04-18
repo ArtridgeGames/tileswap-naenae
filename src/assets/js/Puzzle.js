@@ -3070,7 +3070,6 @@ export class Puzzle {
    * @param {Layout} layout the layout to check
    */
   isSolvedWith(layout) {
-    console.log(this.target.matrix, layout.matrix);
     return this.target.matrix
       .every((row, i) =>
         row.every((tile, j) => tile === layout.matrix[i][j])

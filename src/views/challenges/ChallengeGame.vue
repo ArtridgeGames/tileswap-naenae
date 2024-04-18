@@ -4,6 +4,7 @@ import Modal from "../../components/Modal.vue";
 import Button from "../../components/buttons/Button.vue";
 import Progress from "../../components/Progress.vue";
 import PauseButton from "../../components/buttons/PauseButton.vue";
+import ModuloViewer from "../../components/ModuloViewer.vue";
 </script>
 
 <template>
@@ -11,18 +12,7 @@ import PauseButton from "../../components/buttons/PauseButton.vue";
     <div class="top info center">
       <div>
         <PauseButton @pause="pause" />
-        <div class="modulo">
-          <div class="balls">
-            <div
-            v-for="i in modulo"
-            :key="i"
-            :style="{
-              backgroundColor: gradient[i - 1]
-            }"
-            ></div>
-          </div>
-          <h2>{{ modulo }}</h2>
-        </div>
+        <ModuloViewer :modulo="modulo" v-if="store.score >= store.categories[10] || modulo > 2" />
       </div>
       <div>
         <h2>{{ moves }}</h2>
