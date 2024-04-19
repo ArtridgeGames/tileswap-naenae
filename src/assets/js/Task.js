@@ -16,19 +16,19 @@ export class Task {
   }
 
   static TASKS = [
-    new Task({
-      timesRequired: 2,
-      targetId: [1],
-      type: Task.TASK_TYPES.FREEPLAY,
-      difficulty: 16
-    }),
-    this.generateTask(Math.random()*99+1, Task.TASK_TYPES.PUZZLE),
-    new Task({
-      timesRequired: 1,
-      targetId: [1],
-      type: Task.TASK_TYPES.CHALLENGE,
-      difficulty: 2
-    })
+    // new Task({
+    //   timesRequired: 2,
+    //   targetId: [1],
+    //   type: Task.TASK_TYPES.FREEPLAY,
+    //   difficulty: 16
+    // }),
+    // this.generateTask(Math.random()*99+1, Task.TASK_TYPES.PUZZLE),
+    // new Task({
+    //   timesRequired: 1,
+    //   targetId: [1],
+    //   type: Task.TASK_TYPES.CHALLENGE,
+    //   difficulty: 2
+    // })
   ].map((e, id) => {
     e.id = id;
     return e;

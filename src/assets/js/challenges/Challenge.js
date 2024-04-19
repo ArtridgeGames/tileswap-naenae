@@ -473,6 +473,8 @@ export class ChallengeProcess {
         }
       }
       store.stats.challengesCompleted[this.id] = result;
+
+      scoreToAdd = Math.round(scoreToAdd);
       store.score += scoreToAdd;
       this.latestAddedScore = scoreToAdd;
     }

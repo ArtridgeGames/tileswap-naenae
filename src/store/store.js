@@ -11,7 +11,7 @@ export const useStore = defineStore('store', () => {
   const currentPuzzle = ref({});
   const currentChallenge = ref({});
   const difficulty = ref(2);
-  const currentTasks = ref([0,1,2]);
+  const currentTasks = ref([]); // ref([0,1,2]);
   const maxTask = ref(2);
   const isRandomFreeplay = ref(false);
   const menuViewIndex = ref(0);

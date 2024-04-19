@@ -242,8 +242,8 @@ export default {
     handleClick() {
       this.moves++;
       if (this.puzzle.isSolvedWith(this.layout)) {
-        this.showWinModal = true;
         this.puzzle.completionMoves = this.moves;
+        this.showWinModal = true;
         Task.advanceTasks(this.puzzle.id, Task.TASK_TYPES.PUZZLE, this.moves);
       }
     },

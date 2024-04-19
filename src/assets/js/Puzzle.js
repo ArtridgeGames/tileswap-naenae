@@ -1412,7 +1412,10 @@ export class Puzzle {
     for (let i = 0; i < store.stats.puzzlesCompleted.length; i++) {
       const data = store.stats.puzzlesCompleted[i];
       if (data.id === this.id) {
-        if (data.completionMoves <= val) return;
+        if (data.completionMoves <= val) {
+          this.latestAddedScore = 0;
+          return;
+        }
 
         // if the new medal is higher than the old one, add the score
         const newMedal = this.medalFromMoves(val).medal;
@@ -1422,6 +1425,7 @@ export class Puzzle {
         for (let i = oldMedal + 1; i <= newMedal; i++) {
           toAdd += this.score[i] * 2 ** this.unlockCategory;
         }
+        toAdd = Math.round(toAdd);
         store.score += toAdd;
         this.latestAddedScore = toAdd;
 
