@@ -64,25 +64,6 @@ import Tile from "./Tile.vue";
   box-shadow: 0px 0px 0 5px var(--puzzle-white);
   background: var(--puzzle-white);
 }
-.tile.highlight:after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--success-color);
-  border-radius: var(--button-border-radius);
-  animation: highlight 2s ease infinite;
-}
-@keyframes highlight {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
 .solution {
   outline: 5px solid red !important;
 }

@@ -101,7 +101,12 @@ import LayoutAnimation from '../../components/LayoutAnimation.vue';
     </div>
 
 
-    <Button class="bottom center" v-if="enableNext" text="Next" @pressed="next" />
+    <Button
+      v-if="enableNext"
+      :class="{ 'highlight': highlightNext }"
+      class="bottom center"
+      text="Next"
+      @pressed="next" />
   </main>
 </template>
 
@@ -430,6 +435,8 @@ export default {
       showWrong: false,
       disabled: undefined,
       enableNext: false,
+      highlightNext: false,
+      nextTimer: undefined,
       retry: false,
       exampleLayout: (() => {
         const layout =  new Layout({
@@ -446,6 +453,9 @@ export default {
     showModal: {
       handler(newVal) {
         if (newVal) this.modalPage++;
+        if (!newVal) {
+
+        }
       },
       immediate: true
     }
@@ -507,6 +517,10 @@ export default {
         this.mistakes = 0;
         this.highlightedTiles = [];
         this.enableNext = true;
+        this.highlightNext = false;
+        this.nextTimer = setTimeout(() => {
+          this.highlightNext = true;
+        }, 15e3);
         this.text = "Click next when finished experimenting"
       }
     },
@@ -515,6 +529,8 @@ export default {
         this.showModal = true;
       }
       this.enableNext = false;
+      this.highlightNext = false;
+      clearTimeout(this.nextTimer);
       if (this.stageIndex === this.stages.length - 1) {
         return;
       }

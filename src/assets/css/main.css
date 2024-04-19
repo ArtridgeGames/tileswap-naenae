@@ -335,3 +335,23 @@ ul {
     transform: translate3d(8px, 0, 0);
   }
 }
+
+.highlight:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--success-color);
+  border-radius: var(--button-border-radius);
+  animation: highlight 2s ease infinite;
+}
+@keyframes highlight {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
