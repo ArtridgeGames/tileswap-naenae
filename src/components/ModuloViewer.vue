@@ -15,9 +15,10 @@
 
 <style scoped>
 .modulo {
-  margin: 20px;
+  margin: 20px 0;
   width: fit-content;
   display: flex;
+  align-items: center;
   gap: 5px;
 }
 .modulo .balls {

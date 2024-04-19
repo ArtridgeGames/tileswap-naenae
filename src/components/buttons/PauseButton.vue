@@ -1,5 +1,11 @@
+<script setup>
+import pause from "/images/svg/pause.svg";
+</script>
+
 <template>
-  <button @click="onClick">&#9616;&#9616;</button>
+  <button @click="onClick">
+    <img :src="pause" />
+  </button>
 </template>
 
 <style scoped>
@@ -12,7 +18,11 @@ button {
   width: 75px;
   height: 75px;
   padding: 0;
-  padding-top: 10px;
+  margin-top: 20px;
+}
+button img {
+  width: 100%;
+  height: 100%;
 }
 </style>
 

@@ -9,8 +9,8 @@ button {
   color: var(--text-color);
   font-size: var(--font-size-md);
   cursor: pointer;
-  width: 75px;
-  height: 75px;
+  width: 55px;
+  height: 55px;
   padding: 0;
   padding-top: 10px;
 }

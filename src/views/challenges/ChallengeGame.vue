@@ -124,23 +124,6 @@ main {
   height: 30px;
   background-color: var(--hl-color);
 }
-
-.modulo {
-  margin: 20px 0;
-  width: fit-content;
-  display: flex;
-  gap: 5px;
-}
-.modulo .balls {
-  display: flex;
-  align-items: center;
-}
-.modulo .balls > div {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  margin: 3px;
-}
 h2 {
   font-size: var(--font-size-sm);
   margin: 0;
