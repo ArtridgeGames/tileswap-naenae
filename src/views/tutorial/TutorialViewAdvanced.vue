@@ -28,29 +28,37 @@ import LayoutAnimation from '../../components/LayoutAnimation.vue';
       <div v-else-if="modalPage === 5">
         <h1>[INSERT ANIMATION]</h1>
         <Transition name="fade">
-          <Button 
+          <div
           v-if="currentModalText.length === modalTexts[modalPage].length
-            && currentModalText[currentModalText.length - 1] === modalTexts[modalPage][modalTexts[modalPage].length - 1]"
-          black text="ok!" class="bototm center" @pressed="modalPage++; startTypewriter();" />
+              && currentModalText[currentModalText.length - 1] === modalTexts[modalPage][modalTexts[modalPage].length - 1]"
+          >
+            <Button 
+            black text="ok!" class="bottom center" @pressed="modalPage++; startTypewriter();" />
+          </div>
         </Transition>
 
       </div>
       <div v-else-if="modalPage === 6">
         <h1>[INSERT ANIMATION]</h1>
         <Transition name="fade">
-          <Button 
+          <div
           v-if="currentModalText.length === modalTexts[modalPage].length
-            && currentModalText[currentModalText.length - 1] === modalTexts[modalPage][modalTexts[modalPage].length - 1]"
-          black text="ok!" class="bototm center" @pressed="modalPage++; startTypewriter();" />
+              && currentModalText[currentModalText.length - 1] === modalTexts[modalPage][modalTexts[modalPage].length - 1]"
+          >
+            <Button 
+            black text="ok!" class="bottom center" @pressed="modalPage++; startTypewriter();" />
+          </div>
         </Transition>
       </div>
       <div v-else-if="modalPage === 7">
         <h1>[INSERT ANIMATION]</h1>
         <Transition name="fade">
-          <Button 
+          <div
           v-if="currentModalText.length === modalTexts[modalPage].length
-            && currentModalText[currentModalText.length - 1] === modalTexts[modalPage][modalTexts[modalPage].length - 1]"
-          black text="ok!" class="bototm center" @pressed="showModal = false; retry = true;" />
+              && currentModalText[currentModalText.length - 1] === modalTexts[modalPage][modalTexts[modalPage].length - 1]"
+          >
+            <Button black text="ok!" class="bottom center" @pressed="showModal = false; retry = true;" />
+          </div>
         </Transition>
       </div>
       <div v-else-if="modalPage === 8">
@@ -62,10 +70,13 @@ import LayoutAnimation from '../../components/LayoutAnimation.vue';
       <div v-else-if="modalPage === 11">
         <h1>[INSERT ANIMATION]</h1>
         <Transition name="fade">
-          <Button 
+          <div
           v-if="currentModalText.length === modalTexts[modalPage].length
-            && currentModalText[currentModalText.length - 1] === modalTexts[modalPage][modalTexts[modalPage].length - 1]"
-          black text="go to freeplay" class="bototm center" @pressed="end" />
+              && currentModalText[currentModalText.length - 1] === modalTexts[modalPage][modalTexts[modalPage].length - 1]"
+          >
+            <Button 
+            black text="go to freeplay" class="bottom center" @pressed="end" />
+          </div>
         </Transition>
       </div>
 
