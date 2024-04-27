@@ -8,71 +8,81 @@ import LayoutAnimation from '../../components/LayoutAnimation.vue';
 <template>
   <main>
     <Modal v-model="showModal">
+
+      <h1 v-for="(line, index) in currentModalText" :key="index">
+        <div v-html="line"></div>
+      </h1>
+
       <div v-if="modalPage === 0">
-        <h1>Welcome to TileSwap</h1>
-        <h1>To win the game, turn all the tiles white</h1>
-        <h1>Clicking on a tile swaps the color of <span style="color: var(--success-color)">this tile</span> and all its neighbors</h1>
         <LayoutVue class="example-layout" small disabled v-model="exampleLayout" :highlightedTiles="[[2,2]]" />
-        <!-- <LayoutAnimation :layout="exampleLayout" /> -->
-        
-        <Button black text="ok!" @pressed="showModal = false" />
       </div>
       <div v-else-if="modalPage === 1">
-        <h1>You've won!</h1>
-        <h1>You're free to continue experimenting. Continue when you're ready.</h1>
-        <Button black text="ok!" @pressed="showModal = false" />
       </div>
       <div v-else-if="modalPage === 2">
-        <h1>Now see what happens when tiles are missing.</h1>
-        <Button black text="ok!" @pressed="showModal = false" />
       </div>
       <div v-else-if="modalPage === 3">
-        <h1>You should be getting the hang of it</h1>
-        <h1>Let's make this a bit interesting</h1>
-        <Button black text="ok!" @pressed="showModal = false" />
       </div>
       <div v-else-if="modalPage === 4">
-        <h1>Everything so far could be solved in a single click</h1>
-        <h1>However as you might have seen when experimenting, things get complicated very fast</h1>
-        <h1>For example when 2 clicks overlap</h1>
         <h1>[INSERT ANIMATION]</h1>
-        <Button black text="ok!" @pressed="showModal = false" />
       </div>
       <div v-else-if="modalPage === 5">
-        <h1>As you might have noticed, clicking twice on the same tile is the same as not clicking on it at all.</h1>
         <h1>[INSERT ANIMATION]</h1>
-        <Button black text="ok!" @pressed="modalPage++" />
+        <Transition name="fade">
+          <Button 
+          v-if="currentModalText.length === modalTexts[modalPage].length
+            && currentModalText[currentModalText.length - 1] === modalTexts[modalPage][modalTexts[modalPage].length - 1]"
+          black text="ok!" class="bototm center" @pressed="modalPage++; startTypewriter();" />
+        </Transition>
+
       </div>
       <div v-else-if="modalPage === 6">
-        <h1>Also notice that the order on which you click the tiles does not matter.</h1>
         <h1>[INSERT ANIMATION]</h1>
-        <Button black text="ok!" @pressed="modalPage++" />
+        <Transition name="fade">
+          <Button 
+          v-if="currentModalText.length === modalTexts[modalPage].length
+            && currentModalText[currentModalText.length - 1] === modalTexts[modalPage][modalTexts[modalPage].length - 1]"
+          black text="ok!" class="bototm center" @pressed="modalPage++; startTypewriter();" />
+        </Transition>
       </div>
       <div v-else-if="modalPage === 7">
-        <h1>From now on we won't tell you when you're getting further away from the solution.</h1>
-        <h1>You can go back to the initial state anytime by pressing the reset button</h1>
         <h1>[INSERT ANIMATION]</h1>
-        <Button black text="ok!" @pressed="showModal = false; retry = true" />
+        <Transition name="fade">
+          <Button 
+          v-if="currentModalText.length === modalTexts[modalPage].length
+            && currentModalText[currentModalText.length - 1] === modalTexts[modalPage][modalTexts[modalPage].length - 1]"
+          black text="ok!" class="bototm center" @pressed="showModal = false; retry = true;" />
+        </Transition>
       </div>
       <div v-else-if="modalPage === 8">
-        <h1>Now let's progressively make a pattern harder</h1>
-        <Button black text="ok!" @pressed="showModal = false" />
       </div>
       <div v-else-if="modalPage === 9">
-        <h1>Try a few different patterns</h1>
-        <Button black text="ok!" @pressed="showModal = false" />
       </div>
       <div v-else-if="modalPage === 10">
-        <h1>Same concept as before, but things get harder if you mess up</h1>
-        <Button black text="ok!" @pressed="showModal = false" />
       </div>
       <div v-else-if="modalPage === 11">
-        <h1>You seem to have mastered the basics</h1>
-        <h1>How about we now let you choose how difficult you want it to be?</h1>
-        <h1>Move the slider to adjust the difficulty of the initial state</h1>
         <h1>[INSERT ANIMATION]</h1>
-        <Button black text="go to freeplay" @pressed="end" />
+        <Transition name="fade">
+          <Button 
+          v-if="currentModalText.length === modalTexts[modalPage].length
+            && currentModalText[currentModalText.length - 1] === modalTexts[modalPage][modalTexts[modalPage].length - 1]"
+          black text="go to freeplay" class="bototm center" @pressed="end" />
+        </Transition>
       </div>
+
+      <Transition name="fade">
+        <div
+        v-if="currentModalText.length === modalTexts[modalPage].length
+            && currentModalText[currentModalText.length - 1] === modalTexts[modalPage][modalTexts[modalPage].length - 1]
+            && ![5,6,7,11].includes(modalPage)"
+        >
+          <Button
+            black
+            text="ok!"
+            class="bottom center"
+            @pressed="showModal = false"
+          />
+        </div>
+      </Transition>
     </Modal>
 
     <!-- <LayoutVue 
@@ -428,7 +438,7 @@ export default {
       highlightedTiles: [],
       showModal: true,
       text: 'Try it here!',
-      modalPage: -1,
+      modalPage: 0,
       stageIndex: 0,
       stages,
       shake: false,
@@ -438,6 +448,54 @@ export default {
       highlightNext: false,
       nextTimer: undefined,
       retry: false,
+      currentModalText: [''],
+      modalTexts: [
+        [
+          'Welcome to TileSwap',
+          'To win the game, turn all the tiles white',
+          'Clicking on a tile swaps the color of this tile and all its neighbors' // <span style="color: var(--success-color);"></span>
+        ],
+        [
+          'You\'ve won!',
+          'You\'re free to continue experimenting. Continue when you\'re ready.'
+        ],
+        [
+          'Now see what happens when tiles are missing.'
+        ],
+        [
+          'You should be getting the hang of it',
+          'Let\'s make this a bit interesting'
+        ],
+        [
+          'Everything so far could be solved in a single click',
+          'However as you might have seen when experimenting, things get complicated very fast',
+          'For example when 2 clicks overlap'
+        ],
+        [
+          'As you might have noticed, clicking twice on the same tile is the same as not clicking on it at all.',
+        ],
+        [
+          'Also notice that the order on which you click the tiles does not matter.'
+        ],
+        [
+          'From now on we won\'t tell you when you\'re getting further away from the solution.',
+          'You can go back to the initial state anytime by pressing the reset button'
+        ],
+        [
+          'Now let\'s progressively make a pattern harder'
+        ],
+        [
+          'Try a few different patterns'
+        ],
+        [
+          'Same concept as before, but things get harder if you mess up'
+        ],
+        [
+          'You seem to have mastered the basics',
+          'How about we now let you choose how difficult you want it to be?',
+          'Move the slider to adjust the difficulty of the initial state'
+        ]
+      ],
       exampleLayout: (() => {
         const layout =  new Layout({
           width: 5,
@@ -449,21 +507,11 @@ export default {
       })()
     }
   },
-  watch: {
-    showModal: {
-      handler(newVal) {
-        if (newVal) this.modalPage++;
-        if (!newVal) {
-
-        }
-      },
-      immediate: true
-    }
-  },
   mounted() {
     window.setInterval(() => {
       this.exampleLayout.swapTiles(2, 2, 1, 2, tilesToFlip.value);
     }, 2e3);
+    this.startTypewriter();
   },
   computed: {
     stage() {
@@ -513,6 +561,9 @@ export default {
       if (this.stage.layout.isSolved(this.stage.modulo ?? 2) && !this.enableNext) {
         if (this.modalPage === 0) {
           this.showModal = true;
+          this.modalPage++;
+          this.startTypewriter();
+          
         }
         this.mistakes = 0;
         this.highlightedTiles = [];
@@ -527,6 +578,8 @@ export default {
     next() {
       if (this.stage.showModal) {
         this.showModal = true;
+        this.modalPage++;
+        this.startTypewriter();
       }
       this.enableNext = false;
       this.highlightNext = false;
@@ -544,6 +597,26 @@ export default {
       const store = useStore();
       store.setLayout(Layout.fromId(0));
       this.$router.push('/tutorialFreeplayGame');
+    },
+    startTypewriter() {
+      this.currentModalText = [''];
+      const text = this.modalTexts[this.modalPage];
+      let i = 0; // index of the current line
+      let j = 0; // index of the current character
+      const interval = setInterval(() => {
+        if (i === text.length) {
+          clearInterval(interval);
+          return;
+        }
+        if (j === text[i].length) {
+          this.currentModalText[i] = text[i];
+          i++;
+          j = 0;
+        } else {
+          this.currentModalText[i] = text[i].slice(0, j);
+          j++;
+        }
+      }, 60);
     }
   }
 }
