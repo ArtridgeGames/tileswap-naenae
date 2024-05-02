@@ -19,69 +19,69 @@ const router = createRouter({
     {
       path: '/',
       name: 'intro',
-      component: IntroView
+      component: IntroView,
     },
     {
       path: '/home',
       name: 'home',
-      component: SwipeView
+      component: SwipeView,
     },
     {
       path: '/tutorial',
       name: 'tutorial',
-      component: TutorialViewAdvanced
+      component: TutorialViewAdvanced,
     },
     {
       path: '/tutorialFreeplayGame',
       name: 'tutorialFreeplayGame',
-      component: TutorialFreeplayGame
+      component: TutorialFreeplayGame,
     },
     {
       path: '/freeplaySelection',
       name: 'freeplaySelection',
-      component: FreeplaySelection
+      component: FreeplaySelection,
     },
     {
       path: '/puzzleSelection',
       name: 'puzzleSelection',
-      component: PuzzleSelection
+      component: PuzzleSelection,
     },
     {
       path: '/challengeSelection',
       name: 'challengeSelection',
-      component: ChallengeSelection
+      component: ChallengeSelection,
     },
     {
       path: '/freeplayGame',
       name: 'freeplayGame',
-      component: FreeplayGame
+      component: FreeplayGame,
     },
     {
       path: '/puzzleGame',
       name: 'puzzleGame',
-      component: PuzzleGame
+      component: PuzzleGame,
     },
     {
       path: '/challengeGame',
       name: 'challengeGame',
-      component: ChallengeGame
+      component: ChallengeGame,
     },
     {
       path: '/test',
       name: 'test',
-      component: TestView
+      component: TestView,
     },
     {
       path: '/editor',
       name: 'editor',
-      component: EditorView
+      component: EditorView,
     },
     {
       path: '/layout-editor',
       name: 'layout-editor',
-      component: LayoutEditorView
-    }
-  ]
+      component: LayoutEditorView,
+    },
+  ],
 });
 
 export default router;

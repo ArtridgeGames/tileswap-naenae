@@ -1,10 +1,12 @@
-import { app } from "./firebase.js";
-import { read, registeredObservables } from "./database.js"
-import { getAuth,
-         onAuthStateChanged,
-         signInWithEmailAndPassword,
-         indexedDBLocalPersistence,
-         initializeAuth } from "firebase/auth";
+import { app } from './firebase.js';
+import { read, registeredObservables } from './database.js';
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  indexedDBLocalPersistence,
+  initializeAuth,
+} from 'firebase/auth';
 import { ref, computed } from 'vue';
 import { Capacitor } from '@capacitor/core';
 
@@ -29,25 +31,27 @@ auth.authStateReady().then(() => {
   authLoaded.value = true;
 });
 
-onAuthStateChanged(auth, async (user) => {
+onAuthStateChanged(auth, async user => {
   if (user) {
     currentUser.value = user;
     currentUserData.value = await read(`users/${user.uid}`);
-    
+
     for (const { observable, path } of registeredObservables) {
-      if (currentUserData.value['game-data'] 
-       && currentUserData.value['game-data']['tileswap-naenae']
-       && currentUserData.value['game-data']['tileswap-naenae'][path]) {
-        const data = currentUserData.value['game-data']['tileswap-naenae'][path];
+      if (
+        currentUserData.value['game-data'] &&
+        currentUserData.value['game-data']['tileswap-naenae'] &&
+        currentUserData.value['game-data']['tileswap-naenae'][path]
+      ) {
+        const data =
+          currentUserData.value['game-data']['tileswap-naenae'][path];
         if (typeof data === 'object' && !Array.isArray(data)) {
           observable.value = { ...observable.value, ...data };
         } else {
-          observable.value = currentUserData.value['game-data']['tileswap-naenae'][path];
+          observable.value =
+            currentUserData.value['game-data']['tileswap-naenae'][path];
         }
-
       }
     }
-
   } else {
     currentUser.value = {};
     currentUserData.value = {};
@@ -76,13 +80,13 @@ export const isSignedIn = computed(() => {
 
 /**
  * Signs in a user with the given email and password.
- * @param {String} email 
- * @param {String} password 
+ * @param {String} email
+ * @param {String} password
  * @returns {Promise<import('firebase/auth').UserCredential>}
  */
 export const signIn = async (email, password) => {
   return await signInWithEmailAndPassword(auth, email, password);
-}
+};
 
 /**
  * Signs out the current user.
@@ -90,4 +94,4 @@ export const signIn = async (email, password) => {
  */
 export const signOut = async () => {
   return await auth.signOut();
-}
+};

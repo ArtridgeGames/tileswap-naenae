@@ -26,12 +26,12 @@ export const useStore = defineStore('store', () => {
   if (globalThis.window && !window.hasOwnProperty('score')) {
     Object.defineProperty(window, 'score', {
       get: () => score.value,
-      set: (value) => {
-        score.value = value
-      }
+      set: value => {
+        score.value = value;
+      },
     });
   }
-  
+
   const categories = [
     50,
     750,
@@ -51,7 +51,7 @@ export const useStore = defineStore('store', () => {
     5e10, // + 15k
     2.5e11, // + 16k
     4e11, // + 17k
-  ]
+  ];
 
   // const categories = [
   //   1000,
@@ -79,32 +79,38 @@ export const useStore = defineStore('store', () => {
   const currentCategory = computed(() => {
     const index = categories.findIndex(e => e > score.value);
     // Adjust index to skip first category
-    return index === -1 ? categories.length - 1 : (index >= 1 ? index - 1 : index);
+    return index === -1
+      ? categories.length - 1
+      : index >= 1
+      ? index - 1
+      : index;
   });
 
   const unlockedCategoriesFP = computed(() => {
     return currentCategory.value;
-  })
+  });
   const unlockedCategoriesPZ = computed(() => {
     return currentCategory.value;
   });
   const unlockedChallenges = computed(() => {
-    return CHALLENGES.filter(e => e.unlockCategory <= currentCategory.value)
-      .flatMap(e => {
-        if (e.allUnlocked) return e.challenges.map(e => e.id);
-        return e.challenges
-          .filter((_, i) => {
-            return true;
-            if (i === 0) return true;
-            const completed = stats.value.challengesCompleted.hasOwnProperty(e.challenges[i - 1].id)
-              && stats.value.challengesCompleted[e.challenges[i - 1].id].completed;
-            return completed;
-          })
-          .map(e => e.id);
-      });
+    return CHALLENGES.filter(
+      e => e.unlockCategory <= currentCategory.value
+    ).flatMap(e => {
+      if (e.allUnlocked) return e.challenges.map(e => e.id);
+      return e.challenges
+        .filter((_, i) => {
+          if (i === 0) return true;
+          const completed =
+            stats.value.challengesCompleted.hasOwnProperty(
+              e.challenges[i - 1].id
+            ) &&
+            stats.value.challengesCompleted[e.challenges[i - 1].id].completed;
+          return completed;
+        })
+        .map(e => e.id);
+    });
   }); // ref([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21])
 
-  
   function unlockAll() {
     score.value = categories[categories.length - 1];
     hasHadOtherGameModesPopup.value = true;
@@ -121,18 +127,22 @@ export const useStore = defineStore('store', () => {
 
   const settings = ref({ ...INITIAL_SETTINGS });
 
-  watch(settings, _ => {
-    for (const setting of Object.keys(settings.value)) {
-      SETTINGS_DATA[setting].onChange(settings.value[setting]);
-    }
-  }, { deep: true });
+  watch(
+    settings,
+    _ => {
+      for (const setting of Object.keys(settings.value)) {
+        SETTINGS_DATA[setting].onChange(settings.value[setting]);
+      }
+    },
+    { deep: true }
+  );
 
   const stats = ref({ ...INITIAL_STATS });
-  
+
   setInterval(() => {
     stats.value.timePlayed += 10;
   }, 10e3);
-  
+
   function setLayout(layout) {
     currentLayout.value = layout;
   }
@@ -144,9 +154,9 @@ export const useStore = defineStore('store', () => {
     currentChallenge.value = challenge;
   }
   function setMaxTask(n) {
-    maxTask.value = n
+    maxTask.value = n;
   }
-  
+
   register(difficulty, 'difficulty');
   register(stats, 'stats');
   register(settings, 'settings');
@@ -181,6 +191,6 @@ export const useStore = defineStore('store', () => {
     hasHadPuzzleExplanationPopup,
     hasHadChallengeExplanationPopup,
     selectedChallengeGroup,
-    allowScroll
+    allowScroll,
   };
 });
