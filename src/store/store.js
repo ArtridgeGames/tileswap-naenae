@@ -51,6 +51,7 @@ export const useStore = defineStore('store', () => {
     5e10, // + 15k
     2.5e11, // + 16k
     4e11, // + 17k
+    8e11, // + 18k
   ];
 
   // const categories = [
@@ -117,7 +118,7 @@ export const useStore = defineStore('store', () => {
   }
 
   if (process.env.NODE_ENV === 'development') {
-    unlockAll();
+    // unlockAll();
   }
 
   function setTask(index, task) {
