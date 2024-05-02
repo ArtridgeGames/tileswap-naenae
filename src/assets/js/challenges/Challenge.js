@@ -239,7 +239,7 @@ export class ChallengeProcess {
       this.patternsToBePlayed = this.generatePatternsToBePlayed();
       this.difficulties = this.settings.difficulty(this.patternsToBePlayed);
       if (this.difficulties.length !== this.patternsToBePlayed.length)
-        throw new Error(`Invalid difficulty array. Expected ${this.patternsToBePlayed.length} elements, got ${difficulties.length}.`);
+        throw new Error(`Invalid difficulty array. Expected ${this.patternsToBePlayed.length} elements, got ${this.difficulties.length}.`);
       this.randomizePatterns(this.difficulties);
 
       this.currentPattern = this.patternsToBePlayed[0];
@@ -312,6 +312,22 @@ export class ChallengeProcess {
   handleClick() {
     if (this.state !== ChallengeProcess.STATE.IN_PROGRESS) return;
 
+    if (this.settings.moveLimit !== -1) {
+      this.movesRemaining--;
+      if (this.movesRemaining < 0) {
+        this.lost(ChallengeProcess.STATE.LOST_MOVES);
+        return;
+      }
+    }
+
+    if (this.patternMoves !== -1) {
+      this.patternMoves--;
+      if (this.patternMoves < 0) {
+        this.lost(ChallengeProcess.STATE.LOST_MOVES);
+        return;
+      }
+    }
+
     if (this.currentPattern.layout.isSolved(this.patternModulo)) {
       if (this.patternBonusTime !== -1)
         this.timeRemaining += this.patternBonusTime;
@@ -336,24 +352,6 @@ export class ChallengeProcess {
       this.patternMoves = this.currentPattern.moveLimitPerPattern;
       this.patternModulo = this.currentPattern.moduloPerPattern;
       this.patternBonusTime = this.currentPattern.bonusTimePerPattern;
-
-      return;
-    }
-
-    if (this.settings.moveLimit !== -1) {
-      this.movesRemaining--;
-      if (this.movesRemaining <= 0) {
-        this.lost(ChallengeProcess.STATE.LOST_MOVES);
-        return;
-      }
-    }
-
-    if (this.patternMoves !== -1) {
-      this.patternMoves--;
-      if (this.patternMoves <= 0) {
-        this.lost(ChallengeProcess.STATE.LOST_MOVES);
-        return;
-      }
     }
   }
 

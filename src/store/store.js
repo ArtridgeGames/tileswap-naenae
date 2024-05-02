@@ -94,6 +94,7 @@ export const useStore = defineStore('store', () => {
         if (e.allUnlocked) return e.challenges.map(e => e.id);
         return e.challenges
           .filter((_, i) => {
+            return true;
             if (i === 0) return true;
             const completed = stats.value.challengesCompleted.hasOwnProperty(e.challenges[i - 1].id)
               && stats.value.challengesCompleted[e.challenges[i - 1].id].completed;

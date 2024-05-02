@@ -349,7 +349,11 @@ export class Layout {
    */
   swapTiles(row, column, direction = 1, modulo = 2, tilesToFlip = Layout.TILES_TO_FLIP) {
     require(row, column);
-    expect(row >= 0 && row < this.matrix.length && column >= 0 && column < this.matrix[0].length);
+    expect(!isNaN(row) && !isNaN(column));
+    expect(row >= 0);
+    expect(column >= 0);
+    expect(row < this.matrix.length);
+    expect(column < this.matrix[0].length);
 
     let count = 0;
 
@@ -474,6 +478,8 @@ export class Layout {
       .flat()
       .filter(e => e !== null)
       .flatMap(e => new Array(modulo - 1).fill().map(_ => e));
+
+    expect(possibleTiles.length >= iterations);
 
     // Sequentially choose one tile after the other at random,
     // until the number of iterations is reached

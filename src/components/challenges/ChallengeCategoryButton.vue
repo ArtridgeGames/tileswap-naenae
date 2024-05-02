@@ -4,7 +4,7 @@
 </script>
 
 <template>
-  <Button class="category-button" :text="category.title" v-if="!locked"></Button>
+  <Button class="category-button" :text="category.title" v-if="!locked" :class="{ finished }"></Button>
   <div class="locked" v-else>
     <img :src="lockURL"/>
   </div>
@@ -26,6 +26,10 @@
     width: 60%;
   }
 
+  .category-button.finished {
+    background-color: var(--success-color);
+  }
+
   div.locked {
     height: 55px;
     width: 60%;
@@ -39,6 +43,15 @@
 <script>
 import { useStore } from '../../store/store.js';
 export default {
-  props: ['category', 'locked']
+  props: ['category', 'locked'],
+  computed: {
+    finished() {
+      const store = useStore();
+      return this.category.challenges.every(challenge => {
+        return store.stats.challengesCompleted[challenge.id] !== undefined
+            && store.stats.challengesCompleted[challenge.id].completed;
+      })
+    }
+  }
 }
 </script>

@@ -627,7 +627,7 @@ export default {
           this.currentModalText[i] = text[i].slice(0, j);
           j++;
         }
-      }, 60);
+      }, 80);
     }
   }
 }

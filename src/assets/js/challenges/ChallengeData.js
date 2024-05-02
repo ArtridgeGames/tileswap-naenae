@@ -245,7 +245,7 @@ export const CHALLENGES = [
           timeLimit: 60,
           patternList: patternList([0, 14, 20, 21, 22, 23, 46]),
           patternCount: 16,
-          difficulty: uniformSumInRanges([3, 6], 16, 70)
+          difficulty: uniformSumInRanges([4, 5], 16, 70)
         })
       })
     ]
