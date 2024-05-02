@@ -58,12 +58,20 @@ import LinkButton from "../../components/buttons/LinkButton.vue";
         <h1>By finishing this pattern, you've gained a bit of score.</h1>
         <h1>The score you gain is proportional to the difficulty chosen on the slider.</h1>
         <h1>Reach the treshold at the end of the bar to unlock new things</h1>
-        <br>
+
+        <Button black text="ok!" @pressed="modalPage++; showBack = true" />
+      </div>
+      <div v-else-if="modalPage === 2">
+        <h1>If you ever get stuck, click on hint to get a little help.</h1>
+        <h1>However, doing so will decrease the score you gain when you win.</h1>
+
+        <Button black text="ok!" @pressed="modalPage++;" />
+      </div>
+      <div v-else-if="modalPage === 3">
         <h1>However you might be tired of playing on the same pattern.</h1>
         <h1>Click on the back button to see what other options you have.</h1>
         <h1>Reach a score of 50 to unlock new gamemodes.</h1>
-
-        <Button black text="yay!" @pressed="showModal = false; modalPage = 0; showBack = true" />
+        <Button black text="ok!" @pressed="showModal = false; modalPage=0" />
       </div>
     </Modal>
   </div>

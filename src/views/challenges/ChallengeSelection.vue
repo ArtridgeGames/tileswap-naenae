@@ -49,10 +49,10 @@ import BackButton from '../../components/buttons/BackButton.vue';
     </Modal>
 
     <Modal v-model="showIntroductionModal">
-      <h1>
-        TODO: Add a description of the challenge mode here
-      </h1>
-      <Button black text="got it!" @pressed="showIntroductionModal = false" />
+      <h1>In challenges, finish the given patterns under certain constraints. </h1>
+      <h1>Finishing a challenge for the first time gives you extra score.</h1>
+      <h1>Every challenge is different, click on a challenge to see what it has to offer.</h1>
+      <Button black text="ok!" @pressed="showIntroductionModal = false" />
     </Modal>
 
   </main>
