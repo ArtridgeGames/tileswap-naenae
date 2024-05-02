@@ -6,7 +6,7 @@ import lockURL from "/images/svg/lock.svg";
   <div
     :class="{
       'is-task-target': isTaskTarget,
-      'is-completed': challenge.maxPercent === 100,
+      'is-completed': isCompleted,
     }"
     v-html="formattedChall"
     :title="`id: ${challenge.id}`"
@@ -49,9 +49,6 @@ export default {
   props: ["challenge", "locked"],
   computed: {
     formattedChall() {
-      const maxMoves = this.challenge.settings.moveLimit.toString();
-      const nPatterns = this.challenge.settings.patternCount.toString();
-
       const store = useStore();
       const stats = store.stats.challengesCompleted[this.challenge.id];
       const score = stats ? (
@@ -61,16 +58,8 @@ export default {
         : stats.moves !== undefined ? stats.moves + " moves" : null
       ) : null;
 
-      return (
-        (!this.challenge.title
-          ? formatTime(this.challenge.settings.timeLimit) +
-            "<br>" +
-            (maxMoves > 0 ? maxMoves + " moves<br>" : "no move limit<br>") +
-            nPatterns +
-            " layouts"
-          : this.challenge.title) +
-        ` ${(score ? "| " + score : "")}`
-      );
+      return this.challenge.title
+        + (score ? " | " + score : "");
     },
     isTaskTarget() {
       return Task.isTaskTarget(this.challenge.id, Task.TASK_TYPES.CHALLENGE);

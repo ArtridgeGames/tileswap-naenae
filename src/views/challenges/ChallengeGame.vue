@@ -58,6 +58,7 @@ import ModuloViewer from "../../components/ModuloViewer.vue";
 
     <Modal v-model="showWinModal">
       <h1>you won the challenge!</h1>
+      <p>{{ formattedResult }}</p>
       <p style="font-size: var(--font-size-xs); margin: 14px 0">+ {{ currentChallenge.process.latestAddedScore }} score</p>
       <Progress
         :value="store.score"
@@ -71,6 +72,7 @@ import ModuloViewer from "../../components/ModuloViewer.vue";
 
     <Modal v-model="showLostModal">
       <h1>{{ modalText }}</h1>
+      <p>{{ formattedResult }}</p>
       <Button black text="adnwkhu!" @pressed="showLostModal = false; quit();" />
       <Button black text="restart" @pressed="restart" />
     </Modal>
@@ -224,6 +226,17 @@ export default {
       return this.currentChallenge.process.patternTime !== -1
         ? formatTime(this.currentChallenge.process.patternTime)
         : "";
+    },
+    formattedResult() {
+      const stats = this.store.stats.challengesCompleted[this.currentChallenge.id];
+      const score = stats ? (
+        stats.patternIndex !== undefined ? stats.patternIndex.toString()
+        : stats.completion !== undefined ? Math.floor(stats.completion) + "%"
+        : stats.time !== undefined ? formatTime(stats.time)
+        : stats.moves !== undefined ? stats.moves + " moves" : null
+      ) : null;
+
+      return score ?? "";
     },
     percentageCompleted() {
       return this.currentChallenge.settings.isInfinite
