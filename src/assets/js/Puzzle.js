@@ -42,7 +42,7 @@ export class Puzzle {
       ],
       modulo: 2,
       solution: [1, 2, 7, 11, 14, 13, 8, 4],
-      unlockCategory: 3
+      unlockCategory: 4
     },
     {
       base: [
@@ -61,7 +61,7 @@ export class Puzzle {
       ],
       modulo: 2,
       solution: [3, 6, 9, 10, 13, 11, 8, 5],
-      unlockCategory: 3
+      unlockCategory: 4
     },
     {
       base: [
@@ -146,7 +146,7 @@ export class Puzzle {
       ],
       modulo: 2,
       solution: [6, 9, 13, 14, 17, 21, 22, 24],
-      unlockCategory: 4
+      unlockCategory: 3
     },
     {
       base: [
@@ -214,7 +214,7 @@ export class Puzzle {
       ],
       modulo: 2,
       solution: [0, 1, 4, 5, 10, 11, 13],
-      unlockCategory: 3
+      unlockCategory: 4
     },
     {
       base: [
@@ -233,7 +233,7 @@ export class Puzzle {
       ],
       modulo: 2,
       solution: [6, 7, 9],
-      unlockCategory: 3
+      unlockCategory: 4
     },
     {
       base: [
@@ -570,7 +570,7 @@ export class Puzzle {
       ],
       modulo: 2,
       solution: [2, 3, 4, 7, 8, 9, 13, 14],
-      unlockCategory: 4
+      unlockCategory: 3
     },
     {
       base: [
@@ -587,7 +587,7 @@ export class Puzzle {
       ],
       modulo: 2,
       solution: [2, 4, 5, 7, 9, 10, 14],
-      unlockCategory: 3
+      unlockCategory: 4
     },
     {
       base: [
@@ -744,7 +744,7 @@ export class Puzzle {
       ],
       modulo: 2,
       solution: [6, 9, 21, 24],
-      unlockCategory: 4
+      unlockCategory: 3
     },
     {
       base: [
@@ -992,7 +992,7 @@ export class Puzzle {
       ],
       modulo: 2,
       solution: [2, 10, 12, 14, 22],
-      unlockCategory: 4
+      unlockCategory: 3
     },
     {
       base: [
@@ -1053,7 +1053,7 @@ export class Puzzle {
       ],
       modulo: 2,
       solution: [11, 15, 17, 23, 25, 31, 33, 37],
-      unlockCategory: 4
+      unlockCategory: 3
     },
     {
       base: [

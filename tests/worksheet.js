@@ -1,12 +1,11 @@
+import fs from "fs";
 
-
-const min = 2;
-const max = 9;
-
-const distribution = [0,0,0,0,0,0,0,0,0];
-
-for (let i = 0; i < 100000; i++) {
-  const diff = Math.floor(Math.random() * (max - min + 1) + min) // + Math.round(Math.random() * (modulo.value - 1));
-  distribution[diff - 1]++;
-}
-console.log(distribution);
+const filePath = "src/assets/js/Layout.js";
+fs.readFile(filePath, { encoding: "utf-8" }, function (err, data) {
+  const newText = data.replace(/unlockCategory: *(\d+)/g, (_, catNbr) => {
+    if (parseInt(catNbr) > 7)
+      return "unlockCategory: " + (parseInt(catNbr) + 1);
+    return _;
+  });
+  fs.writeFile("src/assets/js/Layout.js", newText, _=>{});
+});

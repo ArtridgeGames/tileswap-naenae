@@ -1045,16 +1045,20 @@ export const CHALLENGES = [
       }),
       new Challenge({
         description: `<p>
-          CHALLENGE NOT DONE</p>
+          Play as one pattern slowly switches into another
+          </p><ul>
+            <li>time : 60s</li>
+            <li>patterns : 5</li>
+          </ul>
         `,
         id: 41,
-        title: 'EXPERT TODO',
+        title: 'Expert',
         settings: new ChallengeProperties({
-          moveLimit: 45,
-          patternList: patternList([97, 188, 189, 190, 65]),
+          timeLimit: 60,
+          patternList: patternList([101, 194, 195, 196, 44]),
           patternCount: 5, 
           patternListOrder: LINEAR,
-          difficulty: uniform(5, 5) 
+          difficulty: uniformSumInRanges([8,12], 5, 53) 
         })
       })
     ]
