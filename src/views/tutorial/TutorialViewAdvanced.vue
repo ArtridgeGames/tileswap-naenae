@@ -1,15 +1,13 @@
 <script setup>
-import LayoutVue from "../../components/Layout.vue";
-import Modal from "../../components/Modal.vue";
-import Button from "../../components/buttons/Button.vue";
-import LayoutAnimation from "../../components/LayoutAnimation.vue";
+import LayoutVue from '../../components/Layout.vue';
+import Modal from '../../components/Modal.vue';
+import Button from '../../components/buttons/Button.vue';
+import LayoutAnimation from '../../components/LayoutAnimation.vue';
 </script>
 
 <template>
   <main>
     <Modal v-model="showModal">
-      {{ modalPage }}
-
       <h1 v-for="(line, index) in currentModalText" :key="index">
         <div v-html="line"></div>
       </h1>
@@ -218,8 +216,8 @@ import LayoutAnimation from "../../components/LayoutAnimation.vue";
 </style>
 
 <script>
-import { Layout } from "../../assets/js/Layout.js";
-import { useStore } from "../../store/store.js";
+import { Layout } from '../../assets/js/Layout.js';
+import { useStore } from '../../store/store.js';
 
 export default {
   data() {
@@ -230,10 +228,10 @@ export default {
           [1, 0, 0, 0, 1],
           [1, 0, 0, 0, 1],
           [1, 0, 0, 0, 1],
-          [1, 1, 1, 1, 1]
+          [1, 1, 1, 1, 1],
         ],
         solution: [12],
-        title: "Basics 1 / 5"
+        title: 'Basics 1 / 5',
       },
       {
         matrix: [
@@ -241,10 +239,10 @@ export default {
           [0, 0, 0, 1, 1],
           [0, 0, 0, 1, 1],
           [1, 1, 1, 1, 1],
-          [1, 1, 1, 1, 1]
+          [1, 1, 1, 1, 1],
         ],
         solution: [6],
-        title: "Basics - 2 / 5"
+        title: 'Basics - 2 / 5',
       },
       {
         matrix: [
@@ -253,10 +251,10 @@ export default {
           [0, 0, 0, 1, 1, 1],
           [1, 1, 1, 0, 0, 0],
           [1, 1, 1, 0, 0, 0],
-          [1, 1, 1, 0, 0, 0]
+          [1, 1, 1, 0, 0, 0],
         ],
         solution: [7, 28],
-        title: "Basics - 3 / 5"
+        title: 'Basics - 3 / 5',
       },
       {
         matrix: [
@@ -266,20 +264,20 @@ export default {
           [1, 1, 1, 1, 0, 0, 0],
           [1, 0, 0, 0, 1, 1, 1],
           [1, 0, 0, 0, 1, 1, 1],
-          [1, 0, 0, 0, 1, 1, 1]
+          [1, 0, 0, 0, 1, 1, 1],
         ],
         solution: [8, 19, 37],
-        title: "Basics - 4 / 5"
+        title: 'Basics - 4 / 5',
       },
       {
         matrix: [
           [0, 0, 0],
           [0, 0, 0],
-          [0, 0, 0]
+          [0, 0, 0],
         ],
         solution: [4],
-        title: "Basics - 5 / 5",
-        showModal: true
+        title: 'Basics - 5 / 5',
+        showModal: true,
       },
       {
         matrix: [
@@ -287,10 +285,10 @@ export default {
           [0, 0, 0, 1, 1],
           [0, 0, 0, 1, 1],
           [1, 1, 1, 1, 1],
-          [1, 1, 1, 1, 1]
+          [1, 1, 1, 1, 1],
         ],
         solution: [6],
-        title: "Missing tiles - 1 / 5"
+        title: 'Missing tiles - 1 / 5',
       },
       {
         matrix: [
@@ -298,10 +296,10 @@ export default {
           [1, 1, 1, 1, 1],
           [1, 1, -1, 0, -1],
           [1, 1, 0, 0, 0],
-          [1, 1, 0, -1, 0]
+          [1, 1, 0, -1, 0],
         ],
         solution: [18],
-        title: "Missing tiles - 2 / 5"
+        title: 'Missing tiles - 2 / 5',
       },
       {
         matrix: [
@@ -309,10 +307,10 @@ export default {
           [1, 0, -1, 0, 1],
           [1, -1, 0, -1, 1],
           [1, 0, -1, 0, 1],
-          [1, 1, 1, 1, 1]
+          [1, 1, 1, 1, 1],
         ],
         solution: [12],
-        title: "Missing tiles - 3 / 5"
+        title: 'Missing tiles - 3 / 5',
       },
       {
         matrix: [
@@ -320,10 +318,10 @@ export default {
           [1, 1, 1, 1, 1],
           [0, 0, 0, 1, 1],
           [-1, 0, 0, 1, 1],
-          [-1, -1, 0, 1, 1]
+          [-1, -1, 0, 1, 1],
         ],
         solution: [16],
-        title: "Missing tiles - 4 / 5"
+        title: 'Missing tiles - 4 / 5',
       },
       {
         matrix: [
@@ -331,40 +329,40 @@ export default {
           [1, 1, 1, 1, 1],
           [-1, 0, 0, 1, 1],
           [-1, 0, 0, 1, 1],
-          [-1, -1, -1, 1, 1]
+          [-1, -1, -1, 1, 1],
         ],
         solution: [16],
-        title: "Missing tiles - 5 / 5",
-        showModal: true
+        title: 'Missing tiles - 5 / 5',
+        showModal: true,
       },
       {
         matrix: [
           [1, 1, 0, 0],
           [1, 1, 0, 0],
           [0, 0, 0, 0],
-          [0, 0, 1, 1]
+          [0, 0, 1, 1],
         ],
         solution: [7, 12],
-        title: "Corners - 1 / 3"
+        title: 'Corners - 1 / 3',
       },
       {
         matrix: [
           [1, 1, 1],
           [0, -1, 1],
-          [0, 0, 1]
+          [0, 0, 1],
         ],
         solution: [6],
-        title: "Corners - 2 / 3"
+        title: 'Corners - 2 / 3',
       },
       {
         matrix: [
           [1, 1, 1],
           [1, -1, 0],
-          [1, -1, 0]
+          [1, -1, 0],
         ],
         solution: [8],
-        title: "Corners - 3 / 3",
-        showModal: true
+        title: 'Corners - 3 / 3',
+        showModal: true,
       },
       {
         matrix: [
@@ -372,10 +370,10 @@ export default {
           [0, 0, 0, 1, 1],
           [0, 0, 1, 0, 0],
           [1, 1, 0, 0, 0],
-          [1, 1, 0, 0, 0]
+          [1, 1, 0, 0, 0],
         ],
         solution: [6, 18],
-        title: "Overlapping clicks - 1 / 5"
+        title: 'Overlapping clicks - 1 / 5',
       },
       {
         matrix: [
@@ -383,81 +381,81 @@ export default {
           [0, 0, 1, 0, 0],
           [0, 0, 1, 0, 0],
           [1, 1, 0, 0, 0],
-          [1, 1, 1, 1, 1]
+          [1, 1, 1, 1, 1],
         ],
         solution: [6, 13],
-        title: "Overlapping clicks - 2 / 5"
+        title: 'Overlapping clicks - 2 / 5',
       },
       {
         matrix: [
           [0, 0, 0],
           [1, 1, 1],
           [0, 0, 0],
-          [0, 0, 0]
+          [0, 0, 0],
         ],
         solution: [1, 7],
-        title: "Overlapping clicks - 3 / 5"
+        title: 'Overlapping clicks - 3 / 5',
       },
       {
         matrix: [
           [0, 1, 0],
           [0, 1, 0],
-          [1, 1, 1]
+          [1, 1, 1],
         ],
         solution: [0, 2],
-        title: "Overlapping clicks - 4 / 5"
+        title: 'Overlapping clicks - 4 / 5',
       },
       {
         matrix: [
           [1, 0, 0],
           [0, 1, 0],
-          [0, 0, 1]
+          [0, 0, 1],
         ],
         solution: [2, 6],
-        title: "Overlapping clicks - 5 / 5",
-        showModal: true
+        title: 'Overlapping clicks - 5 / 5',
+        showModal: true,
       },
       {
         matrix: [[0, 1, 0]],
-        title: "On your own - 1 / 5",
-        moves: 2
+        title: 'On your own - 1 / 5',
+        moves: 2,
       },
       {
         matrix: [
           [1, 1, 1],
           [-1, 0, -1],
-          [-1, 1, -1]
+          [-1, 1, -1],
         ],
-        title: "On your own - 2 / 5",
-        moves: 3
+        title: 'On your own - 2 / 5',
+        moves: 3,
       },
       {
         matrix: [
           [-1, 0, -1],
           [1, 0, 0],
-          [-1, 1, -1]
+          [-1, 1, -1],
         ],
-        title: "On your own - 3 / 5",
-        moves: 3
+        title: 'On your own - 3 / 5',
+        moves: 3,
       },
       {
         matrix: [
           [0, -1, 0],
           [-1, 0, -1],
-          [0, -1, 1]
+          [0, -1, 1],
         ],
-        title: "On your own - 4 / 5",
-        moves: 3
+        title: 'On your own - 4 / 5',
+        moves: 3,
       },
       {
         matrix: [
           [1, 1, -1],
           [0, -1, 1],
-          [-1, 0, 0]
+          [-1, 0, 0],
         ],
-        title: "On your own - 5 / 5",
+        title: 'On your own - 5 / 5',
         moves: 3,
-        showModal: true
+        showModal: true,
       },
       {
         matrix: [
@@ -465,73 +463,73 @@ export default {
           [1, 1, 1, 1, 1],
           [0, 0, 1, 0, 0],
           [0, 0, 1, 0, 0],
-          [1, 1, 0, 0, 0]
+          [1, 1, 0, 0, 0],
         ],
-        title: "Overlapping clicks - 1 / 3",
-        moves: 3
+        title: 'Overlapping clicks - 1 / 3',
+        moves: 3,
       },
       {
         matrix: [
           [1, 1, 1, 1],
           [1, 0, 0, 0],
           [1, 0, 1, 0],
-          [1, 0, 1, 0]
+          [1, 0, 1, 0],
         ],
-        title: "Overlapping clicks - 2 / 3",
-        moves: 3
+        title: 'Overlapping clicks - 2 / 3',
+        moves: 3,
       },
       {
         matrix: [
           [0, 1, 1],
           [0, 0, 0],
-          [1, 1, 1]
+          [1, 1, 1],
         ],
-        title: "Overlapping clicks - 3 / 3",
+        title: 'Overlapping clicks - 3 / 3',
         moves: 3,
-        showModal: true
+        showModal: true,
       },
       {
         matrix: [[1, 0, 1]],
-        title: "Step-by-step 1 / 4",
-        moves: 3
+        title: 'Step-by-step 1 / 4',
+        moves: 3,
       },
       {
         matrix: [
           [1, 0, 1],
           [1, -1, 1],
-          [1, 1, 1]
+          [1, 1, 1],
         ],
-        title: "Step-by-step 2 / 4",
-        moves: 3
+        title: 'Step-by-step 2 / 4',
+        moves: 3,
       },
       {
         matrix: [
           [1, 0, 1],
           [1, -1, 1],
-          [1, 0, 1]
+          [1, 0, 1],
         ],
-        title: "Step-by-step 3 / 4",
-        moves: 6
+        title: 'Step-by-step 3 / 4',
+        moves: 6,
       },
       {
         matrix: [
           [1, 0, 1],
           [1, -1, 0],
-          [1, 0, 1]
+          [1, 0, 1],
         ],
-        title: "Step-by-step 4 / 4",
+        title: 'Step-by-step 4 / 4',
         moves: 5,
-        showModal: true
+        showModal: true,
       },
       {
         matrix: [
           [0, 0, 1, 0],
           [0, 0, 1, 0],
           [1, 1, 0, 1],
-          [1, 1, 0, 1]
+          [1, 1, 0, 1],
         ],
-        title: "Final steps - 1 / 4",
-        moves: 4
+        title: 'Final steps - 1 / 4',
+        moves: 4,
       },
       {
         matrix: [
@@ -539,35 +537,35 @@ export default {
           [1, 1, 1, 1, 1],
           [1, 1, 0, 0, 0],
           [1, 1, 1, 1, 1],
-          [0, 0, 1, 1, 1]
+          [0, 0, 1, 1, 1],
         ],
-        title: "Final steps - 2 / 4",
-        moves: 5
+        title: 'Final steps - 2 / 4',
+        moves: 5,
       },
       {
         matrix: [
           [0, 1, 1],
           [1, 0, 0],
-          [0, 1, 1]
+          [0, 1, 1],
         ],
-        title: "Final steps - 3 / 4",
-        moves: 3
+        title: 'Final steps - 3 / 4',
+        moves: 3,
       },
       {
         matrix: [
           [1, 0, 1],
           [1, 1, 0],
-          [0, 1, 1]
+          [0, 1, 1],
         ],
-        title: "Final steps - 4 / 4",
+        title: 'Final steps - 4 / 4',
         moves: 4,
-        showModal: true
-      }
-    ].map((stage) => {
+        showModal: true,
+      },
+    ].map(stage => {
       const res = new Layout({
         width: stage.matrix[0].length,
         height: stage.matrix.length,
-        exclude: Layout.getExcludeFromMatrix(stage.matrix)
+        exclude: Layout.getExcludeFromMatrix(stage.matrix),
       });
       res.setMatrix(stage.matrix);
       return {
@@ -577,7 +575,7 @@ export default {
         solution: stage.solution,
         modulo: stage.modulo,
         title: stage.title,
-        moves: stage.moves
+        moves: stage.moves,
       };
     });
 
@@ -585,7 +583,7 @@ export default {
       mistakes: 0,
       highlightedTiles: [],
       showModal: true,
-      text: "Try it here!",
+      text: 'Try it here!',
       modalPage: 0,
       stageIndex: 0,
       stages,
@@ -596,61 +594,61 @@ export default {
       highlightNext: false,
       nextTimer: undefined,
       retry: false,
-      currentModalText: [""],
+      currentModalText: [''],
       modalTexts: [
-        ["Welcome to TileSwap."],
+        ['Welcome to TileSwap.'],
         [
-          'Welcome to TileSwap',
-          'To win the game, turn all the tiles white',
-          'Clicking on a tile swaps the color of <span style="color: var(--success-color);">this tile</span> and all its neighbors'
+          'Welcome to TileSwap.',
+          'To win the game, turn all the tiles white.',
+          'Clicking on a tile swaps the color of <span style="color: var(--success-color);">this tile</span> and all its neighbors.',
         ],
         [
           "You've won!",
           "You're free to experiment.",
-          "Click next when you're ready to continue."
+          "Click next when you're ready to continue.",
         ],
-        ["Now see what happens when tiles are missing."],
+        ['Now see what happens when tiles are missing.'],
         [
-          "You are getting the hang of it!",
-          "Let's make this a bit more interesting."
+          'You are getting the hang of it!',
+          "Let's make this a bit more interesting.",
         ],
         [
-          "So far , things were simple.",
-          "However , the patterns can quickly become complex.",
-          "For example when 2 clicks overlap :"
+          'So far , things were simple.',
+          'However , the patterns can quickly become complex.',
+          'For example when 2 clicks overlap :',
         ],
         [
           "From now on we won't tell you when you're getting further away from the solution.",
-          "You can go back to the initial state anytime by pressing the reset button."
+          'You can go back to the initial state anytime by pressing the reset button.',
         ],
-        ["Notice that the order on which you click on tiles does not matter :"],
+        ['Notice that the order on which you click on tiles does not matter :'],
         [
-          "You previously did 2 overlapping clicks.",
-          "How about 3 overlapping clicks ?"
+          'You previously did 2 overlapping clicks.',
+          'How about 3 overlapping clicks ?',
         ],
         [
-          "As you might have noticed, clicking twice on the same tile is the same as not clicking on it at all."
+          'As you might have noticed, clicking twice on the same tile is the same as not clicking on it at all.',
         ],
         ["Now let's progressively increase the difficulty."],
         ["Last steps! You're getting there."],
         [
-          "You mastered the basics!",
-          "How about we now let you choose how difficult you want it to be ?"
+          'You mastered the basics!',
+          'How about we now let you choose how difficult you want it to be ?',
         ],
         [
-          "Move the dots on the slider to choose your difficutly range :",
-          "Then press the dice icon to generate a new pattern with a difficulty inside this range."
-        ]
+          'Move the dots on the slider to choose your difficutly range :',
+          'Then press the dice icon to generate a new pattern with a difficulty inside this range.',
+        ],
       ],
       exampleLayout: (() => {
         const layout = new Layout({
           width: 5,
           height: 5,
-          id: "tutorial"
+          id: 'tutorial',
         });
         layout.setAllTiles(0);
         return layout;
-      })()
+      })(),
     };
   },
   mounted() {
@@ -669,7 +667,7 @@ export default {
           row.every((tile, t) => tile === this.stage.matrix[r][t])
         ) && !this.stage.solution
       );
-    }
+    },
   },
   methods: {
     handleClick(tileIndex, row, tile) {
@@ -679,7 +677,7 @@ export default {
           if (this.mistakes >= 4) {
             this.highlightedTiles.push([
               this.stage.solution[0] % this.stage.layout.width,
-              Math.floor(this.stage.solution[0] / this.stage.layout.width)
+              Math.floor(this.stage.solution[0] / this.stage.layout.width),
             ]);
           }
           this.disabled = true;
@@ -723,7 +721,7 @@ export default {
         this.nextTimer = setTimeout(() => {
           this.highlightNext = true;
         }, 15e3);
-        this.text = "Click next when finished experimenting";
+        this.text = 'Click next when finished experimenting';
       }
     },
     next() {
@@ -747,26 +745,29 @@ export default {
     end() {
       const store = useStore();
       store.setLayout(Layout.fromId(0));
-      this.$router.push("/tutorialFreeplayGame");
+      this.$router.push('/tutorialFreeplayGame');
     },
     startTypewriter() {
-      this.currentModalText = [""];
+      this.currentModalText = [''];
       const text = this.modalTexts[this.modalPage];
       let i = 0; // index of the current line
       let j = 0; // index of the current character
-      
+
       const writeChar = () => {
-        if (i === text.length) { // if we reached the end of the text
+        if (i === text.length) {
+          // if we reached the end of the text
           return;
         }
-        if (j === text[i].length) { // if we reached the end of the line
+        if (j === text[i].length) {
+          // if we reached the end of the line
           this.currentModalText[i] = text[i];
           i++;
           j = 0;
           writeChar();
           return;
         }
-        if (text[i][j] === '<') { // if we reached a tag
+        if (text[i][j] === '<') {
+          // if we reached a tag
           const tagEnd = text[i].indexOf('>', j);
           this.currentModalText[i] = text[i].slice(0, tagEnd + 1);
           j = tagEnd + 1;
@@ -777,10 +778,10 @@ export default {
         const time = text[i][j] === '.' ? 70 : 40;
         j++;
         setTimeout(writeChar, time);
-      }
-      
+      };
+
       writeChar();
-    }
-  }
+    },
+  },
 };
 </script>
