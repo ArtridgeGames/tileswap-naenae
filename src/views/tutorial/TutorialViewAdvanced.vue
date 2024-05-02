@@ -116,7 +116,7 @@ import LayoutAnimation from '../../components/LayoutAnimation.vue';
     
     <div class="top center text-center" style="width: max-content; max-width: 100%;">
       <h1>{{ text }}</h1>
-      <h1 :class="{ shake }" v-if="showWrong">Wrong tile!</h1>
+      <h1 v-if="showWrong">Wrong tile!</h1>
       <Button v-if="retry" text="reset" @pressed="reset" />
       <h1 v-if="showMoves">this takes minimum {{ stage.moves }} clicks</h1>
     </div>
@@ -464,7 +464,7 @@ export default {
         [
           'Welcome to TileSwap',
           'To win the game, turn all the tiles white',
-          'Clicking on a tile swaps the color of this tile and all its neighbors' // <span style="color: var(--success-color);"></span>
+          'Clicking on a tile swaps the color of <span style="color: var(--success-color);">this tile</span> and all its neighbors'
         ],
         [
           'You\'ve won!',
@@ -614,20 +614,32 @@ export default {
       const text = this.modalTexts[this.modalPage];
       let i = 0; // index of the current line
       let j = 0; // index of the current character
-      const interval = setInterval(() => {
-        if (i === text.length) {
-          clearInterval(interval);
+      
+      const writeChar = () => {
+        if (i === text.length) { // if we reached the end of the text
           return;
         }
-        if (j === text[i].length) {
+        if (j === text[i].length) { // if we reached the end of the line
           this.currentModalText[i] = text[i];
           i++;
           j = 0;
-        } else {
-          this.currentModalText[i] = text[i].slice(0, j);
-          j++;
+          writeChar();
+          return;
         }
-      }, 80);
+        if (text[i][j] === '<') { // if we reached a tag
+          const tagEnd = text[i].indexOf('>', j);
+          this.currentModalText[i] = text[i].slice(0, tagEnd + 1);
+          j = tagEnd + 1;
+          writeChar();
+          return;
+        }
+        this.currentModalText[i] = text[i].slice(0, j);
+        const time = text[i][j] === '.' ? 70 : 40;
+        j++;
+        setTimeout(writeChar, time);
+      }
+      
+      writeChar();
     }
   }
 }
