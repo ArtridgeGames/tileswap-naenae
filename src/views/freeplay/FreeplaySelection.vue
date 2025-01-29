@@ -13,7 +13,7 @@ import randomUrl from "/images/svg/random.svg";
     <br>
     <div>
       <div class="text-center tools">
-        <IconButton :icon="randomUrl" @pressed="startRandomFreeplay" />
+        <!-- <IconButton :icon="randomUrl" @pressed="startRandomFreeplay" /> -->
         <LinkButton v-if="showLayoutEditor" to="layout-editor" text="✎"></LinkButton>
       </div>
       <div v-for="(category, i) in categories"

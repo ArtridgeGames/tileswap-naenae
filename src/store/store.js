@@ -54,25 +54,6 @@ export const useStore = defineStore('store', () => {
     8e11, // + 18k
   ];
 
-  // const categories = [
-  //   1000,
-  //   3000, // + 2k
-  //   6000, // + 3k
-  //   10000, // + 4k
-  //   15000, // + 5k
-  //   21000, // + 6k
-  //   28000, // + 7k
-  //   36000, // + 8k
-  //   45000, // + 9k
-  //   55000, // + 10k
-  //   66000, // + 11k
-  //   78000, // + 12k
-  //   91000, // + 13k
-  //   105000, // + 14k
-  //   120000, // + 15k
-  //   136000, // + 16k
-  //   153000, // + 17k
-  // ]
   const nextScore = computed(() => {
     const index = categories.findIndex(e => e > score.value);
     return index === -1 ? 0 : categories[index];

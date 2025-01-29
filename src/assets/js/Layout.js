@@ -1515,6 +1515,10 @@ export class Layout {
       .filter(e => e !== null);
   }
 
+  /**
+   * Generates a random layout from the list of all layouts
+   * @returns {Layout} a random layout 
+   */
   static getRandomLayout() {
     const layouts = Layout.ALL_LAYOUTS;
     return layouts[Math.floor(Math.random() * layouts.length)];
