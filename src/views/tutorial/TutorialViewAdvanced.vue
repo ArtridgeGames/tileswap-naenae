@@ -282,24 +282,13 @@ export default {
       {
         matrix: [
           [-1, 0, 0, 1, 1],
-          [0, 0, 0, 1, 1],
-          [0, 0, 0, 1, 1],
+          [0, 0, -1, 1, 1],
+          [0, -1, 0, 1, 1],
           [1, 1, 1, 1, 1],
           [1, 1, 1, 1, 1],
         ],
         solution: [6],
         title: 'Missing tiles - 1 / 5',
-      },
-      {
-        matrix: [
-          [1, 1, 1, 1, 1],
-          [1, 1, 1, 1, 1],
-          [1, 1, -1, 0, -1],
-          [1, 1, 0, 0, 0],
-          [1, 1, 0, -1, 0],
-        ],
-        solution: [18],
-        title: 'Missing tiles - 2 / 5',
       },
       {
         matrix: [
@@ -310,7 +299,7 @@ export default {
           [1, 1, 1, 1, 1],
         ],
         solution: [12],
-        title: 'Missing tiles - 3 / 5',
+        title: 'Missing tiles - 2 / 4',
       },
       {
         matrix: [
@@ -321,7 +310,7 @@ export default {
           [-1, -1, 0, 1, 1],
         ],
         solution: [16],
-        title: 'Missing tiles - 4 / 5',
+        title: 'Missing tiles - 3 / 4',
       },
       {
         matrix: [
@@ -332,7 +321,7 @@ export default {
           [-1, -1, -1, 1, 1],
         ],
         solution: [16],
-        title: 'Missing tiles - 5 / 5',
+        title: 'Missing tiles - 4 / 4',
         showModal: true,
       },
       {
@@ -598,7 +587,6 @@ export default {
       modalTexts: [
         ['Welcome to TileSwap.'],
         [
-          'Welcome to TileSwap.',
           'To win the game, turn all the tiles white.',
           'Clicking on a tile swaps the color of <span style="color: var(--success-color);">this tile</span> and all its neighbors.',
         ],
@@ -775,7 +763,7 @@ export default {
           return;
         }
         this.currentModalText[i] = text[i].slice(0, j);
-        const time = text[i][j] === '.' ? 70 : 40;
+        const time = text[i][j] === ('.' || '!') ? 90 : 35;
         j++;
         setTimeout(writeChar, time);
       };
