@@ -1627,48 +1627,6 @@ export const CHALLENGES = [
       }),
     ],
   },
-  /*
-
-  new Challenge({
-    id: 5,
-    title: 'Survival',
-    settings: new ChallengeProperties({
-      timeLimit: 10,
-      patternList: patternList([0]),
-      patternCount: -1,
-      patternListOrder: LINEAR,
-      difficulty: n => Math.floor(7 * Math.log10(n) + 3),
-      defaults: {
-        bonusTimePerPattern: 2
-      }
-    })
-  }),
-
-  new Challenge({
-    id: 9,
-    title: 'Game of Life',
-    settings: new ChallengeProperties({
-      patternList: patternList([83, 84, 85, 104, 93, 94, 96, 97, 98, 99, 117, 103, 30, 152]),
-      patternCount: 10,
-      timeLimit: 80,
-      patternListOrder: RANDOM,
-      difficulty:  () => sumInRanges([[4,8], [6,9], [5,7], [10,18], [7,10], [3,7], [3,6], [6,8], [6,9], [9,14], [6,8], [5,8], [5,8], [13,20]], 96),
-      defaults: {
-        bonusTimePerPattern: 5,
-      }
-    })
-  }),
-  new Challenge({
-    id: 10,
-    title: 'Snake',
-    settings: new ChallengeProperties({
-      timeLimit: 40,
-      patternList: patternList([69, 45, 66, 130, 178, 179, 180, 182]),
-      patternCount: 7,
-      patternListOrder: RANDOM,
-      difficulty:  () => sumInRanges([[6,10], [5,9], [6,13], [2,4], [13,20], [10,15], [4,9], [7,17]], 70)
-    })
-  })*/
 ].map(category => {
   category.challenges.map(challenge => {
     challenge.process.unlockCategory = category.unlockCategory;
