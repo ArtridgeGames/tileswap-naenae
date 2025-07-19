@@ -1470,6 +1470,11 @@ export class Layout {
 
   /**
    * Computes the score to be awarded for solving the layout
+   * 
+   * The formula is:
+   * score = iterations * (1.1 + iterations / (maxDifficulty * 0.8 + 10)) * 2^unlockCategory,
+   * where *maxDifficulty* is the theoretical maximum difficulty of the layout
+   * and *unlockCategory* is the level at which this layout is unlocked
    * @param {Number} iterations the number of iterations to generate the layout
    * @returns {Number} the score to be awarded for solving the layout
    */
@@ -1482,7 +1487,15 @@ export class Layout {
       2 ** this.unlockCategory
     );
   }
-
+  
+  /**
+   * Computes the theoretical maximum difficulty of the layout
+   * by generating a random position with the number of tiles as iterations and solving it
+   * multiple times to find the approximate maximum number of moves required.
+   * If the layout is det 1, it will return the number of tiles, if det 0 it will return a lower bound
+   * which this function tries to approximate.
+   * @returns {Number} the maximum difficulty of the layout
+   */
   computeMaxDifficulty() {
     const layout = this.copy();
 
