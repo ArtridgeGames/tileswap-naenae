@@ -7,11 +7,12 @@ Score is obtained when
 When solving a position in freeplay the following formula is applied to find out how much score is to be awarded:
 score = difficulty * (1.1 + difficulty / (max difficulty * 0.8 + 10))
 
-$$ score = D \cdot({1.1 + {D \over {D_{max} \cdot 0.8 + 10}}}) $$
+$$ score = D \cdot({1.1 + {D \over {D_{max} \cdot 0.8 + 10}}}) * (\frac{1}{2})^{nHints} $$
 
 where: 
 - difficulty is the least number of moves required to solve the position
 - max difficulty is the theoretical maximum number of moves that the layout can take to solve, it can be approximated with the number of tiles the the layout has
+- nHints is the number of hints that the player had to ask for to find the solution
 
 # Puzzles
 Each puzzle has a total amount of score to award. 1/6 of the score is given when the player solves the puzzle with the bronze medal, 2/6 when solved with a bronze medal and 3/6 when solved with a gold medal. The score for each medal can only be awarded once; if the player finished the puzzle with a bronze medal and solves it again with a bronze medal, no score is awarded. If the player finishes witha better medal, the score for all the medals below it is awarded if he didn't already have it: finishing with a silver medal awards 1/6 + 2/6 of the total score.
