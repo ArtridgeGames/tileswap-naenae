@@ -21,9 +21,7 @@ import Tile from "./Tile.vue";
           :layout="modelValue"
           
           :position="[rowIndex + paddingY, tileIndex + paddingX]"
-          :key="
-            rowIndex + paddingX + '' + tileIndex + paddingY + '' + currentChallenge?.currentPattern + modelValue.id
-          "
+          :key="rowIndex + paddingX + '' + tileIndex + paddingY + '' + currentChallenge?.currentPattern + modelValue.id"
           :class="{
             solution:
               devMode && solution && solution[rowIndex + paddingY][tileIndex + paddingX] >= 1,

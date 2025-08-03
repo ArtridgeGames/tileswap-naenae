@@ -37,10 +37,10 @@ const rotateNTimes = (state, n) => {
 
 
 class Solution {
-  constructor(matrix, determinant, moves) {
+  constructor(matrix, determinant, moveCount) {
     this.matrix = matrix;
     this.determinant = determinant;
-    this.moves = moves;
+    this.moveCount = moveCount;
   }
 }
 

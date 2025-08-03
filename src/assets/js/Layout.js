@@ -1425,7 +1425,7 @@ export class Layout {
         zerows !== 1
           ? Math.min(zerows, iterations)
           : Math.floor(iterations - modulo * (iterations / 3) + 2);
-      if (solution.moves < threshold) {
+      if (solution.moveCount < threshold) {
         return this.generatePosition(iterations, modulo, tilesToFlip);
       }
     }
