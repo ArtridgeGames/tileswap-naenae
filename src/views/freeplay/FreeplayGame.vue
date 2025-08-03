@@ -25,7 +25,7 @@ import BackButton from "../../components/buttons/BackButton.vue";
       
       <div class="buttons">
         <Button text="reset" @pressed="reset" />
-        <Button text="hint" />
+        <Button text="hint" @pressed="hint" />
       </div>
     </div>
 
@@ -42,10 +42,11 @@ import BackButton from "../../components/buttons/BackButton.vue";
     <main>
       <Transition name="fade" mode="out-in">
         <LayoutVue
-          :key="modulo + layout.id"
           v-model="layout"
-          :solution="devMode ? solution : null"
           @swap="handleClick"
+          :key="modulo + layout.id"
+          :solution="devMode ? solution : null"
+          :highlighted-tiles="highlightedTiles"
         />
       </Transition>
     </main>
@@ -191,6 +192,8 @@ export default {
       showModal: false,
       showDevMode: devMode.value,
       solutions: [],
+      shortest: 0,
+      highlightedTiles: [],
       solutionIndex: 0,
       determinant: 0,
       zerows: 0,
@@ -239,17 +242,16 @@ export default {
   methods: {
     handleClick(index, row, tile) {
       this.moves++;
+      this.highlightedTiles = [];
 
-      if (devMode.value) {
-        if (this.solveOnClick) {
-          this.updateSolutions();
-        } else {
-          for (const solution of this.solutions) {
-            solution.matrix[row][tile] =
-              (((solution.matrix[row][tile] - 1) % modulo.value) +
-                modulo.value) %
-              modulo.value;
-          }
+      if (devMode.value && this.solveOnClick) {
+        this.updateSolutions();
+      } else {
+        for (const solution of this.solutions) {
+          solution.matrix[row][tile] =
+            (((solution.matrix[row][tile] - 1) % modulo.value) +
+              modulo.value) %
+            modulo.value;
         }
       }
 
@@ -278,9 +280,7 @@ export default {
       this.savedMatrix = this.layout.matrix.map((row) => row.map((tile) => tile));
       this.$nextTick(() => {
         try {
-          if (devMode.value) {
-            this.updateSolutions();
-          }
+          this.updateSolutions();
         } catch (e) {
           console.error(e);
           this.solution = this.layout.matrix.map((row) => row.map((tile) => 0));
@@ -296,6 +296,7 @@ export default {
     },
     updateSolutions() {
       const { solutions, shortest, determinant, zerows } = solve(this.layout.matrix);
+      this.shortest = shortest;
       this.solutionIndex = shortest;
       this.solutions = solutions;
       this.determinant = determinant;
@@ -306,6 +307,24 @@ export default {
       this.modalPage = 0;
       this.store.hasHadOtherGameModesPopup = true;
       this.$router.push("/home");
+    },
+    hint() {
+      if (this.solutions.length === 0) return;
+      const solution = this.solutions[this.shortest];
+      
+      if (solution.moveCount.length === 0) return;
+      
+      const width = solution.matrix[0].length;
+
+      const index = solution.matrix.flat().findIndex(e => e >= 1);
+      if (index < 0) return;
+
+      const coords = [
+        index % width, // x
+        Math.floor(index / width)
+      ];
+
+      this.highlightedTiles.push(coords);
     }
   },
   mounted() {
