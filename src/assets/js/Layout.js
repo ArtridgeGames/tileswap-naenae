@@ -1476,16 +1476,20 @@ export class Layout {
    * where *maxDifficulty* is the theoretical maximum difficulty of the layout
    * and *unlockCategory* is the level at which this layout is unlocked
    * @param {Number} iterations the number of iterations to generate the layout
+   * @param {Number} hints the number of hints used to solve the layout
    * @returns {Number} the score to be awarded for solving the layout
    */
-  computeScore(iterations) {
+  computeScore(iterations, hints = 0) {
     expect(this.unlockCategory >= 0);
     const dMax = this.maxDifficulty ?? this.computeMaxDifficulty();
     this.maxDifficulty = dMax;
-    return (
+    const result = (
       Math.round(iterations * (1.1 + iterations / (dMax * 0.8 + 10))) *
-      2 ** this.unlockCategory
+      2 ** this.unlockCategory *
+      (1 / 2) ** hints
     );
+
+    return Math.round(result * 1e2) / 1e2;
   }
   
   /**

@@ -199,6 +199,7 @@ export default {
       zerows: 0,
       moves: 0,
       solveOnClick: false,
+      hintCount: 0
     };
   },
   watch: {
@@ -258,7 +259,7 @@ export default {
       if (this.layout.isSolved(modulo.value)) {
         this.store.stats.layoutsSolved++;
         this.showModal = true;
-        this.latestScore = this.layout.computeScore(this.latestDifficulty);
+        this.latestScore = this.layout.computeScore(this.latestDifficulty, this.hintCount);
         this.store.score += this.latestScore;
         Task.advanceTasks(
           this.layout.id,
@@ -269,6 +270,7 @@ export default {
     },
     randomize() {
       this.moves = 0;
+      this.hintCount = 0;
       const min = this.difficultyRange[0];
       const max = this.difficultyRange[1];
       this.latestDifficulty = Math.floor(Math.random() * (max - min + 1) + min) // + Math.round(Math.random() * (modulo.value - 1));
@@ -325,6 +327,8 @@ export default {
       ];
 
       this.highlightedTiles.push(coords);
+
+      this.hintCount++;
     }
   },
   mounted() {
