@@ -75,7 +75,7 @@ import WinModal from "../../components/WinModal.vue";
     <WinModal v-model="showModal">
       <div v-if="modalPage === 0">
         <h1 style="margin: 0">you won in {{ moves }} move{{ moves > 1 ? "s" : "" }}!</h1>
-        <div style="display: flex; align-items: center; gap: 8px; justify-content: center; font-size: var(--font-size-xs); margin: 14px 0;">
+        <div style="display: flex; align-items: center; gap: 8px; justify-content: center; font-size: var(--font-size-xs);">
           <p style="font-size: inherit;">+ {{ latestScore }} score</p>
           <p style="font-size: inherit;" v-if="hintCount > 0">
             ({{ layout.computeScore(latestDifficulty, 0)}} / {{ 2 ** hintCount }})
