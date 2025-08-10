@@ -8,6 +8,7 @@ import Modal from "../../components/Modal.vue";
 import DevMode from "../../components/DevMode.vue";
 import Progress from "../../components/Progress.vue";
 import BackButton from "../../components/buttons/BackButton.vue";
+import WinModal from "../../components/WinModal.vue";
 </script>
 
 <template>
@@ -71,7 +72,7 @@ import BackButton from "../../components/buttons/BackButton.vue";
       :zerows="zerows"
     />
 
-    <Modal v-model="showModal">
+    <WinModal v-model="showModal">
       <div v-if="modalPage === 0">
         <h1 style="margin: 0">you won in {{ moves }} move{{ moves > 1 ? "s" : "" }}!</h1>
         <p style="font-size: var(--font-size-xs); margin: 14px 0">+ {{ latestScore }} score</p>
@@ -95,7 +96,7 @@ import BackButton from "../../components/buttons/BackButton.vue";
         <h1>Swipe to change menus and go to the Puzzles and Challenges gamemodes.</h1>
         <Button text="yay!" black @pressed="unlockOtherGameModes" />
       </div>
-    </Modal>
+    </WinModal>
   </div>
 </template>
 
