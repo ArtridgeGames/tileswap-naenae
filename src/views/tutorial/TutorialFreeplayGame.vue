@@ -27,10 +27,6 @@ import LinkButton from "../../components/buttons/LinkButton.vue";
       {{ moves }} move{{ moves > 1 ? "s" : "" }}
     </p>
 
-    <div class="top right" v-if="showBack">
-      <LinkButton text="back" to="/home" />
-    </div>
-
     <main>
       <Transition name="fade" mode="out-in">
         <LayoutVue
@@ -71,7 +67,7 @@ import LinkButton from "../../components/buttons/LinkButton.vue";
         <h1>However you might be tired of playing on the same pattern.</h1>
         <h1>Click on the back button to see what other options you have.</h1>
         <h1>Reach a score of 50 to unlock new gamemodes.</h1>
-        <Button black text="ok!" @pressed="showModal = false; modalPage=0" />
+        <LinkButton black text="back" to="/home" />
       </div>
     </Modal>
   </div>
