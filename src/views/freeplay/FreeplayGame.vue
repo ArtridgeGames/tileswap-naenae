@@ -78,7 +78,7 @@ import WinModal from "../../components/WinModal.vue";
         <div style="display: flex; align-items: center; gap: 8px; justify-content: center; font-size: var(--font-size-xs);">
           <p style="font-size: inherit;">+ {{ latestScore }} score</p>
           <p style="font-size: inherit;" v-if="hintCount > 0">
-            ({{ layout.computeScore(latestDifficulty, 0)}} / {{ 2 ** hintCount }})
+            ({{ layout.computeScore(latestDifficulty, 0)}} / {{ 2 ** hintCount }} | {{hintCount}} {{ hintCount > 1 ? "hints" : "hint" }})
           </p>
         </div>
         <Progress
