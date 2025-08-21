@@ -17,9 +17,12 @@ export const useStore = defineStore('store', () => {
   const menuViewIndex = ref(0);
   const savedMenuScroll = ref(0);
   const score = ref(0);
+
   const hasHadOtherGameModesPopup = ref(false);
   const hasHadPuzzleExplanationPopup = ref(false);
   const hasHadChallengeExplanationPopup = ref(false);
+  const recentCategoryModalPopup = ref(0);
+
   const selectedChallengeGroup = ref(null);
   const allowScroll = ref(true);
 
@@ -34,7 +37,7 @@ export const useStore = defineStore('store', () => {
 
   const categories = [
     50,
-    750,
+    60, //750
     2500, // + 2k
     7000, // + 3k
     15000, // + 4k
@@ -58,6 +61,8 @@ export const useStore = defineStore('store', () => {
     const index = categories.findIndex(e => e > score.value);
     return index === -1 ? 0 : categories[index];
   });
+
+  //! currentCategory is zero-based
   const currentCategory = computed(() => {
     const index = categories.findIndex(e => e > score.value);
     // Adjust index to skip first category
@@ -98,9 +103,9 @@ export const useStore = defineStore('store', () => {
     hasHadOtherGameModesPopup.value = true;
   }
 
-  if (process.env.NODE_ENV === 'development') {
-    unlockAll();
-  }
+  // if (process.env.NODE_ENV === 'development') {
+  //   unlockAll();
+  // }
 
   function setTask(index, task) {
     currentTasks.value.splice(index, 1);
@@ -172,6 +177,7 @@ export const useStore = defineStore('store', () => {
     hasHadOtherGameModesPopup,
     hasHadPuzzleExplanationPopup,
     hasHadChallengeExplanationPopup,
+    recentCategoryModalPopup,
     selectedChallengeGroup,
     allowScroll,
   };
