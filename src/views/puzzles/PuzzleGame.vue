@@ -92,6 +92,10 @@ import ModuloViewer from "../../components/ModuloViewer.vue";
       <h1>Better medal = more score</h1>
       <Button black text="close" @pressed="showIntroductionModal = false" />
     </Modal>
+
+    <Modal v-model="showCategoryModal">
+      <h1>NEW CATEGORY JUST DROPPED</h1>
+    </Modal>
   </div>
 </template>
 
@@ -188,6 +192,7 @@ main.puzzle-container {
 import { Task } from "../../assets/js/Task";
 import { Puzzle } from "../../assets/js/Puzzle";
 import { gradient } from '../../assets/js/LayoutShared.js';
+import CategoryUnlockModal from "../../components/CategoryUnlockModal.vue";
 export default {
   data() {
     const store = useStore();
@@ -205,6 +210,7 @@ export default {
       maxMoves: puzzle.moves,
       showWinModal: false,
       showExplanationModal: true,
+      showCategoryModal: false,
       showIntroductionModal: !store.hasHadChallengeExplanationPopup,
     };
   },
@@ -243,7 +249,15 @@ export default {
       if (this.puzzle.isSolvedWith(this.layout)) {
         this.puzzle.completionMoves = this.moves;
         this.showWinModal = true;
-        Task.advanceTasks(this.puzzle.id, Task.TASK_TYPES.PUZZLE, this.moves);
+        this.$nextTick(() => {
+          console.log(this.store.recentCategoryModalPopup, this.store.currentCategory);
+          if (this.store.recentCategoryModalPopup < this.store.currentCategory) {
+            this.store.recentCategoryModalPopup = this.store.currentCategory;
+            this.showCategoryModal = true;
+            console.log("ShowCat is true");
+          }
+          Task.advanceTasks(this.puzzle.id, Task.TASK_TYPES.PUZZLE, this.moves);
+        })
       }
     },
     restart() {
