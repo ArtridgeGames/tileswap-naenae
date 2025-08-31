@@ -253,13 +253,11 @@ export default {
       if (this.puzzle.isSolvedWith(this.layout)) {
         this.puzzle.completionMoves = this.moves;
         this.showWinModal = true;
-        this.$nextTick(() => {
-          if (this.store.recentCategoryModalPopup < this.store.currentCategory) {
-            this.store.recentCategoryModalPopup = this.store.currentCategory;
-            this.shouldShowCategoryModal = true;
-          }
-          Task.advanceTasks(this.puzzle.id, Task.TASK_TYPES.PUZZLE, this.moves);
-        })
+        if (this.store.recentCategoryModalPopup < this.store.currentCategory) {
+          this.store.recentCategoryModalPopup = this.store.currentCategory;
+          this.shouldShowCategoryModal = true;
+        }
+        Task.advanceTasks(this.puzzle.id, Task.TASK_TYPES.PUZZLE, this.moves);
       }
     },
     restart() {
