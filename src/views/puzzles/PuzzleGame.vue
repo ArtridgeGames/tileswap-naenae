@@ -71,8 +71,10 @@ import ModuloViewer from "../../components/ModuloViewer.vue";
         style="border: 5px solid black;"
         :text="Math.floor(store.score) + (store.nextScore === 0 ?  '' : ' / ' + store.nextScore)"
       />
-      <Button black text="yay!" @pressed="showWinModal = false; quit()" />
-      <Button v-if="!hasGold" black text="retry" @pressed="restart" />
+      <Button black text="yay!" @pressed="showWinModal = false; 
+        if (shouldShowCategoryModal) { showCategoryModal = true; shouldShowCategoryModal = false; }
+        else { quit(); }" />
+      <Button v-if="!hasGold & !shouldShowCategoryModal" black text="retry" @pressed="restart" />
     </Modal>
 
     <Modal v-model="showExplanationModal">
@@ -95,6 +97,7 @@ import ModuloViewer from "../../components/ModuloViewer.vue";
 
     <Modal v-model="showCategoryModal">
       <h1>NEW CATEGORY JUST DROPPED</h1>
+      <Button black text="close" @pressed="showCategoryModal = false; quit()" />
     </Modal>
   </div>
 </template>
@@ -211,6 +214,7 @@ export default {
       showWinModal: false,
       showExplanationModal: true,
       showCategoryModal: false,
+      shouldShowCategoryModal: false,
       showIntroductionModal: !store.hasHadChallengeExplanationPopup,
     };
   },
@@ -250,11 +254,9 @@ export default {
         this.puzzle.completionMoves = this.moves;
         this.showWinModal = true;
         this.$nextTick(() => {
-          console.log(this.store.recentCategoryModalPopup, this.store.currentCategory);
           if (this.store.recentCategoryModalPopup < this.store.currentCategory) {
             this.store.recentCategoryModalPopup = this.store.currentCategory;
-            this.showCategoryModal = true;
-            console.log("ShowCat is true");
+            this.shouldShowCategoryModal = true;
           }
           Task.advanceTasks(this.puzzle.id, Task.TASK_TYPES.PUZZLE, this.moves);
         })
