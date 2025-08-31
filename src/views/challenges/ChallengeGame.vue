@@ -67,7 +67,7 @@ import ModuloViewer from "../../components/ModuloViewer.vue";
         style="border: 5px solid black;"
         :text="Math.floor(store.score) + (store.nextScore === 0 ?  '' : ' / ' + store.nextScore)"
       />
-      <Button black text="yay!" @pressed="showWinModal = false; quit();" />
+      <Button black text="yay!" @pressed="showWinModal = false; if (shouldShowCategoryModal) { showCategoryModal = true; shouldShowCategoryModal = false; } else { quit(); }" />
     </Modal>
 
     <Modal v-model="showLostModal">
@@ -82,6 +82,11 @@ import ModuloViewer from "../../components/ModuloViewer.vue";
       <Button black text="resume" @pressed="resume" />
       <Button black text="restart" @pressed="restart" />
       <Button black text="quit" @pressed="showPauseModal = false; quit();" />
+    </Modal>
+
+    <Modal v-model="showCategoryModal">
+      <h1>NEW CATEGORY JUST DROPPED</h1>
+      <Button black text="close" @pressed="showCategoryModal = false; showWinModal = false; quit()" />
     </Modal>
   </div>
 </template>
@@ -149,6 +154,8 @@ export default {
       showWinModal: false,
       showLostModal: false,
       showPauseModal: false,
+      shouldShowCategoryModal: false,
+      showCategoryModal: false,
       modalText: "",
     };
   },
@@ -191,6 +198,12 @@ export default {
     "currentChallenge.process.state"(newVal) {
       if (newVal === ChallengeProcess.STATE.WON) {
         this.showWinModal = true;
+
+        if (this.store.recentCategoryModalPopup < this.store.currentCategory) {
+          this.store.recentCategoryModalPopup = this.store.currentCategory;
+          this.shouldShowCategoryModal = true;
+        }
+
         Task.advanceTasks(
           this.currentChallenge.id,
           Task.TASK_TYPES.CHALLENGE,
