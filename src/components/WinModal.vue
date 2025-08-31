@@ -73,11 +73,15 @@
 import { useStore } from '../store/store.js';
 
 export default {
-  props: ['modelValue'],
-  emits: ['update:modelValue'],
+  props: ['modelValue', 'shouldShowCategoryModal'],
+  emits: ['update:modelValue', 'update:shouldShowCategoryModal', 'showCategoryModal'],
   methods: {
     close() {
       this.$emit('update:modelValue', false);
+      if (this.shouldShowCategoryModal) {
+        this.$emit('update:shouldShowCategoryModal', false);
+        this.$emit('showCategoryModal', true);
+      }
     }
   },
   watch: {

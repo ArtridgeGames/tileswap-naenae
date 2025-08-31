@@ -72,7 +72,11 @@ import WinModal from "../../components/WinModal.vue";
       :zerows="zerows"
     />
 
-    <WinModal v-model="showModal">
+    <WinModal v-model="showModal"
+      :shouldShowCategoryModal="shouldShowCategoryModal"
+      @update:shouldShowCategoryModal="shouldShowCategoryModal = $event"
+      @showCategoryModal="showCategoryModal = $event"
+    >
       <div v-if="modalPage === 0">
         <h1 style="margin: 0">you won in {{ moves }} move{{ moves > 1 ? "s" : "" }}!</h1>
         <div style="display: flex; align-items: center; gap: 8px; justify-content: center; font-size: var(--font-size-xs);">
@@ -91,7 +95,8 @@ import WinModal from "../../components/WinModal.vue";
         <Button v-if="!showOtherGameModesPopup"
           black
           text="yay!"
-          @pressed="showModal = false"
+          @pressed="showModal = false; modalPage = 0; showCategoryModal = shouldShowCategoryModal; shouldShowCategoryModal = false;
+          "
         />
         <Button v-else text="yay!" black @pressed="modalPage = 1;" />
       </div>
@@ -101,6 +106,11 @@ import WinModal from "../../components/WinModal.vue";
         <Button text="yay!" black @pressed="unlockOtherGameModes" />
       </div>
     </WinModal>
+
+    <Modal v-model="showCategoryModal">
+      <h1>NEW CATEGORY JUST DROPPED</h1>
+      <Button black text="close" @pressed="showCategoryModal = false; showModal = false" />
+    </Modal>
   </div>
 </template>
 
@@ -204,7 +214,9 @@ export default {
       zerows: 0,
       moves: 0,
       solveOnClick: false,
-      hintCount: 0
+      hintCount: 0,
+      showCategoryModal: false,
+      shouldShowCategoryModal: false
     };
   },
   watch: {
@@ -266,6 +278,12 @@ export default {
         this.showModal = true;
         this.latestScore = this.layout.computeScore(this.latestDifficulty, this.hintCount);
         this.store.score += this.latestScore;
+
+        if (this.store.recentCategoryModalPopup < this.store.currentCategory) {
+          this.store.recentCategoryModalPopup = this.store.currentCategory;
+          this.shouldShowCategoryModal = true;
+        }
+
         Task.advanceTasks(
           this.layout.id,
           Task.TASK_TYPES.FREEPLAY,
