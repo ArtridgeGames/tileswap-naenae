@@ -4,6 +4,7 @@ import Modal from "../../components/Modal.vue";
 import Button from "../../components/buttons/Button.vue";
 import Progress from "../../components/Progress.vue";
 import PauseButton from "../../components/buttons/PauseButton.vue";
+import CategoryUnlockModal from "../../components/CategoryUnlockModal.vue";
 import ModuloViewer from "../../components/ModuloViewer.vue";
 </script>
 
@@ -84,10 +85,9 @@ import ModuloViewer from "../../components/ModuloViewer.vue";
       <Button black text="quit" @pressed="showPauseModal = false; quit();" />
     </Modal>
 
-    <Modal v-model="showCategoryModal">
-      <h1>NEW CATEGORY JUST DROPPED</h1>
+    <CategoryUnlockModal v-model="showCategoryModal">
       <Button black text="close" @pressed="showCategoryModal = false; showWinModal = false; quit()" />
-    </Modal>
+    </CategoryUnlockModal>
   </div>
 </template>
 

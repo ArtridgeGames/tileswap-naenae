@@ -3,6 +3,7 @@ import { useStore } from "../../store/store";
 import Button from "../../components/buttons/Button.vue";
 import Layout from "../../components/Layout.vue";
 import Modal from "../../components/Modal.vue";
+import CategoryUnlockModal from "../../components/CategoryUnlockModal.vue";
 import { useWindow } from "../../assets/js/window.js";
 import tutorialUrl from "/images/svg/tutorial.svg";
 import BackButton from "../../components/buttons/BackButton.vue";
@@ -95,10 +96,9 @@ import ModuloViewer from "../../components/ModuloViewer.vue";
       <Button black text="close" @pressed="showIntroductionModal = false" />
     </Modal>
 
-    <Modal v-model="showCategoryModal">
-      <h1>NEW CATEGORY JUST DROPPED</h1>
-      <Button black text="close" @pressed="showCategoryModal = false; quit()" />
-    </Modal>
+    <CategoryUnlockModal v-model="showCategoryModal">
+      <Button black text="yay!" @pressed="showCategoryModal = false; quit()" />
+    </CategoryUnlockModal>
   </div>
 </template>
 
@@ -195,7 +195,6 @@ main.puzzle-container {
 import { Task } from "../../assets/js/Task";
 import { Puzzle } from "../../assets/js/Puzzle";
 import { gradient } from '../../assets/js/LayoutShared.js';
-import CategoryUnlockModal from "../../components/CategoryUnlockModal.vue";
 export default {
   data() {
     const store = useStore();

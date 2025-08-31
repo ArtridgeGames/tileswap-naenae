@@ -9,6 +9,8 @@ import DevMode from "../../components/DevMode.vue";
 import Progress from "../../components/Progress.vue";
 import BackButton from "../../components/buttons/BackButton.vue";
 import WinModal from "../../components/WinModal.vue";
+import CategoryUnlockModal from "../../components/CategoryUnlockModal.vue";
+
 </script>
 
 <template>
@@ -107,10 +109,9 @@ import WinModal from "../../components/WinModal.vue";
       </div>
     </WinModal>
 
-    <Modal v-model="showCategoryModal">
-      <h1>NEW CATEGORY JUST DROPPED</h1>
-      <Button black text="close" @pressed="showCategoryModal = false; showModal = false" />
-    </Modal>
+    <CategoryUnlockModal v-model="showCategoryModal">
+      <Button black text="yay!" @pressed="showCategoryModal = false; showModal = false" />
+    </CategoryUnlockModal>
   </div>
 </template>
 
