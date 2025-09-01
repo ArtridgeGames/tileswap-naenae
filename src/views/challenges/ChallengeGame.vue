@@ -64,6 +64,7 @@ import ModuloViewer from "../../components/ModuloViewer.vue";
       <Progress
         :value="store.score"
         :max="store.nextScore"
+        :startValue="store.score - currentChallenge.process.latestAddedScore"
         barColor="#e58f65"
         style="border: 5px solid black;"
         :text="Math.floor(store.score) + (store.nextScore === 0 ?  '' : ' / ' + store.nextScore)"

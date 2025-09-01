@@ -90,6 +90,7 @@ import CategoryUnlockModal from "../../components/CategoryUnlockModal.vue";
         <Progress
           :value="store.score"
           :max="store.nextScore"
+          :startValue="store.score - latestScore"
           barColor="#e58f65"
           style="border: 5px solid black; margin-bottom: 15px"
           :text="Math.floor(store.score) + (store.nextScore === 0 ?  '' : ' / ' + store.nextScore)"
