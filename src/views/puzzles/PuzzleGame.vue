@@ -92,7 +92,9 @@ import ModuloViewer from "../../components/ModuloViewer.vue";
     <Modal v-model="showIntroductionModal">
       <h1>In puzzles, get from the initial state to the final state in as few moves as possible.</h1>
       <h1>Finishing with the best solution gives you a         medal. Finishing close to the best solution gives you a         medal. Simply finishing gives you a        medal</h1>
-      <h1>Better medal = more score</h1>
+      <h1>Better medal</h1>
+       <h1>=</h1>
+       <h1>more score</h1>
       <Button black text="close" @pressed="showIntroductionModal = false" />
     </Modal>
 
