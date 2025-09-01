@@ -33,7 +33,8 @@ export const STATS_DATA = {
     initialValue: {},
     name: "Challenges Completed",
     display: (val) => {
-      return `${val.length} / ${CHALLENGES.length}`
+      const count = Object.keys(val).length;
+      return `${count} / ${CHALLENGES.length}`
     }
   },
 }
