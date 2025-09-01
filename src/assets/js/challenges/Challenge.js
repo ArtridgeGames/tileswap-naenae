@@ -1,6 +1,6 @@
-import { expect, require } from '../utils.js';
 import { Layout } from '../Layout.js';
 import { useStore } from '../../../store/store.js';
+import { ensure } from '@oskar-codes/ensure';
 
 export class Challenge {
   /**
@@ -18,7 +18,7 @@ export class Challenge {
     description,
     settings,
   }) {
-    require(id, title, settings);
+    ensure(id, title).and(settings).are.defined();
 
     this.id = id;
     this.title = title ?? "";
@@ -82,9 +82,9 @@ export class ChallengeProperties {
       moduloPerPattern,
     } = {}
   }) {
-    require(difficulty);
-    expect((patternList instanceof Array) !== (patternSequence instanceof PatternSequence));
-
+    ensure(difficulty).is.defined();
+    ensure(patternList).is.instanciatedBy(Array);
+    ensure(patternSequence).is.instanciatedBy(PatternSequence);
 
     this.timeLimit = timeLimit ?? ChallengeProperties.GLOBAL_DEFAULTS.timeLimit;
     this.moveLimit = moveLimit ?? ChallengeProperties.GLOBAL_DEFAULTS.moveLimit;
@@ -158,7 +158,7 @@ export class ChallengePattern {
     bonusTimePerPattern,
     moduloPerPattern
   }) {
-    require(id, layout);
+    ensure(id).and(layout).are.defined();
 
     this.id = id;
     this.layout = layout;
@@ -210,7 +210,8 @@ export class ChallengeProcess {
    * @param {Challenge} challenge - The challenge being played
    */
   constructor(challenge) {
-    require(challenge);
+    ensure(challenge).is.defined();
+
     this.settings = challenge.settings;
     this.id = challenge.id;
 

@@ -1,7 +1,7 @@
 import { Layout } from "./Layout.js";
 import { useStore } from "../../store/store.js";
-import { expect, require } from "./utils.js";
 import { modulo } from "./LayoutShared.js";
+import { ensure } from '@oskar-codes/ensure';
 
 /**
  * A class representing tile swap puzzles.
@@ -1318,7 +1318,7 @@ export class Puzzle {
    * @param {Number[]} solution
    */
   constructor({ base, target, solution, id, modulo, unlockCategory }) {
-    require(base, target, solution, id, modulo);
+    ensure(base, target, solution, id).and(modulo).are.defined();
 
     this.base = base;
     this.target = target;
@@ -1407,7 +1407,7 @@ export class Puzzle {
   }
 
   set completionMoves(val) {
-    expect(this.unlockCategory >= 0);
+    ensure(this.unlockCategory).is.greaterThan(0);
     const store = useStore();
     for (let i = 0; i < store.stats.puzzlesCompleted.length; i++) {
       const data = store.stats.puzzlesCompleted[i];

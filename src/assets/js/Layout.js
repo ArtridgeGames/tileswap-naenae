@@ -1,5 +1,5 @@
+import { ensure } from '@oskar-codes/ensure';
 import { solveWithRotation } from './solve/solve.js';
-import { expect, require } from './utils.js';
 
 /**
  * A class representing a layout of tiles
@@ -1207,8 +1207,8 @@ export class Layout {
    * @param {Number} config.maxDifficulty the theoretical maximum difficulty of the layout
    */
   constructor({ width, height, exclude, unlockCategory, id, maxDifficulty }) {
-    require(width, height);
-    expect(width > 0 && height > 0);
+    ensure(width).and(height).are.defined();
+    ensure(width > 0).and(height > 0).are.true();
 
     this.width = width;
     this.height = height;
@@ -1245,12 +1245,11 @@ export class Layout {
     modulo = 2,
     tilesToFlip = Layout.TILES_TO_FLIP
   ) {
-    require(row, column);
-    expect(!isNaN(row) && !isNaN(column));
-    expect(row >= 0);
-    expect(column >= 0);
-    expect(row < this.matrix.length);
-    expect(column < this.matrix[0].length);
+    ensure(row).and(column).are.defined();
+    ensure(row).and(column).are.ofType('number');
+    ensure(row).and(column).are.greaterThan(0);
+    ensure(row).is.strictlyLessThan(this.matrix.length);
+    ensure(column).is.strictlyLessThan(this.matrix[0].length);
 
     let count = 0;
 
@@ -1373,8 +1372,8 @@ export class Layout {
    * @returns {Layout} a Layout object with a random pattern
    */
   generatePosition(iterations, modulo = 2, tilesToFlip = Layout.TILES_TO_FLIP) {
-    require(iterations);
-    expect(iterations > 0);
+    ensure(iterations).is.defined()
+    ensure(iterations).is.strictlyGreaterThan(0);
 
     const copy = this.copy();
     copy.setAllTiles(modulo - 1);
@@ -1391,7 +1390,7 @@ export class Layout {
       .filter(e => e !== null)
       .flatMap(e => new Array(modulo - 1).fill().map(_ => e));
 
-    expect(possibleTiles.length >= iterations);
+    ensure(possibleTiles.length).is.greaterThan(iterations);
 
     // Sequentially choose one tile after the other at random,
     // until the number of iterations is reached
@@ -1480,7 +1479,8 @@ export class Layout {
    * @returns {Number} the score to be awarded for solving the layout
    */
   computeScore(iterations, hints = 0) {
-    expect(this.unlockCategory >= 0);
+    ensure(this.unlockCategory).is.greaterThan(0);
+
     const dMax = this.maxDifficulty ?? this.computeMaxDifficulty();
     this.maxDifficulty = dMax;
     const result = (
