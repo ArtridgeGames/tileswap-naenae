@@ -83,8 +83,8 @@ export class ChallengeProperties {
     } = {}
   }) {
     ensure(difficulty).is.defined();
-    ensure(patternList).is.instanciatedBy(Array);
-    ensure(patternSequence).is.instanciatedBy(PatternSequence);
+    ensure(patternList instanceof Array).and(patternSequence instanceof PatternSequence)
+      .are.different();
 
     this.timeLimit = timeLimit ?? ChallengeProperties.GLOBAL_DEFAULTS.timeLimit;
     this.moveLimit = moveLimit ?? ChallengeProperties.GLOBAL_DEFAULTS.moveLimit;
